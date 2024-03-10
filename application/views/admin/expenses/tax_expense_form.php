@@ -38,6 +38,8 @@
                 <input <?php if ($expense->category == 'WSHT') { ?> checked <?php } ?> type="radio" name="category" value="WSHT" /> WSHT <span style="margin-left: 3px;"></span>
                 <input <?php if ($expense->category == 'ST.DUTY') { ?> checked <?php } ?> type="radio" name="category" value="ST.DUTY" /> ST.DUTY <span style="margin-left: 3px;"></span>
                 <input <?php if ($expense->category == 'RDP') { ?> checked <?php } ?> type="radio" name="category" value="RDP" /> RDP <span style="margin-left: 3px;"></span>
+                <input <?php if ($expense->category == 'KPRA') { ?> checked <?php } ?> type="radio" name="category" value="KPRA" /> KPRA <span style="margin-left: 3px;"></span>
+
                 <input <?php if ($expense->category == 'MISC.DEDU') { ?> checked <?php } ?> type="radio" name="category" value="MISC.DEDU" /> MISC.DEDU
 
             </div>

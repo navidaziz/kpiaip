@@ -284,7 +284,7 @@ class Sub_components extends Admin_Controller
     {
         if ($this->component_category_model->validate_form_data() === TRUE) {
             $component_category_id = (int) $this->input->post('component_category_id');
-            if ($component_category_id) {
+            if ($component_category_id == 0) {
                 $component_category_id = $this->component_category_model->save_data();
             } else {
                 $component_category_id = $this->component_category_model->update_data($component_category_id);

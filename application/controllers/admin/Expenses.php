@@ -24,8 +24,75 @@ class Expenses extends Admin_Controller
     /**
      * Default action to be called
      */
-    public function index()
+    public function index($financial_year_id = NULL)
     {
+
+        $financial_year_id = (int) $financial_year_id;
+
+        if (is_null($financial_year_id)) {
+            $query = "SELECT * FROM financial_years WHERE status=1";
+            $financial_year = $this->db->query($query)->row();
+        } else {
+            $financial_year_id = (int) $financial_year_id;
+            $query = "SELECT * FROM financial_years 
+                      WHERE financial_year_id=" . $financial_year_id;
+            $financial_year = $this->db->query($query)->row();
+        }
+        $this->data["financial_year"] = $financial_year;
+        $filter_date = $this->input->get('date');
+        if ($this->input->get('date')) {
+            $filter_date = $filter_date;
+        } else {
+            $filter_date = date('y-m-d');
+        }
+
+        $this->data['filter_date'] = $filter_date;
+
+        $filter_month = $this->db->escape(date('m', strtotime($filter_date)));
+        $filter_year = $this->db->escape(date('Y', strtotime($filter_date)));
+
+        $query = "SELECT e.*,fy.financial_year, d.district_name, d.region  FROM expenses as e 
+        INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
+        INNER JOIN districts as d ON(d.district_id = e.district_id)
+        WHERE MONTH(`e`.`date`) = $filter_month
+        AND YEAR(`e`.`date`) = $filter_year";
+        $expenses = $this->db->query($query)->result();
+        $this->data["expenses"] = $expenses;
+
+        $query = "SELECT SUM(gross_pay) as gross_pay,
+        SUM(whit_tax) as whit_tax,
+        SUM(whst_tax) as whst_tax,
+        SUM(st_duty_tax) as st_duty_tax,
+        SUM(rdp_tax) as rdp_tax,
+        SUM(kpra_tax) as kpra_tax,
+        SUM(misc_deduction) as misc_deduction,
+        SUM(net_pay) as net_pay
+        FROM expenses as e 
+        INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
+        INNER JOIN districts as d ON(d.district_id = e.district_id)
+        WHERE MONTH(`e`.`date`) = $filter_month
+        AND YEAR(`e`.`date`) = $filter_year";
+        $expense_summary = $this->db->query($query)->row();
+        $this->data["expense_summary"] = $expense_summary;
+
+        $taxes = array('WHIT', 'WSHT', 'ST.DUTY', 'RDP', 'KPRA', 'MISC.DEDU');
+        $tax_paid = array();
+        foreach ($taxes as $tax) {
+            $query = "SELECT 
+            SUM(net_pay) as net_pay
+            FROM expenses as e 
+            INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
+            INNER JOIN districts as d ON(d.district_id = e.district_id)
+            WHERE e.category = '" . $tax . "'
+            AND MONTH(`e`.`date`) = $filter_month
+            AND YEAR(`e`.`date`) = $filter_year";
+            if ($this->db->query($query)->row()->net_pay) {
+                $tax_paid[$tax] = $this->db->query($query)->row()->net_pay;
+            } else {
+                $tax_paid[$tax] = 0;
+            }
+        }
+        $this->data["tax_paid"] = $tax_paid;
         $this->data["title"] = "Expenses Dashboard";
         $this->data["description"] = "All Expenses List";
         $this->data["view"] = ADMIN_DIR . "expenses/expenses_list";
@@ -50,6 +117,8 @@ class Expenses extends Admin_Controller
             $expense['whit_tax'] = 0.00;
             $expense['whst_tax'] = 0.00;
             $expense['rdp_tax'] = 0.00;
+            $expense['kpra_tax'] = 0.00;
+
             $expense['st_duty_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;

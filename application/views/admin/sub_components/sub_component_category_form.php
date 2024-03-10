@@ -61,7 +61,8 @@
                     "id"            =>  "category_detail",
                     "class"         =>  "form-control",
                     "style"         =>  "",
-                    "title"         =>  $this->lang->line('category_detail'), "required"      => "required",
+                    "title"         =>  $this->lang->line('category_detail'),
+
                     "rows"          =>  "",
                     "cols"          =>  "",
                     "value"         => set_value("category_detail", $component_category->category_detail),

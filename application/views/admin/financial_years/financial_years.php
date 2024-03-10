@@ -98,7 +98,8 @@
                                         <?php echo $financial_year->project_name; ?>
                                     </td>
                                     <td>
-                                        <?php echo status($financial_year->status,  $this->lang); ?>
+                                        <?php //echo status($financial_year->status,  $this->lang); 
+                                        ?>
                                         <?php
 
                                         //set uri segment
@@ -109,9 +110,9 @@
                                         }
 
                                         if ($financial_year->status == 0) {
-                                            echo "<a href='" . site_url(ADMIN_DIR . "financial_years/publish/" . $financial_year->financial_year_id . "/" . $page) . "'> &nbsp;" . $this->lang->line('Publish') . "</a>";
+                                            echo "<a href='" . site_url(ADMIN_DIR . "financial_years/publish/" . $financial_year->financial_year_id . "/" . $page) . "'> Set As Current Session</a>";
                                         } elseif ($financial_year->status == 1) {
-                                            echo "<a href='" . site_url(ADMIN_DIR . "financial_years/draft/" . $financial_year->financial_year_id . "/" . $page) . "'> &nbsp;" . $this->lang->line('Draft') . "</a>";
+                                            echo "Current Session";
                                         }
                                         ?>
                                     </td>

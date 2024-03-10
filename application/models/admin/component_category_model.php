@@ -41,11 +41,11 @@ class Component_category_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
-            array(
-                "field"  =>  "category_detail",
-                "label"  =>  "Category Detail",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "category_detail",
+            //     "label"  =>  "Category Detail",
+            //     "rules"  =>  "required"
+            // ),
 
             array(
                 "field"  =>  "target_unit",

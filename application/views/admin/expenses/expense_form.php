@@ -100,11 +100,18 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="KPRA Tax" class="col-md-4 control-label" style="">KPRA Tax</label>
+            <div class="col-md-8">
+                <input type="number" onkeyup="calculate_net_pay()" step="any" name="kpra_tax" value="<?php echo $expense->kpra_tax; ?>" id="kpra_tax" class="form-control" style="" required="required" placeholder="KPRA Tax">
+            </div>
+        </div>
+        <div class="form-group">
             <label for="Misc.Dedu." class="col-md-4 control-label" style="">Misc.Dedu.</label>
             <div class="col-md-8">
                 <input type="number" onkeyup="calculate_net_pay()" step="any" name="misc_deduction" value="<?php echo $expense->misc_deduction; ?>" id="misc_deduction" class="form-control" style="" required="required" placeholder="Misc.Dedu.">
             </div>
         </div>
+
         <div class="form-group">
             <label for="Net Pay" class="col-md-4 control-label" style="">Net Pay</label>
             <div class="col-md-8">

@@ -186,6 +186,8 @@ class Expense_model extends MY_Model
         $inputs["whst_tax"]  =  $this->input->post("whst_tax");
         $inputs["rdp_tax"]  =  $this->input->post("rdp_tax");
         $inputs["st_duty_tax"]  =  $this->input->post("st_duty_tax");
+        $inputs["kpra_tax"]  =  $this->input->post("kpra_tax");
+
         $inputs["misc_deduction"]  =  $this->input->post("misc_deduction");
         $inputs["net_pay"]  =  $this->input->post("net_pay");
 

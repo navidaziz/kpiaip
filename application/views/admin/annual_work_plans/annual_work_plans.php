@@ -108,9 +108,9 @@
                             sc.sub_component_name
                              FROM component_categories  as cs
                             INNER JOIN components as c ON(c.component_id = cs.component_id)
-                            INNER JOIN sub_components as sc ON(sc.sub_component_id = cs.component_id)
+                            INNER JOIN sub_components as sc ON(sc.sub_component_id = cs.sub_component_id)
                             WHERE cs.status IN (0,1) 
-                            ORDER BY cs.category ASC";
+                            ORDER BY c.component_id ASC, sc.sub_component_id ASC";
                             $component_categories = $this->db->query($query)->result();
 
                             $count = 1;
