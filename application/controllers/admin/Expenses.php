@@ -24,20 +24,21 @@ class Expenses extends Admin_Controller
     /**
      * Default action to be called
      */
-    public function index($financial_year_id = NULL)
+    public function index($financial_year_id = 0)
     {
 
         $financial_year_id = (int) $financial_year_id;
 
-        if (is_null($financial_year_id)) {
-            $query = "SELECT * FROM financial_years WHERE status=1";
-            $financial_year = $this->db->query($query)->row();
-        } else {
+        if ($financial_year_id != 0) {
             $financial_year_id = (int) $financial_year_id;
             $query = "SELECT * FROM financial_years 
                       WHERE financial_year_id=" . $financial_year_id;
             $financial_year = $this->db->query($query)->row();
+        } else {
+            $query = "SELECT * FROM financial_years WHERE status=1";
+            $financial_year = $this->db->query($query)->row();
         }
+
         $this->data["financial_year"] = $financial_year;
         $filter_date = $this->input->get('date');
         if ($this->input->get('date')) {
