@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('Direct access not allowed!');
 
-class expense_model extends MY_Model
+class Expense_model extends MY_Model
 {
 
     public function __construct()
