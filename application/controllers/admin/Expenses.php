@@ -10,7 +10,7 @@ class Expenses extends Admin_Controller
     {
 
         parent::__construct();
-        $this->load->model("admin/expense_model");
+        $this->load->model("admin/Expense_model");
         $this->load->model("admin/water_user_association_model");
         $this->lang->load("water_user_associations", 'english');
         $this->lang->load("wua_members", 'english');
