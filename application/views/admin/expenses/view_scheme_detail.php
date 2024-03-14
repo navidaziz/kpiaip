@@ -31,12 +31,12 @@
                 <li>
                     <i class="fa fa-list"></i>
 
-                    <a href="<?php echo site_url(ADMIN_DIR . "/expenses"); ?>">Expenses Dashboard</a>
+                    <a href="<?php echo site_url(ADMIN_DIR . "expenses"); ?>">Expenses Dashboard</a>
                 </li>
                 <li>
                     <i class="fa fa-list"></i>
 
-                    <a href="<?php echo site_url(ADMIN_DIR . "/expenses/schemes/" . $scheme->scheme_id); ?>">Scheme List</a>
+                    <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes/"); ?>">Scheme List</a>
                 </li>
                 <li><?php echo $scheme->scheme_code; ?></li>
             </ul>

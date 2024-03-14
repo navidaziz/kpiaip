@@ -43,6 +43,50 @@
 
                 <div class="col-md-6">
                     <div class="pull-right">
+                        <table class="table " style="margin-top: -30px;">
+                            <thead>
+                                <tr>
+                                    <?php
+                                    $query = "SELECT * FROM `financial_years` ORDER BY `financial_year` ASC";
+                                    $financialyears = $this->db->query($query)->result();
+                                    foreach ($financialyears as $financialyear) { ?>
+                                        <th><?php echo $financialyear->financial_year; ?></th>
+                                    <?php  }  ?>
+                                </tr>
+                                <tr>
+                                    <?php foreach ($financialyears as $financialyear) {
+                                        $query = "SELECT SUM(net_pay) as net_pay FROM `expenses` 
+                                                  WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
+                                        $fy_expense = $this->db->query($query)->row();
+                                    ?>
+                                        <td>
+                                            <?php if ($fy_expense->net_pay > 0) {
+                                                echo @number_format($fy_expense->net_pay);
+                                            } else {
+                                                echo '0.00';
+                                            }
+                                            ?>
+                                        </td>
+                                    <?php } ?>
+                                </tr>
+                                <tr>
+                                    <?php foreach ($financialyears as $financialyear) {
+                                        $query = "SELECT SUM(net_pay) as net_pay FROM `expenses` 
+                                                  WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
+                                        $fy_expense = $this->db->query($query)->row();
+                                    ?>
+                                        <td>
+                                            <?php if ($fy_expense->net_pay > 0) {
+                                                echo ($fy_expense->net_pay / 1000000) . " M";
+                                            } else {
+                                                echo '0.00';
+                                            }
+                                            ?>
+                                        </td>
+                                    <?php } ?>
+                                </tr>
+                            </thead>
+                        </table>
 
                     </div>
                 </div>
@@ -83,7 +127,7 @@
                     window.location.href = '<?php echo site_url(ADMIN_DIR . 'expenses/index/'); ?>' + selectedValue;
                 }
             </script>
-            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Scheme</a>
+            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes</a>
             <button class="btn btn-success" onclick="expense_form(0)">General Expense</button>
             <button class="btn btn-warning" onclick="tax_expense_form(0)">Tax As an Expense</button>
             <script>
@@ -122,7 +166,7 @@
 
         <div class="box border blue">
             <div class="box-title">
-                <h4><i class="fa fa-money"></i> Expenses List</h4>
+                <h4><i class="fa fa-money"></i> FY: <?php echo $financial_year->financial_year; ?></h4>
             </div>
             <div class="box-body">
                 <div class="tabbable header-tabs">
@@ -190,19 +234,19 @@
                                             </tr>
                                             <tr>
                                                 <td>Taxes Paid</td>
-                                                <td> <?php echo $tax_paid['WHIT'] ?> </td>
-                                                <td> <?php echo $tax_paid['WSHT'] ?> </td>
-                                                <td> <?php echo $tax_paid['ST.DUTY'] ?> </td>
-                                                <td> <?php echo $tax_paid['RDP'] ?> </td>
-                                                <td> <?php echo $tax_paid['KPRA'] ?> </td>
-                                                <td> <?php echo $tax_paid['MISC.DEDU'] ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['WHIT']) ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['WHST']) ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['St. Duty']) ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['RDP']) ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['KPRA']) ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['MISC.DEDU']) ?> </td>
                                                 <td></td>
                                             </tr>
                                             <tr>
                                                 <td>Taxes Remaining</td>
                                                 <td> <?php echo @number_format($tax_paid['WHIT'] - $expense_summary->whit_tax); ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['WSHT'] - $expense_summary->whst_tax); ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['ST.DUTY'] - $expense_summary->st_duty_tax);  ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['WHST'] - $expense_summary->whst_tax); ?> </td>
+                                                <td> <?php echo @number_format($tax_paid['St. Duty'] - $expense_summary->st_duty_tax);  ?> </td>
                                                 <td> <?php echo @number_format($tax_paid['RDP'] - $expense_summary->rdp_tax); ?> </td>
                                                 <td> <?php echo @number_format($tax_paid['KPRA'] - $expense_summary->kpra_tax); ?> </td>
                                                 <td> <?php echo @number_format($tax_paid['MISC.DEDU'] - $expense_summary->misc_deduction); ?> </td>
@@ -254,8 +298,8 @@
                                                         <?php
                                                         if ($expense->component_category_id > 0) {
                                                             $query = "SELECT cc.`category` 
-                FROM `component_categories` as cc 
-                WHERE cc.component_category_id=$expense->component_category_id";
+                                                        FROM `component_categories` as cc 
+                                                        WHERE cc.component_category_id=$expense->component_category_id";
                                                             $c_category = $this->db->query($query)->row();
                                                         ?>
                                                             <td><?php echo $c_category->category; ?></td>

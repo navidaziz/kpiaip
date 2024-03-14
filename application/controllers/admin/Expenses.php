@@ -76,7 +76,7 @@ class Expenses extends Admin_Controller
         $expense_summary = $this->db->query($query)->row();
         $this->data["expense_summary"] = $expense_summary;
 
-        $taxes = array('WHIT', 'WSHT', 'ST.DUTY', 'RDP', 'KPRA', 'MISC.DEDU');
+        $taxes = array('WHIT', 'WHST', 'St. Duty', 'RDP', 'KPRA', 'MISC.DEDU');
         $tax_paid = array();
         foreach ($taxes as $tax) {
             $query = "SELECT 
@@ -131,13 +131,10 @@ class Expenses extends Admin_Controller
         }
         $this->data['expense'] = $expense;
         $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts')->result();
-        $query = "SELECT cc.component_category_id,
-        cc.category,
-        sc.sub_component_name,
-        s.component_name
-        FROM component_categories as cc
-        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.component_category_id)
-        INNER JOIN components as s ON(s.component_id = cc.component_id)";
+        $query = "select cc.*, sc.sub_component_name, c.component_name FROM component_categories as cc
+        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+        INNER JOIN components as c ON(c.component_id = sc.component_id)
+        ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
         $this->data['component_catagories'] = $this->db->query($query)->result();
 
         $this->load->view(ADMIN_DIR . "expenses/expense_form", $this->data);
@@ -208,8 +205,17 @@ class Expenses extends Admin_Controller
 
     public function schemes()
     {
-        $this->data["title"] = "Schemes Expense's Dashboard";
-        $this->data["description"] = "Approved Schemes List";
+        $scheme_status = 'Ongoing';
+        if ($this->input->get('scheme_status')) {
+            $scheme_status = $this->input->get('scheme_status');
+        }
+        $this->data['schemestatus'] = $scheme_status;
+        $query = "SELECT * FROM schemes 
+        WHERE scheme_status = " . $this->db->escape($scheme_status) . "";
+        $schemes = $this->db->query($query)->result();
+        $this->data["schemes"] = $schemes;
+        $this->data["title"] = "Schemes Dashboard";
+        $this->data["description"] = "Schemes List " . "<i>(" . $scheme_status . ")</i>";
         $this->data["view"] = ADMIN_DIR . "expenses/schemes_list";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
@@ -256,6 +262,8 @@ class Expenses extends Admin_Controller
             $expense['whit_tax'] = 0.00;
             $expense['whst_tax'] = 0.00;
             $expense['rdp_tax'] = 0.00;
+            $expense['kpra_tax'] = 0.00;
+
             $expense['st_duty_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;
@@ -279,5 +287,127 @@ class Expenses extends Admin_Controller
         $this->data['component_catagories'] = $this->db->query($query)->result();
 
         $this->load->view(ADMIN_DIR . "expenses/expense_form", $this->data);
+    }
+
+
+
+    public function schemes_data()
+    {
+        $query = "SELECT * FROM expenses where wus_reg !='' and scheme_name !='' GROUP BY scheme_name ASC";
+        $schemes = $this->db->query($query)->result();
+        $count = 1;
+
+        foreach ($schemes as $scheme) {
+            echo $count++;
+            echo "-" . $scheme->wus_reg;
+            echo "-" . $scheme->scheme_name;
+            echo "<br />";
+
+            $query = "SELECT COUNT(*) as total FROM schemes 
+            WHERE wus_reg = '" . $scheme->wus_reg . "'
+            AND scheme_name = '" . $scheme->scheme_name . "'";
+            $scheme_count = $this->db->query($query)->row()->total;
+
+            if ($scheme_count == 0) {
+                $query = "INSERT INTO `schemes` (`district_id`, `category`, `wus_reg`,  `payee_name`, `scheme_name`) 
+                              VALUES ('" . $scheme->district_id . "', '" . $scheme->category . "', '" . $scheme->wus_reg . "', '" . $scheme->payee_name . "', '" . $scheme->scheme_name . "')";
+                if ($this->db->query($query)) {
+                    $scheme_id = $this->db->insert_id();
+                }
+            } else {
+                $query = "SELECT * FROM schemes WHERE scheme_name = '" . $scheme->scheme_name . "'";
+                $scheme_id = $this->db->query($query)->row()->scheme_id;
+            }
+
+            $query = "UPDATE `expenses` SET `scheme_id`='" . $scheme_id . "' 
+            WHERE wus_reg = '" . $scheme->wus_reg . "'
+            AND scheme_name = '" . $scheme->scheme_name . "'";
+            $this->db->query($query);
+        }
+    }
+
+    public function wuas()
+    {
+        $query = "SELECT * FROM schemes GROUP BY wus_reg ASC";
+        $wuas = $this->db->query($query)->result();
+        $count = 1;
+
+        foreach ($wuas as $wua) {
+            echo $count++;
+            echo $wua->wus_reg;
+            echo $wua->payee_name;
+            echo "<br />";
+            //insert the WUA in water user association 
+            $query = "SELECT COUNT(*) as total FROM water_user_associations 
+            WHERE wua_registration_no = '" . $wua->wus_reg . "'";
+            $wua_count = $this->db->query($query)->row()->total;
+
+            if ($wua_count == 0) {
+                $query = "INSERT INTO `water_user_associations`(`wua_registration_no`, `wua_name`, project_id, district_id) 
+                              VALUES ('" . $wua->wus_reg . "', '" . $wua->payee_name . "', '1', '" . $wua->district_id . "')";
+                if ($this->db->query($query)) {
+                    $water_user_association_id = $this->db->insert_id();
+                }
+            } else {
+                $query = "SELECT * FROM water_user_associations 
+                WHERE wua_registration_no = '" . $wua->wus_reg . "'";
+                $water_user_association_id = $this->db->query($query)->row()->water_user_association_id;
+            }
+
+            $query = "UPDATE `schemes` SET `water_user_association_id`='" . $water_user_association_id . "' 
+            WHERE wus_reg = '" . $wua->wus_reg . "'";
+            $this->db->query($query);
+        }
+    }
+
+    public function section_cost()
+    {
+        $query = "SELECT * FROM schemes";
+        $schemes = $this->db->query($query)->result();
+        foreach ($schemes as $scheme) {
+            $query = "SELECT section_cost FROM expenses 
+            WHERE section_cost != ''
+            AND scheme_id = '" . $scheme->scheme_id . "'";
+            $scheme_cost = $this->db->query($query)->row();
+            if ($scheme_cost) {
+                $query = "UPDATE `schemes` SET `sanctioned_cost`='" . $scheme_cost->section_cost  . "' 
+                          WHERE scheme_id = '" . $scheme->scheme_id . "'";
+                $this->db->query($query);
+            }
+        }
+    }
+
+    public function scheme_status()
+    {
+        $query = "SELECT * FROM schemes";
+        $schemes = $this->db->query($query)->result();
+        foreach ($schemes as $scheme) {
+            $query = "SELECT `status` FROM expenses 
+            WHERE `status` = 'Final'
+            AND scheme_id = '" . $scheme->scheme_id . "'";
+            $staus = $this->db->query($query)->row();
+            if ($staus) {
+                $query = "UPDATE `schemes` SET `scheme_status`='Completed' 
+                          WHERE scheme_id = '" . $scheme->scheme_id . "'";
+                $this->db->query($query);
+            }
+        }
+    }
+
+    public function scheme_category()
+    {
+        $query = "SELECT * FROM schemes";
+        $schemes = $this->db->query($query)->result();
+        foreach ($schemes as $scheme) {
+            $query = "
+            SELECT * FROM `component_categories` 
+            WHERE `category` = '" . $scheme->category . "'";
+            $component_category = $this->db->query($query)->row();
+            if ($component_category) {
+                $query = "UPDATE `schemes` SET `component_category_id`='" . $component_category->component_category_id . "' 
+                          WHERE scheme_id = '" . $scheme->scheme_id . "'";
+                $this->db->query($query);
+            }
+        }
     }
 }
