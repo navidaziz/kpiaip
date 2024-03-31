@@ -209,6 +209,7 @@ class Expenses extends Admin_Controller
         if ($this->input->get('scheme_status')) {
             $scheme_status = $this->input->get('scheme_status');
         }
+        //$this->data['s_status'] = $scheme_status;
         $this->data['schemestatus'] = $scheme_status;
         $query = "SELECT * FROM schemes 
         WHERE scheme_status = " . $this->db->escape($scheme_status) . "";
@@ -409,5 +410,320 @@ class Expenses extends Admin_Controller
                 $this->db->query($query);
             }
         }
+    }
+
+    public function employee_data()
+    {
+        $query = "SELECT * FROM expenses where category='Remuneration' GROUP BY payee_name ASC";
+        $employees = $this->db->query($query)->result();
+        $count = 1;
+
+        foreach ($employees as $employee) {
+            $payee_name = ucwords(strtolower($employee->payee_name));
+            echo $count++;
+            echo "-" . $payee_name;
+            echo "<br />";
+
+            $query = "SELECT COUNT(*) as total FROM employees 
+                WHERE name = '" . $payee_name . "'";
+            $employee_count = $this->db->query($query)->row()->total;
+
+            if ($employee_count == 0) {
+                $query = "INSERT INTO `employees`(`name`, `designation`, `gross_pay`, `whit_tax`, `whst_tax`, `st_duty_tax`, `rdp_tax`, `kpra_tax`, `misc_deduction`, `net_pay`) 
+                VALUES ('" . trim($payee_name) . "', '" . trim($employee->scheme_name) . "', '" . $employee->gross_pay . "', '" . $employee->whit_tax . "', '" . $employee->whst_tax . "', 
+                '" . $employee->st_duty_tax . "', '" . $employee->rdp_tax . "', '" . $employee->kpra_tax . "',
+                '" . $employee->misc_deduction . "', '" . $employee->net_pay . "')";
+                if ($this->db->query($query)) {
+                    $employee_id = $this->db->insert_id();
+                }
+            } else {
+                $query = "SELECT * FROM employees WHERE employees.name = '" . $payee_name . "'";
+                $employee_id = $this->db->query($query)->row()->employee_id;
+            }
+
+            $query = "UPDATE `expenses` SET `employee_id`= '" . $employee_id . "' 
+                    WHERE `payee_name` = '" . $employee->payee_name . "'
+                    AND category='Remuneration'";
+            $this->db->query($query);
+        }
+    }
+    public function salaries($financial_year_id = 0)
+    {
+        $financial_year_id = (int) $financial_year_id;
+
+        if ($financial_year_id != 0) {
+            $financial_year_id = (int) $financial_year_id;
+            $query = "SELECT * FROM financial_years 
+                      WHERE financial_year_id=" . $financial_year_id;
+            $financial_year = $this->db->query($query)->row();
+        } else {
+            $query = "SELECT * FROM financial_years WHERE status=1";
+            $financial_year = $this->db->query($query)->row();
+        }
+
+        $this->data["financial_year"] = $financial_year;
+        $filter_date = $this->input->get('date');
+        if ($this->input->get('date')) {
+            $filter_date = $filter_date;
+        } else {
+            $filter_date = date('y-m-d');
+        }
+
+        $this->data['filter_date'] = $filter_date;
+
+        $filter_month = $this->db->escape(date('m', strtotime($filter_date)));
+        $filter_year = $this->db->escape(date('Y', strtotime($filter_date)));
+
+        $query = "SELECT e.*,fy.financial_year, d.district_name, d.region  FROM expenses as e 
+        INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
+        INNER JOIN districts as d ON(d.district_id = e.district_id)
+        WHERE MONTH(`e`.`date`) = $filter_month
+        AND YEAR(`e`.`date`) = $filter_year
+        AND category = 'Remuneration'";
+        $expenses = $this->db->query($query)->result();
+        $this->data["expenses"] = $expenses;
+
+        $query = "SELECT SUM(gross_pay) as gross_pay,
+        SUM(whit_tax) as whit_tax,
+        SUM(whst_tax) as whst_tax,
+        SUM(st_duty_tax) as st_duty_tax,
+        SUM(rdp_tax) as rdp_tax,
+        SUM(kpra_tax) as kpra_tax,
+        SUM(misc_deduction) as misc_deduction,
+        SUM(net_pay) as net_pay
+        FROM expenses as e 
+        INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
+        INNER JOIN districts as d ON(d.district_id = e.district_id)
+        WHERE MONTH(`e`.`date`) = $filter_month
+        AND YEAR(`e`.`date`) = $filter_year";
+        $expense_summary = $this->db->query($query)->row();
+        $this->data["expense_summary"] = $expense_summary;
+
+        $taxes = array('WHIT', 'WHST', 'St. Duty', 'RDP', 'KPRA', 'MISC.DEDU');
+        $tax_paid = array();
+        foreach ($taxes as $tax) {
+            $query = "SELECT 
+            SUM(net_pay) as net_pay
+            FROM expenses as e 
+            INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
+            INNER JOIN districts as d ON(d.district_id = e.district_id)
+            WHERE e.category = '" . $tax . "'
+            AND MONTH(`e`.`date`) = $filter_month
+            AND YEAR(`e`.`date`) = $filter_year";
+            if ($this->db->query($query)->row()->net_pay) {
+                $tax_paid[$tax] = $this->db->query($query)->row()->net_pay;
+            } else {
+                $tax_paid[$tax] = 0;
+            }
+        }
+        $this->data["tax_paid"] = $tax_paid;
+        $this->data["title"] = "Salaries Expenses Dashboard";
+        $this->data["description"] = "Salaries Expenses";
+        $this->data["view"] = ADMIN_DIR . "expenses/salaries_list";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+    public function salaries_expense_form()
+    {
+
+
+        $expense_id = (int) $this->input->post('expense_id');
+        if ($expense_id == 0) {
+            $expense['expense_id'] = 0;
+            $expense['scheme_id'] = 0;
+            $expense['purpose'] = "Operation Cost";
+            $expense['district_id'] = 0;
+            $expense['component_category_id'] = 0;
+            $expense['payee_name'] = "";
+            $expense['cheque'] = "";
+            $expense['date'] = "";
+            $expense['category'] = "";
+            $expense['gross_pay'] = 0.00;
+            $expense['whit_tax'] = 0.00;
+            $expense['whst_tax'] = 0.00;
+            $expense['rdp_tax'] = 0.00;
+            $expense['st_duty_tax'] = 0.00;
+            $expense['misc_deduction'] = 0.00;
+            $expense['net_pay'] = 0.00;
+            //scheme fields are required
+            $expense =  (object) $expense;
+        } else {
+            $query = "SELECT * FROM expenses WHERE expense_id = $expense_id";
+            $expense = $this->db->query($query)->row();
+        }
+        $this->data['expense'] = $expense;
+        $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts')->result();
+        $query = "SELECT cc.component_category_id,
+        cc.category,
+        sc.sub_component_name,
+        s.component_name
+        FROM component_categories as cc
+        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.component_category_id)
+        INNER JOIN components as s ON(s.component_id = cc.component_id)";
+        $this->data['component_catagories'] = $this->db->query($query)->result();
+
+        $this->load->view(ADMIN_DIR . "expenses/salaries_expense_form", $this->data);
+    }
+
+    public function add_monthly_salaries()
+    {
+
+
+        $employees_salaries = $this->input->post('employees');
+        $check_error_list = NULL;
+        foreach ($employees_salaries as $employee_id => $salary_detail) {
+            $cheque = (int) $salary_detail['cheque'];
+            $query = "SELECT count(cheque) as total FROM expenses WHERE cheque = '" . $cheque . "'";
+            $check_count = $this->db->query($query)->row()->total;
+            if ($check_count > 0) {
+                $check_error_list .= 'Cheque No. <strong>' . $cheque . '</strong> has already been used. <br />';
+            }
+        }
+        if ($check_error_list) {
+            echo $check_error_list;
+        } else {
+            foreach ($employees_salaries as $employee_id => $salary_detail) {
+                $_POST['employee_id'] = (int) $employee_id;
+                $_POST['payee_name'] = $salary_detail['payee_name'];
+                $_POST['cheque'] = $salary_detail['cheque'];
+                $_POST['date'] = $salary_detail['date'];
+                $_POST['gross_pay'] = $salary_detail['gross_pay'];
+                $_POST['whit_tax'] = $salary_detail['whit_tax'];
+                $_POST['whst_tax'] = $salary_detail['whst_tax'];
+                $_POST['st_duty_tax'] = $salary_detail['st_duty_tax'];
+                $_POST['rdp_tax'] = $salary_detail['rdp_tax'];
+                $_POST['kpra_tax'] = $salary_detail['kpra_tax'];
+                $_POST['misc_deduction'] = $salary_detail['misc_deduction'];
+                $_POST['net_pay'] = $salary_detail['net_pay'];
+
+                if ($this->expense_model->validate_form_data() === TRUE) {
+                    $expense_id = $this->expense_model->save_data();
+                } else {
+
+                    echo '<div class="alert alert-danger"> ' . validation_errors() . "<div>";
+                }
+            }
+
+            if ($expense_id) {
+                echo "success";
+            } else {
+                echo  "Error While Adding or Updating the record.";
+            }
+        }
+    }
+
+    public function delete_expense_record($expense_id)
+    {
+        $expense_id = (int) $expense_id;
+        $this->db->where("expense_id", $expense_id);
+        $this->db->delete("expenses");
+        $requested_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url();
+        redirect($requested_url);
+    }
+
+    public function fetch_data()
+    {
+        $columns = array('scheme_name', 'category'); // Define columns to search
+        $limit = $this->input->post('length');
+        $start = $this->input->post('start');
+        $order = $columns[$this->input->post('order')[0]['column']];
+        $dir = $this->input->post('order')[0]['dir'];
+
+        $search = $this->input->post('search')['value'];
+
+        $this->db->select('*');
+        $this->db->from('schemes');
+
+        // Searching
+        if (!empty($search)) {
+            $this->db->group_start();
+            foreach ($columns as $column) {
+                $this->db->or_like($column, $search);
+            }
+            $this->db->group_end();
+        }
+
+        // Ordering
+        $this->db->order_by($order, $dir);
+
+        // Pagination
+        $this->db->limit($limit, $start);
+
+        $query = $this->db->get();
+        $data = $query->result();
+
+        // Total records count
+        $total_records = $this->db->count_all_results('schemes');
+
+        $output = array(
+            "draw" => intval($this->input->post('draw')),
+            "recordsTotal" => $total_records,
+            "recordsFiltered" => $total_records,
+            "data" => $data
+        );
+
+        echo json_encode($output);
+    }
+
+
+    public function scheme_lists()
+    {
+        $columns[] = "scheme_id";
+        $columns[] = "district_name";
+        $columns[] = "wua_reg_code";
+        $columns[] = "wua_name";
+        $columns[] = "scheme_code";
+        $columns[] = "scheme_name";
+        $columns[] = "component_category";
+        $columns[] = "sanctioned_cost";
+        $columns[] = "paid";
+        $columns[] = "paid_percentage";
+        $columns[] = "remaining";
+        $columns[] = "payment_count";
+
+
+        $limit = $this->input->post("length");
+        $start = $this->input->post("start");
+        $order = $columns[$this->input->post("order")[0]["column"]];
+        $dir = $this->input->post("order")[0]["dir"];
+
+        $search = $this->db->escape("%" . $this->input->post("search")["value"], "%");
+        // Manual SQL query building
+        $scheme_status = $this->db->escape($this->input->post('scheme_status'));
+        $sql = "SELECT * FROM scheme_lists WHERE scheme_status = $scheme_status ";
+
+
+
+        // Searching
+        if (!empty($this->input->post("search")["value"])) {
+            $sql .= "  AND (";
+            foreach ($columns as $column) {
+                $sql .= "$column LIKE $search OR ";
+            }
+            $sql .= ' )';
+            $sql = rtrim($sql, "OR "); // Remove the last "OR"
+        }
+
+        // Ordering
+        $sql .= " ORDER BY $order $dir";
+
+        // Pagination
+        if ($limit != -1) {
+            $sql .= " LIMIT $limit OFFSET $start";
+        }
+
+        $query = $this->db->query($sql);
+        $data = $query->result();
+
+        // Total records count
+        $total_records = $this->db->query("SELECT COUNT(*) as count FROM scheme_lists WHERE scheme_status = $scheme_status ")->row()->count;
+
+        $output = array(
+            "draw" => intval($this->input->post("draw")),
+            "recordsTotal" => $total_records,
+            "recordsFiltered" => $total_records,
+            "data" => $data
+        );
+
+        echo json_encode($output);
     }
 }

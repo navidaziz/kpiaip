@@ -109,7 +109,6 @@
                 <div class="box-body">
 
                     <div class="table-responsive">
-                        need to add district and scheme category.... here
                         <table class="table table_small">
                             <thead>
 
@@ -126,6 +125,36 @@
                                     <th><?php echo $this->lang->line('scheme_name'); ?></th>
                                     <td>
                                         <?php echo $scheme->scheme_name; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>District</th>
+                                    <td>
+                                        <?php
+                                        $query = "SELECT district_name FROM districts 
+                                 WHERE district_id='" . $scheme->district_id . "'";
+                                        $district = $this->db->query($query)->row();
+                                        if ($district) {
+                                            echo $district->district_name;
+                                        } else {
+                                            echo 'Not Define';
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Component Category</th>
+
+                                    <td>
+                                        <?php $query = "SELECT * FROM `component_categories` 
+                                    WHERE component_category_id=$scheme->component_category_id";
+                                        $category = $this->db->query($query)->row();
+                                        if ($category) {
+                                            echo $category->category . " <small>(" . $category->category_detail . ")</small>";
+                                        } else {
+                                            echo "Undefine";
+                                        }
+                                        ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -147,23 +176,25 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <th><?php echo $this->lang->line('beneficiaries'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->beneficiaries; ?>
+
+                                    <td colspan="2">
+                                        <table class="table">
+                                            <tr>
+                                                <th><?php echo $this->lang->line('male_beneficiaries'); ?></th>
+                                                <th><?php echo $this->lang->line('female_beneficiaries'); ?></th>
+                                                <th>Total</th>
+
+                                            </tr>
+                                            <tr>
+                                                <th> <?php echo $scheme->male_beneficiaries; ?> </th>
+                                                <th> <?php echo $scheme->female_beneficiaries; ?></th>
+                                                <th> <?php echo $scheme->beneficiaries; ?> </th>
+                                            </tr>
+                                        </table>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('male_beneficiaries'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->male_beneficiaries; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('female_beneficiaries'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->female_beneficiaries; ?>
-                                    </td>
-                                </tr>
+
+
                                 <tr>
                                     <th><?php echo $this->lang->line('estimated_cost'); ?></th>
                                     <td>
@@ -173,36 +204,122 @@
                                 <tr>
                                     <th><?php echo $this->lang->line('approved_cost'); ?></th>
                                     <td>
-                                        <?php echo $scheme->approved_cost; ?>
+                                        <?php
+                                        if ($scheme->approved_cost) {
+                                            echo $scheme->approved_cost;
+                                        } else {
+                                            echo 'Not Approve Yet';
+                                        } ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th><?php echo $this->lang->line('revised_cost'); ?></th>
                                     <td>
-                                        <?php echo $scheme->revised_cost; ?>
+                                        <?php //echo $scheme->revised_cost; 
+                                        ?>
+                                        <?php
+                                        if ($scheme->revised_cost) {
+                                            echo $scheme->revised_cost;
+                                        } else {
+                                            echo 'Not Revised';
+                                        } ?>
+                                        <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                                            <button onclick="revise_cost(0)" class="btn btn-link btn-sm" style="padding:0px !important; margin:0px !important">Revise Cost</button>
+                                            <script>
+                                                function revise_cost(revise_cost_id) {
+                                                    $.ajax({
+                                                            method: "POST",
+                                                            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/revise_cost'); ?>",
+                                                            data: {
+                                                                scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                                revise_cost_id: revise_cost_id
+                                                            },
+                                                        })
+                                                        .done(function(respose) {
+                                                            $('#modal').modal('show');
+                                                            $('#modal_title').html('Revise Cost');
+                                                            $('#modal_body').html(respose);
+                                                        });
+                                                }
+                                            </script>
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th><?php echo $this->lang->line('sanctioned_cost'); ?></th>
                                     <td>
                                         <?php echo $scheme->sanctioned_cost; ?>
+
+
                                     </td>
                                 </tr>
 
 
 
                                 <tr>
-                                    <th><?php echo $this->lang->line('Status'); ?></th>
+                                    <th>Scheme Status</th>
                                     <td>
-                                        <?php echo status($scheme->status); ?>
+                                        <?php echo scheme_status($scheme->scheme_status); ?>
+                                        <button onclick="scheme_logs()" class="btn btn-link btn-sm" style="padding:0px !important; margin:0px !important">Scheme Logs</button>
+                                        <script>
+                                            function scheme_logs() {
+                                                $.ajax({
+                                                        method: "POST",
+                                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_logs'); ?>",
+                                                        data: {
+                                                            scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                        },
+                                                    })
+                                                    .done(function(respose) {
+                                                        $('#modal').modal('show');
+                                                        $('#modal_title').html('Scheme Status Logs');
+                                                        $('#modal_body').html(respose);
+                                                    });
+                                            }
+                                        </script>
                                     </td>
                                 </tr>
 
                             </tbody>
                         </table>
 
+                        <?php if ($scheme->scheme_status == 'Initiated') { ?>
+                            <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm">Approve</button>
+                            <button onclick="chanage_status_form('Not Approve')" class="btn btn-danger btn-sm">Not Approve</button>
 
+                        <?php } ?>
+                        <?php if ($scheme->scheme_status == 'Not Approved') { ?>
+                            <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm">Approve</button>
+                        <?php } ?>
 
+                        <?php if ($scheme->scheme_status == 'Disputed') { ?>
+                            <button onclick="chanage_status_form('Ongoing')" class="btn btn-primary btn-sm">Mark as Ongoing Scheme</button>
+                        <?php } ?>
+                        <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                            <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm">Dispute</button>
+                            <button onclick="chanage_status_form('Complete')" class="btn btn-success btn-sm">Complete</button>
+
+                        <?php } ?>
+                        <?php if ($scheme->scheme_status == 'Completed') { ?>
+                            <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
+                        <?php } ?>
+                        <script>
+                            function chanage_status_form(status_form) {
+                                $.ajax({
+                                        method: "POST",
+                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/chanage_status_form'); ?>",
+                                        data: {
+                                            scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                            status_form: status_form
+                                        },
+                                    })
+                                    .done(function(respose) {
+                                        $('#modal').modal('show');
+                                        $('#modal_title').html('Change Scheme Status');
+                                        $('#modal_body').html(respose);
+                                    });
+                            }
+                        </script>
 
                     </div>
 
@@ -475,22 +592,3 @@
     </div>
     <!-- /MESSENGER -->
 </div>
-
-<script>
-    // function expense_form(expense_id, purpose) {
-    //     $.ajax({
-    //             method: "POST",
-    //             url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_expense_form'); ?>",
-    //             data: {
-    //                 expense_id: expense_id,
-    //                 purpose: purpose,
-    //                 scheme_id: '<?php echo $scheme->scheme_id; ?>'
-    //             },
-    //         })
-    //         .done(function(respose) {
-    //             $('#modal').modal('show');
-    //             $('#modal_title').html('Add Expense as ' + purpose);
-    //             $('#modal_body').html(respose);
-    //         });
-    // }
-</script>

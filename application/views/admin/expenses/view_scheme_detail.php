@@ -131,6 +131,36 @@
                                     </td>
                                 </tr>
                                 <tr>
+                                    <th>District</th>
+                                    <td>
+                                        <?php
+                                        $query = "SELECT district_name FROM districts 
+                                 WHERE district_id='" . $scheme->district_id . "'";
+                                        $district = $this->db->query($query)->row();
+                                        if ($district) {
+                                            echo $district->district_name;
+                                        } else {
+                                            echo 'Not Define';
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th>Component Category</th>
+
+                                    <td>
+                                        <?php $query = "SELECT * FROM `component_categories` 
+                                    WHERE component_category_id=$scheme->component_category_id";
+                                        $category = $this->db->query($query)->row();
+                                        if ($category) {
+                                            echo $category->category . " <small>(" . $category->category_detail . ")</small>";
+                                        } else {
+                                            echo "Undefine";
+                                        }
+                                        ?>
+                                    </td>
+                                </tr>
+                                <tr>
                                     <th><?php echo $this->lang->line('water_source'); ?></th>
                                     <td>
                                         <?php echo $scheme->water_source; ?>
@@ -175,13 +205,24 @@
                                 <tr>
                                     <th><?php echo $this->lang->line('approved_cost'); ?></th>
                                     <td>
-                                        <?php echo $scheme->approved_cost; ?>
+                                        <?php
+                                        if ($scheme->approved_cost) {
+                                            echo $scheme->approved_cost;
+                                        } else {
+                                            echo 'Not Approve Yet';
+                                        } ?>
                                     </td>
                                 </tr>
                                 <tr>
                                     <th><?php echo $this->lang->line('revised_cost'); ?></th>
                                     <td>
                                         <?php echo $scheme->revised_cost; ?>
+                                        <?php
+                                        if ($scheme->revised_cost) {
+                                            echo $scheme->revised_cost;
+                                        } else {
+                                            echo 'Not Revised';
+                                        } ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -194,9 +235,9 @@
 
 
                                 <tr>
-                                    <th><?php echo $this->lang->line('Status'); ?></th>
+                                    <th>Scheme Status</th>
                                     <td>
-                                        <?php echo status($scheme->status); ?>
+                                        <?php echo scheme_status($scheme->scheme_status); ?>
                                     </td>
                                 </tr>
 
@@ -467,8 +508,12 @@
 
                         </tfoot>
                     </table>
-                    <div style="text-align: right;">
-                        <button onclick="expense_form(0,'Programme Cost')" class="btn btn-primary">Add Payment</button>
+                    <div style="text-align: center;">
+                        <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                            <button onclick="expense_form(0,'Programme Cost')" class="btn btn-primary">Add Payment</button>
+                        <?php } else { ?>
+                            <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
+                        <?php } ?>
                     </div>
                 </div>
 

@@ -180,7 +180,7 @@ class Expense_model extends MY_Model
 
         $inputs["payee_name"]  =  $this->input->post("payee_name");
         $inputs["cheque"]  =  $this->input->post("cheque");
-
+        $inputs["employee_id"]  =  $this->input->post("employee_id");
         $inputs["gross_pay"]  =  $this->input->post("gross_pay");
         $inputs["whit_tax"]  =  $this->input->post("whit_tax");
         $inputs["whst_tax"]  =  $this->input->post("whst_tax");
@@ -190,6 +190,8 @@ class Expense_model extends MY_Model
 
         $inputs["misc_deduction"]  =  $this->input->post("misc_deduction");
         $inputs["net_pay"]  =  $this->input->post("net_pay");
+        $inputs["created_by"] = $this->session->userdata("userId");
+        $inputs["last_updated"] = date('Y-m-d H:i:s');
 
         return $inputs;
     }

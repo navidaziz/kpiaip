@@ -201,6 +201,7 @@ class Water_user_associations extends Admin_Controller
                 redirect(ADMIN_DIR . "water_user_associations/add");
             }
         } else {
+
             $this->add();
         }
     }
@@ -306,11 +307,13 @@ class Water_user_associations extends Admin_Controller
 
         if ($this->wua_member_model->validate_form_data() === TRUE) {
             $wua_member_id = (int) $this->input->post('wua_member_id');
-            if ($this->upload_file("attachment")) {
-                $_POST['attachment'] = $this->data["upload_data"]["file_name"];
-            } else {
-                echo '<div class="alert alert-danger"> ' . $this->upload->display_errors() . "</div>";
-                exit();
+            if ($this->input->post('attachment')) {
+                if ($this->upload_file("attachment")) {
+                    $_POST['attachment'] = $this->data["upload_data"]["file_name"];
+                } else {
+                    echo '<div class="alert alert-danger"> ' . $this->upload->display_errors() . "</div>";
+                    exit();
+                }
             }
             if ($wua_member_id == 0) {
                 $wua_member_id = $this->wua_member_model->save_data();
@@ -320,7 +323,7 @@ class Water_user_associations extends Admin_Controller
             if ($wua_member_id) {
                 echo "success";
             } else {
-                echo  "Error While Adding or Updating the record.";
+                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
             }
         } else {
 
@@ -353,6 +356,7 @@ class Water_user_associations extends Admin_Controller
             $scheme["scheme_name"]  =  "";
             $scheme["scheme_code"]  =  "";
             $scheme["component_category_id"]  = 0;
+            $scheme["registration_date"]  = '';
             $scheme =  (object) $scheme;
         } else {
             $query = "SELECT * FROM schemes WHERE scheme_id = $scheme_id";
@@ -369,11 +373,23 @@ class Water_user_associations extends Admin_Controller
     public function add_scheme()
     {
 
+        $_POST['approved_cost'] = 0;
+        $_POST['revised_cost'] = 0;
+        $_POST['sanctioned_cost'] = 0;
+        $_POST['scheme_status'] = 'Initiated';
+
         if ($this->scheme_model->validate_form_data() === TRUE) {
             $scheme_id = (int) $this->input->post('scheme_id');
 
             if ($scheme_id == 0) {
+
                 $scheme_id = $this->scheme_model->save_data();
+                $log_inputs['operation'] = 'insert';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Initiated';
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
             } else {
                 $scheme_id = $this->scheme_model->update_data($scheme_id);
             }
@@ -484,5 +500,229 @@ class Water_user_associations extends Admin_Controller
         $this->wua_member_model->delete(array('wua_member_id' => $wua_member_id));
         $this->session->set_flashdata("msg_success", $this->lang->line("delete_msg_success"));
         redirect(ADMIN_DIR . "water_user_associations/view_water_user_association/" . $water_user_association);
+    }
+
+
+    public function fetch_data2()
+    {
+
+
+        $columns[] = "water_user_association_id";
+        $columns[] = "district_name";
+        $columns[] = "tehsil_name";
+        $columns[] = "union_council";
+        $columns[] = "address";
+        $columns[] = "wua_registration_no";
+        $columns[] = "wua_name";
+        $columns[] = "total_schemes";
+
+        $limit = $this->input->post("length");
+        $start = $this->input->post("start");
+        $order = $columns[$this->input->post("order")[0]["column"]];
+        $dir = $this->input->post("order")[0]["dir"];
+
+
+        $search = $this->db->escape("%" . $this->input->post("search")["value"] . '%');
+        // Manual SQL query building
+        $sql = "SELECT * FROM `wua_list` ";
+
+        // Searching
+        if (!empty($this->input->post("search")["value"])) {
+            $sql .= " WHERE ";
+            foreach ($columns as $column) {
+                $sql .= "$column LIKE $search OR ";
+            }
+            $sql = rtrim($sql, "OR "); // Remove the last "OR"
+        }
+
+        // Ordering
+        $sql .= " ORDER BY $order $dir";
+
+        // Pagination
+        if ($limit != -1) {
+            $sql .= " LIMIT $limit OFFSET $start";
+        }
+
+        $query = $this->db->query($sql);
+        $data = $query->result();
+
+        // Total records count
+        $total_records = $this->db->query("SELECT COUNT(*) as count FROM wua_list")->row()->count;
+
+        $output = array(
+            "draw" => intval($this->input->post("draw")),
+            "recordsTotal" => $total_records,
+            "recordsFiltered" => $total_records,
+            "data" => $data
+        );
+
+        echo json_encode($output);
+    }
+
+    function chanage_status_form()
+    {
+        $scheme_id =  (int) $this->input->post('scheme_id');
+        $query = "SELECT * FROM schemes WHERE scheme_id = $scheme_id";
+        $this->data['scheme'] = $this->db->query($query)->row();
+        $status_form =  $this->input->post('status_form');
+        $this->data['scheme_id'] = $scheme_id;
+        $this->data['status_form'] = $status_form;
+        $this->load->view(ADMIN_DIR . "water_user_associations/chanage_status_form", $this->data);
+    }
+
+    function update_scheme_status()
+    {
+        $scheme_id =  (int) $this->input->post('scheme_id');
+        $status_form = $this->input->post('status_form');
+
+        if ($status_form == 'Complete') {
+            $inputs["remarks"] = $remarks = '';
+            $inputs["scheme_status"]  =  'Completed';
+            $inputs["completion_date"] = $this->input->post('completion_date');
+            $inputs["last_updated"] = date('Y-m-d H:i:s');
+            if ($this->scheme_model->save($inputs, $scheme_id)) {
+                $log_inputs['operation'] = 'insert';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Completed';
+                $log_inputs['remarks'] = $remarks;
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
+                echo "success";
+            } else {
+                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+            }
+        }
+
+        if ($status_form == 'Ongoing') {
+            $inputs["remarks"] = $remarks = '';
+            $inputs["scheme_status"]  =  'Ongoing';
+            $inputs["last_updated"] = date('Y-m-d H:i:s');
+            if ($this->scheme_model->save($inputs, $scheme_id)) {
+                $log_inputs['operation'] = 'insert';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Ongoing';
+                $log_inputs['remarks'] = $remarks;
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
+                echo "success";
+            } else {
+                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+            }
+        }
+        if ($status_form == 'Dispute') {
+            $inputs["remarks"] = $remarks = $this->input->post('remarks');
+            $inputs["scheme_status"]  =  'Disputed';
+            $inputs["last_updated"] = date('Y-m-d H:i:s');
+            if ($this->scheme_model->save($inputs, $scheme_id)) {
+                $log_inputs['operation'] = 'insert';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Disputed';
+                $log_inputs['remarks'] = $remarks;
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
+                echo "success";
+            } else {
+                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+            }
+        }
+
+        if ($status_form == 'Not Approve') {
+            $inputs["approved_cost"]  =  0;
+            $inputs["sanctioned_cost"]  =  0;
+            $inputs["approval_date"]  =  NULL;
+            $inputs["last_updated"] = date('Y-m-d H:i:s');
+            $inputs["remarks"] = $remarks = $this->input->post('remarks');
+            $inputs["scheme_status"]  =  'Not Approved';
+            if ($this->scheme_model->save($inputs, $scheme_id)) {
+                $log_inputs['operation'] = 'insert';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Not Approved';
+                $log_inputs['remarks'] = $remarks;
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
+                echo "success";
+            } else {
+                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+            }
+        }
+
+        if ($status_form == 'Approval') {
+            $inputs["approved_cost"]  =  $this->input->post("approved_cost");
+            $inputs["revised_cost"]  =  0;
+            $sectioned_cost["sanctioned_cost"] = $this->input->post("approved_cost");
+            $inputs["approval_date"]  =  $this->input->post("approval_date");
+            $inputs["scheme_status"]  =  'Ongoing';
+            $inputs["last_updated"] = date('Y-m-d H:i:s');
+            if ($this->scheme_model->save($inputs, $scheme_id)) {
+                $log_inputs['operation'] = 'insert';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Ongoing';
+                $log_inputs['remarks'] = '';
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
+                echo "success";
+            } else {
+                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+            }
+        }
+    }
+
+    function revise_cost()
+    {
+        $scheme_id =  (int) $this->input->post('scheme_id');
+        $revise_cost_id =  (int) $this->input->post('revise_cost_id');
+
+        if ($revise_cost_id == 0) {
+            $inputs['revise_cost_id'] = 0;
+            $inputs['revised_cost'] = 0;
+            $inputs['date'] = NULL;
+            $revised_cost = (object) $inputs;
+        } else {
+            $query = "SELECT * FROM revised_costs 
+            WHERE revise_cost_id = $revise_cost_id 
+            AND scheme_id = $scheme_id";
+            $revised_cost = $this->db->query($query)->row();
+        }
+        $this->data['revised_cost'] = $revised_cost;
+
+        $query = "SELECT * FROM schemes WHERE scheme_id = $scheme_id";
+        $this->data['scheme'] = $this->db->query($query)->row();
+        $status_form =  $this->input->post('status_form');
+        $this->data['scheme_id'] = $scheme_id;
+        $this->data['status_form'] = $status_form;
+        $this->load->view(ADMIN_DIR . "water_user_associations/revise_cost", $this->data);
+    }
+
+    public function  update_revised_cost()
+    {
+        $scheme_id =  (int) $this->input->post('scheme_id');
+
+        $inputs["revised_cost"]  = $revised_cost =  $this->input->post("revised_cost");
+        $inputs["sanctioned_cost"] = $revised_cost;
+        $inputs["last_updated"] = date('Y-m-d H:i:s');
+        if ($this->scheme_model->save($inputs, $scheme_id)) {
+            $log_inputs['operation'] = 'insert';
+            $log_inputs['scheme_id'] = $scheme_id;
+            $log_inputs['scheme_status'] = 'Revised';
+            $log_inputs['remarks'] = 'Cost Revised: ' . $revised_cost . ' Date: ' . $this->input->post("date");
+            $log_inputs["created_by"] = $this->session->userdata("userId");
+            $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+            $this->db->insert('scheme_logs', $log_inputs);
+            echo "success";
+        } else {
+            echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+        }
+    }
+
+    public function scheme_logs()
+    {
+        $scheme_id =  (int) $this->input->post('scheme_id');
+        $this->data['scheme_id'] = $scheme_id;
+        $this->load->view(ADMIN_DIR . "water_user_associations/scheme_logs", $this->data);
     }
 }

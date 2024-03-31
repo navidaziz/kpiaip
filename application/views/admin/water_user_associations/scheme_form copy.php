@@ -175,7 +175,35 @@
 
         </div>
 
+        <div class="form-group">
 
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('beneficiaries'), "beneficiaries", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $number = array(
+                    "type"          =>  "number",
+                    "name"          =>  "beneficiaries",
+                    "id"            =>  "beneficiaries",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('beneficiaries'),
+                    "value"         =>  set_value("beneficiaries", $scheme->beneficiaries),
+                    "placeholder"   =>  $this->lang->line('beneficiaries')
+                );
+                echo  form_input($number);
+                ?>
+                <?php echo form_error("beneficiaries", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
 
         <div class="form-group">
 
@@ -193,10 +221,8 @@
                     "type"          =>  "number",
                     "name"          =>  "male_beneficiaries",
                     "id"            =>  "male_beneficiaries",
-                    "class"         =>  "form-control beneficiaries",
-                    "style"         =>  "",
-                    "required"      => "required",
-                    "title"         =>  $this->lang->line('male_beneficiaries'),
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('male_beneficiaries'),
                     "value"         =>  set_value("male_beneficiaries", $scheme->male_beneficiaries),
                     "placeholder"   =>  $this->lang->line('male_beneficiaries')
                 );
@@ -225,7 +251,7 @@
                     "type"          =>  "number",
                     "name"          =>  "female_beneficiaries",
                     "id"            =>  "female_beneficiaries",
-                    "class"         =>  "form-control beneficiaries",
+                    "class"         =>  "form-control",
                     "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('female_beneficiaries'),
                     "value"         =>  set_value("female_beneficiaries", $scheme->female_beneficiaries),
                     "placeholder"   =>  $this->lang->line('female_beneficiaries')
@@ -269,16 +295,97 @@
 
         </div>
 
-
         <div class="form-group">
-            <label for="registration_date" class="col-md-4 control-label" style="">Registration Date</label>
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('approved_cost'), "approved_cost", $label);      ?>
+
             <div class="col-md-8">
-                <input type="date" name="registration_date" value="<?php echo $scheme->registration_date; ?>" id="registration_date" class="form-control" style="" required="required" title="Registration Date" placeholder="Registration Date">
+                <?php
+
+                $number = array(
+                    "type"          =>  "number",
+                    "name"          =>  "approved_cost",
+                    "id"            =>  "approved_cost",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('approved_cost'),
+                    "value"         =>  set_value("approved_cost", $scheme->approved_cost),
+                    "placeholder"   =>  $this->lang->line('approved_cost')
+                );
+                echo  form_input($number);
+                ?>
+                <?php echo form_error("approved_cost", "<p class=\"text-danger\">", "</p>"); ?>
             </div>
 
 
 
         </div>
+
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('revised_cost'), "revised_cost", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $number = array(
+                    "type"          =>  "number",
+                    "name"          =>  "revised_cost",
+                    "id"            =>  "revised_cost",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('revised_cost'),
+                    "value"         =>  set_value("revised_cost", $scheme->revised_cost),
+                    "placeholder"   =>  $this->lang->line('revised_cost')
+                );
+                echo  form_input($number);
+                ?>
+                <?php echo form_error("revised_cost", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
+
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('sanctioned_cost'), "sanctioned_cost", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $number = array(
+                    "type"          =>  "number",
+                    "name"          =>  "sanctioned_cost",
+                    "id"            =>  "sanctioned_cost",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('sanctioned_cost'),
+                    "value"         =>  set_value("sanctioned_cost", $scheme->sanctioned_cost),
+                    "placeholder"   =>  $this->lang->line('sanctioned_cost')
+                );
+                echo  form_input($number);
+                ?>
+                <?php echo form_error("sanctioned_cost", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
+
+
 
 
 
@@ -317,7 +424,6 @@
 
 <script>
     $('#data_form').submit(function(e) {
-
         e.preventDefault(); // Prevent default form submission
 
         // Create FormData object

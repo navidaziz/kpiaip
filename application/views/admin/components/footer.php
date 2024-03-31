@@ -70,6 +70,11 @@ if ($this->router->fetch_method() == 'add_order_new') { ?>
 </script>
 
 <link rel="stylesheet" type="text/css" href="<?php echo site_url("assets/" . ADMIN_DIR . "js/magic-suggest/magicsuggest-1.3.1-min.css"); ?>" />
+<style>
+	.table-responsive {
+		overflow-x: auto !important;
+	}
+</style>
 </body>
 
 </html>

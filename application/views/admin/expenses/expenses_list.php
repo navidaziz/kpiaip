@@ -20,20 +20,21 @@
             <!-- STYLER -->
 
             <!-- /STYLER -->
-            <!-- BREADCRUMBS -->
-            <ul class="breadcrumb">
-                <li>
-                    <i class="fa fa-home"></i>
 
-                    <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
-                </li>
-
-                <li><?php echo $title; ?></li>
-            </ul>
             <!-- /BREADCRUMBS -->
             <div class="row">
 
-                <div class="col-md-6">
+                <div class="col-md-3">
+                    <!-- BREADCRUMBS -->
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+
+                            <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                        </li>
+
+                        <li><?php echo $title; ?></li>
+                    </ul>
                     <div class="clearfix">
 
                         <h3 class="content-title pull-left"><?php echo $title ?></h3>
@@ -41,9 +42,90 @@
                     <div class="description"> <?php echo $description; ?></div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="pull-right">
-                        <table class="table " style="margin-top: -30px;">
+                <div class="col-md-9">
+                    <div class="col-md-7">
+                        <div class="box-body">
+                            <h4>Budget Utilization Summary</h4>
+
+                            <div class="table-responsive ">
+                                <?php
+                                $query = "SELECT * FROM projects WHERE project_id=1";
+                                $project = $this->db->query($query)->row();
+
+                                $query = "SELECT SUM(dollar_total) as dollar_total,
+                                    SUM(rs_total) as rs_total
+                                    FROM donor_funds_released as dfs";
+                                $donor_fund = $this->db->query($query)->row();
+
+                                $query = "SELECT SUM(rs_total) as rs_total
+                              FROM budget_released as br";
+                                $budget_released = $this->db->query($query)->row();
+
+                                $query = "SELECT SUM(e.net_pay) as total_expense
+                               FROM expenses as e";
+                                $expense = $this->db->query($query)->row();
+                                if ($expense->total_expense) {
+                                    $buring_rate = round((($expense->total_expense / $donor_fund->rs_total) * 100), 2)  . "%";
+                                } else {
+                                    $buring_rate = "0%";
+                                }
+                                $remaing_donor_founds =  $project->cost - $donor_fund->dollar_total;
+                                ?>
+                                <table class="table table_small table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Received from WB</th>
+                                            <th>Budget Released</th>
+                                            <th>Budget Used (Exp.)</th>
+                                            <th>Budget Remaining</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <th><?php echo @number_format($donor_fund->rs_total); ?> <small style="font-weight: lighter;">PKRs.</small></th>
+                                        <th><?php echo @number_format($budget_released->rs_total); ?> <small style="font-weight: lighter;">PKRs.</small></th>
+
+                                        <th><?php echo @number_format($expense->total_expense); ?></th>
+                                        <th>
+                                            <?php $remaing_budget = ($budget_released->rs_total - $expense->total_expense);
+                                            echo @number_format($remaing_budget);
+                                            ?>
+                                        </th>
+
+                                    </tbody>
+                                    <tfoot>
+                                        <th>Remaing funds in account <br />
+                                            <?php $remaing_in_account = ($donor_fund->rs_total - $budget_released->rs_total); ?>
+                                            <span style="color: green;">
+                                                <?php echo @number_format($remaing_in_account); ?>
+                                                <small style="font-weight: lighter;">PKRs.</small>
+                                            </span>
+
+                                        </th>
+
+                                        <th style="text-align: center;"><?php
+                                                                        if ($donor_fund->rs_total) {
+                                                                            echo round(($budget_released->rs_total / $donor_fund->rs_total) * 100, 2) . ' %';
+                                                                        }
+                                                                        ?></th>
+                                        <th style="text-align: center;"><?php
+                                                                        if ($budget_released->rs_total) {
+                                                                            echo round(($expense->total_expense / $budget_released->rs_total) * 100, 2) . ' %';
+                                                                        }
+                                                                        ?></th>
+                                        <th style="text-align: center;"><?php
+                                                                        if ($budget_released->rs_total) {
+                                                                            echo $budget_released_percentage = round(($remaing_budget / $budget_released->rs_total) * 100, 2) . ' %';
+                                                                        }
+                                                                        ?></th>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5">
+                        <h4>Session Wise Expense Summary</h4>
+                        <table class="table table_small ">
                             <thead>
                                 <tr>
                                     <?php
@@ -76,10 +158,9 @@
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>
                                         <td>
-                                            <?php if ($fy_expense->net_pay > 0) {
-                                                echo ($fy_expense->net_pay / 1000000) . " M";
-                                            } else {
-                                                echo '0.00';
+                                            <?php
+                                            if ($donor_fund->rs_total) {
+                                                echo  round(($fy_expense->net_pay / $donor_fund->rs_total) * 100, 2) . "%";
                                             }
                                             ?>
                                         </td>
@@ -128,6 +209,8 @@
                 }
             </script>
             <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes</a>
+            <a href="<?php echo site_url(ADMIN_DIR . "expenses/salaries") ?>" class="btn btn-primary">Salaries</a>
+
             <button class="btn btn-success" onclick="expense_form(0)">General Expense</button>
             <button class="btn btn-warning" onclick="tax_expense_form(0)">Tax As an Expense</button>
             <script>
@@ -259,11 +342,11 @@
 
                                         <table class="table table-bordered table_small" id="db_table">
                                             <thead>
-
+                                                <th></th>
                                                 <th>#</th>
                                                 <th>Region</th>
                                                 <th>District</th>
-                                                <th>Component</th>
+                                                <th>Component Category</th>
                                                 <th>Category</th>
                                                 <th>Purpose</th>
                                                 <th>WUA Reg.</th>
@@ -291,6 +374,7 @@
                                                 foreach ($expenses as $expense) : ?>
 
                                                     <tr>
+                                                        <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')"><i class="fa fa-trash-o"></i></a> </td>
 
                                                         <td><?php echo $count++; ?></td>
                                                         <td><?php echo $expense->region; ?></td>

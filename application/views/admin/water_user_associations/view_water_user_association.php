@@ -13,6 +13,21 @@
         color: black;
         margin: 0px !important;
     }
+
+    .table_s_small>thead>tr>th,
+    .table_s_small>tbody>tr>th,
+    .table_s_small>tfoot>tr>th,
+    .table_s_small>thead>tr>td,
+    .table_s_small>tbody>tr>td,
+    .table_s_small>tfoot>tr>td {
+        padding: 1px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 9px !important;
+        color: black;
+        margin: 0px !important;
+    }
 </style>
 
 <!-- PAGE HEADER-->
@@ -137,14 +152,13 @@
                     </table>
 
 
-                    <table class="table table-bordered table_small" style="font-size: 9px;">
+                    <table class="table table_s_small " style="font-size: 8px;">
                         <thead>
                             <tr>
                                 <th></th>
                                 <th>#</th>
                                 <th>Member</th>
-                                <th>Name</th>
-                                <th>Father Name</th>
+                                <th>Name / Father Name</th>
                                 <th>Gender</th>
                                 <th>Contact / CNIC</th>
                                 <th></th>
@@ -159,7 +173,7 @@
                             foreach ($wua_members as $wua_member) : ?>
 
                                 <tr>
-                                    <td>
+
                                     <td><a class="llink llink-trash" href="<?php echo site_url(ADMIN_DIR . "water_user_associations/delete_member/" . $water_user_association->water_user_association_id . "/" . $water_user_association->water_user_association_id); ?>"><i class="fa fa-trash-o"></i></a> </td>
                                     </td>
                                     <td><?php echo $count++; ?></td>
@@ -169,8 +183,7 @@
                                     </td>
                                     <td>
                                         <?php echo $wua_member->member_name; ?>
-                                    </td>
-                                    <td>
+                                        <br />
                                         <?php echo $wua_member->member_father_name; ?>
                                     </td>
                                     <td>
@@ -306,7 +319,7 @@
 
                                     <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
                                         else echo "0.00" ?></th>
-                                    <th><?php if ($scheme->sanctioned_cost > 0) echo (($expense_summary->net_pay * 100) / $scheme->sanctioned_cost) . " %"; ?></th>
+                                    <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->net_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?></th>
                                     <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?></th>
 
                                     <td>

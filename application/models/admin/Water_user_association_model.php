@@ -13,6 +13,9 @@ class Water_user_association_model extends MY_Model
         $this->order = "order";
     }
 
+
+
+
     public function validate_form_data()
     {
         $validation_config = array(
@@ -46,13 +49,6 @@ class Water_user_association_model extends MY_Model
                 "label"  =>  "Address",
                 "rules"  =>  "required"
             ),
-
-            array(
-                "field"  =>  "wua_registration_no",
-                "label"  =>  "Wua Registration No",
-                "rules"  =>  "required"
-            ),
-
             array(
                 "field"  =>  "wua_name",
                 "label"  =>  "Wua Name",
@@ -79,6 +75,29 @@ class Water_user_association_model extends MY_Model
 
         );
         //set and run the validation
+        if (!$this->input->post('water_user_association_id')) {
+            $validation_config[] =  array(
+                "field"  =>  "wua_registration_no",
+                "label"  =>  "Wua Registration No",
+                "rules"  =>  "required|is_unique[water_user_associations.wua_registration_no]",
+            );
+        } else {
+
+            // Manually check uniqueness if water_user_association_id is set
+            $water_user_association_id = (int) $this->input->post('water_user_association_id');
+            $wua_registration_no = $this->input->post('wua_registration_no');
+            $this->db->where('wua_registration_no', $wua_registration_no);
+            $this->db->where('water_user_association_id !=', $this->input->post('water_user_association_id'));
+            $query = $this->db->get('water_user_associations');
+            $total = $query->num_rows();
+            if ($total > 0) {
+                echo "<div style='text-align:center'><h4>Sorry!</h4> 
+                <h5>We can't update the record. The Water User Association Registration No is already registered. Please use a different WUA Registration No.</h5>
+<a href='" . site_url(ADMIN_DIR . 'water_user_associations/update_data/' . $water_user_association_id) . "'>Click Here to Go Back</a></div>";
+
+                exit();
+            }
+        }
         $this->form_validation->set_rules($validation_config);
         return $this->form_validation->run();
     }
@@ -106,6 +125,7 @@ class Water_user_association_model extends MY_Model
         $inputs["bank_account_number"]  =  $this->input->post("bank_account_number");
 
         $inputs["bank_branch_code"]  =  $this->input->post("bank_branch_code");
+        $inputs["created_by"] = $this->session->userdata("userId");
 
         if ($_FILES["attachement"]["size"] > 0) {
             $inputs["attachement"]  =  $this->router->fetch_class() . "/" . $this->input->post("attachement");
@@ -137,6 +157,8 @@ class Water_user_association_model extends MY_Model
         $inputs["bank_account_number"]  =  $this->input->post("bank_account_number");
 
         $inputs["bank_branch_code"]  =  $this->input->post("bank_branch_code");
+        $inputs["created_by"] = $this->session->userdata("userId");
+        $inputs["last_updated"] = date('Y-m-d H:i:s');
 
         if ($_FILES["attachement"]["size"] > 0) {
             //remove previous file....

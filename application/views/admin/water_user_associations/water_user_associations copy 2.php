@@ -80,7 +80,45 @@
 
             </div>
             <div class="box-body">
+                <div class="table-responsive">
+                    <table class="table table_v_small table-bordered">
 
+                        <?php
+                        $query = "SELECT district_id, district_name, 
+                                     sum(total_schemes) as scheme_total, 
+                                     count(*) as total_wua 
+                                     FROM wua_list GROUP BY district_id
+                                     ORDER BY total_wua DESC";
+                        $s_no = '';
+                        $ditrict_names = '';
+                        $total_wua = '';
+                        $total_schemes = '';
+                        $count = 1;
+                        $districts = $this->db->query($query)->result(); ?>
+                        <?php foreach ($districts as $district) {  ?>
+                            <?php $s_no .= '<td style="text-align:center">' . $count++ . '</td>'; ?>
+                            <?php $ditrict_names .= '<th>' . $district->district_name . '</th>'; ?>
+                            <?php $total_wua .= '<td style="text-align:center">' . $district->total_wua . '</td>'; ?>
+                            <?php $total_schemes .= '<td style="text-align:center">' . $district->scheme_total . '</td>'; ?>
+                        <?php } ?>
+                        <tr>
+                            <th>#</th>
+                            <?php echo $s_no; ?>
+                        </tr>
+                        <tr>
+                            <th>Districts</th>
+                            <?php echo $ditrict_names; ?>
+                        </tr>
+                        <tr>
+                            <th>WUA's</th>
+                            <?php echo $total_wua; ?>
+                        </tr>
+                        <tr>
+                            <th>Schemes</th>
+                            <?php echo $total_schemes; ?>
+                        </tr>
+                    </table>
+                </div>
                 <div class="table-responsive">
 
                     <table class="table table_small table-bordered" id="datatable">
@@ -159,7 +197,7 @@
                                     [15, 25, 50, "All"]
                                 ],
                                 "order": [
-                                    [0, "desc"]
+                                    [0, "asc"]
                                 ],
                                 "searching": true,
                                 "paging": true,
