@@ -259,6 +259,7 @@
                             <tr>
                                 <th></th>
                                 <th>#</th>
+                                <th>Status</th>
                                 <th>Scheme Code</th>
                                 <th>Scheme Title</th>
                                 <th>Category</th>
@@ -281,6 +282,9 @@
                                     <td></a>
                                     </td>
                                     <td><?php echo $count++; ?></td>
+                                    <td>
+                                        <?php echo $scheme->scheme_status; ?>
+                                    </td>
                                     <td>
                                         <?php echo $scheme->scheme_code; ?>
                                     </td>

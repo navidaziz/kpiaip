@@ -80,7 +80,7 @@
                                     else "notmentioned" ?></th>
                                 <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
                                     else echo "0.00" ?></th>
-                                <th><?php if ($scheme->sanctioned_cost > 0) echo (($expense_summary->net_pay * 100) / $scheme->sanctioned_cost) . " %"; ?></th>
+                                <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->net_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?></th>
                                 <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?></th>
                             </tr>
 
