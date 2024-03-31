@@ -180,3 +180,34 @@
     </div>
     <!-- /MESSENGER -->
 </div>
+
+<script>
+    $(document).ready(function() {
+        document.title = "Water User Assosiation List (Date:<?php echo date('d-m-Y h:m:s') ?>)";
+        $('#db_table').DataTable({
+            dom: 'Bfrtip',
+            paging: false,
+            title: title,
+            "order": [],
+            searching: true,
+            buttons: [
+
+                {
+                    extend: 'print',
+                    title: title,
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: title,
+
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: title,
+                    pageSize: 'A4',
+
+                }
+            ]
+        });
+    });
+</script>
