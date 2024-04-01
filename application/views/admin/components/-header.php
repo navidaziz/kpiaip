@@ -159,7 +159,7 @@
       <div class="navbar-brand" style="height:100px;">
 
         <!-- COMPANY LOGO -->
-        <a href="<?php echo site_url(ADMIN_DIR . $this->session->userdata("role_homepage_uri")); ?>">
+        <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>">
           <img src="<?php echo site_url("assets/uploads/" . $system_global_settings[0]->sytem_admin_logo); ?>" alt="<?php echo $system_global_settings[0]->system_title ?>" title="<?php echo $system_global_settings[0]->system_title ?>" class="img-responsive " style="width:100px !important;"></a>
         <!-- /COMPANY LOGO -->
         <!-- TEAM STATUS FOR MOBILE -->

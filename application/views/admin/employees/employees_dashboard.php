@@ -44,7 +44,7 @@
                     <ul class="breadcrumb">
                         <li>
                             <i class="fa fa-home"></i>
-                            <a href="<?php echo site_url(ADMIN_DIR . $this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                            <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                         </li>
                         <li><?php echo $title; ?></li>
                     </ul>
@@ -112,7 +112,7 @@
                             $query = "SELECT * FROM employees";
                             $rows = $this->db->query($query)->result();
                             foreach ($rows as $row) { ?>
-                                <tr <?php if($row->status==0) echo 'style="background-color:lightgray !important"'; ?> >
+                                <tr <?php if ($row->status == 0) echo 'style="background-color:lightgray !important"'; ?>>
                                     <td><?php echo $count++ ?></td>
                                     <td><?php echo $row->name; ?></td>
                                     <td><?php echo $row->father_name; ?></td>
@@ -132,8 +132,8 @@
                                     <td><?php echo $row->kpra_tax; ?></td>
                                     <td><?php echo $row->misc_deduction; ?></td>
                                     <td><?php echo $row->net_pay; ?></td>
-                                    <td><?php if($row->status==0) echo 'Yes'; ?></td>
-                                    <td><?php  if($row->status==0) echo $row->leaved_date; ?></td>
+                                    <td><?php if ($row->status == 0) echo 'Yes'; ?></td>
+                                    <td><?php if ($row->status == 0) echo $row->leaved_date; ?></td>
                                     <td><button onclick="get_employee_form('<?php echo $row->employee_id; ?>')">Edit<botton>
                                     </td>
                                 </tr>
