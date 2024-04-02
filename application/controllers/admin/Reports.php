@@ -138,6 +138,7 @@ class Reports extends Admin_Controller
             }
         }
 
+
         // Handling Regions
         if ($this->input->post('regions')) {
             $this->data['f_regions_array'] = $this->input->post('regions');
@@ -192,6 +193,79 @@ class Reports extends Admin_Controller
 
         $this->data['regions'] = $regions;
         $this->data["view"] = ADMIN_DIR . "reports/region_district_wise_expense_report";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+    public function region_district_wise_component_expense_report()
+    {
+        $this->data["title"] = 'Region / District Compnents Wise Expense Report';
+        $this->data["description"] = 'Filter By: ';
+        $this->data['f_regions_array'] = NULL;
+        $this->data['f_financial_years_array'] = NULL;
+        $this->data['f_purpose_array'] = NULL;
+        $this->data['f_start_date'] = NULL;
+        $this->data['f_end_date'] = NULL;
+        $purpose_query = '';
+        $fy_query = '';
+
+        // Get component categories
+        $query = "SELECT component_category_id, category FROM component_categories";
+        $this->data['component_categories'] = $component_categories = $this->db->query($query)->result();
+
+        if ($this->input->post('regions')) {
+            $regions = $this->input->post('regions');
+            $placeholders = rtrim(str_repeat('?, ', count($regions)), ', '); // Prepare placeholders for parameterized query
+            $query = "SELECT region FROM districts WHERE region IN ($placeholders) GROUP BY region";
+            $regions = $this->db->query($query, $regions)->result();
+        } else {
+            $query = "SELECT region FROM districts GROUP BY region";
+            $regions = $this->db->query($query)->result();
+        }
+
+        foreach ($regions as $region) {
+            // Get component categories for the region
+            $query = "SELECT component_category_id, category FROM component_categories";
+            $component_categories = $this->db->query($query)->result();
+            foreach ($component_categories as $component_category) {
+                $query = "SELECT COUNT(0) as total,
+            SUM(net_pay) as net_pay
+            FROM expenses as e 
+            INNER JOIN districts as d ON (d.district_id = e.district_id)
+            WHERE d.region = ? 
+            AND e.component_category_id = ?
+            $purpose_query
+            $fy_query";
+                $expense_result = $this->db->query($query, array($region->region, $component_category->component_category_id))->row();
+                $component_category->expenses = $expense_result;
+            }
+            $region->component_categories = $component_categories;
+
+            // Get districts for the region
+            $query = "SELECT * FROM districts as d WHERE d.region = ?";
+            $districts = $this->db->query($query, $region->region)->result();
+            foreach ($districts as $district) {
+                // Get component categories for the district
+                $query = "SELECT component_category_id, category FROM component_categories";
+                $component_categories = $this->db->query($query)->result();
+                foreach ($component_categories as $component_category) {
+                    $query = "SELECT COUNT(0) as total,
+                SUM(net_pay) as net_pay
+                FROM expenses as e 
+                WHERE e.component_category_id = ? 
+                AND e.district_id = ?
+                $purpose_query
+                $fy_query";
+                    $expense_result = $this->db->query($query, array($component_category->component_category_id, $district->district_id))->row();
+                    $component_category->expenses = $expense_result;
+                }
+                $district->component_categories = $component_categories;
+            }
+            $region->districts = $districts;
+        }
+
+        $this->data['regions'] = $regions;
+
+
+        $this->data["view"] = ADMIN_DIR . "reports/region_district_wise_component_expense_report";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 }

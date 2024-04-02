@@ -88,8 +88,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <td>1.</td>
-                            <td><a href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_expense_report') ?>">Region and District Wise Expense Report</a> </td>
+                            <tr>
+                                <td>1.</td>
+                                <td><a href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_expense_report') ?>">Region and District Wise Expense Report</a> </td>
+                            </tr>
+                            <tr>
+                                <td>1.</td>
+                                <td><a href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_component_expense_report') ?>">Region and District Components Wise Expense Report</a> </td>
+                            </tr>
+
                         </tbody>
                     </table>
 
