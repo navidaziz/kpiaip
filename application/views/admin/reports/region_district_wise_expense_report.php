@@ -55,6 +55,10 @@
                             <i class="fa fa-home"></i>
                             <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                         </li>
+                        <li>
+                            <i class="fa fa-file"></i>
+                            <a href="<?php echo site_url(ADMIN_DIR . 'reports'); ?>">Reports List</a>
+                        </li>
                         <li><?php echo $title; ?></li>
                     </ul>
                     <div class="clearfix">
@@ -84,33 +88,66 @@
                 <div>
                     <form id="reportForm" action="<?php echo site_url(ADMIN_DIR . "reports/region_district_wise_expense_report"); ?>" method="post">
                         Purpus: <?php
+                                $f_purpose_filter_list = '';
                                 $query = "SELECT purpose FROM expenses GROUP BY purpose";
                                 $purpose_filters = $this->db->query($query)->result();
                                 foreach ($purpose_filters as $purpose_filter) { ?>
                             <input <?php if ($f_purpose_array && in_array($purpose_filter->purpose, $f_purpose_array)) {
+                                        $f_purpose_filter_list .= $purpose_filter->purpose . ",";
                                         echo 'checked';
                                     } ?> type="checkbox" value="<?php echo $purpose_filter->purpose; ?>" name="purpose[]" /> <?php echo $purpose_filter->purpose; ?>,
                         <?php } ?>
                         <br />
                         Regions: <?php
+                                    $f_regions_filter_list = '';
                                     $query = "SELECT region FROM districts GROUP BY region";
                                     $regions_filters = $this->db->query($query)->result();
                                     foreach ($regions_filters as $regions_filter) { ?>
                             <input <?php if ($f_regions_array && in_array($regions_filter->region, $f_regions_array)) {
+                                            $f_regions_filter_list .= $regions_filter->region . ', ';
                                             echo 'checked';
                                         } ?> type="checkbox" value="<?php echo $regions_filter->region; ?>" name="regions[]" /> <?php echo $regions_filter->region; ?>,
                         <?php } ?>
                         <br />
                         Financial Years: <?php
+                                            $financial_year_filter_list = '';
                                             $query = "SELECT financial_year, financial_year_id FROM financial_years GROUP BY financial_year_id";
                                             $financial_year_filters = $this->db->query($query)->result();
                                             foreach ($financial_year_filters as $financial_year_filter) { ?>
                             <input <?php if ($f_financial_years_array && in_array($financial_year_filter->financial_year_id, $f_financial_years_array)) {
+                                                    $financial_year_filter_list .= $financial_year_filter->financial_year . ", ";
                                                     echo 'checked';
                                                 } ?> type="checkbox" value="<?php echo $financial_year_filter->financial_year_id; ?>" name="financial_years[]" /> <?php echo $financial_year_filter->financial_year; ?>,
                         <?php } ?>
+                        <br />
+                        Date: Start Date: <input type="date" value="<?php if ($f_start_date) {
+                                                                        echo $f_start_date;
+                                                                    } ?>" name="start_date" />
+                        End Date: <input type="date" value="<?php if ($f_end_date) {
+                                                                echo $f_end_date;
+                                                            } ?>" name="end_date" />
+                        <button onclick="submitForm()">Date Filter</button>
                     </form>
+                    <?php
+                    $table_title = '';
 
+                    if ($f_regions_filter_list) {
+                        $table_title .= ' - Region Filter: ' . $f_regions_filter_list;
+                    }
+                    if ($f_purpose_filter_list) {
+                        $table_title .= ' - Purpose Filter: ' . $f_purpose_filter_list;
+                    }
+                    if ($f_start_date and $f_end_date) {
+                        $table_title .= ' - Date filter: ' . $f_start_date . ' To ' . $f_end_date;
+                    } else {
+                        if ($f_financial_years_array) {
+                            $table_title .= ' - Financial Year Filter: ' . $financial_year_filter_list;
+                        }
+                    }
+
+
+                    ?>
+                    <hr />
                 </div>
                 <script>
                     // Function to submit the form when a checkbox is clicked
@@ -130,7 +167,7 @@
                     <table class="table  table-bordered" id="report">
                         <thead>
                             <tr>
-                                <th colspan="12">Data table</th>
+                                <th colspan="12"><?php echo $title; ?></th>
                             </tr>
                             <tr>
                                 <th style="width: 10px;">#</th>
@@ -203,7 +240,7 @@
 </div>
 
 <script>
-    title = "Expenses";
+    title = "<?php echo $title; ?>";
     $(document).ready(function() {
         $('#report').DataTable({
             dom: 'Bfrtip',
@@ -217,17 +254,21 @@
                 {
                     extend: 'print',
                     title: title,
+                    messageTop: '<?php echo $table_title; ?>'
+
                 },
                 {
                     extend: 'excelHtml5',
                     title: title,
+                    messageTop: '<?php echo $table_title; ?>'
 
                 },
                 {
                     extend: 'pdfHtml5',
                     title: title,
                     pageSize: 'A4',
-                    orientation: 'landscape'
+                    orientation: 'landscape',
+                    messageTop: '<?php echo $table_title; ?>'
 
                 }
             ]

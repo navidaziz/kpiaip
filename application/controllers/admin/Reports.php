@@ -107,6 +107,8 @@ class Reports extends Admin_Controller
         $this->data['f_regions_array'] = NULL;
         $this->data['f_financial_years_array'] = NULL;
         $this->data['f_purpose_array'] = NULL;
+        $this->data['f_start_date'] = NULL;
+        $this->data['f_end_date'] = NULL;
 
         // Handling Purpose
         if ($this->input->post('purpose')) {
@@ -116,12 +118,22 @@ class Reports extends Admin_Controller
             $purpose_query = '';
         }
 
+
         // Handling Financial Years
         if ($this->input->post('financial_years')) {
             $this->data['f_financial_years_array'] = $this->input->post('financial_years');
             $fy_query = "AND e.financial_year IN ('" . implode("','", $this->data['f_financial_years_array']) . "') ";
         } else {
             $fy_query = '';
+        }
+
+        //Hadling By Start and end date
+        $fy_query = '';
+        if ($this->input->post('start_date') and $this->input->post('end_date')) {
+            $this->data['f_start_date'] = $start_date =  $this->input->post('start_date');
+            $this->data['f_end_date'] = $end_date = $this->input->post('end_date');
+
+            $fy_query = "AND e.date BETWEEN " . $this->db->escape($start_date) . " AND " . $this->db->escape($end_date);
         }
 
         // Handling Regions
@@ -132,6 +144,7 @@ class Reports extends Admin_Controller
         } else {
             $query = "SELECT region FROM districts GROUP BY region";
         }
+
         $regions = $this->db->query($query)->result();
 
         foreach ($regions as $region) {
@@ -151,6 +164,8 @@ class Reports extends Admin_Controller
             $purpose_query
             $fy_query";
             $region->expenses = $this->db->query($query)->row();
+
+
 
             $query = "SELECT * FROM districts as d WHERE d.region = '" . $region->region . "'";
             $districts = $this->db->query($query)->result();
