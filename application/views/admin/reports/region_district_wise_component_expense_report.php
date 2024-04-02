@@ -86,7 +86,7 @@
             <div class="box-body">
 
                 <div>
-                    <form id="reportForm" action="<?php echo site_url(ADMIN_DIR . "reports/region_district_wise_expense_report"); ?>" method="post">
+                    <form id="reportForm" action="<?php echo site_url(ADMIN_DIR . "reports/region_district_wise_component_expense_report"); ?>" method="post">
                         Purpus: <?php
                                 $f_purpose_filter_list = '';
                                 $query = "SELECT purpose FROM expenses GROUP BY purpose";

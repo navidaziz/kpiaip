@@ -197,7 +197,7 @@ class Reports extends Admin_Controller
     }
     public function region_district_wise_component_expense_report()
     {
-        $this->data["title"] = 'Region / District Compnents Wise Expense Report';
+        $this->data["title"] = 'Region / District Components Wise Expense Report';
         $this->data["description"] = 'Filter By: ';
         $this->data['f_regions_array'] = NULL;
         $this->data['f_financial_years_array'] = NULL;
