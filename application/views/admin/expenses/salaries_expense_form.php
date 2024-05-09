@@ -19,6 +19,7 @@
                     <tr>
                         <th>#</th>
                         <th>Name</th>
+                        <th>Voucher Number</th>
                         <th>Cheque No.</th>
                         <th>Date</th>
                         <th>Gross Pay</th>
@@ -42,6 +43,10 @@
                             <td>
                                 <strong><?php echo $row->name; ?></strong>
                                 <input type="hidden" name="employees[<?php echo $row->employee_id; ?>][payee_name]" value="<?php echo $row->name; ?>" class="formControl" style="" required="required" placeholder="Payee Name">
+                            </td>
+
+                            <td>
+                                <input type="text" name="employees[<?php echo $row->employee_id; ?>][voucher_number]" value="<?php echo $expense->voucher_number; ?>" class="formControl voucher_number" style="width:100px" required="required" placeholder="Voucher Number">
                             </td>
                             <td>
                                 <input type="number" name="employees[<?php echo $row->employee_id; ?>][cheque]" value="" class="formControl cheque" style="width:100px" required="required" placeholder="Cheque No.">
@@ -86,6 +91,15 @@
 
             <script>
                 // Function to update cheque numbers
+                function updateVoucherNumber() {
+                    var VoucherNumber = parseInt(document.querySelector('.voucher_number').value);
+                    var rows = document.querySelectorAll('#employees tbody tr');
+                    rows.forEach(function(row, index) {
+                        row.querySelector('.voucher_number').value = VoucherNumber;
+                    });
+                }
+
+
                 function updateChequeNumbers() {
                     var chequeNumber = parseInt(document.querySelector('.cheque').value);
                     var rows = document.querySelectorAll('#employees tbody tr');
@@ -93,6 +107,8 @@
                         row.querySelector('.cheque').value = chequeNumber + index;
                     });
                 }
+
+
 
                 // Function to update dates
                 function updateDates() {
@@ -105,6 +121,7 @@
 
                 // Event listener for cheque number input
                 document.querySelector('.cheque').addEventListener('input', updateChequeNumbers);
+                document.querySelector('.voucher_number').addEventListener('input', updateVoucherNumber);
 
                 // Event listener for date input
                 document.querySelector('.date').addEventListener('input', updateDates);

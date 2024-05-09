@@ -19,7 +19,12 @@
 
             <div class="col-md-8">
                 <?php
-                $options = array("Chairman" => "Chairman", "Member" => "Member");
+                $options = array(
+                    "Chairman" => "Chairman",
+                    "Vice Chairman" => "Vice Chairman",
+                    "Secretary" => "Secretary",
+                    "Member" => "Member"
+                );
                 foreach ($options as $option_value => $options_name) {
 
                     $data = array(
@@ -32,7 +37,7 @@
                     if ($option_value == $wua_member->member_type) {
                         $data["checked"] = TRUE;
                     }
-                    echo form_radio($data) . "<label for=\"member_type\" style=\"margin-left:10px;\">$options_name</label>";
+                    echo form_radio($data) . "<label for=\"member_type\" style=\"margin-left:10px;\">$options_name</label> <br />";
                 }
                 ?>
                 <?php echo form_error("member_type", "<p class=\"text-danger\">", "</p>"); ?>

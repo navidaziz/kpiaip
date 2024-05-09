@@ -32,6 +32,11 @@ class Expense_model extends MY_Model
         $validation_config = array(
 
             array(
+                "field"  =>  "voucher_number",
+                "label"  =>  "Voucher Number",
+                "rules"  =>  "required"
+            ),
+            array(
                 "field"  =>  "district_id",
                 "label"  =>  "District",
                 "rules"  =>  "required"
@@ -146,6 +151,7 @@ class Expense_model extends MY_Model
     private function inputs()
     {
         $inputs = array();
+        $inputs["voucher_number"]  =  $this->input->post("voucher_number");
         $inputs["expense_id"]  =  $this->input->post("expense_id");
         $inputs["purpose"]  =  $this->input->post("purpose");
         $inputs["district_id"]  =  $this->input->post("district_id");

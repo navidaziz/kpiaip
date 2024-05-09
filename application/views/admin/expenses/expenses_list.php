@@ -353,6 +353,7 @@
                                                 <th>WUA Asso.</th>
                                                 <th>Scheme</th>
                                                 <th>FY</th>
+                                                <th>Voucher Number</th>
                                                 <th>Cheque</th>
                                                 <th>Date</th>
                                                 <th>Payee Name</th>
@@ -412,6 +413,7 @@
                                                             <td></td>
                                                         <?php } ?>
                                                         <td><?php echo $expense->financial_year; ?></td>
+                                                        <td><?php echo $expense->voucher_number; ?></td>
                                                         <td><?php echo $expense->cheque; ?></td>
                                                         <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
                                                         <td><small><i><?php echo $expense->payee_name; ?></i></small></td>

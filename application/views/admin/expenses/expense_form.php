@@ -7,6 +7,13 @@
         <?php echo form_hidden("expense_id", $expense->expense_id); ?>
         <?php echo form_hidden("purpose", $expense->purpose); ?>
         <?php echo form_hidden("scheme_id", $expense->scheme_id); ?>
+
+        <div class="form-group">
+            <label for="Voucher Number" class="col-md-4 control-label" style="">Voucher Number</label>
+            <div class="col-md-8">
+                <input type="text" name="voucher_number" value="<?php echo $expense->voucher_number; ?>" id="voucher_number" class="form-control" style="" required="required" placeholder="Voucher Number">
+            </div>
+        </div>
         <div class="form-group">
             <label for="Purpose" class="col-md-4 control-label" style="">Purpose</label>
             <div class="col-md-8">

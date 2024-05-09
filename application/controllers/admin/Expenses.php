@@ -105,6 +105,7 @@ class Expenses extends Admin_Controller
 
         $expense_id = (int) $this->input->post('expense_id');
         if ($expense_id == 0) {
+            $expense['voucher_number'] = '';
             $expense['expense_id'] = 0;
             $expense['scheme_id'] = 0;
             $expense['purpose'] = "";
@@ -167,6 +168,7 @@ class Expenses extends Admin_Controller
 
         $expense_id = (int) $this->input->post('expense_id');
         if ($expense_id == 0) {
+            $expense['voucher_number'] = '';
             $expense['expense_id'] = 0;
             $expense['scheme_id'] = 0;
             $expense['purpose'] = "Operation Cost";
@@ -249,6 +251,7 @@ class Expenses extends Admin_Controller
         $scheme = $this->db->query($query)->row();
 
         if ($expense_id == 0) {
+            $expense['voucher_number'] = '';
             $expense['expense_id'] = 0;
             $expense['scheme_id'] = $scheme_id;
             $expense['purpose'] = $purpose;
@@ -525,9 +528,9 @@ class Expenses extends Admin_Controller
     public function salaries_expense_form()
     {
 
-
         $expense_id = (int) $this->input->post('expense_id');
         if ($expense_id == 0) {
+            $expense['voucher_number'] = '';
             $expense['expense_id'] = 0;
             $expense['scheme_id'] = 0;
             $expense['purpose'] = "Operation Cost";
@@ -542,6 +545,7 @@ class Expenses extends Admin_Controller
             $expense['whst_tax'] = 0.00;
             $expense['rdp_tax'] = 0.00;
             $expense['st_duty_tax'] = 0.00;
+            $expense['kpra_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;
             //scheme fields are required
@@ -569,6 +573,7 @@ class Expenses extends Admin_Controller
 
 
         $employees_salaries = $this->input->post('employees');
+
         $check_error_list = NULL;
         foreach ($employees_salaries as $employee_id => $salary_detail) {
             $cheque = (int) $salary_detail['cheque'];
@@ -583,6 +588,7 @@ class Expenses extends Admin_Controller
         } else {
             foreach ($employees_salaries as $employee_id => $salary_detail) {
                 $_POST['employee_id'] = (int) $employee_id;
+                $_POST['voucher_number'] = $salary_detail['voucher_number'];
                 $_POST['payee_name'] = $salary_detail['payee_name'];
                 $_POST['cheque'] = $salary_detail['cheque'];
                 $_POST['date'] = $salary_detail['date'];

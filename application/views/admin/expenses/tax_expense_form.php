@@ -14,7 +14,12 @@
         <?php echo form_hidden("st_duty_tax", $expense->st_duty_tax); ?>
         <?php echo form_hidden("misc_deduction", $expense->misc_deduction); ?>
         <?php echo form_hidden("component_category_id", $expense->component_category_id); ?>
-
+        <div class="form-group">
+            <label for="Voucher Number" class="col-md-4 control-label" style="">Voucher Number</label>
+            <div class="col-md-8">
+                <input type="text" name="voucher_number" value="<?php echo $expense->voucher_number; ?>" id="voucher_number" class="form-control" style="" required="required" placeholder="Voucher Number">
+            </div>
+        </div>
         <div class="form-group">
             <label for="District" class="col-md-3 control-label" style="">District</label>
             <div class="col-md-9">
