@@ -472,7 +472,8 @@
 
                             <th>#</th>
                             <th>Category</th>
-                            <th>Cheque / Date</th>
+                            <th>Cheque</th>
+                            <th>Date</th>
                             <th>Payee Name</th>
                             <th>Gross Pay</th>
                             <th>WHIT</th>
@@ -500,10 +501,8 @@
                                     <td><?php echo $count++; ?></td>
 
                                     <td><?php echo $expense->category; ?></td>
-                                    <td><?php echo $expense->cheque; ?><br />
-                                        <?php echo date('d-m-Y', strtotime($expense->date)); ?>
-                                    </td>
-
+                                    <td><?php echo $expense->cheque; ?></td>
+                                    <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
                                     <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
                                     <td><?php echo number_format($expense->gross_pay); ?></td>
                                     <td><?php echo number_format($expense->whit_tax); ?></td>
@@ -524,7 +523,7 @@
                             if ($expense_summary) {
                             ?>
                                 <tr>
-                                    <th colspan="4" style="text-align: right;"> Total Payment</th>
+                                    <th colspan="5" style="text-align: right;"> Total Payment</th>
                                     <th><?php if ($expense_summary->gross_pay) echo number_format($expense_summary->gross_pay);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->whit_tax) echo number_format($expense_summary->whit_tax);
@@ -552,7 +551,7 @@
                                 <td colspan="12" style="height: 20px;"></td>
                             </tr>
                             <tr>
-                                <td style="text-align: right;" colspan="10">
+                                <td style="text-align: right;" colspan="11">
                                     Total Scheme Cost (Rs):
                                 </td>
                                 <th>
@@ -561,7 +560,7 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="text-align: right;" colspan="10">
+                                <td style="text-align: right;" colspan="11">
                                     Total Paid (Rs):
                                 </td>
                                 <th>
@@ -571,7 +570,7 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="text-align: right;" colspan="10">
+                                <td style="text-align: right;" colspan="11">
                                     Total Remaining (Rs):
                                 </td>
                                 <th>

@@ -75,6 +75,18 @@
                 ?>
 
                 <input type="hidden" name="project_id" value="1" />
+
+                <div class="form-group">
+
+                    <label for="file_number" class="col-md-2 control-label" style="">File / Reference No.</label>
+                    <div class="col-md-8">
+                        <input type="text" name="file_number" value="<?php echo set_value('file_number') ?>" id="file_number" class="form-control" style="" required="required" title="File / Reference No." placeholder="File / Reference No.">
+                    </div>
+
+
+
+                </div>
+
                 <div class="form-group">
 
                     <?php

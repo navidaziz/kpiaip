@@ -512,6 +512,7 @@ class Water_user_associations extends Admin_Controller
         $columns[] = "tehsil_name";
         $columns[] = "union_council";
         $columns[] = "address";
+        $columns[] = "file_number";
         $columns[] = "wua_registration_no";
         $columns[] = "wua_name";
         $columns[] = "total_schemes";
@@ -653,7 +654,7 @@ class Water_user_associations extends Admin_Controller
         if ($status_form == 'Approval') {
             $inputs["approved_cost"]  =  $this->input->post("approved_cost");
             $inputs["revised_cost"]  =  0;
-            $sectioned_cost["sanctioned_cost"] = $this->input->post("approved_cost");
+            $inputs["sanctioned_cost"] = $this->input->post("approved_cost");
             $inputs["approval_date"]  =  $this->input->post("approval_date");
             $inputs["scheme_status"]  =  'Ongoing';
             $inputs["last_updated"] = date('Y-m-d H:i:s');
@@ -681,6 +682,7 @@ class Water_user_associations extends Admin_Controller
             $inputs['revise_cost_id'] = 0;
             $inputs['revised_cost'] = 0;
             $inputs['date'] = NULL;
+            $inputs['detail'] = NULL;
             $revised_cost = (object) $inputs;
         } else {
             $query = "SELECT * FROM revised_costs 
@@ -709,6 +711,7 @@ class Water_user_associations extends Admin_Controller
             $log_inputs['operation'] = 'insert';
             $log_inputs['scheme_id'] = $scheme_id;
             $log_inputs['scheme_status'] = 'Revised';
+            $log_inputs['detail'] = $this->input->post("detail");
             $log_inputs['remarks'] = 'Cost Revised: ' . $revised_cost . ' Date: ' . $this->input->post("date");
             $log_inputs["created_by"] = $this->session->userdata("userId");
             $log_inputs["last_updated"] = date('Y-m-d H:i:s');

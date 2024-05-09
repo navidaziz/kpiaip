@@ -7,6 +7,7 @@
                 <th>Change Date-Time</th>
                 <th>Status</th>
                 <th>Remarks</th>
+                <th>detail</th>
                 <th>Change By</th>
             </tr>
         </thead>
@@ -23,6 +24,7 @@
                     <td><?php echo $row->created_date; ?></td>
                     <td><?php echo $row->scheme_status; ?></td>
                     <td><?php echo $row->remarks; ?></td>
+                    <td><?php echo $row->detail; ?></td>
                     <td><?php echo $row->user_title; ?></td>
                 </tr>
             <?php } ?>

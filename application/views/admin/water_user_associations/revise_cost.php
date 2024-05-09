@@ -47,6 +47,15 @@
 
 
         </div>
+        <div class="form-group">
+            <label for="date" class="col-md-4 control-label" style="">Cost Revision Detail</label>
+            <div class="col-md-8">
+                <textarea name="detail" class="form-control"><?php echo $revised_cost->detail; ?></textarea>
+            </div>
+
+
+
+        </div>
 
 
 

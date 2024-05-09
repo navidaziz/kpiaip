@@ -50,7 +50,6 @@
                     <table class="table table_small table-bordered" id="db_table">
                         <thead>
                             <tr>
-                            <tr>
                                 <th>#</th>
                                 <th>Session</th>
                                 <th style="text-align: center;">Unit</th>
@@ -86,6 +85,7 @@
                                     <td style="text-align: center;">
                                         <?php if ($awp) { ?>
                                             <button onclick="awp_form(<?php echo $awp->annual_work_plan_id; ?>,<?php echo $f_year->financial_year_id; ?>)" class="btn btn-success btn-sm">Update Cost</button>
+                                            <a class="btn btn-danger btn-sm" href="<?php echo site_url(ADMIN_DIR . 'annual_work_plans/district_annual_work_plan/' . $awp->annual_work_plan_id); ?>"> District AWP</a>
                                         <?php } else { ?>
                                             <button onclick="awp_form(0,<?php echo $f_year->financial_year_id; ?>)" class="btn btn-primary btn-sm">Add Cost</button>
                                         <?php } ?>
@@ -96,7 +96,8 @@
 
                             <?php } ?>
 
-
+                        </thead>
+                    </table>
 
 
                 </div>
@@ -126,7 +127,11 @@
             .done(function(respose) {
                 console.log(respose);
                 $('#modal').modal();
-                $('#modal_title').html('Update Annual Work Plan Details');
+                if (annual_work_plan_id == '0') {
+                    $('#modal_title').html('Add Annual Work Plan Details');
+                } else {
+                    $('#modal_title').html('Update Annual Work Plan Details');
+                }
                 $('#modal_body').html(respose);
             });
     }

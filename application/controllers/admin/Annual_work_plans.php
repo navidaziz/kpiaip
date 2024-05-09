@@ -11,6 +11,7 @@ class Annual_work_plans extends Admin_Controller
 
         parent::__construct();
         $this->load->model("admin/annual_work_plan_model");
+        $this->load->model("admin/district_annual_work_plan_model");
         $this->lang->load("annual_work_plans", 'english');
         $this->lang->load("system", 'english');
         //$this->output->enable_profiler(TRUE);
@@ -280,6 +281,71 @@ class Annual_work_plans extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+    public function district_annual_work_plan($annual_work_plan_id)
+    {
+        $annual_work_plan_id = (int) $annual_work_plan_id;
+        $query = "SELECT * FROM `annual_work_plans` WHERE annual_work_plan_id = '" . $annual_work_plan_id . "'";
+        $this->data['annual_work_plan'] = $annual_work_plan = $this->db->query($query)->row();
+
+        $component_category_id = $annual_work_plan->component_category_id;
+        $query = "SELECT cs.*,  
+        c.component_name,
+        sc.sub_component_name,
+        sc.sub_component_detail
+        FROM component_categories  as cs
+        INNER JOIN components as c ON(c.component_id = cs.component_id)
+        INNER JOIN sub_components as sc ON(sc.sub_component_id = cs.component_id)
+        WHERE cs.component_category_id = '" . $component_category_id . "'";
+        $component_category = $this->db->query($query)->row();
+        $this->data['component_category'] = $component_category;
+        $query = "SELECT * FROM financial_years WHERE financial_year_id='" . $annual_work_plan->financial_year_id . "'";
+        $f_year = $this->db->query($query)->row();
+
+        $this->data['title'] = $component_category->category . ' District Wise AWP For Financial Year: ' . $f_year->financial_year;
+        $this->data['description'] = $component_category->category . ': ' . $component_category->category_detail . '<br />' . $component_category->component_name . " / " . $component_category->sub_component_name . ': ' . $component_category->sub_component_detail . '';
+        $this->data["component_category"] =  $component_category;
+        $this->data["view"] = ADMIN_DIR . "annual_work_plans/district_annual_work_plan";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+    public function district_awp_form()
+    {
+
+        $annual_work_plan_id = $this->input->post('annual_work_plan_id');
+        $district_annual_work_plan_id = $this->input->post('district_annual_work_plan_id');
+        $query = "SELECT * FROM `annual_work_plans` WHERE annual_work_plan_id = '" . $annual_work_plan_id . "'";
+        $this->data['annual_work_plan'] = $annual_work_plan = $this->db->query($query)->row();
+        $query = "SELECT * FROM districts";
+        $this->data['districts'] = $this->db->query($query)->result();
+
+
+        $query = "SELECT * FROM financial_years WHERE financial_year_id='" . $annual_work_plan->financial_year_id . "'";
+        $f_year = $this->db->query($query)->row();
+
+        if ($district_annual_work_plan_id == 0) {
+            $this->data['title'] = "Add District Annual Work Plan Detail For Financial Year  $f_year->financial_year";
+
+            $d_annual_work_plan['district_annual_work_plan_id'] = $district_annual_work_plan_id;
+            $d_annual_work_plan['annual_work_plan_id'] = $annual_work_plan->annual_work_plan_id;
+            $d_annual_work_plan['component_category_id'] = $annual_work_plan->component_category_id;
+            $d_annual_work_plan['project_id'] = $annual_work_plan->project_id;
+            $d_annual_work_plan['component_id'] = $annual_work_plan->component_id;
+            $d_annual_work_plan['sub_component_id'] = $annual_work_plan->sub_component_id;
+            $d_annual_work_plan['financial_year_id'] = $annual_work_plan->financial_year_id;
+            $d_annual_work_plan['district_id'] = 0;
+            $d_annual_work_plan['anual_target'] = 0;
+            $d_annual_work_plan['material_cost'] = 0; // Typo in 'material'
+            $d_annual_work_plan['labor_cost'] = 0;
+            $d_annual_work_plan['farmer_share'] = 0;
+            $d_annual_work_plan['total_cost'] = 0;
+            $d_annual_work_plan =  (object) $d_annual_work_plan;
+        } else {
+            $this->data['title'] = "Update Annual Work Plan Detail For Financial Year  $f_year->financial_year";
+            $query = "SELECT * FROM district_annual_work_plans WHERE district_annual_work_plan_id = '" . $district_annual_work_plan_id . "'";
+            $d_annual_work_plan = $this->db->query($query)->row();
+        }
+        $this->data['d_annual_work_plan'] = $d_annual_work_plan;
+        $this->load->view(ADMIN_DIR . "annual_work_plans/district_awp_form", $this->data);
+    }
     public function awp_form()
     {
 
@@ -289,7 +355,7 @@ class Annual_work_plans extends Admin_Controller
         $f_year = $this->db->query($query)->row();
 
         if ($annual_work_plan_id == 0) {
-            $this->data['title'] = "Add Annual Work Plan Detail For Session $f_year->financial_year";
+            $this->data['title'] = "Add Annual Work Plan Detail For Financial Year  $f_year->financial_year";
             $annual_work_plan['annual_work_plan_id'] = 0;
             $annual_work_plan['component_category_id'] = (int) $this->input->post('component_category_id');
             $annual_work_plan['project_id'] = (int) $this->input->post('project_id');
@@ -304,12 +370,13 @@ class Annual_work_plans extends Admin_Controller
             $annual_work_plan['total_cost'] = 0;
             $annual_work_plan =  (object) $annual_work_plan;
         } else {
-            $this->data['title'] = "Update Annual Work Plan Detail For Session $f_year->financial_year";
+            $this->data['title'] = "Update Annual Work Plan Detail For Financial Year  $f_year->financial_year";
             $annual_work_plan = $this->annual_work_plan_model->get_annual_work_plan($annual_work_plan_id)[0];
         }
         $this->data['annual_work_plan'] = $annual_work_plan;
         $this->load->view(ADMIN_DIR . "annual_work_plans/awp_form", $this->data);
     }
+
     public function add_awp()
     {
         if ($this->annual_work_plan_model->validate_form_data() === TRUE) {
@@ -332,5 +399,39 @@ class Annual_work_plans extends Admin_Controller
 
             echo '<div class="alert alert-danger"> ' . validation_errors() . "<div>";
         }
+    }
+
+    public function add_district_awp()
+    {
+        if ($this->district_annual_work_plan_model->validate_form_data() === TRUE) {
+            $district_annual_work_plan_id = (int) $this->input->post('district_annual_work_plan_id');
+            if ($district_annual_work_plan_id == 0) {
+                $district_annual_work_plan_id = $this->district_annual_work_plan_model->save_data();
+            } else {
+                $district_annual_work_plan_id = $this->district_annual_work_plan_model->update_data($district_annual_work_plan_id);
+            }
+
+
+
+
+            if ($district_annual_work_plan_id) {
+                echo "success";
+            } else {
+                echo  "Error While Adding or Updating the record.";
+            }
+        } else {
+
+            echo '<div class="alert alert-danger"> ' . validation_errors() . "<div>";
+        }
+    }
+    public function district_annual_work_plan_report()
+    {
+        $where = "`annual_work_plans`.`status` IN (0, 1) ";
+        $data = $this->annual_work_plan_model->get_annual_work_plan_list($where);
+        $this->data["annual_work_plans"] = $data->annual_work_plans;
+        $this->data["pagination"] = $data->pagination;
+        $this->data["title"] = 'District Annual Work Plan Report';
+        $this->data["view"] = ADMIN_DIR . "annual_work_plans/district_annual_work_plan_report";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 }

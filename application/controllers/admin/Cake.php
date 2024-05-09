@@ -27,9 +27,9 @@ class Cake extends Admin_Controller
         // $this->data["view"] = ADMIN_DIR . "cake/index";
 
 
-        $controller_name = 'water_user_associations';
-        $table_name = "scheme_logs";
-        $table_name_singular = "scheme_log";
+        $controller_name = 'teachers';
+        $table_name = "teachers";
+        $table_name_singular = "teacher";
         $query = "SHOW COLUMNS FROM $table_name";
 
 
@@ -326,7 +326,7 @@ class Cake extends Admin_Controller
                 echo \'<div class="alert alert-danger">\' . validation_errors() . "</div>";
                 exit();
             } else {
-                $inputs = $this->inputs();
+                $inputs = $this->get_inputs();
         ';
         $controller .= ' $inputs["created_by"] = $this->session->userdata("userId");
         $' . $primary_key . ' = (int) $this->input->post("' . $primary_key . '");
@@ -420,7 +420,7 @@ class Cake extends Admin_Controller
         $order = $columns[$this->input->post("order")[0]["column"]];
         $dir = $this->input->post("order")[0]["dir"];
 
-        $search = $this->db->escape("%".$this->input->post("search")["value"],"%");
+        $search = $this->db->escape("%".$this->input->post("search")["value"]."%");
             // Manual SQL query building
             $sql = "SELECT * FROM ' . $table_name . '";
             

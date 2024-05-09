@@ -76,6 +76,17 @@
                 <?php echo form_hidden("water_user_association_id", $water_user_association->water_user_association_id); ?>
 
                 <?php echo form_hidden("project_id", $water_user_association->project_id); ?>
+
+                <div class="form-group">
+
+                    <label for="file_number" class="col-md-2 control-label" style="">File / Reference No.</label>
+                    <div class="col-md-8">
+                        <input type="text" name="file_number" value="<?php echo $water_user_association->file_number ?>" id="file_number" class="form-control" style="" required="required" title="File / Reference No." placeholder="File / Reference No.">
+                    </div>
+
+
+
+                </div>
                 <div class="form-group">
 
                     <?php

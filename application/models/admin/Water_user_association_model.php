@@ -107,7 +107,7 @@ class Water_user_association_model extends MY_Model
         $inputs = array();
 
         $inputs["project_id"]  =  $this->input->post("project_id");
-
+        $inputs["file_number"]  =  $this->input->post("file_number");
         $inputs["district_id"]  =  $this->input->post("district_id");
 
         $inputs["tehsil_name"]  =  $this->input->post("tehsil_name");
@@ -139,7 +139,7 @@ class Water_user_association_model extends MY_Model
         $inputs = array();
 
         $inputs["project_id"]  =  $this->input->post("project_id");
-
+        $inputs["file_number"]  =  $this->input->post("file_number");
         $inputs["district_id"]  =  $this->input->post("district_id");
 
         $inputs["tehsil_name"]  =  $this->input->post("tehsil_name");

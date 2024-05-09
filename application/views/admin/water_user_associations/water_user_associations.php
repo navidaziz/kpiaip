@@ -91,6 +91,7 @@
                                 <th>Tehsil Name</th>
                                 <th>Union Council</th>
                                 <th>Address</th>
+                                <th>File No.</th>
                                 <th>WUA Reg. No.</th>
                                 <th>WUA Name</th>
                                 <th>Total Schemes</th>
@@ -131,7 +132,9 @@
                                     {
                                         "data": "address"
                                     },
-
+                                    {
+                                        "data": "file_number"
+                                    },
                                     {
                                         "data": "wua_registration_no"
                                     },
