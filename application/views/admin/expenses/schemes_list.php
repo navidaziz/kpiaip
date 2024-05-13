@@ -112,6 +112,7 @@
                                             <th>District Name</th>
                                             <th>Wua Reg Code</th>
                                             <th>Wua Name</th>
+                                            <th>FY</th>
                                             <th>Scheme Code</th>
                                             <th>Scheme Name</th>
                                             <th>Component Category</th>
@@ -157,7 +158,9 @@
                                                 {
                                                     "data": "wua_name"
                                                 },
-
+                                                {
+                                                    "data": "financial_year"
+                                                },
                                                 {
                                                     "data": "scheme_code"
                                                 },

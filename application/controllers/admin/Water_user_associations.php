@@ -357,6 +357,8 @@ class Water_user_associations extends Admin_Controller
             $scheme["scheme_code"]  =  "";
             $scheme["component_category_id"]  = 0;
             $scheme["registration_date"]  = '';
+            $scheme["financial_year_id"]  = '';
+
             $scheme =  (object) $scheme;
         } else {
             $query = "SELECT * FROM schemes WHERE scheme_id = $scheme_id";
@@ -364,6 +366,7 @@ class Water_user_associations extends Admin_Controller
         }
         $this->data['scheme'] = $scheme;
         $this->data["component_categories"] = $this->scheme_model->getList("component_categories", "component_category_id", "category", $where = "`component_categories`.`status` IN (1) ");
+        $this->data["financial_years"] = $this->scheme_model->getList("financial_years", "financial_year_id", "financial_year", $where = "`financial_years`.`status` IN (1,0)");
 
 
 

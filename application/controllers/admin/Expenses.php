@@ -677,6 +677,7 @@ class Expenses extends Admin_Controller
         $columns[] = "district_name";
         $columns[] = "wua_reg_code";
         $columns[] = "wua_name";
+        $columns[] = "financial_year";
         $columns[] = "scheme_code";
         $columns[] = "scheme_name";
         $columns[] = "component_category";
@@ -710,7 +711,9 @@ class Expenses extends Admin_Controller
         }
 
         // Ordering
-        $sql .= " ORDER BY $order $dir";
+        if ($order) {
+            $sql .= " ORDER BY $order $dir";
+        }
 
         // Pagination
         if ($limit != -1) {

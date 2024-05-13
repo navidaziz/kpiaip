@@ -280,6 +280,24 @@
 
         </div>
 
+        <div class="form-group">
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label('Financial Year', "Financial Year Id", $label);
+            ?>
+
+            <div class="col-md-8">
+                <?php
+                echo form_dropdown("financial_year_id", array("" => "Select Financial Year") + $financial_years, $scheme->financial_year_id, "class=\"form-control\" required style=\"\"");
+                ?>
+            </div>
+            <?php echo form_error("financial_year_id", "<p class=\"text-danger\">", "</p>"); ?>
+        </div>
+
+
 
 
         <div id="result_response"></div>

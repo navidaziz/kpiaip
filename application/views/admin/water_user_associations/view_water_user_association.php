@@ -259,6 +259,7 @@
                             <tr>
                                 <th></th>
                                 <th>#</th>
+                                <th>FY</th>
                                 <th>Status</th>
                                 <th>Scheme Code</th>
                                 <th>Scheme Title</th>
@@ -282,6 +283,14 @@
                                     <td></a>
                                     </td>
                                     <td><?php echo $count++; ?></td>
+                                    <td>
+                                        <?php
+                                        $query = "SELECT * FROM financial_years WHERE financial_year_id = $scheme->financial_year_id";
+                                        $financial_year = $this->db->query($query)->row();
+                                        if ($financial_year) { ?>
+                                            <?php echo $financial_year->financial_year; ?>
+                                        <?php } ?>
+                                    </td>
                                     <td>
                                         <?php echo $scheme->scheme_status; ?>
                                     </td>

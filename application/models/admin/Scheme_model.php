@@ -107,6 +107,12 @@ class Scheme_model extends MY_Model
                 "label"  =>  "Water User Association Id",
                 "rules"  =>  "required"
             ),
+            array(
+                "field"  =>  "financial_year_id",
+                "label"  =>  "Financial Year",
+                "rules"  =>  "required"
+            ),
+
 
         );
         //set and run the validation
@@ -153,6 +159,7 @@ class Scheme_model extends MY_Model
 
         $inputs["sanctioned_cost"]  =  $this->input->post("sanctioned_cost");
         $inputs["registration_date"]  =  $this->input->post("registration_date");
+        $inputs["financial_year_id"]  =  $this->input->post("financial_year_id");
 
         $inputs["water_user_association_id"]  =  $this->input->post("water_user_association_id");
         $inputs["scheme_status"]  =  $this->input->post("scheme_status");
@@ -201,7 +208,7 @@ class Scheme_model extends MY_Model
 
         $inputs["sanctioned_cost"]  =  $this->input->post("sanctioned_cost");
         $inputs["registration_date"]  =  $this->input->post("registration_date");
-
+        $inputs["financial_year_id"]  =  $this->input->post("financial_year_id");
 
         $inputs["water_user_association_id"]  =  $this->input->post("water_user_association_id");
         //$inputs["scheme_status"]  =  $this->input->post("scheme_status");
