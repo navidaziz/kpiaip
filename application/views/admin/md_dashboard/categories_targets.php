@@ -66,7 +66,7 @@ $start_time = microtime(true);
     ?>
 
 
-    <div id="container" style="height: 300px;"></div>
+    <div id="container" style="height: 400px;"></div>
 
     <script>
         var fy_scheme_targets = <?php echo json_encode($fy_scheme_targets); ?>;
@@ -95,16 +95,16 @@ $start_time = microtime(true);
             title: {
                 text: 'Schemes Target Vs Achievements For FY: <?php echo implode(", ", $f_year) ?>',
                 align: 'left',
-                style: {
-                    fontSize: '12px' // Set the font size of data labels
-                }
+                // style: {
+                //     fontSize: '12px' // Set the font size of data labels
+                // }
             },
             subtitle: {
                 text: 'Comparing targets and achievements across categories',
                 align: 'left',
-                style: {
-                    fontSize: '10px' // Set the font size of data labels
-                }
+                // style: {
+                //     fontSize: '10px' // Set the font size of data labels
+                // }
             },
             plotOptions: {
                 column: {
@@ -120,9 +120,9 @@ $start_time = microtime(true);
             },
             legend: {
                 enabled: true,
-                itemStyle: {
-                    fontSize: '9px'
-                }
+                // itemStyle: {
+                //     fontSize: '9px'
+                // }
 
             },
             tooltip: {
@@ -136,9 +136,9 @@ $start_time = microtime(true);
                     description: 'Categories'
                 },
                 labels: {
-                    style: {
-                        fontSize: '12px'
-                    }
+                    // style: {
+                    //     fontSize: '12px'
+                    // }
                 }
             },
             yAxis: {

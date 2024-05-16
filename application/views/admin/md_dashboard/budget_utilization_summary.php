@@ -7,6 +7,10 @@ $fy_ids = $this->input->post('fy_ids');
 // Fetch financial years from the database
 $query = "SELECT * FROM financial_years WHERE financial_year_id IN ? ORDER BY financial_year_id DESC";
 $financial_years = $this->db->query($query, array($fy_ids))->result_array();
+$f_year = array();
+foreach ($financial_years as $financial_year) {
+    $f_year[] = $financial_year['financial_year'];
+}
 
 // Prepare financial year labels
 $f_year_labels = array();
@@ -14,7 +18,7 @@ $total_expenses = array();
 $total_budget = array();
 $budget_released = array();
 $worldbank_released = array();
-$f_year = array();
+//$f_year = array();
 
 
 //$f_year[] = $financial_year['financial_year'];
@@ -79,14 +83,14 @@ $execution_time = $end_time - $start_time;
                 text: 'Over All Budget Utilization Analysis',
                 align: 'left',
                 style: {
-                    fontSize: '12px' // Set the font size of data labels
+                    fontSize: '15px' // Set the font size of data labels
                 }
             },
             subtitle: {
                 text: 'Comparison of World Bank and Budget Releases, Expenses, and Total Budget for FY: <?php echo implode(", ", $f_year) ?>',
                 align: 'left',
                 style: {
-                    fontSize: '10px' // Set the font size of data labels
+                    fontSize: '13px' // Set the font size of data labels
                 }
             },
             tooltip: {
@@ -105,9 +109,9 @@ $execution_time = $end_time - $start_time;
                     allowOverlap: true,
                     step: 1,
                     y: 3,
-                    style: {
-                        fontSize: '13px'
-                    }
+                    // style: {
+                    //     fontSize: '13px'
+                    // }
                 },
                 lineWidth: 0,
                 gridLineWidth: 0,
@@ -122,7 +126,7 @@ $execution_time = $end_time - $start_time;
                 gridLineWidth: 0,
                 labels: {
                     formatter: function() {
-                        return this.value / 1000 + 'M';
+                        return this.value + 'M';
                     }
                 },
             },

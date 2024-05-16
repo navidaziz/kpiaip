@@ -79,25 +79,21 @@ $start_time = microtime(true);
             title: {
                 text: 'Budget vs Expense For FY: <?php echo implode(", ", $f_year) ?>',
                 align: 'left',
-                style: {
-                    fontSize: '12px' // Set the font size of data labels
-                }
+
             },
             subtitle: {
                 text: 'Comparing Budget and Expense across Components',
                 align: 'left',
-                style: {
-                    fontSize: '10px' // Set the font size of data labels
-                }
+                // style: {
+                //     fontSize: '10px' // Set the font size of data labels
+                // }
             },
             plotOptions: {
                 column: {
                     stacking: 'normal',
                     dataLabels: {
                         enabled: true,
-                        style: {
-                            fontSize: '7px' // Set the font size of data labels
-                        },
+
 
 
                     },
@@ -106,9 +102,7 @@ $start_time = microtime(true);
             },
             legend: {
                 enabled: true,
-                itemStyle: {
-                    fontSize: '9px'
-                }
+
 
             },
             tooltip: {
@@ -122,9 +116,7 @@ $start_time = microtime(true);
                     description: 'Budget and Expense'
                 },
                 labels: {
-                    style: {
-                        fontSize: '12px'
-                    }
+
                 }
             },
             yAxis: {

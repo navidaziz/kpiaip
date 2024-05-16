@@ -77,14 +77,14 @@ foreach ($financial_years as $financial_year) {
                 text: 'FY Budget Utilization Analysis',
                 align: 'left',
                 style: {
-                    fontSize: '12px' // Set the font size of data labels
+                    fontSize: '15px' // Set the font size of data labels
                 }
             },
             subtitle: {
                 text: 'Comparison of World Bank and Budget Releases, Expenses, and Total Budget for FY: <?php echo implode(", ", $f_year) ?>',
                 align: 'left',
                 style: {
-                    fontSize: '10px' // Set the font size of data labels
+                    fontSize: '13px' // Set the font size of data labels
                 }
             },
             tooltip: {
@@ -103,9 +103,9 @@ foreach ($financial_years as $financial_year) {
                     allowOverlap: true,
                     step: 1,
                     y: 3,
-                    style: {
-                        fontSize: '13px'
-                    }
+                    // style: {
+                    //     fontSize: '13px'
+                    // }
                 },
                 lineWidth: 0,
                 gridLineWidth: 0,
@@ -120,7 +120,7 @@ foreach ($financial_years as $financial_year) {
                 gridLineWidth: 0,
                 labels: {
                     formatter: function() {
-                        return this.value / 1000 + 'M';
+                        return this.value + 'M';
                     }
                 },
             },

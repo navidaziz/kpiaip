@@ -131,27 +131,34 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
+                <div id="components_expenses"></div>
+            </div>
+            <div class="col-md-8">
+                <div id="sub_components_expenses"></div>
+            </div>
+            <div class="col-md-12">
+                <div id="categories_expenses"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
                 <div id="components_targets"></div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-8">
                 <div id="sub_components_targets"></div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <div id="categories_targets"></div>
             </div>
         </div>
         <div class="row">
-            <div class="col-md-3">
-                <div id="components_expenses"></div>
+            <div class="col-md-12">
+                <div id="districts_summary"></div>
             </div>
-            <div class="col-md-3">
-                <div id="sub_components_expenses"></div>
-            </div>
-            <div class="col-md-6">
-                <div id="categories_expenses"></div>
-            </div>
+
         </div>
+
 
 
     </div>
@@ -193,6 +200,7 @@
             get_report("components_expenses");
             get_report("sub_components_expenses");
             get_report("categories_expenses");
+            get_report("districts_summary");
 
         }
         filter_data();

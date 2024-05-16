@@ -88,4 +88,11 @@ class Md_dashboard extends Admin_Controller
       $this->data['description'] = 'Monitoring and evaluation dashboard';
       $this->load->view('admin/md_dashboard/beneficiaries', $this->data);
    }
+
+   public function districts_summary()
+   {
+      $this->data['title'] = 'PSRA Dashboard';
+      $this->data['description'] = 'Monitoring and evaluation dashboard';
+      $this->load->view('admin/md_dashboard/districts_summary', $this->data);
+   }
 }
