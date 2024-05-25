@@ -78,7 +78,7 @@
                                     $query = "SELECT SUM(e.net_pay) as total_expense
                                FROM expenses as e";
                                     $expense = $this->db->query($query)->row();
-                                    if ($expense->total_expense) {
+                                    if ($expense->total_expense and $donor_fund->rs_total > 0) {
                                         $buring_rate = round((($expense->total_expense / $donor_fund->rs_total) * 100), 2)  . "%";
                                     } else {
                                         $buring_rate = "0%";
@@ -278,7 +278,7 @@
                                 $expense = $this->db->query($query)->row();
                                 $funds_available_pkr = $opening_balance_pkr + $donor_fund->rs_total;
                                 $closing_balance_pkr = $funds_available_pkr - $expense->total_expense;
-                                if ($expense->total_expense) {
+                                if ($expense->total_expense and $funds_available_pkr > 0) {
                                     $buring_rate = round((($expense->total_expense / $funds_available_pkr) * 100), 2)  . "%";
                                 } else {
                                     $buring_rate = "0%";
@@ -319,7 +319,7 @@
                             $query = "SELECT SUM(e.net_pay) as total_expense
                                     FROM expenses as e";
                             $expense = $this->db->query($query)->row();
-                            if ($expense->total_expense) {
+                            if ($expense->total_expense and $donor_fund->rs_total > 0) {
                                 $buring_rate = round((($expense->total_expense / $donor_fund->rs_total) * 100), 2)  . "%";
                             } else {
                                 $buring_rate = "0%";

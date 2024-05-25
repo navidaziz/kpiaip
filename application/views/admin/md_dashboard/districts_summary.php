@@ -1,11 +1,20 @@
 <div class="table-responsive">
+    <?php
+    $fy_id = $this->input->post('fy_ids');
+    $query = "SELECT * FROM financial_years WHERE financial_year_id IN ? ORDER BY financial_year_id DESC";
+    $financial_years = $this->db->query($query, array($fy_id))->result_array();
+    foreach ($financial_years as $financial_year) {
+        $f_year[] = $financial_year['financial_year'];
+    }
+    ?>
 
+    <h4>District Wise Schemes Target Vs Achievements For FY: <?php echo implode(", ", $f_year) ?></h4>
     <table class="table table_small  table-bordered" id="db_table">
         <thead>
             <tr>
                 <th></th>
                 <?php
-                $fy_id = $this->input->post('fy_ids');
+
                 $query = "SELECT 
                                     cs.component_category_id,
                                     cs.category,

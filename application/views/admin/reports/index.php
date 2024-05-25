@@ -90,10 +90,14 @@
                         <tbody>
                             <tr>
                                 <td>1.</td>
+                                <td><a href="<?php echo site_url(ADMIN_DIR . 'reports/financial_statement') ?>">Financial Statement of Receipts and Payments</a> </td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
                                 <td><a href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_expense_report') ?>">Region and District Wise Expense Report</a> </td>
                             </tr>
                             <tr>
-                                <td>1.</td>
+                                <td>3.</td>
                                 <td><a href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_component_expense_report') ?>">Region and District Components Wise Expense Report</a> </td>
                             </tr>
 
