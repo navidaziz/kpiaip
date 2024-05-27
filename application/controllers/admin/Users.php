@@ -51,7 +51,7 @@ class Users extends Admin_Controller
     public function view()
     {
 
-        $where = "`users`.`status` IN (0, 1) AND  `users`.`role_id`!=2";
+        $where = "`users`.`status` IN (0, 1) AND  `users`.`role_id`!=1";
         $data = $this->user_model->get_user_list($where);
         $this->data["users"] = $data->users;
         $this->data["pagination"] = $data->pagination;
@@ -235,7 +235,7 @@ class Users extends Admin_Controller
             $this->add();
         }
     }
- 
+
 
     /**
      * function to edit a User
