@@ -71,14 +71,9 @@
                         <thead>
                             <tr>
 
-                                <th>Component</th>
-                                <th>Sub Component / Catrgories</th>
-                                <th style="text-align: center;">Unit</th>
-                                <!-- <th style="text-align: center;">Targets</th>
-                                <th style="text-align: center;">Material Cost</th>
-                                <th style="text-align: center;">Labor Cost</th>
-                                <th style="text-align: center;">Farmer Share</th>
-                                <th style="text-align: center;">Total Cost</th> -->
+                                <th>Components</th>
+                                <th>Sub Components</th>
+                                <th style="text-align: center;">Component Catrgories</th>
                                 <th><?php echo $this->lang->line('Action'); ?></th>
                             </tr>
                         </thead>
@@ -86,6 +81,7 @@
                             <?php foreach ($sub_components as $sub_component) : ?>
 
                                 <tr>
+
                                     <th>
                                         <?php echo $sub_component->component_name; ?>
                                     </th>
@@ -93,14 +89,8 @@
                                     <td>
                                         <?php echo $sub_component->sub_component_name; ?>: <?php echo $sub_component->sub_component_detail; ?>
                                     </td>
-                                    <!-- <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td> -->
 
-
+                                    <td></td>
                                     <td style="text-align: center;">
                                         <a class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "sub_components/view_sub_component/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-eye"></i> </a>
                                         <span style="margin-left: 10px;"></span>
@@ -119,19 +109,13 @@
                                 foreach ($component_categories as $component_category) : ?>
 
                                     <tr>
-
+                                        <th></th>
                                         <td></td>
                                         <th>
                                             <?php echo $count++; ?>. <?php echo $component_category->category; ?>: <?php echo $component_category->category_detail; ?>
                                         </th>
-                                        <td style="text-align: center;"></td>
-                                        <td style="text-align: center;"></td>
-                                        <td style="text-align: center;"></td>
-                                        <td style="text-align: center;"></td>
-                                        <td style="text-align: center;"></td>
-                                        <td style="text-align: center;"></td>
-                                        <td></td>
 
+                                        <td><?php echo $component_category->target_unit ?></td>
 
 
 

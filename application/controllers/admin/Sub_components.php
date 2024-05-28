@@ -44,8 +44,8 @@ class Sub_components extends Admin_Controller
         // $this->data["sub_components"] = $data->sub_components;
         $this->data["sub_components"] = $this->sub_component_model->get_sub_component_list($where, false);
         //$this->data["pagination"] = $data->pagination;
-        $this->data["title"] = "Project Compoments";
-        $this->data["description"] = "Project Sub Compoments / Categories";
+        $this->data["title"] = "Project Components Management";
+        $this->data["description"] = "Project Components, Sub Compoments and Components Categories";
         $this->data["view"] = ADMIN_DIR . "sub_components/sub_components";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
