@@ -20,6 +20,11 @@ class Roles extends Admin_Controller
     }
     //--------------------------------------------------
 
+    public function roles()
+    {
+        $main_page = base_url() . ADMIN_DIR . $this->router->fetch_class() . "/view";
+        redirect($main_page);
+    }
     public function view()
     {
 
