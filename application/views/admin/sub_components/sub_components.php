@@ -74,11 +74,11 @@
                                 <th>Component</th>
                                 <th>Sub Component / Catrgories</th>
                                 <th style="text-align: center;">Unit</th>
-                                <th style="text-align: center;">Targets</th>
+                                <!-- <th style="text-align: center;">Targets</th>
                                 <th style="text-align: center;">Material Cost</th>
                                 <th style="text-align: center;">Labor Cost</th>
                                 <th style="text-align: center;">Farmer Share</th>
-                                <th style="text-align: center;">Total Cost</th>
+                                <th style="text-align: center;">Total Cost</th> -->
                                 <th><?php echo $this->lang->line('Action'); ?></th>
                             </tr>
                         </thead>
@@ -93,12 +93,12 @@
                                     <td>
                                         <?php echo $sub_component->sub_component_name; ?>: <?php echo $sub_component->sub_component_detail; ?>
                                     </td>
+                                    <!-- <td style="text-align: center;"></td>
                                     <td style="text-align: center;"></td>
                                     <td style="text-align: center;"></td>
                                     <td style="text-align: center;"></td>
                                     <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td>
-                                    <td style="text-align: center;"></td>
+                                    <td style="text-align: center;"></td> -->
 
 
                                     <td style="text-align: center;">
