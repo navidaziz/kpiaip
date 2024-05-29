@@ -442,11 +442,21 @@ class Annual_work_plans extends Admin_Controller
     }
     public function district_annual_work_plan_report()
     {
-        $where = "`annual_work_plans`.`status` IN (0, 1) ";
-        $data = $this->annual_work_plan_model->get_annual_work_plan_list($where);
-        $this->data["annual_work_plans"] = $data->annual_work_plans;
-        $this->data["pagination"] = $data->pagination;
-        $this->data["title"] = 'District Annual Work Plan Report';
+        $fy = $this->input->get('fy');
+        if (!is_null($fy)) {
+            $financial_year_id = $fy;
+        } else {
+            $query = "SELECT financial_year_id FROM financial_years WHERE status=1";
+            $f_years = $this->db->query($query)->row();
+            $financial_year_id = $f_years->financial_year_id;
+        }
+
+        $query = "SELECT * FROM financial_years WHERE financial_year_id=?";
+        $fy = $this->db->query($query, array($financial_year_id))->row();
+        $this->data['fy'] = $fy;
+
+        $this->data["title"] = 'Districts and Category Wise Annual Work Plan Report';
+        $this->data["description"] = 'For FY: ' . $fy->financial_year;
         $this->data["view"] = ADMIN_DIR . "annual_work_plans/district_annual_work_plan_report";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
