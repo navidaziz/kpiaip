@@ -16,20 +16,14 @@
             <!-- /BREADCRUMBS -->
             <div class="row">
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
                     <div class="description"><?php echo $title; ?></div>
                 </div>
 
-                <div class="col-md-6">
-                    <div class="pull-right">
-                        <a class="btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/add"); ?>"><i class="fa fa-plus"></i> Add Annual Work Plan</a>
-                        <!-- <a class="btn btn-danger btn-sm" href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/trashed"); ?>"><i class="fa fa-trash-o"></i> <?php echo $this->lang->line('Trash'); ?></a>
-                     -->
-                    </div>
-                </div>
+
 
             </div>
 
@@ -56,204 +50,116 @@
 <div class="row">
     <!-- MESSENGER -->
     <div class="col-md-12">
-        <div class="box border blue" id="messenger">
-            <div class="box-title">
-                <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
-
-            </div>
-            <div class="box-body">
-
-                <div class="table-responsive">
-                    <table class="table table_small table-bordered" id="db_table">
-                        <thead>
-                            <tr>
-                                <th colspan="5"></th>
-                                <?php
-                                $query = "SELECT * FROM financial_years";
-                                $f_years = $this->db->query($query)->result();
-                                foreach ($f_years as $f_year) {
-                                ?>
-                                    <th style="text-align: center;" colspan="5"><?php echo $f_year->financial_year; ?></th>
-                                <?php } ?>
-                            </tr>
-
-                            <tr>
-                                <th>#</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th>Unit</th>
-                                <?php
-                                foreach ($f_years as $f_year) {
-                                ?>
-                                    <th style="text-align: center; ">Tar</th>
-                                    <th style="text-align: center;">M-C</th>
-                                    <th style="text-align: center;">L-C</th>
-                                    <th style="text-align: center;">F-S</th>
-                                    <th style="text-align: center;">T-C</th>
-                                <?php } ?>
-                                <th>View</th>
-                            </tr>
 
 
 
-                        </thead>
-                        <tbody>
-
-                            <?php
-                            $query = "SELECT 
-                            cs.component_category_id,
-                            cs.category,
-                            cs.category_detail,
-                            c.component_name,
-                            sc.sub_component_name
-                             FROM component_categories  as cs
-                            INNER JOIN components as c ON(c.component_id = cs.component_id)
-                            INNER JOIN sub_components as sc ON(sc.sub_component_id = cs.sub_component_id)
-                            WHERE cs.status IN (0,1) 
-                            ORDER BY c.component_id ASC, sc.sub_component_id ASC";
-                            $component_categories = $this->db->query($query)->result();
-
-                            $count = 1;
-                            foreach ($component_categories as $component_category) : ?>
-
-                                <tr>
-                                    </td>
-                                    <td><?php echo $count++; ?></td>
-                                    <th>
-                                        <?php echo $component_category->component_name; ?>
-                                    </th>
-                                    <th>
-                                        <?php echo $component_category->sub_component_name; ?>
-                                    </th>
-                                    <th>
-                                        <?php echo $component_category->category; ?>:
-                                    </th>
-
-                                    <td>Unit</td>
-                                    <?php
-                                    $query = "SELECT * FROM financial_years";
-                                    $f_years = $this->db->query($query)->result();
-                                    foreach ($f_years as $f_year) {
-                                        $query = "SELECT * FROM annual_work_plans 
-                                        WHERE financial_year_id='" . $f_year->financial_year_id . "'
-                                        AND component_category_id = " . $component_category->component_category_id . "";
-                                        $awp = $this->db->query($query)->row();
-                                    ?>
-                                        <td style="text-align: center;"><?php if ($awp) echo $awp->anual_target; ?></td>
-                                        <td style="text-align: center;"><?php if ($awp) echo $awp->material_cost; ?></td>
-                                        <td style="text-align: center;"><?php if ($awp) echo $awp->labor_cost; ?></td>
-                                        <td style="text-align: center;"><?php if ($awp) echo $awp->farmer_share; ?></td>
-                                        <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?></td>
-
-                                    <?php } ?>
+        <div class="col-md-12">
 
 
-                                    <td style="text-align: center;">
-                                        <a style="cursor: pointer;" class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/view_component_category/" . $component_category->component_category_id); ?>"><i class="fa fa-eye"></i> </a>
-
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-
-
-                        </tbody>
-                        <tfoot>
-
-                        </tfoot>
-                    </table>
-                    <!-- <table class="table table-bordered">
-                        <thead>
-                            <tr>
-
-                                <th><?php echo $this->lang->line('anual_target'); ?></th>
-                                <th><?php echo $this->lang->line('material_cost'); ?></th>
-                                <th><?php echo $this->lang->line('labor_cost'); ?></th>
-                                <th><?php echo $this->lang->line('farmer_share'); ?></th>
-                                <th><?php echo $this->lang->line('total_cost'); ?></th>
-                                <th><?php echo $this->lang->line('project_name'); ?></th>
-                                <th><?php echo $this->lang->line('component_name'); ?></th>
-                                <th><?php echo $this->lang->line('sub_component_name'); ?></th>
-                                <th><?php echo $this->lang->line('category'); ?></th>
-                                <th><?php echo $this->lang->line('financial_year'); ?></th>
-                                <th><?php echo $this->lang->line('Status'); ?></th>
-                                <th><?php echo $this->lang->line('Action'); ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php foreach ($annual_work_plans as $annual_work_plan) : ?>
-
-                                <tr>
-
-
-                                    <td>
-                                        <?php echo $annual_work_plan->anual_target; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->material_cost; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->labor_cost; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->farmer_share; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->total_cost; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->project_name; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->component_name; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->sub_component_name; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->category; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $annual_work_plan->financial_year; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo status($annual_work_plan->status,  $this->lang); ?>
-                                        <?php
-
-                                        //set uri segment
-                                        if (!$this->uri->segment(4)) {
-                                            $page = 0;
-                                        } else {
-                                            $page = $this->uri->segment(4);
-                                        }
-
-                                        if ($annual_work_plan->status == 0) {
-                                            echo "<a href='" . site_url(ADMIN_DIR . "annual_work_plans/publish/" . $annual_work_plan->annual_work_plan_id . "/" . $page) . "'> &nbsp;" . $this->lang->line('Publish') . "</a>";
-                                        } elseif ($annual_work_plan->status == 1) {
-                                            echo "<a href='" . site_url(ADMIN_DIR . "annual_work_plans/draft/" . $annual_work_plan->annual_work_plan_id . "/" . $page) . "'> &nbsp;" . $this->lang->line('Draft') . "</a>";
-                                        }
-                                        ?>
-                                    </td>
-                                    <td>
-                                        <a class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/view_annual_work_plan/" . $annual_work_plan->annual_work_plan_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-eye"></i> </a>
-                                        <a class="llink llink-edit" href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/edit/" . $annual_work_plan->annual_work_plan_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-pencil-square-o"></i></a>
-                                        <a class="llink llink-trash" href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/trash/" . $annual_work_plan->annual_work_plan_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-trash-o"></i></a>
-                                    </td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </tbody>
-                    </table> -->
-
-                    <?php //echo $pagination; 
-                    ?>
-
-
+            <div class="box border blue">
+                <div class="box-title">
+                    <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
                 </div>
+                <div class="box-body">
+                    <div class="tabbable header-tabs">
+
+                        <ul class="nav nav-tabs">
+
+                            <li>
+                                <a href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/district_annual_work_plan_report") ?>" contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                    <i class="fa fa-check" aria-hidden="true"></i>District Wise AWP</a>
+                            </li>
+                            <li <?php if ($filter == 'categories') { ?>class="active" <?php } ?>>
+                                <a href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/view?filter=categories") ?>" contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                    <i class="fa fa-check" aria-hidden="true"></i>Components Categories</a>
+                            </li>
+                            <li <?php if ($filter == 'sub_components') { ?>class="active" <?php } ?>>
+                                <a href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/view?filter=sub_components") ?>" contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                    <i class="fa fa-check" aria-hidden="true"></i>Sub Components</a>
+                            </li>
+                            <li <?php if ($filter == 'components') { ?>class="active" <?php } ?>>
+                                <a href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/view?filter=components") ?>" contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                    <i class="fa fa-check" aria-hidden="true"></i>Components</a>
+                            </li>
 
 
+
+
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane fade in active" id="box_tab3">
+
+                                <?php
+                                if ($filter == 'categories') {
+                                    $this->load->view(ADMIN_DIR . "annual_work_plans/awp_categories");
+                                }
+                                if ($filter == 'sub_components') {
+                                    $this->load->view(ADMIN_DIR . "annual_work_plans/awp_sub_components");
+                                }
+                                if ($filter == 'components') {
+                                    $this->load->view(ADMIN_DIR . "annual_work_plans/awp_components");
+                                }
+
+                                ?>
+
+                                <hr class="margin-bottom-0">
+
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
             </div>
+
+
 
         </div>
+
+
+
+
+
     </div>
     <!-- /MESSENGER -->
 </div>
+
+<?php
+$table_title = $title . ' Upto date(' . date('d M, Y H:m:s') . ')'; ?>
+<script>
+    title = '<?php echo $table_title; ?>';
+    $(document).ready(function() {
+
+        $('#db_table').DataTable({
+            dom: 'Bfrtip',
+            paging: false,
+            title: title,
+            "order": [],
+            "ordering": false,
+            searching: true,
+            buttons: [
+
+                {
+                    extend: 'print',
+                    title: title,
+                    messageTop: '<?php echo $table_title; ?>'
+
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: title,
+                    messageTop: '<?php echo $table_title; ?>'
+
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: title,
+                    pageSize: 'A4',
+                    orientation: 'landscape',
+                    messageTop: '<?php echo $table_title; ?>'
+
+                }
+            ]
+        });
+    });
+</script>

@@ -115,7 +115,7 @@
                                             <?php echo $count++; ?>. <?php echo $component_category->category; ?>: <?php echo $component_category->category_detail; ?>
                                         </th>
 
-                                        <td><?php echo $component_category->target_unit ?></td>
+                                        <td></td>
 
 
 

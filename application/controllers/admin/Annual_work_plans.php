@@ -37,11 +37,27 @@ class Annual_work_plans extends Admin_Controller
     public function view()
     {
 
-        $where = "`annual_work_plans`.`status` IN (0, 1) ";
-        $data = $this->annual_work_plan_model->get_annual_work_plan_list($where);
-        $this->data["annual_work_plans"] = $data->annual_work_plans;
-        $this->data["pagination"] = $data->pagination;
-        $this->data["title"] = $this->lang->line('Annual Work Plans');
+        $filter = $this->input->get('filter');
+        if (!is_null($filter)) {
+            $filter = $filter;
+        } else {
+            $filter = 'categories';
+        }
+        $this->data['filter'] = $filter;
+        //$where = "`annual_work_plans`.`status` IN (0, 1) ";
+        //$data = $this->annual_work_plan_model->get_annual_work_plan_list($where);
+        //$this->data["annual_work_plans"] = $data->annual_work_plans;
+        //$this->data["pagination"] = $data->pagination;
+        if ($filter == 'categories') {
+            $this->data["title"] = 'Components Categories Wise Annual Work Plans';
+        }
+        if ($filter == 'sub_components') {
+            $this->data["title"] = 'Sub Components Wise Annual Work Plans';
+        }
+        if ($filter == 'components') {
+            $this->data["title"] = 'Components Wise Annual Work Plans';
+        }
+
         $this->data["view"] = ADMIN_DIR . "annual_work_plans/annual_work_plans";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
