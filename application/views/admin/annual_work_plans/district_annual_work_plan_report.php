@@ -152,7 +152,7 @@
                                                     $query = "SELECT * 
                                                       FROM district_annual_work_plans 
                                                       WHERE component_category_id = '" . $component_category->component_category_id . "'
-                                                      AND financial_year_id = '" . $f_year->financial_year_id . "'
+                                                      AND financial_year_id = '" . $fy->financial_year_id . "'
                                                       AND district_id = '" . $district->district_id . "'";
                                                     $district_category_target = $this->db->query($query)->row();
                                                     //echo $category_target;
@@ -176,7 +176,7 @@
                                                         SUM(total_cost) as total_cost
                                                       FROM district_annual_work_plans 
                                                       WHERE component_category_id = '" . $component_category->component_category_id . "'
-                                                      AND financial_year_id = '" . $f_year->financial_year_id . "'";
+                                                      AND financial_year_id = '" . $fy->financial_year_id . "'";
                                                 $category_target = $this->db->query($query)->row();
                                                 //echo $category_target;
                                                 ?>
