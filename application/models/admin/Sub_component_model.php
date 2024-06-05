@@ -161,7 +161,7 @@ class Sub_component_model extends MY_Model
     {
         $data = (object) array();
         $fields = array(
-            "sub_components.*", "projects.project_name", "components.component_name"
+            "sub_components.*", "projects.project_name", "components.component_name","components.component_detail"
         );
         $join_table = array(
             "projects" => "projects.project_id = sub_components.project_id",
