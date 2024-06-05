@@ -41,6 +41,18 @@ class Sub_component_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
+            array(
+                "field"  =>  "main_heading",
+                "label"  =>  "Main Heading",
+                "rules"  =>  "required"
+            ),
+
+            array(
+                "field"  =>  "account_code",
+                "label"  =>  "Account Code",
+                "rules"  =>  "required"
+            ),
+
             // array(
             //     "field"  =>  "target_unit",
             //     "label"  =>  "Target Unit",
@@ -95,6 +107,9 @@ class Sub_component_model extends MY_Model
 
         $inputs["sub_component_detail"]  =  $this->input->post("sub_component_detail");
 
+        $inputs["account_code"]  =  $this->input->post("account_code");
+        $inputs["main_heading"]  =  $this->input->post("main_heading");
+
         // $inputs["target_unit"]  =  $this->input->post("target_unit");
 
         // $inputs["target"]  =  $this->input->post("target");
@@ -121,6 +136,10 @@ class Sub_component_model extends MY_Model
         $inputs["sub_component_name"]  =  $this->input->post("sub_component_name");
 
         $inputs["sub_component_detail"]  =  $this->input->post("sub_component_detail");
+
+        $inputs["account_code"]  =  $this->input->post("account_code");
+        $inputs["main_heading"]  =  $this->input->post("main_heading");
+
 
         // $inputs["target_unit"]  =  $this->input->post("target_unit");
 

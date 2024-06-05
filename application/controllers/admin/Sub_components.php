@@ -271,6 +271,10 @@ class Sub_components extends Admin_Controller
             $component_category['labor_cost'] = 0;
             $component_category['farmer_share'] = 0;
             $component_category['total_cost'] = 0;
+
+            $component_category['account_code'] = '';
+            $component_category['main_heading'] = '';
+
             $component_category =  (object) $component_category;
         } else {
             $this->data['title'] = "Update Category Detail";

@@ -11,7 +11,68 @@
         <?php echo form_hidden("sub_component_id", $component_category->sub_component_id); ?>
 
 
+        <div class="form-group">
 
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label('Account Code', "account_code", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $text = array(
+                    "type"          =>  "text",
+                    "name"          =>  "account_code",
+                    "id"            =>  "account_code",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "required"      => "required", 
+                    "title"         =>  'account_code',
+                    "value"         =>  set_value("account_code", $component_category->account_code),
+                    "placeholder"   =>  'Account Code'
+                );
+                echo  form_input($text);
+                ?>
+                <?php echo form_error("account_code", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
+
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label('Main Heading', "main_heading", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $text = array(
+                    "type"          =>  "text",
+                    "name"          =>  "main_heading",
+                    "id"            =>  "main_heading",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", 
+                    "required"      => "required", 
+                    "title"         =>  'main_heading',
+                    "value"         =>  set_value("main_heading", $component_category->main_heading),
+                    "placeholder"   =>  'Main Heading'
+                );
+                echo  form_input($text);
+                ?>
+                <?php echo form_error("main_heading", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
 
         <div class="form-group">
 
