@@ -63,10 +63,11 @@
                             <tr>
                                 <th></th>
                                 <th>#</th>
-                                <th> <?php echo $sub_component->component_name; ?> - <?php echo $sub_component->sub_component_name; ?>: Categories
-                                </th>
-                                <th><?php echo $this->lang->line('target_unit'); ?></th>
-
+                                <th>Account Code</th>
+                                <th>Main Heading</th>
+                                <th>Categories (<?php echo $sub_component->component_name; ?> - <?php echo $sub_component->sub_component_name; ?>)</th>
+                                <th>Categories Detail</th>
+                                <th>Unit</th>
                                 <th>Action</th>
                             </tr>
 
@@ -88,9 +89,18 @@
                                     <td><a class="llink llink-trash" href="<?php echo site_url(ADMIN_DIR . "component_categories/trash/" . $component_category->component_category_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-trash-o"></i></a>
                                     </td>
                                     <td><?php echo $count++; ?></td>
-                                    <th>
-                                        <?php echo $component_category->category; ?>: <?php echo $component_category->category_detail; ?>
-                                    </th>
+                                    <td>
+                                        <?php echo $component_category->account_code; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $component_category->main_heading; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $component_category->category; ?>
+                                    </td>
+                                    <td>
+                                    <?php echo $component_category->category_detail; ?>
+                                    </td>
 
                                     <td>
                                         <?php echo $component_category->target_unit; ?>

@@ -53,6 +53,18 @@ class Component_category_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
+            array(
+                "field"  =>  "account_code",
+                "label"  =>  "Account Code",
+                "rules"  =>  "required"
+            ),
+
+            array(
+                "field"  =>  "main_heading",
+                "label"  =>  "Main Heading",
+                "rules"  =>  "required"
+            ),
+
             // array(
             //     "field"  =>  "target",
             //     "label"  =>  "Target",
@@ -105,6 +117,10 @@ class Component_category_model extends MY_Model
 
         $inputs["target_unit"]  =  $this->input->post("target_unit");
 
+        $inputs["account_code"]  =  $this->input->post("account_code");
+
+        $inputs["main_heading"]  =  $this->input->post("main_heading");
+
         // $inputs["target"]  =  $this->input->post("target");
 
         // $inputs["material_cost"]  =  $this->input->post("material_cost");
@@ -134,6 +150,11 @@ class Component_category_model extends MY_Model
 
         $inputs["target_unit"]  =  $this->input->post("target_unit");
 
+        $inputs["account_code"]  =  $this->input->post("account_code");
+
+        $inputs["main_heading"]  =  $this->input->post("main_heading");
+
+        
         // $inputs["target"]  =  $this->input->post("target");
 
         // $inputs["material_cost"]  =  $this->input->post("material_cost");
