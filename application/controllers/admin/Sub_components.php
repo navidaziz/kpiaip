@@ -218,7 +218,7 @@ class Sub_components extends Admin_Controller
     {
 
         $sub_component_id = (int) $sub_component_id;
-
+ 
         if ($this->sub_component_model->validate_form_data() === TRUE) {
 
             $sub_component_id = $this->sub_component_model->update_data($sub_component_id);

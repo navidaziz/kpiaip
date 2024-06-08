@@ -103,7 +103,7 @@ AND  `groups`.`group_id` = " . $this->session->userdata('group_id');
 
     <div class="sidebar-menu nav-collapse">
 
-        <h4 style="text-align:center; color:red">Beta Version</h4>
+        <!-- <h4 style="text-align:center; color:red">Beta Version</h4> -->
 
 
 
