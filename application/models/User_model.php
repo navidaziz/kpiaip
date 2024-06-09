@@ -203,8 +203,8 @@ class User_model extends MY_Model
         $config['protocol'] = 'smtp';
         $config['smtp_host'] = 'ssl://smtp.gmail.com';
         $config['smtp_port'] = '465';
-        $config['smtp_user'] = "psrakpk@gmail.com";
-        $config['smtp_pass'] = '@Psra1234';  //sender's password health@email.com
+        $config['smtp_user'] = "KPIAIPkpk@gmail.com";
+        $config['smtp_pass'] = '@KPIAIP1234';  //sender's password health@email.com
         $config['mailtype'] = 'html';
         $config['charset'] = 'iso-8859-1';
         $config['wordwrap'] = 'TRUE';
@@ -213,7 +213,7 @@ class User_model extends MY_Model
         $this->load->library('email', $config);
         $this->email->initialize($config);
         //send email
-        $this->email->from('psrakpk@gmail.com', 'PSRA Account Recovery');
+        $this->email->from('KPIAIPkpk@gmail.com', 'KPIAIP Account Recovery');
         //  $this->email->from($from);
         $this->email->to($receiver);
         $this->email->subject($subject);

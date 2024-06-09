@@ -146,7 +146,7 @@ class Login extends Admin_Controller
 
 				//add to session
 				$this->session->set_userdata($user_data);
-				$this->session->set_flashdata('msg_success', "<strong>" . $user->user_title . '</strong><br/><i>Welcome to PSRA MIS.</i>');
+				$this->session->set_flashdata('msg_success', "<strong>" . $user->user_title . '</strong><br/><i>Welcome to KPIAIP MIS.</i>');
 
 				redirect($homepage_path);
 			} else {
