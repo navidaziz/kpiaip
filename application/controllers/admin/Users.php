@@ -339,7 +339,7 @@ class Users extends Admin_Controller
     public function update_profile()
     {
 
-        $user_id = (int) $this->session->userdata('user_id');
+        $user_id = (int) $this->session->userdata('userId');
         $this->data["user"] = $this->user_model->get($user_id);
 
 
