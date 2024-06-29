@@ -28,7 +28,7 @@
                     "name"          =>  "account_code",
                     "id"            =>  "account_code",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", 
+                    "style"         =>  "", "required"      => "required",
                     "title"         =>  'account_code',
                     "value"         =>  set_value("account_code", $component_category->account_code),
                     "placeholder"   =>  'Account Code'
@@ -49,7 +49,7 @@
                 "class" => "col-md-4 control-label",
                 "style" => "",
             );
-            echo form_label('Main Heading', "main_heading", $label);      ?>
+            echo form_label('Category Type', "main_heading", $label);      ?>
 
             <div class="col-md-8">
                 <?php
@@ -59,11 +59,11 @@
                     "name"          =>  "main_heading",
                     "id"            =>  "main_heading",
                     "class"         =>  "form-control",
-                    "style"         =>  "", 
-                    "required"      => "required", 
-                    "title"         =>  'main_heading',
+                    "style"         =>  "",
+                    "required"      => "required",
+                    "title"         =>  'Category Type',
                     "value"         =>  set_value("main_heading", $component_category->main_heading),
-                    "placeholder"   =>  'Main Heading'
+                    "placeholder"   =>  'Category Type'
                 );
                 echo  form_input($text);
                 ?>

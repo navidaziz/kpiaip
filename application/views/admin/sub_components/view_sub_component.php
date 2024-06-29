@@ -64,7 +64,7 @@
                                 <th></th>
                                 <th>#</th>
                                 <th>Account Code</th>
-                                <th>Main Heading</th>
+                                <th>Category Type</th>
                                 <th>Categories (<?php echo $sub_component->component_name; ?> - <?php echo $sub_component->sub_component_name; ?>)</th>
                                 <th>Categories Detail</th>
                                 <th>Unit</th>
@@ -99,7 +99,7 @@
                                         <?php echo $component_category->category; ?>
                                     </td>
                                     <td>
-                                    <?php echo $component_category->category_detail; ?>
+                                        <?php echo $component_category->category_detail; ?>
                                     </td>
 
                                     <td>
