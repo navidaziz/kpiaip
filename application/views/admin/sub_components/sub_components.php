@@ -145,57 +145,6 @@
                         <?php  }  ?>
                     </ol>
 
-                    <?php
-
-                    foreach ($sub_components as $sub_component) : ?>
-
-                        <h4>
-                            <?php echo $sub_component->component_name; ?>: <?php echo $sub_component->component_detail; ?>
-                        </h4>
-
-                        <hr />
-                        <h5>
-                            <?php echo $sub_component->sub_component_name; ?>: <?php echo $sub_component->sub_component_detail; ?>
-                            <a class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "sub_components/view_sub_component/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-eye"></i> </a>
-                            <span style="margin-left: 10px;"></span>
-                            <a class="llink llink-edit" href="<?php echo site_url(ADMIN_DIR . "sub_components/edit/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-pencil-square-o"></i></a>
-                            <span style="margin-left: 10px;"></span>
-                            <a class="llink llink-trash" href="<?php echo site_url(ADMIN_DIR . "sub_components/trash/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-trash-o"></i></a>
-                        </h5>
-                        <table class="table table-bordered">
-                            <tr>
-                                <th>#</th>
-                                <th>Account Code</th>
-                                <th>Main Heading</th>
-                                <th>Categories</th>
-                                <th>Detail</th>
-                                <th>Unit</th>
-                            </tr>
-
-                            <?php
-                            $query = "SELECT * FROM component_categories WHERE status IN (0,1) 
-                                AND sub_component_id = '" . $sub_component->sub_component_id . "'
-                                ORDER BY category ASC";
-                            $component_categories = $this->db->query($query)->result();
-
-                            $count = 1;
-                            foreach ($component_categories as $component_category) : ?>
-
-                                <tr>
-                                    <th><?php echo $count++; ?>.</th>
-                                    <td><?php echo $component_category->account_code; ?></td>
-                                    <td><?php echo $component_category->main_heading; ?></td>
-                                    <td><?php echo $component_category->category; ?></td>
-                                    <td><?php echo $component_category->category_detail; ?></td>
-                                    <td><?php echo $component_category->target_unit; ?></td>
-                                </tr>
-                            <?php endforeach; ?>
-                        </table>
-
-
-
-                    <?php endforeach; ?>
-
 
 
                 </div>
