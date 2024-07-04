@@ -107,7 +107,7 @@ class Sub_components extends Admin_Controller
 
 
         $this->sub_component_model->changeStatus($sub_component_id, "1");
-        $this->session->set_flashdata("msg_success", $this->lang->line("restore_msg_success"));
+        $this->session->set_flashdata("msg_success", "Restore Successfully");
         redirect(ADMIN_DIR . "sub_components/trashed/" . $page_id);
     }
     //---------------------------------------------------------------------------
@@ -218,7 +218,7 @@ class Sub_components extends Admin_Controller
     {
 
         $sub_component_id = (int) $sub_component_id;
- 
+
         if ($this->sub_component_model->validate_form_data() === TRUE) {
 
             $sub_component_id = $this->sub_component_model->update_data($sub_component_id);

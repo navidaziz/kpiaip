@@ -68,7 +68,9 @@
                 <div class="table-responsive">
                     <ol>
                         <?php
-                        $query = "SELECT * FROM `components` WHERE status=1";
+                        $query = "SELECT * FROM `components` WHERE status=1
+                        ORDER BY component_name ASC
+                        ";
                         $components = $this->db->query($query)->result();
                         foreach ($components as $component) { ?>
                             <li>
@@ -78,8 +80,9 @@
                             </li>
                             <?php
                             $query = "SELECT * FROM `sub_components` 
-                            WHERE component_id = " . $component->component_id . "
-                            AND status=1";
+                            WHERE component_id = '" . $component->component_id . "'
+                            AND status=1
+                            ORDER BY sub_component_name ASC";
                             $sub_components = $this->db->query($query)->result();
                             ?>
                             <ol>
@@ -109,14 +112,16 @@
                                     ?>
                                     <ol>
                                         <?php foreach ($category_types as $category_type) { ?>
-                                            <li>
-                                                <h6> <?php echo $category_type->main_heading ?></h6>
-                                            </li>
+                                            <?php if (count($category_types) > 1) { ?>
+                                                <li>
+                                                    <h6> <?php echo $category_type->main_heading ?></h6>
+                                                </li>
+                                            <?php } ?>
                                             <?php $query = "SELECT * FROM `component_categories` 
                                                     WHERE component_id = " . $component->component_id . " 
                                                     AND sub_component_id = " . $sub_component->sub_component_id . "
                                                     AND main_heading = '" . $category_type->main_heading . "'
-                                                    AND status=1";
+                                                    AND status=1 ORDER BY account_code ASC";
                                             $categories = $this->db->query($query)->result(); ?>
 
                                             <table class="table table-bordered">
