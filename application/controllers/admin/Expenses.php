@@ -284,6 +284,8 @@ class Expenses extends Admin_Controller
         $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts')->result();
         $query = "SELECT cc.component_category_id,
         cc.category,
+        cc.category_detail,
+        cc.main_heading,
         sc.sub_component_name,
         s.component_name
         FROM component_categories as cc
