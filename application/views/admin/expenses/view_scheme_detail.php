@@ -397,7 +397,7 @@
                         <thead>
 
                             <th>#</th>
-                            <th>Category</th>
+                            <th>Expense Category</th>
                             <th>Voucher Number</th>
                             <th>Cheque</th>
                             <th>Date</th>
@@ -427,7 +427,19 @@
 
                                     <td><?php echo $count++; ?></td>
 
-                                    <td><?php echo $expense->category; ?></td>
+                                    <?php
+                                    if ($expense->component_category_id > 0) {
+                                        $query = "SELECT cc.`category`, cc.category_detail 
+                                                        FROM `component_categories` as cc 
+                                                        WHERE cc.component_category_id=$expense->component_category_id";
+                                        $c_category = $this->db->query($query)->row();
+                                    ?>
+                                        <td><?php echo $c_category->category; ?> - <?php echo $c_category->category_detail; ?></td>
+                                    <?php } else { ?>
+                                        <td></td>
+
+                                    <?php } ?>
+
                                     <td><?php echo $expense->voucher_number; ?></td>
                                     <td><?php echo $expense->cheque; ?></td>
                                     <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
