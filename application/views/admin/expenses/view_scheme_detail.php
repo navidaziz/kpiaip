@@ -476,7 +476,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="12" style="height: 20px;"></td>
+                                <td colspan="13" style="height: 20px;"></td>
                             </tr>
                             <tr>
                                 <td style="text-align: right;" colspan="11">
@@ -488,7 +488,7 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="text-align: right;" colspan="11">
+                                <td style="text-align: right;" colspan="12">
                                     Total Paid (Rs):
                                 </td>
                                 <th>
