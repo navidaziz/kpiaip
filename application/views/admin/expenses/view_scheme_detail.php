@@ -479,7 +479,7 @@
                                 <td colspan="13" style="height: 20px;"></td>
                             </tr>
                             <tr>
-                                <td style="text-align: right;" colspan="11">
+                                <td style="text-align: right;" colspan="12">
                                     Total Scheme Cost (Rs):
                                 </td>
                                 <th>
@@ -498,7 +498,7 @@
                                 <td></td>
                             </tr>
                             <tr>
-                                <td style="text-align: right;" colspan="11">
+                                <td style="text-align: right;" colspan="12">
                                     Total Remaining (Rs):
                                 </td>
                                 <th>
