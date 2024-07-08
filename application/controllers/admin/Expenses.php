@@ -131,10 +131,11 @@ class Expenses extends Admin_Controller
             $expense = $this->db->query($query)->row();
         }
         $this->data['expense'] = $expense;
-        $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts')->result();
+        $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts ORDER BY district_name ASC')->result();
         $query = "select cc.*, sc.sub_component_name, c.component_name FROM component_categories as cc
         INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
         INNER JOIN components as c ON(c.component_id = sc.component_id)
+        AND cc.status=1
         ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
         $this->data['component_catagories'] = $this->db->query($query)->result();
 

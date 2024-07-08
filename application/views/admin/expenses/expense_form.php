@@ -39,16 +39,22 @@
                 <select name="component_category_id" class="form-control" required="">
                     <option value="">Select Component Category</option>
                     <?php foreach ($component_catagories as $component_catagory) { ?>
-                        <option <?php if ($component_catagory->component_category_id == $expense->component_category_id) { ?> selected <?php } ?> value="<?php echo $component_catagory->component_category_id ?>"><?php echo $component_catagory->category ?> - <?php echo @$component_catagory->sub_component_name ?> - <?php echo @$component_catagory->component_name ?></option>
+                        <option <?php if ($component_catagory->component_category_id == $expense->component_category_id) { ?> selected <?php } ?> value="<?php echo $component_catagory->component_category_id ?>">
+
+                            <?php echo $component_catagory->category ?>
+                            <?php echo $component_catagory->category_detail ?>
+                            <?php echo $component_catagory->main_heading ?>
+
+                            (<?php echo @$component_catagory->sub_component_name ?> - <?php echo @$component_catagory->component_name ?>)</option>
                     <?php } ?>
                 </select>
             </div>
         </div>
 
-        <div class="form-group">
+        <div class="form-group" style="display: none;">
             <label for="Category" class="col-md-4 control-label" style="">Category</label>
             <div class="col-md-8">
-                <input type="text" name="category" value="<?php echo $expense->category; ?>" id="category" class="form-control" style="" required="required" placeholder="Category">
+                <input type="hidden" name="category" value="<?php echo $expense->category; ?>" id="category" class="form-control" style="" placeholder="Category">
             </div>
         </div>
 
@@ -195,5 +201,9 @@
 
             }
         });
+    });
+
+    $('select').selectize({
+        sortField: 'text'
     });
 </script>
