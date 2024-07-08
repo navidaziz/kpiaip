@@ -451,7 +451,7 @@
                             if ($expense_summary) {
                             ?>
                                 <tr>
-                                    <th colspan="5" style="text-align: right;"> Total Payment</th>
+                                    <th colspan="6" style="text-align: right;"> Total Payment</th>
                                     <th><?php if ($expense_summary->gross_pay) echo number_format($expense_summary->gross_pay);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->whit_tax) echo number_format($expense_summary->whit_tax);
