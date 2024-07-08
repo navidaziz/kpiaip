@@ -347,7 +347,7 @@
                                                 <th>Region</th>
                                                 <th>District</th>
                                                 <th>Component Category</th>
-                                                <th>Category</th>
+                                                <th>Category Detail</th>
                                                 <th>Purpose</th>
                                                 <th>WUA Reg.</th>
                                                 <th>WUA Asso.</th>
@@ -382,16 +382,17 @@
                                                         <td><?php echo $expense->district_name; ?></td>
                                                         <?php
                                                         if ($expense->component_category_id > 0) {
-                                                            $query = "SELECT cc.`category` 
+                                                            $query = "SELECT cc.`category`, cc.category_detail 
                                                         FROM `component_categories` as cc 
                                                         WHERE cc.component_category_id=$expense->component_category_id";
                                                             $c_category = $this->db->query($query)->row();
                                                         ?>
                                                             <td><?php echo $c_category->category; ?></td>
+                                                            <td><?php echo $c_category->category_detail; ?></td>
                                                         <?php } else { ?>
                                                             <td></td>
+                                                            <td></td>
                                                         <?php } ?>
-                                                        <td><?php echo $expense->category; ?></td>
                                                         <td><small><?php echo $expense->purpose; ?></small></td>
 
                                                         <?php
