@@ -60,7 +60,6 @@
                     "id"            =>  "main_heading",
                     "class"         =>  "form-control",
                     "style"         =>  "",
-                    "required"      => "required",
                     "title"         =>  'Category Type',
                     "value"         =>  set_value("main_heading", $component_category->main_heading),
                     "placeholder"   =>  'Category Type'

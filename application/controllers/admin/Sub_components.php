@@ -286,16 +286,77 @@ class Sub_components extends Admin_Controller
 
     public function add_component_category()
     {
+
+
+
+
+
+
         if ($this->component_category_model->validate_form_data() === TRUE) {
             $component_category_id = (int) $this->input->post('component_category_id');
             if ($component_category_id == 0) {
+
+                $query = "SELECT COUNT(*) as total FROM component_categories WHERE category = ?";
+                $category = $this->input->post('category');
+                $count = $this->db->query($query, $category)->row()->total;
+                if ($count > 0) {
+                    echo '<div class="alert alert-danger">Duplicate Category Name<div>';
+                    exit();
+                }
+
+                $query = "SELECT COUNT(*) as total FROM component_categories WHERE account_code = ?";
+                $category = $this->input->post('account_code');
+                $count = $this->db->query($query, $category)->row()->total;
+                if ($count > 0) {
+                    echo '<div class="alert alert-danger">Duplicate Account Code<div>';
+                    exit();
+                }
+
                 $component_category_id = $this->component_category_model->save_data();
             } else {
+
+                $query = "SELECT COUNT(*) as total FROM component_categories 
+                WHERE category = ?
+                AND component_category_id != ?";
+                $inputs = array();
+                $inputs['category'] = $this->input->post('category');
+                $inputs['component_category_id'] = $component_category_id;
+                $count = $this->db->query($query, $inputs)->row()->total;
+                if ($count > 0) {
+                    echo '<div class="alert alert-danger">Duplicate Category Name<div>';
+                    exit();
+                }
+
+                $query = "SELECT COUNT(*) as total FROM component_categories 
+                WHERE account_code = ?
+                AND component_category_id != ?";
+                $inputs = array();
+                $inputs['account_code'] = $this->input->post('account_code');
+                $inputs['component_category_id'] = $component_category_id;
+
+                $count = $this->db->query($query, $inputs)->row()->total;
+                if ($count > 0) {
+                    echo '<div class="alert alert-danger">Duplicate Account Code<div>';
+                    exit();
+                }
+
+                $query = "SELECT COUNT(*) as total FROM component_categories 
+                WHERE account_code = ?
+                AND component_category_id != ?";
+                $inputs = array();
+                $inputs['account_code'] = $this->input->post('account_code');
+                $inputs['component_category_id'] = $component_category_id;
+
+                $count = $this->db->query($query, $inputs)->row()->total;
+                if ($count > 0) {
+                    echo '<div class="alert alert-danger">Duplicate Account Code<div>';
+                    exit();
+                }
+
+
+
                 $component_category_id = $this->component_category_model->update_data($component_category_id);
             }
-
-
-
 
             if ($component_category_id) {
                 echo "success";

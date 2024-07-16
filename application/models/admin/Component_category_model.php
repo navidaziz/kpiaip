@@ -61,7 +61,7 @@ class Component_category_model extends MY_Model
 
             array(
                 "field"  =>  "main_heading",
-                "label"  =>  "Main Heading",
+                "label"  =>  "Category Type",
                 "rules"  =>  "required"
             ),
 
@@ -154,7 +154,7 @@ class Component_category_model extends MY_Model
 
         $inputs["main_heading"]  =  $this->input->post("main_heading");
 
-        
+
         // $inputs["target"]  =  $this->input->post("target");
 
         // $inputs["material_cost"]  =  $this->input->post("material_cost");
