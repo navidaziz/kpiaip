@@ -124,7 +124,7 @@
                         </div>
                     </div>
                     <div class="col-md-5">
-                        <h4>Session Wise Expense Summary</h4>
+                        <h4>FY Wise Expense Summary</h4>
                         <table class="table table_small ">
                             <thead>
                                 <tr>
@@ -194,6 +194,7 @@
 
     <div class="col-md-12">
         <div style="padding: 4px; text-align:right">
+            <strong> Financial Year: </strong>
             <select onchange="reloadPage()" id="financial_year" class="form-control" style="width: 120px; display:inline">
                 <?php $query = "SELECT * FROM `financial_years`";
                 $financialyearsList = $this->db->query($query)->result();
@@ -201,6 +202,7 @@
                     <option <?php if ($financial_year->financial_year_id == $financialyear->financial_year_id) { ?>selected <?php } ?> value="<?php echo $financialyear->financial_year_id; ?>?date=<?php echo $financialyear->start_date; ?>"><?php echo $financialyear->financial_year ?></option>
                 <?php } ?>
             </select>
+            <span style="margin-left: 10px;"></span>
             <script>
                 function reloadPage() {
                     var selectedValue = document.getElementById("financial_year").value;
@@ -208,8 +210,8 @@
                     window.location.href = '<?php echo site_url(ADMIN_DIR . 'expenses/index/'); ?>' + selectedValue;
                 }
             </script>
-            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes</a>
-            <a href="<?php echo site_url(ADMIN_DIR . "expenses/salaries") ?>" class="btn btn-primary">Salaries</a>
+            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes Expenses</a>
+            <!-- <a href="<?php echo site_url(ADMIN_DIR . "expenses/salaries") ?>" class="btn btn-primary">Salaries</a> -->
 
             <button class="btn btn-success" onclick="expense_form(0)">General Expense</button>
             <button class="btn btn-warning" onclick="tax_expense_form(0)">Tax As an Expense</button>

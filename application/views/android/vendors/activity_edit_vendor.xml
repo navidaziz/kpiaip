@@ -1,0 +1,162 @@
+
+<TextView
+android:id="@+id/title_vendors"
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textAppearance="?android:attr/textAppearanceLarge"
+android:text="Edit"
+android:textStyle="normal|bold"
+android:textAlignment="center"
+android:textColor="@android:color/background_light"
+android:layout_centerHorizontal="true"
+android:textSize="40dp"
+android:paddingTop="60dp" />
+		
+						<EditText
+						android:id="@+id/Vendor_Type"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="Vendor Type"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/vendors"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/TaxPayer_NTN"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="TaxPayer NTN"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/Vendor_Type"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/TaxPayer_CNIC"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="TaxPayer CNIC"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/TaxPayer_NTN"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/TaxPayer_Name"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="TaxPayer Name"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/TaxPayer_CNIC"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/TaxPayer_City"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="TaxPayer City"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/TaxPayer_Name"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/TaxPayer_Address"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="TaxPayer Address"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/TaxPayer_City"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/TaxPayer_Status"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="TaxPayer Status"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/TaxPayer_Address"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/TaxPayer_Business_Name"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="TaxPayer Business Name"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/TaxPayer_Status"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/Focal_Person"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="Focal Person"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/TaxPayer_Business_Name"
+						android:layout_marginTop="42dp"/>
+						
+						
+						<EditText
+						android:id="@+id/Contact_No"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:hint="Contact No"
+						android:inputType="textText"
+						android:ems="10"
+						android:singleLine="true"
+						android:maxLength="30"
+						android:padding="12dp"
+						android:layout_below="@+id/Focal_Person"
+						android:layout_marginTop="42dp"/>
+						
+						
+<Button
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:text="Update"
+android:id="@+id/btn_update_vendors"
+android:background="@xml/btnselector"
+android:textColor="@android:color/background_light"
+/>

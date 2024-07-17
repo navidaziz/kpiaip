@@ -58,6 +58,7 @@
                         SUM(e.whst_tax) as whst_tax,
                         SUM(e.st_duty_tax) as st_duty_tax,
                         SUM(e.rdp_tax) as rdp_tax,
+                        SUM(e.rdp_tax) as kpra_tax,
                         SUM(e.misc_deduction) as misc_deduction,
                         SUM(e.net_pay) as net_pay
                           FROM expenses as e 
@@ -101,7 +102,7 @@
 <!-- PAGE MAIN CONTENT -->
 <div class="row">
     <!-- MESSENGER -->
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="box border blue" id="messenger">
             <div class="box-title">
                 <h4><i class="fa fa-tasks"></i> Scheme Details</h4>
@@ -383,19 +384,86 @@
 
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-tasks"></i> Payments</h4>
+                <h4><i class="fa fa-tasks"></i> Financial Details</h4>
 
             </div>
             <div class="box-body">
 
                 <div class="table-responsive">
 
+
+                    <h4 style="margin-bottom: 20px;">Vendor Invoices
+                        <span class="pull-right">
+                            <button onclick="get_vendor_taxe_form('0')" class="btn btn-warning btn-sm">Add Vendor Invoice</button>
+                        </span>
+                    </h4>
+                    <table class="table table-bordered table_small" id="vendors_taxes">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>#</th>
+                                <th>Vendor Id</th>
+                                <th>Invoice Id</th>
+                                <th>Invoice Date</th>
+                                <th>Nature Of Payment</th>
+                                <th>Payment Section Code</th>
+                                <th>Invoice Gross Total</th>
+                                <th>WHIT</th>
+                                <th>WHST</th>
+                                <th>St.Duty</th>
+                                <th>RDP</th>
+                                <th>KPRA</th>
+                                <th>Misc.Dedu.</th>
+                                <th>Total Deduction</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $count = 1;
+                            $query = "SELECT * FROM vendors_taxes WHERE scheme_id = '" . $scheme->scheme_id . "'";
+                            $rows = $this->db->query($query)->result();
+                            foreach ($rows as $row) { ?>
+                                <tr>
+                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_vendors_invoice/' . $row->id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')"><i class="fa fa-trash-o"></i></a> </td>
+
+
+                                    <td><?php echo $count++ ?></td>
+                                    <td><?php echo $row->vendor_id; ?></td>
+                                    <td><?php echo $row->invoice_id; ?></td>
+                                    <td><?php echo $row->invoice_date; ?></td>
+                                    <td><?php echo $row->nature_of_payment; ?></td>
+                                    <td><?php echo $row->payment_section_code; ?></td>
+                                    <td><?php echo $row->invoice_gross_total; ?></td>
+                                    <td><?php echo $row->whit_tax; ?></td>
+                                    <td><?php echo $row->whst_tax; ?></td>
+                                    <td><?php echo $row->st_duty_tax; ?></td>
+                                    <td><?php echo $row->rdp_tax; ?></td>
+                                    <td><?php echo $row->kpra_tax; ?></td>
+                                    <td><?php echo $row->misc_deduction; ?></td>
+                                    <td><?php echo $row->total_deduction; ?></td>
+                                    <td><button onclick="get_vendor_taxe_form('<?php echo $row->id; ?>')">Edit<botton>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+                    <h4 style="margin-bottom: 20px;">Payments
+                        <span class="pull-right">
+                            <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                                <button onclick="expense_form(0,'Programme Cost')" class="btn btn-danger btn-sm">Add Payment</button>
+                            <?php } ?>
+
+                        </span>
+                    </h4>
+
                     <table class="table table-bordered table_small" id="db_table">
                         <thead>
-
+                            <th></th>
                             <th>#</th>
                             <th>Expense Category</th>
                             <th>Voucher Number</th>
@@ -407,9 +475,11 @@
                             <th>WHST</th>
                             <th>St.Duty</th>
                             <th>RDP</th>
+                            <th>KPRA</th>
                             <th>Misc.Dedu.</th>
                             <th>Net Pay</th>
                             <th>Payment %</th>
+                            <th></th>
                         </thead>
                         <tbody>
 
@@ -424,6 +494,7 @@
                             foreach ($expenses as $expense) : ?>
 
                                 <tr>
+                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')"><i class="fa fa-trash-o"></i></a> </td>
 
                                     <td><?php echo $count++; ?></td>
 
@@ -449,10 +520,14 @@
                                     <td><?php echo number_format($expense->whst_tax); ?></td>
                                     <td><?php echo number_format($expense->st_duty_tax); ?></td>
                                     <td><?php echo number_format($expense->rdp_tax); ?></td>
+                                    <td><?php echo number_format($expense->kpra_tax); ?></td>
                                     <td><?php echo number_format($expense->misc_deduction); ?></td>
                                     <td><?php echo number_format($expense->net_pay); ?></td>
                                     <th>
                                         <?php if ($scheme->sanctioned_cost) echo round(($expense->net_pay * 100) / $scheme->sanctioned_cost, 2) . " %"   ?>
+                                    </th>
+                                    <th>
+                                        <button onclick="expense_form(<?php echo $expense->expense_id ?>,'Programme Cost')">Edit</button>
                                     </th>
 
                                 </tr>
@@ -463,7 +538,7 @@
                             if ($expense_summary) {
                             ?>
                                 <tr>
-                                    <th colspan="6" style="text-align: right;"> Total Payment</th>
+                                    <th colspan="8" style="text-align: right;"> Total Payment</th>
                                     <th><?php if ($expense_summary->gross_pay) echo number_format($expense_summary->gross_pay);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->whit_tax) echo number_format($expense_summary->whit_tax);
@@ -472,9 +547,11 @@
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->st_duty_tax) echo number_format($expense_summary->st_duty_tax);
                                         else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->st_duty_tax) echo number_format($expense_summary->rdp_tax);
+                                    <th><?php if ($expense_summary->rdp_tax) echo number_format($expense_summary->rdp_tax);
                                         else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->st_duty_tax) echo number_format($expense_summary->misc_deduction);
+                                    <th><?php if ($expense_summary->kpra_tax) echo number_format($expense_summary->kpra_tax);
+                                        else echo "0.00" ?></th>
+                                    <th><?php if ($expense_summary->misc_deduction) echo number_format($expense_summary->misc_deduction);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
                                         else echo "0.00" ?></th>
@@ -488,54 +565,65 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="13" style="height: 20px;"></td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;" colspan="12">
-                                    Total Scheme Cost (Rs):
+                                <td colspan="17" style="text-align: right;">
+                                    <h5>
+
+                                        Total Scheme Cost (Rs):
+                                        <strong><?php if ($scheme->sanctioned_cost) echo number_format($scheme->sanctioned_cost) ?></strong>
+                                        <br />
+                                        Total Paid (Rs):
+                                        <strong><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
+                                                else echo "0.00" ?></strong>
+                                        <br />
+                                        Total Remaining (Rs):
+                                        <strong>
+                                            <?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
+                                        </strong>
+                                    </h5>
                                 </td>
-                                <th>
-                                    <?php if ($scheme->sanctioned_cost) echo number_format($scheme->sanctioned_cost) ?>
-                                </th>
-                                <td></td>
                             </tr>
-                            <tr>
-                                <td style="text-align: right;" colspan="12">
-                                    Total Paid (Rs):
-                                </td>
-                                <th>
-                                    <?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
-                                    else echo "0.00" ?>
-                                </th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;" colspan="12">
-                                    Total Remaining (Rs):
-                                </td>
-                                <th>
-                                    <?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
-                                </th>
-                                <td></td>
-                            </tr>
+
 
                         </tfoot>
                     </table>
                     <div style="text-align: center;">
                         <?php if ($scheme->scheme_status == 'Ongoing') { ?>
-                            <button onclick="expense_form(0,'Programme Cost')" class="btn btn-primary">Add Payment</button>
                         <?php } else { ?>
                             <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
                         <?php } ?>
                     </div>
+
+
+
                 </div>
 
 
+
             </div>
+            <script>
+                function get_vendor_taxe_form(id) {
+                    $.ajax({
+                            method: "POST",
+                            url: "<?php echo site_url(ADMIN_DIR . 'expenses/get_vendor_taxe_form'); ?>",
+                            data: {
+                                id: id,
+                                scheme_id: '<?php echo $scheme->scheme_id; ?>'
+                            },
+                        })
+                        .done(function(respose) {
+                            $('#modal').modal('show');
+                            $('#modal_title').html('Vendor Invoice');
+                            $('#modal_body').html(respose);
+                        });
+                }
+            </script>
+
 
         </div>
+
     </div>
-    <!-- /MESSENGER -->
+</div>
+<!-- /MESSENGER -->
 </div>
 
 <script>
