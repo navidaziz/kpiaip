@@ -36,16 +36,47 @@
     ">
   <!-- PAGE -->
   <section id="page">
-    <style>
-      .center-col {
-        display: flex;
-        justify-content: center;
-      }
-    </style>
+
     <section id="login_bg" <?php if ($this->input->get('register') != 1) { ?>class="visible" <?php } ?>>
       <div class="container">
-        <div class="row center-col" style="margin: 10px; margin-top: 130px;">
+        <div class="row" style="margin: 10px; margin-top: 70px;">
+          <div class="col-md-7">
+            <div id="logo">
+              <div style=" width:100%; text-align: center; margin:0px auto; color:black; ">
+                <style>
+                  @media (max-width:629px) {
+                    img#logo_image {
+                      display: none;
+                    }
+                  }
+                </style>
+                <img id="logo_image" src="<?php echo site_url("assets/uploads/" . $system_global_settings[0]->sytem_admin_logo); ?>" alt="<?php echo $system_global_settings[0]->system_title ?>" title="<?php echo $system_global_settings[0]->system_title ?>" style="width:500px !important;" />
 
+                <h2><?php echo $system_global_settings[0]->system_title ?></h2>
+                <h2><?php echo $system_global_settings[0]->system_sub_title ?></h2>
+                <address><i class="fa fa-envelope"></i> <?php echo $system_global_settings[0]->email_address ?>
+                  <span style="margin-left: 10px;"></span> <i class="fa fa-phone" aria-hidden="true"></i>
+
+                  Phone: <?php echo $system_global_settings[0]->phone_number ?>
+                  <?php //echo "Mobile: ".$system_global_settings[0]->mobile_number 
+                  ?>
+                  <span style="margin-left: 10px;"></span> <i class="fa fa-fax" aria-hidden="true"></i>
+                  Fax: <?php echo $system_global_settings[0]->fax_number ?>
+                  <br />
+                  <span style="margin-left: 10px;"></span> <i class="fa fa-globe" aria-hidden="true"></i>
+                  website: <a style="color: blue;" target="_blank" href="<?php echo $system_global_settings[0]->web_address ?>"><?php echo $system_global_settings[0]->web_address ?></a>
+                  <br />
+
+
+                  <i class="fa fa-map-marker" aria-hidden="true"></i>
+                  <?php echo $system_global_settings[0]->address ?>
+                </address>
+
+              </div>
+              <div style="clear:both;"></div>
+
+            </div>
+          </div>
           <div class="col-md-4">
             <div class="login-box" style="background-color:#9bb3bb;  margin: 5px auto; padding-top:10px !important; padding: 55px 40px 40px;">
               <h2 class="bigintro">Sign In</h2>

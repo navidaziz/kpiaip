@@ -705,12 +705,12 @@ class Expenses extends Admin_Controller
 
         // Searching
         if (!empty($this->input->post("search")["value"])) {
-            $sql .= "  AND (";
+            $search = $this->input->post("search")["value"];
+            $sql .= " AND (";
             foreach ($columns as $column) {
-                $sql .= "$column LIKE $search OR ";
+                $sql .= "$column LIKE '%$search%' OR ";
             }
-            $sql .= ' )';
-            $sql = rtrim($sql, "OR "); // Remove the last "OR"
+            $sql = rtrim($sql, "OR ") . ')'; // Remove the last "OR " and close the parenthesis
         }
 
         // Ordering

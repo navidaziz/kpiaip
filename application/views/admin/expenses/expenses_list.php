@@ -191,17 +191,22 @@
 </style>
 
 <div class="row" style="margin-top:-25px;">
+    <div class="col-md-6" style="text-align: left;">
+        <strong>Financial Year: </strong>
+        <select onchange="reloadPage()" id="financial_year" class="form-control" style="width: 120px; display:inline !important">
+            <?php $query = "SELECT * FROM `financial_years`";
+            $financialyearsList = $this->db->query($query)->result();
+            foreach ($financialyearsList as $financialyear) { ?>
+                <option <?php if ($financial_year->financial_year_id == $financialyear->financial_year_id) { ?>selected <?php } ?> value="<?php echo $financialyear->financial_year_id; ?>?date=<?php echo $financialyear->start_date; ?>"><?php echo $financialyear->financial_year ?></option>
+            <?php } ?>
+        </select>
 
-    <div class="col-md-12">
+    </div>
+    <div class="col-md-6">
+
+
         <div style="padding: 4px; text-align:right">
-            <strong> Financial Year: </strong>
-            <select onchange="reloadPage()" id="financial_year" class="form-control" style="width: 120px; display:inline">
-                <?php $query = "SELECT * FROM `financial_years`";
-                $financialyearsList = $this->db->query($query)->result();
-                foreach ($financialyearsList as $financialyear) { ?>
-                    <option <?php if ($financial_year->financial_year_id == $financialyear->financial_year_id) { ?>selected <?php } ?> value="<?php echo $financialyear->financial_year_id; ?>?date=<?php echo $financialyear->start_date; ?>"><?php echo $financialyear->financial_year ?></option>
-                <?php } ?>
-            </select>
+
             <span style="margin-left: 10px;"></span>
             <script>
                 function reloadPage() {
@@ -248,229 +253,229 @@
                 }
             </script>
         </div>
+    </div>
+    <div class="box border blue">
+        <div class="box-title">
+            <h4><i class="fa fa-money"></i> FY: <?php echo $financial_year->financial_year; ?></h4>
+        </div>
+        <div class="box-body">
+            <div class="tabbable header-tabs">
+                <ul class="nav nav-tabs">
 
-        <div class="box border blue">
-            <div class="box-title">
-                <h4><i class="fa fa-money"></i> FY: <?php echo $financial_year->financial_year; ?></h4>
-            </div>
-            <div class="box-body">
-                <div class="tabbable header-tabs">
-                    <ul class="nav nav-tabs">
+                    <?php
 
-                        <?php
+                    $start_date = new DateTime($financial_year->start_date);
+                    $end_date = new DateTime($financial_year->end_date);
 
-                        $start_date = new DateTime($financial_year->start_date);
-                        $end_date = new DateTime($financial_year->end_date);
+                    // Create a DatePeriod object to iterate through each month
+                    $interval = new DateInterval('P1M'); // 1 month interval
+                    $dateRange = new DatePeriod($start_date, $interval, $end_date);
+                    $months = array();
+                    // Print each month and year
+                    foreach ($dateRange as $date) {
 
-                        // Create a DatePeriod object to iterate through each month
-                        $interval = new DateInterval('P1M'); // 1 month interval
-                        $dateRange = new DatePeriod($start_date, $interval, $end_date);
-                        $months = array();
-                        // Print each month and year
-                        foreach ($dateRange as $date) {
+                        $months[] = $date->format('Y-m-d');
+                    } ?>
 
-                            $months[] = $date->format('Y-m-d');
-                        } ?>
+                    <?php rsort($months) ?>
 
-                        <?php rsort($months) ?>
+                    <?php
+                    foreach ($months as $index => $month) {
+                    ?>
+                        <li <?php if (date('y-m', strtotime($filter_date)) == date('y-m', strtotime($month))) {
+                                echo ' class="active" ';
+                            } ?>>
 
-                        <?php
-                        foreach ($months as $index => $month) {
-                        ?>
-                            <li <?php if (date('y-m', strtotime($filter_date)) == date('y-m', strtotime($month))) {
-                                    echo ' class="active" ';
-                                } ?>>
-
-                                <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?date=<?php echo date('Y-m-d', strtotime($month)); ?>" contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                                    <span class="hidden-inline-mobile"><?php echo date('M, y', strtotime($month)); ?></span></a>
-                            </li>
-                        <?php } ?>
-
-
+                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?date=<?php echo date('Y-m-d', strtotime($month)); ?>" contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                <span class="hidden-inline-mobile"><?php echo date('M, y', strtotime($month)); ?></span></a>
+                        </li>
+                    <?php } ?>
 
 
-                    </ul>
-                    <div class="tab-content">
-                        <div class="tab-pane fade in active" id="box_tab3">
-                            <!-- TAB 1 -->
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <div>
-                                        <table class="table table_small">
-                                            <tr>
-                                                <th>Gross Pay</th>
-                                                <th>WHIT</th>
-                                                <th>WHST</th>
-                                                <th>St.Duty</th>
-                                                <th>RDP</th>
-                                                <th>KPRA</th>
-                                                <th>Misc.Dedu.</th>
-                                                <th>Net Pay</th>
-                                            </tr>
-                                            <tr>
-                                                <td><?php echo @number_format($expense_summary->gross_pay); ?></td>
-                                                <td><?php echo @number_format($expense_summary->whit_tax); ?></td>
-                                                <td><?php echo @number_format($expense_summary->whst_tax); ?></td>
-                                                <td><?php echo @number_format($expense_summary->st_duty_tax); ?></td>
-                                                <td><?php echo @number_format($expense_summary->rdp_tax); ?></td>
-                                                <td><?php echo @number_format($expense_summary->kpra_tax); ?></td>
-                                                <td><?php echo @number_format($expense_summary->misc_deduction); ?></td>
-                                                <td><?php echo @number_format($expense_summary->net_pay); ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Taxes Paid</td>
-                                                <td> <?php echo @number_format($tax_paid['WHIT']) ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['WHST']) ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['St. Duty']) ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['RDP']) ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['KPRA']) ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['MISC.DEDU']) ?> </td>
-                                                <td></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Taxes Remaining</td>
-                                                <td> <?php echo @number_format($tax_paid['WHIT'] - $expense_summary->whit_tax); ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['WHST'] - $expense_summary->whst_tax); ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['St. Duty'] - $expense_summary->st_duty_tax);  ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['RDP'] - $expense_summary->rdp_tax); ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['KPRA'] - $expense_summary->kpra_tax); ?> </td>
-                                                <td> <?php echo @number_format($tax_paid['MISC.DEDU'] - $expense_summary->misc_deduction); ?> </td>
-                                                <td></td>
-                                            </tr>
-                                        </table>
-                                    </div>
-
-                                    <div class="table-responsive" style=" overflow-x:auto;">
-
-                                        <table class="table table-bordered table_small" id="db_table">
-                                            <thead>
-                                                <th></th>
-                                                <th>#</th>
-                                                <th>Region</th>
-                                                <th>District</th>
-                                                <th>Component Category</th>
-                                                <th>Category Detail</th>
-                                                <th>Purpose</th>
-                                                <th>WUA Reg.</th>
-                                                <th>WUA Asso.</th>
-                                                <th>Scheme</th>
-                                                <th>FY</th>
-                                                <th>Voucher Number</th>
-                                                <th>Cheque</th>
-                                                <th>Date</th>
-                                                <th>Payee Name</th>
-                                                <th>Gross Pay</th>
-                                                <th>WHIT</th>
-                                                <th>WHST</th>
-                                                <th>St.Duty</th>
-                                                <th>RDP</th>
-                                                <th>Misc.Dedu.</th>
-                                                <th>Net Pay</th>
-                                                <th></th>
-                                            </thead>
-                                            <tbody>
-
-                                                <?php
 
 
-                                                $count = 1;
-                                                foreach ($expenses as $expense) : ?>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane fade in active" id="box_tab3">
+                        <!-- TAB 1 -->
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div>
+                                    <table class="table table_small">
+                                        <tr>
+                                            <th>Gross Pay</th>
+                                            <th>WHIT</th>
+                                            <th>WHST</th>
+                                            <th>St.Duty</th>
+                                            <th>RDP</th>
+                                            <th>KPRA</th>
+                                            <th>Misc.Dedu.</th>
+                                            <th>Net Pay</th>
+                                        </tr>
+                                        <tr>
+                                            <td><?php echo @number_format($expense_summary->gross_pay); ?></td>
+                                            <td><?php echo @number_format($expense_summary->whit_tax); ?></td>
+                                            <td><?php echo @number_format($expense_summary->whst_tax); ?></td>
+                                            <td><?php echo @number_format($expense_summary->st_duty_tax); ?></td>
+                                            <td><?php echo @number_format($expense_summary->rdp_tax); ?></td>
+                                            <td><?php echo @number_format($expense_summary->kpra_tax); ?></td>
+                                            <td><?php echo @number_format($expense_summary->misc_deduction); ?></td>
+                                            <td><?php echo @number_format($expense_summary->net_pay); ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taxes Paid</td>
+                                            <td> <?php echo @number_format($tax_paid['WHIT']) ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['WHST']) ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['St. Duty']) ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['RDP']) ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['KPRA']) ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['MISC.DEDU']) ?> </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Taxes Remaining</td>
+                                            <td> <?php echo @number_format($tax_paid['WHIT'] - $expense_summary->whit_tax); ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['WHST'] - $expense_summary->whst_tax); ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['St. Duty'] - $expense_summary->st_duty_tax);  ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['RDP'] - $expense_summary->rdp_tax); ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['KPRA'] - $expense_summary->kpra_tax); ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['MISC.DEDU'] - $expense_summary->misc_deduction); ?> </td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+                                </div>
 
-                                                    <tr>
-                                                        <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')"><i class="fa fa-trash-o"></i></a> </td>
+                                <div class="table-responsive" style=" overflow-x:auto;">
 
-                                                        <td><?php echo $count++; ?></td>
-                                                        <td><?php echo $expense->region; ?></td>
-                                                        <td><?php echo $expense->district_name; ?></td>
-                                                        <?php
-                                                        if ($expense->component_category_id > 0) {
-                                                            $query = "SELECT cc.`category`, cc.category_detail 
+                                    <table class="table table-bordered table_small" id="db_table">
+                                        <thead>
+                                            <th></th>
+                                            <th>#</th>
+                                            <th>Region</th>
+                                            <th>District</th>
+                                            <th>Component Category</th>
+                                            <th>Category Detail</th>
+                                            <th>Purpose</th>
+                                            <th>WUA Reg.</th>
+                                            <th>WUA Asso.</th>
+                                            <th>Scheme</th>
+                                            <th>FY</th>
+                                            <th>Voucher Number</th>
+                                            <th>Cheque</th>
+                                            <th>Date</th>
+                                            <th>Payee Name</th>
+                                            <th>Gross Pay</th>
+                                            <th>WHIT</th>
+                                            <th>WHST</th>
+                                            <th>St.Duty</th>
+                                            <th>RDP</th>
+                                            <th>Misc.Dedu.</th>
+                                            <th>Net Pay</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+
+                                            <?php
+
+
+                                            $count = 1;
+                                            foreach ($expenses as $expense) : ?>
+
+                                                <tr>
+                                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')"><i class="fa fa-trash-o"></i></a> </td>
+
+                                                    <td><?php echo $count++; ?></td>
+                                                    <td><?php echo $expense->region; ?></td>
+                                                    <td><?php echo $expense->district_name; ?></td>
+                                                    <?php
+                                                    if ($expense->component_category_id > 0) {
+                                                        $query = "SELECT cc.`category`, cc.category_detail 
                                                         FROM `component_categories` as cc 
                                                         WHERE cc.component_category_id=$expense->component_category_id";
-                                                            $c_category = $this->db->query($query)->row();
-                                                        ?>
-                                                            <td><?php echo $c_category->category; ?></td>
-                                                            <td><?php echo $c_category->category_detail; ?></td>
-                                                        <?php } else { ?>
-                                                            <td></td>
-                                                            <td></td>
-                                                        <?php } ?>
-                                                        <td><small><?php echo $expense->purpose; ?></small></td>
+                                                        $c_category = $this->db->query($query)->row();
+                                                    ?>
+                                                        <td><?php echo $c_category->category; ?></td>
+                                                        <td><?php echo $c_category->category_detail; ?></td>
+                                                    <?php } else { ?>
+                                                        <td></td>
+                                                        <td></td>
+                                                    <?php } ?>
+                                                    <td><small><?php echo $expense->purpose; ?></small></td>
 
-                                                        <?php
-                                                        if ($expense->scheme_id > 0) {
-                                                            $query = "SELECT wau.wua_registration_no as wua_reg_no,
+                                                    <?php
+                                                    if ($expense->scheme_id > 0) {
+                                                        $query = "SELECT wau.wua_registration_no as wua_reg_no,
                         wau.wua_name,
                         s.scheme_name
                         FROM `water_user_associations` as wau
                         INNER JOIN schemes as s ON(s.water_user_association_id = wau.water_user_association_id)
                         WHERE s.scheme_id = $expense->scheme_id";
-                                                            $scheme = $this->db->query($query)->row();
-                                                        ?>
-                                                            <td><?php echo $scheme->wua_reg_no; ?></td>
-                                                            <td><?php echo $scheme->wua_name; ?></td>
-                                                            <td><?php echo $scheme->scheme_name; ?></td>
+                                                        $scheme = $this->db->query($query)->row();
+                                                    ?>
+                                                        <td><?php echo $scheme->wua_reg_no; ?></td>
+                                                        <td><?php echo $scheme->wua_name; ?></td>
+                                                        <td><?php echo $scheme->scheme_name; ?></td>
+                                                    <?php } else { ?>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                    <?php } ?>
+                                                    <td><?php echo $expense->financial_year; ?></td>
+                                                    <td><?php echo $expense->voucher_number; ?></td>
+                                                    <td><?php echo $expense->cheque; ?></td>
+                                                    <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
+                                                    <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
+                                                    <td><?php echo number_format($expense->gross_pay); ?></td>
+                                                    <td><?php echo number_format($expense->whit_tax); ?></td>
+                                                    <td><?php echo number_format($expense->whst_tax); ?></td>
+                                                    <td><?php echo number_format($expense->st_duty_tax); ?></td>
+                                                    <td><?php echo number_format($expense->rdp_tax); ?></td>
+                                                    <td><?php echo number_format($expense->misc_deduction); ?></td>
+                                                    <td><?php echo number_format($expense->net_pay); ?></td>
+                                                    <td>
+                                                        <?php
+                                                        $tax_array = array("WHIT", "WSHT", "ST.DUTY", "RDP", "MISC.DEDU");
+                                                        if (in_array($expense->category, $tax_array)) { ?>
+                                                            <button onclick="tax_expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
                                                         <?php } else { ?>
-                                                            <td></td>
-                                                            <td></td>
-                                                            <td></td>
+                                                            <button onclick="expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
                                                         <?php } ?>
-                                                        <td><?php echo $expense->financial_year; ?></td>
-                                                        <td><?php echo $expense->voucher_number; ?></td>
-                                                        <td><?php echo $expense->cheque; ?></td>
-                                                        <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
-                                                        <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
-                                                        <td><?php echo number_format($expense->gross_pay); ?></td>
-                                                        <td><?php echo number_format($expense->whit_tax); ?></td>
-                                                        <td><?php echo number_format($expense->whst_tax); ?></td>
-                                                        <td><?php echo number_format($expense->st_duty_tax); ?></td>
-                                                        <td><?php echo number_format($expense->rdp_tax); ?></td>
-                                                        <td><?php echo number_format($expense->misc_deduction); ?></td>
-                                                        <td><?php echo number_format($expense->net_pay); ?></td>
-                                                        <td>
-                                                            <?php
-                                                            $tax_array = array("WHIT", "WSHT", "ST.DUTY", "RDP", "MISC.DEDU");
-                                                            if (in_array($expense->category, $tax_array)) { ?>
-                                                                <button onclick="tax_expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
-                                                            <?php } else { ?>
-                                                                <button onclick="expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
-                                                            <?php } ?>
-                                                        </td>
+                                                    </td>
 
 
-                                                    </tr>
-                                                <?php endforeach; ?>
+                                                </tr>
+                                            <?php endforeach; ?>
 
 
-                                            </tbody>
-                                            <tfoot>
+                                        </tbody>
+                                        <tfoot>
 
-                                            </tfoot>
-                                        </table>
-
-
+                                        </tfoot>
+                                    </table>
 
 
-                                    </div>
 
 
                                 </div>
 
+
                             </div>
-                            <hr class="margin-bottom-0">
 
                         </div>
-
+                        <hr class="margin-bottom-0">
 
                     </div>
+
+
                 </div>
             </div>
         </div>
-
-
-
     </div>
-    <!-- /MESSENGER -->
+
+
+
+</div>
+<!-- /MESSENGER -->
 </div>
 
 
