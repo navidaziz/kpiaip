@@ -39,7 +39,7 @@ class Vendors extends Admin_Controller
         $where = "`vendors`.`status` IN (0, 1) ";
         $this->data["vendors"] = $this->vendor_model->get_vendor_list($where, false);
         //$this->data["vendors"] = $data->vendors;
-        $this->data["pagination"] = false;
+        //$this->data["pagination"] = $data->pagination;
         $this->data["title"] = $this->lang->line('Vendors');
         $this->data["view"] = ADMIN_DIR . "vendors/vendors";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
@@ -118,8 +118,8 @@ class Vendors extends Admin_Controller
 
 
         $this->vendor_model->changeStatus($vendor_id, "0");
-        $this->session->set_flashdata("msg_success", $this->lang->line("draft_msg_success"));
-        redirect(ADMIN_DIR . "vendors/view/" . $page_id);
+        $this->session->set_flashdata("msg_success", 'Dormant Successfully');
+        redirect(ADMIN_DIR . "vendors/view_vendor/$vendor_id/" . $page_id);
     }
     //---------------------------------------------------------------------------
 
@@ -134,8 +134,8 @@ class Vendors extends Admin_Controller
 
 
         $this->vendor_model->changeStatus($vendor_id, "1");
-        $this->session->set_flashdata("msg_success", $this->lang->line("publish_msg_success"));
-        redirect(ADMIN_DIR . "vendors/view/" . $page_id);
+        $this->session->set_flashdata("msg_success", 'Active Successfully');
+        redirect(ADMIN_DIR . "vendors/view_vendor/$vendor_id/" . $page_id);
     }
     //---------------------------------------------------------------------------
 

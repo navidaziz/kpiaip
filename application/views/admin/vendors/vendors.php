@@ -1,3 +1,4 @@
+<!-- PAGE HEADER-->
 <style>
     .table_small>thead>tr>th,
     .table_small>tbody>tr>th,
@@ -14,6 +15,7 @@
         margin: 0px !important;
     }
 </style>
+
 <div class="row">
     <div class="col-sm-12">
         <div class="page-header">
@@ -24,7 +26,7 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo site_url(ADMIN_DIR . $this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                    <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                 </li>
                 <li><?php echo $title; ?></li>
             </ul>
@@ -82,10 +84,10 @@
 
                 <div class="table-responsive">
 
-                    <table class="table table_small table-bordered" id="db_table">
+                    <table class="table table-bordered table_small" id="db_table">
                         <thead>
                             <tr>
-                                <th>S.No</th>
+                                <th>#</th>
                                 <th><?php echo $this->lang->line('Vendor_Type'); ?></th>
                                 <th><?php echo $this->lang->line('TaxPayer_NTN'); ?></th>
                                 <th><?php echo $this->lang->line('TaxPayer_CNIC'); ?></th>
@@ -96,6 +98,13 @@
                                 <th><?php echo $this->lang->line('TaxPayer_Business_Name'); ?></th>
                                 <th><?php echo $this->lang->line('Focal_Person'); ?></th>
                                 <th><?php echo $this->lang->line('Contact_No'); ?></th>
+                                <th><?php echo $this->lang->line('industery'); ?></th>
+                                <th><?php echo $this->lang->line('business_category'); ?></th>
+                                <th><?php echo $this->lang->line('nature_of_business'); ?></th>
+                                <th><?php echo $this->lang->line('registration_no'); ?></th>
+                                <th><?php echo $this->lang->line('registration_date'); ?></th>
+                                <th><?php echo $this->lang->line('year_of_active'); ?></th>
+                                <th><?php echo $this->lang->line('fee'); ?></th>
                                 <th><?php echo $this->lang->line('Status'); ?></th>
                                 <th><?php echo $this->lang->line('Action'); ?></th>
                             </tr>
@@ -106,10 +115,8 @@
                             foreach ($vendors as $vendor) : ?>
 
                                 <tr>
+                                    <td><?php echo $count++; ?></td>
 
-                                    <td>
-                                        <?php echo $count++; ?>
-                                    </td>
                                     <td>
                                         <?php echo $vendor->Vendor_Type; ?>
                                     </td>
@@ -141,22 +148,37 @@
                                         <?php echo $vendor->Contact_No; ?>
                                     </td>
                                     <td>
-                                        <?php echo status($vendor->status,  $this->lang); ?>
+                                        <?php echo $vendor->industery; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $vendor->business_category; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $vendor->nature_of_business; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $vendor->registration_no; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $vendor->registration_date; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $vendor->year_of_active; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $vendor->fee; ?>
+                                    </td>
+                                    <td>
                                         <?php
-
-                                        //set uri segment
-                                        if (!$this->uri->segment(4)) {
-                                            $page = 0;
-                                        } else {
-                                            $page = $this->uri->segment(4);
-                                        }
-
                                         if ($vendor->status == 0) {
-                                            echo "<a href='" . site_url(ADMIN_DIR . "vendors/publish/" . $vendor->vendor_id . "/" . $page) . "'> &nbsp;" . $this->lang->line('Publish') . "</a>";
-                                        } elseif ($vendor->status == 1) {
-                                            echo "<a href='" . site_url(ADMIN_DIR . "vendors/draft/" . $vendor->vendor_id . "/" . $page) . "'> &nbsp;" . $this->lang->line('Draft') . "</a>";
+                                            echo "<strong style='color:red'>Dormant</strong>";
                                         }
+                                        if ($vendor->status == 1) {
+                                            echo "<strong style='color:green'>Active</strong>";
+                                        }
+                                        // 
                                         ?>
+
                                     </td>
                                     <td>
                                         <a class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "vendors/view_vendor/" . $vendor->vendor_id . "/" . $this->uri->segment(4)); ?>"><i class="fa fa-eye"></i> </a>
@@ -168,7 +190,6 @@
                         </tbody>
                     </table>
 
-                    <?php echo $pagination; ?>
 
 
                 </div>
@@ -181,39 +202,30 @@
     <!-- /MESSENGER -->
 </div>
 
-<?php
-$table_title = $title . ' Upto date(' . date('d M, Y H:m:s') . ')'; ?>
 <script>
-    title = '<?php echo $table_title; ?>';
+    title = "Vendors List";
     $(document).ready(function() {
-
         $('#db_table').DataTable({
             dom: 'Bfrtip',
             paging: false,
             title: title,
             "order": [],
-            "ordering": false,
             searching: true,
             buttons: [
 
                 {
                     extend: 'print',
                     title: title,
-                    messageTop: '<?php echo $table_title; ?>'
-
                 },
                 {
                     extend: 'excelHtml5',
                     title: title,
-                    messageTop: '<?php echo $table_title; ?>'
 
                 },
                 {
                     extend: 'pdfHtml5',
                     title: title,
                     pageSize: 'A4',
-                    orientation: 'landscape',
-                    messageTop: '<?php echo $table_title; ?>'
 
                 }
             ]
