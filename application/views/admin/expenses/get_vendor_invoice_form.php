@@ -66,6 +66,14 @@
             <input type="number" step="0.01" required id="whit_tax" name="whit_tax" value="<?php echo $input->whit_tax; ?>" class="form-control">
         </div>
     </div>
+
+    <div class="form-group row">
+        <label for="st_charged" class="col-sm-4 col-form-label">ST Charged</label>
+        <div class="col-sm-8">
+            <input type="text" required id="st_charged" name="st_charged" value="<?php echo $input->st_charged; ?>" class="form-control">
+        </div>
+    </div>
+
     <div class="form-group row">
         <label for="whst_tax" class="col-sm-4 col-form-label">Whst Tax</label>
         <div class="col-sm-4">

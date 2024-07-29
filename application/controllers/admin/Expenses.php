@@ -769,6 +769,7 @@ class Expenses extends Admin_Controller
         $input["invoice_gross_total"] = $this->input->post("invoice_gross_total");
         $input["whit_tax"] = $this->input->post("whit_tax");
         $input["whst_tax"] = $this->input->post("whst_tax");
+        $input["st_charged"] = $this->input->post("st_charged");
         $input["st_duty_tax"] = $this->input->post("st_duty_tax");
         $input["kpra_tax"] = $this->input->post("kpra_tax");
         $input["rdp_tax"] = $this->input->post("rdp_tax");
@@ -788,6 +789,7 @@ class Expenses extends Admin_Controller
         $this->form_validation->set_rules("payment_section_code", "Payment Section Code", "required");
         $this->form_validation->set_rules("invoice_gross_total", "Invoice Gross Total", "required");
         $this->form_validation->set_rules("whit_tax", "Whit Tax", "required");
+        $this->form_validation->set_rules("st_charged", "ST Charged", "required");
         $this->form_validation->set_rules("whst_tax", "Whst Tax", "required");
         $this->form_validation->set_rules("st_duty_tax", "St Duty Tax", "required");
         $this->form_validation->set_rules("kpra_tax", "Kpra Tax", "required");

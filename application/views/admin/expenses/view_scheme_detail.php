@@ -412,6 +412,7 @@
                                 <th>Payment Section Code</th>
                                 <th>Invoice Gross Total</th>
                                 <th>WHIT</th>
+                                <th>ST Charged</th>
                                 <th>WHST</th>
                                 <th>St.Duty</th>
                                 <th>RDP</th>
@@ -439,6 +440,7 @@
                                     <td><?php echo $row->payment_section_code; ?></td>
                                     <td><?php echo $row->invoice_gross_total; ?></td>
                                     <td><?php echo $row->whit_tax; ?></td>
+                                    <td><?php echo $row->st_charged; ?></td>
                                     <td><?php echo $row->whst_tax; ?></td>
                                     <td><?php echo $row->st_duty_tax; ?></td>
                                     <td><?php echo $row->rdp_tax; ?></td>
