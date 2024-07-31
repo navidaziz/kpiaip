@@ -44,15 +44,24 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="invoice_gross_total" class="col-sm-4 col-form-label">Invoice Gross Total (Rs.)</label>
+        <label for="invoice_gross_total" class="col-sm-4 col-form-label">Invoice Gross Total</label>
         <div class="col-sm-8">
-            <input type="text" onkeyup="calculate_taxes()" required id="invoice_gross_total" name="invoice_gross_total" value="<?php echo $input->invoice_gross_total; ?>" class="form-control">
+            <input type="text" required id="invoice_gross_total" name="invoice_gross_total" value="<?php echo $input->invoice_gross_total; ?>" class="form-control">
         </div>
     </div>
     <div class="form-group row">
         <label for="whit_tax_per" class="col-sm-3 col-form-label">WHIT Rate (%)</label>
         <div class="col-sm-3">
-            <input type="number" min="0" max="100" onkeyup="calculate_whit_tax()" required id="whit_tax_per" name="whit_tax_per" value="0.0" class="form-control">
+            <script>
+                function calulate_whit_tax() {
+                    var tax_value = parseFloat($('#whit_tax_per').val());
+                    var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+                    var tax = invoice_gross_total * (tax_value / 100);
+                    $('#whit_tax').val(tax.toFixed(2));
+                    total_deduction();
+                }
+            </script>
+            <input type="number" min="0" max="100" onkeyup="calulate_whit_tax()" required id="whit_tax_per" name="whit_tax_per" value="0.0" class="form-control">
         </div>
         <label for="whit_tax" class="col-sm-3 col-form-label">WHIT Amount (Rs.)</label>
         <div class="col-sm-3">
@@ -70,7 +79,16 @@
     <div class="form-group row">
         <label for="whst_tax" class="col-sm-3 col-form-label">WHST Rate (%)</label>
         <div class="col-sm-3">
-            <input type="number" min="0" max="100" onkeyup="calculate_whst_tax()" required id="whst_tax_per" name="whst_tax_per" value="0.0" class="form-control">
+            <script>
+                function calulate_whst_tax() {
+                    var tax_value = parseFloat($('#whst_tax_per').val());
+                    var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+                    var tax = invoice_gross_total * (tax_value / 100);
+                    $('#whst_tax').val(tax.toFixed(2));
+                    total_deduction();
+                }
+            </script>
+            <input type="number" min="0" max="100" onkeyup="calulate_whst_tax()" required id="whst_tax_per" name="whst_tax_per" value="0.0" class="form-control">
         </div>
         <label for="whst_tax" class="col-sm-3 col-form-label">WHST Amount (Rs.)</label>
         <div class="col-sm-3">
@@ -78,46 +96,75 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="st_duty_tax" class="col-sm-3 col-form-label">ST Duty Rate (%)</label>
-        <div class="col-sm-3">
-
-            <input type="number" min="0" max="100" onkeyup="calculate_st_duty_tax()" required id="st_duty_tax_per" name="st_duty_tax_per" value="0.0" class="form-control">
+        <label for="st_duty_tax" class="col-sm-4 col-form-label">St Duty Tax</label>
+        <div class="col-sm-4">
+            <script>
+                function calulate_st_duty_tax() {
+                    var tax_value = parseFloat($('#st_duty_tax_per').val());
+                    var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+                    var tax = invoice_gross_total * (tax_value / 100);
+                    $('#st_duty_tax').val(tax.toFixed(2));
+                    total_deduction();
+                }
+            </script>
+            <input type="number" min="0" max="100" onkeyup="calulate_st_duty_tax()" required id="st_duty_tax_per" name="st_duty_tax_per" value="0.0" class="form-control">
         </div>
-        <label for="st_duty_tax" class="col-sm-3 col-form-label">ST Duty Amount (Rs.)</label>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <input type="number" step="0.01" required id="st_duty_tax" name="st_duty_tax" value="<?php echo $input->st_duty_tax; ?>" class="form-control">
         </div>
     </div>
     <div class="form-group row">
-        <label for="kpra_tax" class="col-sm-3 col-form-label">KPRA Rate (%)</label>
-        <div class="col-sm-3">
-            <input type="number" min="0" max="100" onkeyup="calculate_kpra_tax()" required id="kpra_tax_per" name="kpra_tax_per" value="0.0" class="form-control">
+        <label for="kpra_tax" class="col-sm-4 col-form-label">Kpra Tax</label>
+        <div class="col-sm-4">
+            <script>
+                function calulate_kpra_tax_per() {
+                    var tax_value = parseFloat($('#kpra_tax_per').val());
+                    var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+                    var tax = invoice_gross_total * (tax_value / 100);
+                    $('#kpra_tax').val(tax.toFixed(2));
+                    total_deduction();
+                }
+            </script>
+            <input type="number" min="0" max="100" onkeyup="calulate_kpra_tax_per()" required id="kpra_tax_per" name="kpra_tax_per" value="0.0" class="form-control">
         </div>
-        <label for="kpra_tax" class="col-sm-3 col-form-label">KPRA Amount (Rs.)</label>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <input type="number" step="0.01" required id="kpra_tax" name="kpra_tax" value="<?php echo $input->kpra_tax; ?>" class="form-control">
         </div>
     </div>
     <div class="form-group row">
-        <label for="rdp_tax" class="col-sm-3 col-form-label">RDP Rate (%)</label>
-        <div class="col-sm-3">
-
-            <input type="number" min="0" max="100" onkeyup="calculate_rdp_tax()" required id="rdp_tax_per" name="rdp_tax_per" value="0.0" class="form-control">
+        <label for="rdp_tax" class="col-sm-4 col-form-label">Rdp Tax</label>
+        <div class="col-sm-4">
+            <script>
+                function calulate_rdp_tax_per() {
+                    var tax_value = parseFloat($('#rdp_tax_per').val());
+                    var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+                    var tax = invoice_gross_total * (tax_value / 100);
+                    $('#rdp_tax').val(tax.toFixed(2));
+                    total_deduction();
+                }
+            </script>
+            <input type="number" min="0" max="100" onkeyup="calulate_rdp_tax_per()" required id="rdp_tax_per" name="rdp_tax_per" value="0.0" class="form-control">
         </div>
-        <label for="rdp_tax" class="col-sm-3 col-form-label">RDP Amount (Rs.)</label>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <input type="number" step="0.01" required id="rdp_tax" name="rdp_tax" value="<?php echo $input->rdp_tax; ?>" class="form-control">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="misc_deduction" class="col-sm-3 col-form-label">MISC. Deduction Rate (%)</label>
-        <div class="col-sm-3">
-
-            <input type="number" min="0" max="100" onkeyup="calculate_misc_deduction()" required id="misc_deduction_per" name="misc_deduction_per" value="0.0" class="form-control">
+        <label for="misc_deduction" class="col-sm-4 col-form-label">Misc Deduction</label>
+        <div class="col-sm-4">
+            <script>
+                function calulate_misc_deduction_per() {
+                    var tax_value = parseFloat($('#misc_deduction_per').val());
+                    var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+                    var tax = invoice_gross_total * (tax_value / 100);
+                    $('#misc_deduction').val(tax.toFixed(2));
+                    total_deduction();
+                }
+            </script>
+            <input type="number" min="0" max="100" onkeyup="calulate_misc_deduction_per()" required id="misc_deduction_per" name="misc_deduction_per" value="0.0" class="form-control">
         </div>
-        <label for="misc_deduction" class="col-sm-3 col-form-label">MISC. Deduction (Rs.)</label>
-        <div class="col-sm-3">
+        <div class="col-sm-4">
             <input type="number" step="0.01" required id="misc_deduction" name="misc_deduction" value="<?php echo $input->misc_deduction; ?>" class="form-control">
         </div>
     </div>
@@ -125,8 +172,22 @@
     <div class="form-group row">
         <label for="total_deduction" class="col-sm-4 col-form-label">Net Deduction</label>
         <div class="col-sm-8">
+            <script>
+                function total_deduction() {
+                    alert("called");
+                    misc_deduction = $('#misc_deduction').val();
+                    rdp_tax = $('#rdp_tax').val();
+                    kpra_tax = $('#kpra_tax').val();
+                    st_duty_tax = $('#st_duty_tax').val();
+                    whst_tax = $('#whst_tax').val();
+                    whit_tax = $('#whit_tax').val();
+                    total_deduction = misc_deduction + rdp_tax + kpra_tax + st_duty_tax + whst_tax + whit_tax;
+                    $('#total_deduction').val(total_deduction.toFixed(2));
+                    return;
 
-            <input readonly type="number" step="0.01" required id="total_deduction" name="total_deduction" value="<?php echo $input->total_deduction; ?>" class="form-control">
+                }
+            </script>
+            <input type="number" step="0.01" required id="total_deduction" name="total_deduction" value="<?php echo $input->total_deduction; ?>" class="form-control">
         </div>
     </div>
 
@@ -142,75 +203,6 @@
 </div>
 
 <script>
-    function calculate_taxes() {
-        calculate_whit_tax();
-        calculate_whst_tax();
-        calculate_st_duty_tax();
-        calculate_kpra_tax();
-        calculate_rdp_tax();
-        calculate_misc_deduction();
-    }
-
-    function calculate_whit_tax() {
-        var tax_value = parseFloat($('#whit_tax_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / 100);
-        $('#whit_tax').val(tax.toFixed(2));
-        total_deduction();
-    }
-
-    function calculate_whst_tax() {
-        var tax_value = parseFloat($('#whst_tax_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / 100);
-        $('#whst_tax').val(tax.toFixed(2));
-        total_deduction();
-    }
-
-    function calculate_st_duty_tax() {
-        var tax_value = parseFloat($('#st_duty_tax_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / 100);
-        $('#st_duty_tax').val(tax.toFixed(2));
-        total_deduction();
-    }
-
-    function calculate_kpra_tax() {
-        var tax_value = parseFloat($('#kpra_tax_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / 100);
-        $('#kpra_tax').val(tax.toFixed(2));
-        total_deduction();
-    }
-
-    function calculate_rdp_tax() {
-        var tax_value = parseFloat($('#rdp_tax_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / 100);
-        $('#rdp_tax').val(tax.toFixed(2));
-        total_deduction();
-    }
-
-    function calculate_misc_deduction() {
-        var tax_value = parseFloat($('#misc_deduction_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / 100);
-        $('#misc_deduction').val(tax.toFixed(2));
-        total_deduction();
-    }
-
-    function total_deduction() {
-        var misc_deduction = parseFloat($('#misc_deduction').val());
-        var rdp_tax = parseFloat($('#rdp_tax').val());
-        var kpra_tax = parseFloat($('#kpra_tax').val());
-        var st_duty_tax = parseFloat($('#st_duty_tax').val());
-        var whst_tax = parseFloat($('#whst_tax').val());
-        var whit_tax = parseFloat($('#whit_tax').val());
-
-        var total_deduction = misc_deduction + rdp_tax + kpra_tax + st_duty_tax + whst_tax + whit_tax;
-        $('#total_deduction').val(total_deduction.toFixed(2));
-    }
-
     $('#vendors_taxes').submit(function(e) {
         e.preventDefault();
         var formData = $(this).serialize();
@@ -225,10 +217,10 @@
                 } else {
                     $('#result_response').html(response);
                 }
+
             }
         });
     });
-
     $('select').selectize({
         sortField: 'text'
     });

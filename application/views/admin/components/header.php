@@ -43,7 +43,7 @@
   <!-- Modal -->
 
   <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width: 60%;">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title" id="modal_title" style="display: inline;"></h4>
