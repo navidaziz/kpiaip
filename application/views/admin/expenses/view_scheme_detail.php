@@ -405,7 +405,7 @@
                             <tr>
                                 <th></th>
                                 <th>#</th>
-                                <th>Vendor Id</th>
+                                <th>Vendor</th>
                                 <th>Invoice Id</th>
                                 <th>Invoice Date</th>
                                 <th>Nature Of Payment</th>
@@ -425,15 +425,18 @@
                         <tbody>
                             <?php
                             $count = 1;
-                            $query = "SELECT * FROM vendors_taxes WHERE scheme_id = '" . $scheme->scheme_id . "'";
+                            $query = "SELECT vendors_taxes.*, vendors.TaxPayer_Name, vendors.Vendor_Type  
+                            FROM vendors_taxes 
+                            INNER JOIN vendors  ON(vendors.vendor_id = vendors_taxes.vendor_id)
+                            WHERE scheme_id = '" . $scheme->scheme_id . "'";
                             $rows = $this->db->query($query)->result();
                             foreach ($rows as $row) { ?>
                                 <tr>
                                     <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_vendors_invoice/' . $row->id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')"><i class="fa fa-trash-o"></i></a> </td>
-
-
                                     <td><?php echo $count++ ?></td>
-                                    <td><?php echo $row->vendor_id; ?></td>
+                                    <td><?php echo $row->TaxPayer_Name; ?><br />
+                                        <?php echo $row->Vendor_Type; ?>
+                                    </td>
                                     <td><?php echo $row->invoice_id; ?></td>
                                     <td><?php echo $row->invoice_date; ?></td>
                                     <td><?php echo $row->nature_of_payment; ?></td>
