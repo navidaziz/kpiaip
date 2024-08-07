@@ -134,6 +134,8 @@
                                                         <td><?php echo $category->category; ?></td>
                                                         <td><?php echo $category->category_detail;  ?></td>
                                                         <td><?php echo $category->account_code; ?></td>
+                                                        <td><?php echo $category->material_share; ?> %</td>
+                                                        <td><?php echo $category->farmer_share; ?> %</td>
                                                         <td><?php echo $category->target_unit; ?></td>
                                                     </tr>
                                                 <?php   } ?>
