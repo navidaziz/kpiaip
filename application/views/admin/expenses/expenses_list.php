@@ -215,7 +215,7 @@
                     window.location.href = '<?php echo site_url(ADMIN_DIR . 'expenses/index/'); ?>' + selectedValue;
                 }
             </script>
-            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes Expenses</a>
+            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes Expenses [ A (All) + B (B-2) ] Only</a>
             <!-- <a href="<?php echo site_url(ADMIN_DIR . "expenses/salaries") ?>" class="btn btn-primary">Salaries</a> -->
 
             <button class="btn btn-success" onclick="expense_form(0)">General Expense</button>
