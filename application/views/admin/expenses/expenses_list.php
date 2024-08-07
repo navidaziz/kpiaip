@@ -191,7 +191,7 @@
 </style>
 
 <div class="row" style="margin-top:-25px;">
-    <div class="col-md-6" style="text-align: left;">
+    <div class="col-md-4" style="text-align: left;">
         <strong>Financial Year: </strong>
         <select onchange="reloadPage()" id="financial_year" class="form-control" style="width: 120px; display:inline !important">
             <?php $query = "SELECT * FROM `financial_years`";
@@ -202,7 +202,7 @@
         </select>
 
     </div>
-    <div class="col-md-6">
+    <div class="col-md-8">
 
 
         <div style="padding: 4px; text-align:right">
