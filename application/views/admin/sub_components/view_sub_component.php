@@ -67,6 +67,8 @@
                                 <th>Category Type</th>
                                 <th>Categories (<?php echo $sub_component->component_name; ?> - <?php echo $sub_component->sub_component_name; ?>)</th>
                                 <th>Categories Detail</th>
+                                <th>Material Share</th>
+                                <th>Farmer Share</th>
                                 <th>Unit</th>
                                 <th>Action</th>
                             </tr>
@@ -101,7 +103,12 @@
                                     <td>
                                         <?php echo $component_category->category_detail; ?>
                                     </td>
-
+                                    <td>
+                                        <?php echo $component_category->material_share; ?> %
+                                    </td>
+                                    <td>
+                                        <?php echo $component_category->farmer_share; ?> %
+                                    </td>
                                     <td>
                                         <?php echo $component_category->target_unit; ?>
                                     </td>

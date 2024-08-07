@@ -83,12 +83,17 @@ class Component_category_model extends MY_Model
             //     "rules"  =>  "required"
             // ),
 
-            // array(
-            //     "field"  =>  "farmer_share",
-            //     "label"  =>  "Farmer Share",
-            //     "rules"  =>  "required"
-            // ),
+            array(
+                "field"  =>  "farmer_share",
+                "label"  =>  "Farmer Share",
+                "rules"  =>  "required"
+            ),
 
+            array(
+                "field"  =>  "material_share",
+                "label"  =>  "Material Share",
+                "rules"  =>  "required"
+            ),
             // array(
             //     "field"  =>  "total_cost",
             //     "label"  =>  "Total Cost",
@@ -127,7 +132,8 @@ class Component_category_model extends MY_Model
 
         // $inputs["labor_cost"]  =  $this->input->post("labor_cost");
 
-        // $inputs["farmer_share"]  =  $this->input->post("farmer_share");
+        $inputs["farmer_share"]  =  $this->input->post("farmer_share");
+        $inputs["material_share"]  =  $this->input->post("material_share");
 
         // $inputs["total_cost"]  =  $this->input->post("total_cost");
 
@@ -161,7 +167,8 @@ class Component_category_model extends MY_Model
 
         // $inputs["labor_cost"]  =  $this->input->post("labor_cost");
 
-        // $inputs["farmer_share"]  =  $this->input->post("farmer_share");
+        $inputs["farmer_share"]  =  $this->input->post("farmer_share");
+        $inputs["material_share"]  =  $this->input->post("material_share");
 
         // $inputs["total_cost"]  =  $this->input->post("total_cost");
 
@@ -215,7 +222,11 @@ class Component_category_model extends MY_Model
     {
 
         $fields = array(
-            "component_categories.*", "projects.project_name", "components.component_name", "sub_components.sub_component_name"
+            "component_categories.*",
+            "projects.project_name",
+            "components.component_name",
+            "sub_components.sub_component_name",
+
         );
         $join_table = array(
             "projects" => "projects.project_id = component_categories.project_id",

@@ -135,6 +135,83 @@
 
         </div>
 
+
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label('Material Share', "material_share", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $number = array(
+                    "type"          =>  "number",
+                    "name"          =>  "material_share",
+                    "id"            =>  "material_share",
+                    "class"         =>  "form-control",
+                    "style"         =>  "",
+                    "required"      => "required",
+                    "title"         =>  'Material Share',
+                    "value"         =>  set_value("material_share", $component_category->material_share),
+                    "placeholder"   =>  'Material Share',
+                    "Onkeyup" => 'calculate_farmer_share()',
+                    "min" => "0",
+                    "max" => "100"
+                );
+                echo  form_input($number);
+                ?>
+                <?php echo form_error("material_share", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+            <script>
+                function calculate_farmer_share() {
+                    matrial_share = $('#material_share').val();
+                    $('#farmer_share').val(100 - matrial_share);
+                }
+            </script>
+
+
+        </div>
+
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('farmer_share'), "farmer_share", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $number = array(
+                    "type"          =>  "number",
+                    "name"          =>  "farmer_share",
+                    "id"            =>  "farmer_share",
+                    "class"         =>  "form-control",
+                    "style"         =>  "",
+                    "required"      => "required",
+                    "title"         =>  $this->lang->line('farmer_share'),
+                    "value"         =>  set_value("farmer_share", $component_category->material_share),
+                    "placeholder"   =>  $this->lang->line('farmer_share'),
+                    "min" => "0",
+                    "max" => "100",
+                    "readonly" => "readonly"
+                );
+                echo  form_input($number);
+                ?>
+                <?php echo form_error("farmer_share", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
+
+
         <div class="form-group">
 
             <?php

@@ -767,14 +767,14 @@ class Expenses extends Admin_Controller
         $input["nature_of_payment"] = $this->input->post("nature_of_payment");
         $input["payment_section_code"] = $this->input->post("payment_section_code");
         $input["invoice_gross_total"] = $this->input->post("invoice_gross_total");
-        $input["whit_tax"] = $this->input->post("whit_tax");
-        $input["whst_tax"] = $this->input->post("whst_tax");
-        $input["st_charged"] = $this->input->post("st_charged");
-        $input["st_duty_tax"] = $this->input->post("st_duty_tax");
-        $input["kpra_tax"] = $this->input->post("kpra_tax");
-        $input["rdp_tax"] = $this->input->post("rdp_tax");
-        $input["total_deduction"] = $this->input->post("total_deduction");
-        $input["misc_deduction"] = $this->input->post("misc_deduction");
+        $input["whit_tax"] = $this->input->post("whit_tax") ?? 0;
+        $input["whst_tax"] = $this->input->post("whst_tax") ?? 0;
+        $input["st_charged"] = $this->input->post("st_charged") ?? 0;
+        $input["st_duty_tax"] = $this->input->post("st_duty_tax") ?? 0;
+        $input["kpra_tax"] = $this->input->post("kpra_tax") ?? 0;
+        $input["rdp_tax"] = $this->input->post("rdp_tax") ?? 0;
+        $input["total_deduction"] = $this->input->post("total_deduction") ?? 0;
+        $input["misc_deduction"] = $this->input->post("misc_deduction") ?? 0;
         $inputs =  (object) $input;
         return $inputs;
     }
