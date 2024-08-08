@@ -767,14 +767,63 @@ class Expenses extends Admin_Controller
         $input["nature_of_payment"] = $this->input->post("nature_of_payment");
         $input["payment_section_code"] = $this->input->post("payment_section_code");
         $input["invoice_gross_total"] = $this->input->post("invoice_gross_total");
-        $input["whit_tax"] = $this->input->post("whit_tax") ?? 0;
-        $input["whst_tax"] = $this->input->post("whst_tax") ?? 0;
-        $input["st_charged"] = $this->input->post("st_charged") ?? 0;
-        $input["st_duty_tax"] = $this->input->post("st_duty_tax") ?? 0;
-        $input["kpra_tax"] = $this->input->post("kpra_tax") ?? 0;
-        $input["rdp_tax"] = $this->input->post("rdp_tax") ?? 0;
-        $input["total_deduction"] = $this->input->post("total_deduction") ?? 0;
-        $input["misc_deduction"] = $this->input->post("misc_deduction") ?? 0;
+        // $input["whit_tax"] = $this->input->post("whit_tax") ?? 0;
+        // $input["whst_tax"] = $this->input->post("whst_tax") ?? 0;
+        // $input["st_charged"] = $this->input->post("st_charged") ?? 0;
+        // $input["st_duty_tax"] = $this->input->post("st_duty_tax") ?? 0;
+        // $input["kpra_tax"] = $this->input->post("kpra_tax") ?? 0;
+        // $input["rdp_tax"] = $this->input->post("rdp_tax") ?? 0;
+        // $input["total_deduction"] = $this->input->post("total_deduction") ?? 0;
+        // $input["misc_deduction"] = $this->input->post("misc_deduction") ?? 0;
+
+        if ($this->input->post("whit_tax") !== null) {
+            $input["whit_tax"] = $this->input->post("whit_tax");
+        } else {
+            $input["whit_tax"] = 0;
+        }
+
+        if ($this->input->post("whst_tax") !== null) {
+            $input["whst_tax"] = $this->input->post("whst_tax");
+        } else {
+            $input["whst_tax"] = 0;
+        }
+
+        if ($this->input->post("st_charged") !== null) {
+            $input["st_charged"] = $this->input->post("st_charged");
+        } else {
+            $input["st_charged"] = 0;
+        }
+
+        if ($this->input->post("st_duty_tax") !== null) {
+            $input["st_duty_tax"] = $this->input->post("st_duty_tax");
+        } else {
+            $input["st_duty_tax"] = 0;
+        }
+
+        if ($this->input->post("kpra_tax") !== null) {
+            $input["kpra_tax"] = $this->input->post("kpra_tax");
+        } else {
+            $input["kpra_tax"] = 0;
+        }
+
+        if ($this->input->post("rdp_tax") !== null) {
+            $input["rdp_tax"] = $this->input->post("rdp_tax");
+        } else {
+            $input["rdp_tax"] = 0;
+        }
+
+        if ($this->input->post("total_deduction") !== null) {
+            $input["total_deduction"] = $this->input->post("total_deduction");
+        } else {
+            $input["total_deduction"] = 0;
+        }
+
+        if ($this->input->post("misc_deduction") !== null) {
+            $input["misc_deduction"] = $this->input->post("misc_deduction");
+        } else {
+            $input["misc_deduction"] = 0;
+        }
+
         $inputs =  (object) $input;
         return $inputs;
     }
