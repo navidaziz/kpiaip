@@ -85,6 +85,7 @@ class Annual_work_plan_model extends MY_Model
 
     public function save_data($image_field = NULL)
     {
+        
         $inputs = array();
 
         $inputs["project_id"]  =  $this->input->post("project_id");

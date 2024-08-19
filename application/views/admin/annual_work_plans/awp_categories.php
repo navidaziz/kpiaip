@@ -106,6 +106,7 @@
                 <?php
                     $query = "SELECT * FROM financial_years";
                     $f_years = $this->db->query($query)->result();
+                    $total_cost =0;
                     foreach ($f_years as $f_year) {
                         $query = "SELECT * FROM annual_work_plans 
                                         WHERE financial_year_id='" . $f_year->financial_year_id . "'
@@ -120,7 +121,11 @@
                     <?php if ($awp){ if($awp->labor_cost){ echo round($awp->labor_cost,2); }} ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php if ($awp){ if($awp->total_cost){ echo round($awp->total_cost,2); }} ?>
+                    <?php if ($awp){ 
+                        
+                        if($awp->total_cost){ echo round($awp->total_cost,2); 
+                        $total_cost+=$awp->total_cost;
+                        }} ?>
                 </td>
 
                 <?php }
@@ -141,7 +146,9 @@
                     <?php if ($awp){ if($awp->labor_cost){ echo round($awp->labor_cost,2); }} ?>
                 </td>
                 <td style="text-align: center;">
-                    <?php if ($awp){ if($awp->total_cost){ echo round($awp->total_cost,2); }} ?>
+                    <?php if ($awp){ if($awp->total_cost){ 
+                        if($total_cost!=$awp->total_cost){ echo '<span style="color:red">Error</span>'; }
+                        echo round($awp->total_cost,2); }} ?>
                 </td>
 
 
