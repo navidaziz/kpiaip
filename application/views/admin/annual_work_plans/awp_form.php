@@ -108,65 +108,6 @@
 
                     </div>
 
-                    <div class="form-group">
-
-                        <?php
-                        $label = array(
-                            "class" => "col-md-4 control-label",
-                            "style" => "",
-                        );
-                        echo form_label($this->lang->line('farmer_share'), "farmer_share", $label);      ?>
-
-                        <div class="col-md-8">
-                            <?php
-
-                            $text = array(
-                                "type"          =>  "text",
-                                "name"          =>  "farmer_share",
-                                "id"            =>  "farmer_share",
-                                "class"         =>  "form-control",
-                                "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('farmer_share'),
-                                "value"         =>  set_value("farmer_share", $annual_work_plan->farmer_share),
-                                "placeholder"   =>  $this->lang->line('farmer_share')
-                            );
-                            echo  form_input($text);
-                            ?>
-                            <?php echo form_error("farmer_share", "<p class=\"text-danger\">", "</p>"); ?>
-                        </div>
-
-
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <?php
-                        $label = array(
-                            "class" => "col-md-4 control-label",
-                            "style" => "",
-                        );
-                        echo form_label($this->lang->line('total_cost'), "total_cost", $label);      ?>
-
-                        <div class="col-md-8">
-                            <?php
-
-                            $text = array(
-                                "type"          =>  "text",
-                                "name"          =>  "total_cost",
-                                "id"            =>  "total_cost",
-                                "class"         =>  "form-control",
-                                "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('total_cost'),
-                                "value"         =>  set_value("total_cost", $annual_work_plan->total_cost),
-                                "placeholder"   =>  $this->lang->line('total_cost')
-                            );
-                            echo  form_input($text);
-                            ?>
-                            <?php echo form_error("total_cost", "<p class=\"text-danger\">", "</p>"); ?>
-                        </div>
-
-
-
-                    </div>
 
                     <div style="text-align: center;" class="col-md-12">
                         <?php

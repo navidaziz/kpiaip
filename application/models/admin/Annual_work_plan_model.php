@@ -65,17 +65,17 @@ class Annual_work_plan_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
-            array(
-                "field"  =>  "farmer_share",
-                "label"  =>  "Farmer Share",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "farmer_share",
+            //     "label"  =>  "Farmer Share",
+            //     "rules"  =>  "required"
+            // ),
 
-            array(
-                "field"  =>  "total_cost",
-                "label"  =>  "Total Cost",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "total_cost",
+            //     "label"  =>  "Total Cost",
+            //     "rules"  =>  "required"
+            // ),
 
         );
         //set and run the validation
@@ -105,9 +105,9 @@ class Annual_work_plan_model extends MY_Model
 
         $inputs["labor_cost"]  =  $this->input->post("labor_cost");
 
-        $inputs["farmer_share"]  =  $this->input->post("farmer_share");
+        $inputs["farmer_share"]  =  0;
 
-        $inputs["total_cost"]  =  $this->input->post("total_cost");
+        $inputs["total_cost"]  =   $inputs["material_cost"]+$inputs["labor_cost"];
 
         
 
@@ -136,7 +136,9 @@ class Annual_work_plan_model extends MY_Model
 
         $inputs["farmer_share"]  =  $this->input->post("farmer_share");
 
-        $inputs["total_cost"]  =  $this->input->post("total_cost");
+       $inputs["farmer_share"]  =  0;
+
+        $inputs["total_cost"]  =   $inputs["material_cost"]+$inputs["labor_cost"];
 
         return $this->annual_work_plan_model->save($inputs, $annual_work_plan_id);
     }
