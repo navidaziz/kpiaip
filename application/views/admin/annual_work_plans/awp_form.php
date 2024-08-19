@@ -5,7 +5,8 @@
 
             <div class="box-body">
                 <h4><?php echo $title; ?></h4>
-                <form id="data_form" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
+                <form id="data_form" class="form-horizontal" enctype="multipart/form-data" method="post"
+                    accept-charset="utf-8">
 
 
                     <?php echo form_hidden("annual_work_plan_id", $annual_work_plan->annual_work_plan_id); ?>
@@ -189,7 +190,7 @@
                         echo form_submit($submit);
                         ?>
 
-
+                        <div id="result_response"></div>
 
                     </div>
 
@@ -204,26 +205,26 @@
 
 </div>
 <script>
-    $('#data_form').submit(function(e) {
-        e.preventDefault(); // Prevent default form submission
+$('#data_form').submit(function(e) {
+    e.preventDefault(); // Prevent default form submission
 
-        // Serialize form data
-        var formData = $(this).serialize();
+    // Serialize form data
+    var formData = $(this).serialize();
 
-        // Send AJAX request
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo site_url(ADMIN_DIR . "annual_work_plans/add_awp") ?>', // URL to submit form data
-            data: formData,
-            success: function(response) {
-                // Display response
-                if (response == 'success') {
-                    location.reload();
-                } else {
-                    $('#result_response').html(response);
-                }
-
+    // Send AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo site_url(ADMIN_DIR . "annual_work_plans/add_awp") ?>', // URL to submit form data
+        data: formData,
+        success: function(response) {
+            // Display response
+            if (response == 'success') {
+                location.reload();
+            } else {
+                $('#result_response').html(response);
             }
-        });
+
+        }
     });
+});
 </script>

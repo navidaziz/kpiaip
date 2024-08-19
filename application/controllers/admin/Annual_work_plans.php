@@ -395,10 +395,29 @@ class Annual_work_plans extends Admin_Controller
 
     public function add_awp()
     {
+
+
+
+        
+
         if ($this->annual_work_plan_model->validate_form_data() === TRUE) {
             $annual_work_plan_id = (int) $this->input->post('annual_work_plan_id');
             if ($annual_work_plan_id == 0) {
+
+                $component_category_id = $this->input->post('component_category_id');
+                $financial_year_id = $this->input->post('financial_year_id');
+
+                $query="SELECT COUNT(*) as total FROM annual_work_plans 
+                        WHERE component_category_id = ? 
+                        AND financial_year_id = ?";
+                $total = $this->db->query($query, array($component_category_id,$financial_year_id))->row()->total;        
+if($total==0){
+
                 $annual_work_plan_id = $this->annual_work_plan_model->save_data();
+}else{
+    echo '<div class="alert alert-danger"> Duplicate Entry<div>';
+    exit();
+}
             } else {
                 $annual_work_plan_id = $this->annual_work_plan_model->update_data($annual_work_plan_id);
             }

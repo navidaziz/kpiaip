@@ -85,6 +85,7 @@ class Annual_work_plan_model extends MY_Model
 
     public function save_data($image_field = NULL)
     {
+
         
         $inputs = array();
 
@@ -107,6 +108,8 @@ class Annual_work_plan_model extends MY_Model
         $inputs["farmer_share"]  =  $this->input->post("farmer_share");
 
         $inputs["total_cost"]  =  $this->input->post("total_cost");
+
+        
 
         return $this->annual_work_plan_model->save($inputs);
     }
