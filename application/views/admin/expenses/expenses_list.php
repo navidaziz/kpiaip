@@ -301,7 +301,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div>
-                                    <table class="table table_small">
+                                    <table class="table">
                                         <tr>
                                             <th>Gross Pay</th>
                                             <th>WHIT</th>
@@ -309,6 +309,8 @@
                                             <th>St.Duty</th>
                                             <th>RDP</th>
                                             <th>KPRA</th>
+                                            <th>GUR.RET.</th>
+
                                             <th>Misc.Dedu.</th>
                                             <th>Net Pay</th>
                                         </tr>
@@ -319,6 +321,7 @@
                                             <td><?php echo @number_format($expense_summary->st_duty_tax); ?></td>
                                             <td><?php echo @number_format($expense_summary->rdp_tax); ?></td>
                                             <td><?php echo @number_format($expense_summary->kpra_tax); ?></td>
+                                            <td><?php echo @number_format($expense_summary->gur_ret); ?></td>
                                             <td><?php echo @number_format($expense_summary->misc_deduction); ?></td>
                                             <td><?php echo @number_format($expense_summary->net_pay); ?></td>
                                         </tr>
@@ -329,6 +332,7 @@
                                             <td> <?php echo @number_format($tax_paid['St. Duty']) ?> </td>
                                             <td> <?php echo @number_format($tax_paid['RDP']) ?> </td>
                                             <td> <?php echo @number_format($tax_paid['KPRA']) ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['GUR.RET.']) ?> </td>
                                             <td> <?php echo @number_format($tax_paid['MISC.DEDU']) ?> </td>
                                             <td></td>
                                         </tr>
@@ -339,6 +343,7 @@
                                             <td> <?php echo @number_format($tax_paid['St. Duty'] - $expense_summary->st_duty_tax);  ?> </td>
                                             <td> <?php echo @number_format($tax_paid['RDP'] - $expense_summary->rdp_tax); ?> </td>
                                             <td> <?php echo @number_format($tax_paid['KPRA'] - $expense_summary->kpra_tax); ?> </td>
+                                            <td> <?php echo @number_format($tax_paid['GUR.RET.'] - $expense_summary->gur_ret); ?> </td>
                                             <td> <?php echo @number_format($tax_paid['MISC.DEDU'] - $expense_summary->misc_deduction); ?> </td>
                                             <td></td>
                                         </tr>
@@ -369,6 +374,9 @@
                                             <th>WHST</th>
                                             <th>St.Duty</th>
                                             <th>RDP</th>
+                                            <th>KPRA</th>
+
+                                            <th>GUR.RET.</th>
                                             <th>Misc.Dedu.</th>
                                             <th>Net Pay</th>
                                             <th></th>
@@ -405,11 +413,11 @@
                                                     <?php
                                                     if ($expense->scheme_id > 0) {
                                                         $query = "SELECT wau.wua_registration_no as wua_reg_no,
-                        wau.wua_name,
-                        s.scheme_name
-                        FROM `water_user_associations` as wau
-                        INNER JOIN schemes as s ON(s.water_user_association_id = wau.water_user_association_id)
-                        WHERE s.scheme_id = $expense->scheme_id";
+                                                            wau.wua_name,
+                                                            s.scheme_name
+                                                            FROM `water_user_associations` as wau
+                                                            INNER JOIN schemes as s ON(s.water_user_association_id = wau.water_user_association_id)
+                                                            WHERE s.scheme_id = $expense->scheme_id";
                                                         $scheme = $this->db->query($query)->row();
                                                     ?>
                                                         <td><?php echo $scheme->wua_reg_no; ?></td>
@@ -425,12 +433,14 @@
                                                     <td><?php echo $expense->cheque; ?></td>
                                                     <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
                                                     <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
-                                                    <td><?php echo number_format($expense->gross_pay); ?></td>
-                                                    <td><?php echo number_format($expense->whit_tax); ?></td>
-                                                    <td><?php echo number_format($expense->whst_tax); ?></td>
-                                                    <td><?php echo number_format($expense->st_duty_tax); ?></td>
-                                                    <td><?php echo number_format($expense->rdp_tax); ?></td>
-                                                    <td><?php echo number_format($expense->misc_deduction); ?></td>
+                                                    <td><?php echo number_format($expense->gross_pay ?? 0, 2); ?></td>
+                                                    <td><?php echo number_format($expense->whit_tax ?? 0, 2); ?></td>
+                                                    <td><?php echo number_format($expense->whst_tax ?? 0, 2); ?></td>
+                                                    <td><?php echo number_format($expense->st_duty_tax ?? 0, 2); ?></td>
+                                                    <td><?php echo number_format($expense->rdp_tax ?? 0, 2); ?></td>
+                                                    <td><?php echo number_format($expense->kpra_tax ?? 0, 2); ?></td>
+                                                    <td><?php echo number_format($expense->gur_ret  ?? 0, 2); ?></td>
+                                                    <td><?php echo number_format($expense->misc_deduction  ?? 0, 2); ?></td>
                                                     <td><?php echo number_format($expense->net_pay); ?></td>
                                                     <td>
                                                         <?php
@@ -471,12 +481,8 @@
             </div>
         </div>
     </div>
-
-
-
 </div>
-<!-- /MESSENGER -->
-</div>
+
 
 
 

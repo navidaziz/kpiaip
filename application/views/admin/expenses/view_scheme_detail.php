@@ -59,6 +59,7 @@
                         SUM(e.st_duty_tax) as st_duty_tax,
                         SUM(e.rdp_tax) as rdp_tax,
                         SUM(e.rdp_tax) as kpra_tax,
+                        SUM(e.gur_ret) as gur_ret,
                         SUM(e.misc_deduction) as misc_deduction,
                         SUM(e.net_pay) as net_pay
                           FROM expenses as e 
@@ -417,6 +418,7 @@
                                 <th>St.Duty</th>
                                 <th>RDP</th>
                                 <th>KPRA</th>
+
                                 <th>Misc.Dedu.</th>
                                 <th>Total Deduction</th>
                                 <th>Action</th>
@@ -448,6 +450,7 @@
                                     <td><?php echo $row->st_duty_tax; ?></td>
                                     <td><?php echo $row->rdp_tax; ?></td>
                                     <td><?php echo $row->kpra_tax; ?></td>
+
                                     <td><?php echo $row->misc_deduction; ?></td>
                                     <td><?php echo $row->total_deduction; ?></td>
                                     <td><button onclick="get_vendor_taxe_form('<?php echo $row->id; ?>')">Edit<botton>
@@ -458,8 +461,11 @@
                     </table>
 
                     <h4 style="margin-bottom: 20px;">Payments
+
                         <span class="pull-right">
                             <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                                <!-- <button onclick="expense_form2(0,'Programme Cost')" class="btn btn-danger btn-sm">Add Payment 2</button> -->
+
                                 <button onclick="expense_form(0,'Programme Cost')" class="btn btn-danger btn-sm">Add Payment</button>
                             <?php } ?>
 
@@ -481,6 +487,8 @@
                             <th>St.Duty</th>
                             <th>RDP</th>
                             <th>KPRA</th>
+
+                            <th>Gre.Ret.</th>
                             <th>Misc.Dedu.</th>
                             <th>Net Pay</th>
                             <th>Payment %</th>
@@ -526,6 +534,7 @@
                                     <td><?php echo number_format($expense->st_duty_tax); ?></td>
                                     <td><?php echo number_format($expense->rdp_tax); ?></td>
                                     <td><?php echo number_format($expense->kpra_tax); ?></td>
+                                    <td><?php echo $expense->gur_ret; ?></td>
                                     <td><?php echo number_format($expense->misc_deduction); ?></td>
                                     <td><?php echo number_format($expense->net_pay); ?></td>
                                     <th>
@@ -543,7 +552,7 @@
                             if ($expense_summary) {
                             ?>
                                 <tr>
-                                    <th colspan="8" style="text-align: right;"> Total Payment</th>
+                                    <th colspan="7" style="text-align: right;"> Total Payment</th>
                                     <th><?php if ($expense_summary->gross_pay) echo number_format($expense_summary->gross_pay);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->whit_tax) echo number_format($expense_summary->whit_tax);
@@ -556,6 +565,8 @@
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->kpra_tax) echo number_format($expense_summary->kpra_tax);
                                         else echo "0.00" ?></th>
+                                    <th><?php if ($expense_summary->gur_ret) echo number_format($expense_summary->gur_ret);
+                                        else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->misc_deduction) echo number_format($expense_summary->misc_deduction);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
@@ -563,6 +574,7 @@
                                     <th>
                                         <?php if ($scheme->sanctioned_cost) echo round(($expense_summary->net_pay * 100) / $scheme->sanctioned_cost, 3) . " %"   ?>
                                     </th>
+                                    <th></th>
                                 </tr>
                             <?php } ?>
 
@@ -570,7 +582,7 @@
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="17" style="text-align: right;">
+                                <td colspan="18" style="text-align: right;">
                                     <h5>
 
                                         Total Scheme Cost (Rs):
@@ -632,6 +644,23 @@
 </div>
 
 <script>
+    function expense_form2(expense_id, purpose) {
+        $.ajax({
+                method: "POST",
+                url: "<?php echo site_url(ADMIN_DIR . 'expenses/scheme_expense_form2'); ?>",
+                data: {
+                    expense_id: expense_id,
+                    purpose: purpose,
+                    scheme_id: '<?php echo $scheme->scheme_id; ?>'
+                },
+            })
+            .done(function(respose) {
+                $('#modal').modal('show');
+                $('#modal_title').html('Add Expense as ' + purpose);
+                $('#modal_body').html(respose);
+            });
+    }
+
     function expense_form(expense_id, purpose) {
         $.ajax({
                 method: "POST",

@@ -66,6 +66,7 @@ class Expenses extends Admin_Controller
         SUM(st_duty_tax) as st_duty_tax,
         SUM(rdp_tax) as rdp_tax,
         SUM(kpra_tax) as kpra_tax,
+        SUM(gur_ret) as gur_ret,
         SUM(misc_deduction) as misc_deduction,
         SUM(net_pay) as net_pay
         FROM expenses as e 
@@ -76,7 +77,7 @@ class Expenses extends Admin_Controller
         $expense_summary = $this->db->query($query)->row();
         $this->data["expense_summary"] = $expense_summary;
 
-        $taxes = array('WHIT', 'WHST', 'St. Duty', 'RDP', 'KPRA', 'MISC.DEDU');
+        $taxes = array('WHIT', 'WHST', 'St. Duty', 'RDP', 'KPRA', 'GUR.RET.', 'MISC.DEDU');
         $tax_paid = array();
         foreach ($taxes as $tax) {
             $query = "SELECT 
@@ -120,7 +121,7 @@ class Expenses extends Admin_Controller
             $expense['whst_tax'] = 0.00;
             $expense['rdp_tax'] = 0.00;
             $expense['kpra_tax'] = 0.00;
-
+            $expense['gur_ret'] = 0.00;
             $expense['st_duty_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;
@@ -268,7 +269,7 @@ class Expenses extends Admin_Controller
             $expense['whst_tax'] = 0.00;
             $expense['rdp_tax'] = 0.00;
             $expense['kpra_tax'] = 0.00;
-
+            $expense['gur_ret'] = 0.00;
             $expense['st_duty_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;
@@ -296,7 +297,64 @@ class Expenses extends Admin_Controller
         $this->load->view(ADMIN_DIR . "expenses/expense_form", $this->data);
     }
 
+    public function scheme_expense_form2()
+    {
 
+        $purpose = $this->input->post('purpose');
+        $expense_id = (int) $this->input->post('expense_id');
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $query = "SELECT * FROM schemes WHERE scheme_id = '" . $scheme_id . "'";
+        $scheme = $this->db->query($query)->row();
+        $this->data['scheme'] = $scheme;
+        if ($expense_id == 0) {
+            $expense['voucher_number'] = '';
+            $expense['expense_id'] = 0;
+            $expense['scheme_id'] = $scheme_id;
+            $expense['purpose'] = $purpose;
+            $expense['category'] = 'Scheme';
+            $expense['project_id'] = $scheme->project_id;
+            $expense['district_id'] = $scheme->district_id;
+            $expense['component_category_id'] = $scheme->component_category_id;
+            $expense['payee_name'] = "";
+            $expense['cheque'] = "";
+            $expense['date'] = "";
+            $expense['gross_pay'] = 0.00;
+            $expense['whit_tax'] = 0.00;
+            $expense['whst_tax'] = 0.00;
+            $expense['rdp_tax'] = 0.00;
+            $expense['kpra_tax'] = 0.00;
+
+            $expense['st_duty_tax'] = 0.00;
+            $expense['gur_ret'] = 0.00;
+
+            $expense['misc_deduction'] = 0.00;
+            $expense['net_pay'] = 0.00;
+            //scheme fields are required
+            $expense =  (object) $expense;
+        } else {
+            $query = "SELECT * FROM expenses WHERE expense_id = $expense_id";
+            $expense = $this->db->query($query)->row();
+        }
+        $this->data['expense'] = $expense;
+
+
+        $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts')->result();
+        $query = "SELECT cc.component_category_id,
+        cc.category,
+        cc.category_detail,
+        cc.main_heading,
+        cc.material_share,
+        cc.farmer_share,
+        sc.sub_component_name,
+        s.component_name
+        FROM component_categories as cc
+        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.component_category_id)
+        INNER JOIN components as s ON(s.component_id = cc.component_id)
+        WHERE cc.component_category_id = $scheme->component_category_id";
+        $this->data['component_catagory'] = $this->db->query($query)->row();
+
+        $this->load->view(ADMIN_DIR . "expenses/expense_form2", $this->data);
+    }
 
     public function schemes_data()
     {

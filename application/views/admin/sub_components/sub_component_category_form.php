@@ -28,7 +28,8 @@
                     "name"          =>  "account_code",
                     "id"            =>  "account_code",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required",
+                    "style"         =>  "",
+                    "required"      => "required",
                     "title"         =>  'account_code',
                     "value"         =>  set_value("account_code", $component_category->account_code),
                     "placeholder"   =>  'Account Code'
@@ -90,7 +91,9 @@
                     "name"          =>  "category",
                     "id"            =>  "category",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('category'),
+                    "style"         =>  "",
+                    "required"      => "required",
+                    "title"         =>  $this->lang->line('category'),
                     "value"         =>  set_value("category", $component_category->category),
                     "placeholder"   =>  $this->lang->line('category')
                 );
@@ -196,7 +199,7 @@
                     "style"         =>  "",
                     "required"      => "required",
                     "title"         =>  $this->lang->line('farmer_share'),
-                    "value"         =>  set_value("farmer_share", $component_category->material_share),
+                    "value"         =>  set_value("farmer_share", $component_category->farmer_share),
                     "placeholder"   =>  $this->lang->line('farmer_share'),
                     "min" => "0",
                     "max" => "100",
@@ -229,7 +232,9 @@
                     "name"          =>  "target_unit",
                     "id"            =>  "target_unit",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('target_unit'),
+                    "style"         =>  "",
+                    "required"      => "required",
+                    "title"         =>  $this->lang->line('target_unit'),
                     "value"         =>  set_value("target_unit", $component_category->target_unit),
                     "placeholder"   =>  $this->lang->line('target_unit')
                 );

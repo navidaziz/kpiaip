@@ -107,6 +107,12 @@ class Expense_model extends MY_Model
                 "label"  =>  "RDP Tax",
                 "rules"  =>  "required"
             ),
+
+            array(
+                "field"  =>  "gur_ret",
+                "label"  =>  "Retention Money Guarantee",
+                "rules"  =>  "required"
+            ),
             array(
                 "field"  =>  "misc_deduction",
                 "label"  =>  "Misc.Dedu. Tax",
@@ -193,7 +199,7 @@ class Expense_model extends MY_Model
         $inputs["rdp_tax"]  =  $this->input->post("rdp_tax");
         $inputs["st_duty_tax"]  =  $this->input->post("st_duty_tax");
         $inputs["kpra_tax"]  =  $this->input->post("kpra_tax");
-
+        $inputs["gur_ret"]  =  $this->input->post("gur_ret");
         $inputs["misc_deduction"]  =  $this->input->post("misc_deduction");
         $inputs["net_pay"]  =  $this->input->post("net_pay");
         $inputs["created_by"] = $this->session->userdata("userId");

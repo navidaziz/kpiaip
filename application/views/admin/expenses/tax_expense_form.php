@@ -11,6 +11,8 @@
         <?php echo form_hidden("whit_tax", $expense->whit_tax); ?>
         <?php echo form_hidden("whst_tax", $expense->whst_tax); ?>
         <?php echo form_hidden("rdp_tax", $expense->rdp_tax); ?>
+        <?php echo form_hidden("rdp_tax", $expense->gur_ret); ?>
+
         <?php echo form_hidden("st_duty_tax", $expense->st_duty_tax); ?>
         <?php echo form_hidden("misc_deduction", $expense->misc_deduction); ?>
         <?php echo form_hidden("component_category_id", $expense->component_category_id); ?>
@@ -44,6 +46,7 @@
                 <input <?php if ($expense->category == 'ST.DUTY') { ?> checked <?php } ?> type="radio" name="category" value="ST.DUTY" /> ST.DUTY <span style="margin-left: 3px;"></span>
                 <input <?php if ($expense->category == 'RDP') { ?> checked <?php } ?> type="radio" name="category" value="RDP" /> RDP <span style="margin-left: 3px;"></span>
                 <input <?php if ($expense->category == 'KPRA') { ?> checked <?php } ?> type="radio" name="category" value="KPRA" /> KPRA <span style="margin-left: 3px;"></span>
+                <input <?php if ($expense->category == 'GUR.RET.') { ?> checked <?php } ?> type="radio" name="category" value="GUR.RET." /> GUR.RET. <span style="margin-left: 3px;"></span>
 
                 <input <?php if ($expense->category == 'MISC.DEDU') { ?> checked <?php } ?> type="radio" name="category" value="MISC.DEDU" /> MISC.DEDU
 

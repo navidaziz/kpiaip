@@ -31,23 +31,49 @@
                 </select>
             </div>
         </div>
-
         <div class="form-group">
             <label for="Category" class="col-md-4 control-label" style="">Component Category</label>
             <div class="col-md-8">
+                <input type="hidden" name="component_category_id" value="<?php echo $component_catagory->component_category_id; ?>" />
+                <?php echo $component_catagory->category ?>
+                - <?php echo $component_catagory->category_detail ?>
+                - <?php echo $component_catagory->main_heading ?><br />
+                <div>
+                    Input Value:
+                    <input type="text" name="input_value" id="input_value" value="" oninput="calculateShares()" />
+                    <br /><br />
 
-                <select name="component_category_id" class="form-control" required="">
-                    <option value="">Select Component Category</option>
-                    <?php foreach ($component_catagories as $component_catagory) { ?>
-                        <option <?php if ($component_catagory->component_category_id == $expense->component_category_id) { ?> selected <?php } ?> value="<?php echo $component_catagory->component_category_id ?>">
+                    Material Share (%):
+                    <input readonly type="text" name="material_share_per" id="material_share_per" value="<?php echo $component_catagory->material_share; ?>" />
+                    <br /><br />
 
-                            <?php echo $component_catagory->category ?>
-                            <?php echo $component_catagory->category_detail ?>
-                            <?php echo $component_catagory->main_heading ?>
+                    Farmer Share (%):
+                    <input readonly type="text" name="farmer_share_per" id="farmer_share_per" value="<?php echo $component_catagory->farmer_share; ?>" />
+                    <br /><br />
 
-                            (<?php echo @$component_catagory->sub_component_name ?> - <?php echo @$component_catagory->component_name ?>)</option>
-                    <?php } ?>
-                </select>
+                    Material Share (Rs.):
+                    <input readonly type="text" name="material_share" id="material_share" value="" />
+                    <br /><br />
+
+                    Farmer Share (Rs.):
+                    <input readonly type="text" name="farmer_share" id="farmer_share" value="" />
+                </div>
+                <script>
+                    function calculateShares() {
+                        // Get the input values
+                        var inputValue = parseFloat(document.getElementById('input_value').value) || 0;
+                        var materialSharePer = parseFloat(document.getElementById('material_share_per').value) || 0;
+                        var farmerSharePer = parseFloat(document.getElementById('farmer_share_per').value) || 0;
+
+                        // Calculate the shares
+                        var materialShareRs = (inputValue * materialSharePer) / 100;
+                        var farmerShareRs = (inputValue * farmerSharePer) / 100;
+
+                        // Set the calculated values in the respective fields
+                        document.getElementById('material_share').value = materialShareRs.toFixed(2);
+                        document.getElementById('farmer_share').value = farmerShareRs.toFixed(2);
+                    }
+                </script>
             </div>
         </div>
 
@@ -118,14 +144,6 @@
                 <input type="number" onkeyup="calculate_net_pay()" step="any" name="kpra_tax" value="<?php echo $expense->kpra_tax; ?>" id="kpra_tax" class="form-control" style="" required="required" placeholder="KPRA Tax">
             </div>
         </div>
-
-        <div class="form-group">
-            <label for="gur_ret" class="col-md-4 control-label" style="">Retention Money Guarantee</label>
-            <div class="col-md-8">
-                <input type="number" onkeyup="calculate_net_pay()" step="any" name="gur_ret" value="<?php echo $expense->gur_ret; ?>" id="gur_ret" class="form-control" style="" required="required" placeholder="Retention Money Guarantee">
-            </div>
-        </div>
-
         <div class="form-group">
             <label for="Misc.Dedu." class="col-md-4 control-label" style="">Misc.Dedu.</label>
             <div class="col-md-8">
@@ -141,18 +159,17 @@
         </div>
         <script>
             function calculate_net_pay() {
-                var gross_pay = parseFloat($('#gross_pay').val()) || 0;
-                var whit_tax = parseFloat($('#whit_tax').val()) || 0;
-                var whst_tax = parseFloat($('#whst_tax').val()) || 0;
-                var st_duty_tax = parseFloat($('#st_duty_tax').val()) || 0;
-                var rdp_tax = parseFloat($('#rdp_tax').val()) || 0;
-                var misc_deduction = parseFloat($('#misc_deduction').val()) || 0;
-                var kpra_tax = parseFloat($('#kpra_tax').val()) || 0;
-                var gur_ret = parseFloat($('#gur_ret').val()) || 0;
-
-                var net_pay = gross_pay - whit_tax - whst_tax - st_duty_tax - rdp_tax - misc_deduction - kpra_tax - gur_ret;
+                var gross_pay = parseFloat($('#gross_pay').val());
+                if (gross_pay == "") {
+                    $('#gross_pay').val("0");
+                }
+                var whit_tax = parseFloat($('#whit_tax').val());
+                var whst_tax = parseFloat($('#whst_tax').val());
+                var st_duty_tax = parseFloat($('#st_duty_tax').val());
+                var rdp_tax = parseFloat($('#rdp_tax').val());
+                var misc_deduction = parseFloat($('#misc_deduction').val());
+                var net_pay = gross_pay - whit_tax - whst_tax - st_duty_tax - rdp_tax - misc_deduction;
                 $('#net_pay').val(net_pay);
-
             }
         </script>
         <div class="col-md-12" id="result_response"></div>
