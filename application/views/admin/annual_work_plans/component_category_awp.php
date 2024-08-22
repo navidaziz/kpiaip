@@ -9,7 +9,8 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                    <a
+                        href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                 </li>
                 <li>
                     <i class="fa fa-list"></i>
@@ -70,27 +71,37 @@
                                         AND component_category_id = " . $component_category->component_category_id . "";
                                 $awp = $this->db->query($query)->row();
                             ?>
-                                <tr>
-                                    <td><?php echo $count++; ?></td>
-                                    <th><?php echo $f_year->financial_year; ?></th>
-                                    <td>Unit</td>
-                                    <td style="text-align: center;"><?php if ($awp) echo $awp->anual_target; ?></td>
-                                    <td style="text-align: center;"><?php if ($awp) echo $awp->material_cost; ?></td>
-                                    <td style="text-align: center;"><?php if ($awp) echo $awp->labor_cost; ?></td>
-                                    <td style="text-align: center;"><?php if ($awp) echo $awp->farmer_share; ?></td>
-                                    <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?></td>
+                            <tr>
+                                <td><?php echo $count++; ?></td>
+                                <th><?php echo $f_year->financial_year; ?></th>
+                                <td>Unit</td>
+                                <td style="text-align: center;"><?php if ($awp) echo $awp->anual_target; ?></td>
+                                <td style="text-align: center;"><?php if ($awp) echo $awp->material_cost; ?></td>
+                                <td style="text-align: center;"><?php if ($awp) echo $awp->labor_cost; ?></td>
+                                <td style="text-align: center;">
+                                    <?php 
+                                    if($awp and $awp->total_cost){
+                                    echo round(($awp->labor_cost/$awp->total_cost)*100,2);
+                             } ?>
+                                </td>
+                                <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?></td>
 
 
 
-                                    <td style="text-align: center;">
-                                        <?php if ($awp) { ?>
-                                            <button onclick="awp_form(<?php echo $awp->annual_work_plan_id; ?>,<?php echo $f_year->financial_year_id; ?>)" class="btn btn-success btn-sm">Update Cost</button>
-                                            <a class="btn btn-danger btn-sm" href="<?php echo site_url(ADMIN_DIR . 'annual_work_plans/district_annual_work_plan/' . $awp->annual_work_plan_id); ?>"> District AWP</a>
-                                        <?php } else { ?>
-                                            <button onclick="awp_form(0,<?php echo $f_year->financial_year_id; ?>)" class="btn btn-primary btn-sm">Add Cost</button>
-                                        <?php } ?>
-                                    </td>
-                                </tr>
+                                <td style="text-align: center;">
+                                    <?php if ($awp) { ?>
+                                    <button
+                                        onclick="awp_form(<?php echo $awp->annual_work_plan_id; ?>,<?php echo $f_year->financial_year_id; ?>)"
+                                        class="btn btn-success btn-sm">Update Cost</button>
+                                    <a class="btn btn-danger btn-sm"
+                                        href="<?php echo site_url(ADMIN_DIR . 'annual_work_plans/district_annual_work_plan/' . $awp->annual_work_plan_id); ?>">
+                                        District AWP</a>
+                                    <?php } else { ?>
+                                    <button onclick="awp_form(0,<?php echo $f_year->financial_year_id; ?>)"
+                                        class="btn btn-primary btn-sm">Add Cost</button>
+                                    <?php } ?>
+                                </td>
+                            </tr>
 
 
 
@@ -111,28 +122,28 @@
 </div>
 
 <script>
-    function awp_form(annual_work_plan_id, financial_year_id) {
-        $.ajax({
-                method: "POST",
-                url: "<?php echo site_url(ADMIN_DIR . 'annual_work_plans/awp_form'); ?>",
-                data: {
-                    annual_work_plan_id: annual_work_plan_id,
-                    financial_year_id: financial_year_id,
-                    project_id: '<?php echo $component_category->project_id; ?>',
-                    component_id: '<?php echo $component_category->component_id; ?>',
-                    sub_component_id: '<?php echo $component_category->sub_component_id; ?>',
-                    component_category_id: '<?php echo $component_category->component_category_id; ?>',
-                },
-            })
-            .done(function(respose) {
-                console.log(respose);
-                $('#modal').modal();
-                if (annual_work_plan_id == '0') {
-                    $('#modal_title').html('Add Annual Work Plan Details');
-                } else {
-                    $('#modal_title').html('Update Annual Work Plan Details');
-                }
-                $('#modal_body').html(respose);
-            });
-    }
+function awp_form(annual_work_plan_id, financial_year_id) {
+    $.ajax({
+            method: "POST",
+            url: "<?php echo site_url(ADMIN_DIR . 'annual_work_plans/awp_form'); ?>",
+            data: {
+                annual_work_plan_id: annual_work_plan_id,
+                financial_year_id: financial_year_id,
+                project_id: '<?php echo $component_category->project_id; ?>',
+                component_id: '<?php echo $component_category->component_id; ?>',
+                sub_component_id: '<?php echo $component_category->sub_component_id; ?>',
+                component_category_id: '<?php echo $component_category->component_category_id; ?>',
+            },
+        })
+        .done(function(respose) {
+            console.log(respose);
+            $('#modal').modal();
+            if (annual_work_plan_id == '0') {
+                $('#modal_title').html('Add Annual Work Plan Details');
+            } else {
+                $('#modal_title').html('Update Annual Work Plan Details');
+            }
+            $('#modal_body').html(respose);
+        });
+}
 </script>
