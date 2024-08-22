@@ -81,7 +81,7 @@
                                 <td style="text-align: center;">
                                     <?php 
                                     if($awp and $awp->total_cost){
-                                    echo round(($awp->labor_cost/$awp->total_cost)*100,2);
+                                    echo round(($awp->labor_cost/$awp->total_cost)*100,2)."%";
                              } ?>
                                 </td>
                                 <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?></td>
