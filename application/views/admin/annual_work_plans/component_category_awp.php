@@ -61,6 +61,8 @@
                                 <th style="text-align: center;">Total Cost</th>
                                 <th style="text-align: center;">Action</th>
                             </tr>
+                        </thead>
+                        <tbody>
                             <?php
                             $query = "SELECT * FROM financial_years";
                             $count = 1;
@@ -106,8 +108,43 @@
 
 
                             <?php } ?>
+                            <?php     
+                            $query = "SELECT SUM(anual_target) as anual_target,
+                            SUM(material_cost) as material_cost,
+                            SUM(labor_cost) as labor_cost,
+                            SUM(total_cost) as total_cost
+                             FROM annual_work_plans 
+                                        WHERE component_category_id = " . $component_category->component_category_id . "";
+                                $awp = $this->db->query($query)->row();
+                            ?>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <th></th>
+                                <td></td>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->anual_target, 2); ?>
+                                </td>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->material_cost, 2); ?>
+                                </td>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,2); ?></td>
+                                <td style="text-align: center;">
+                                    <?php 
+                                    if($awp and $awp->total_cost){
+                                    echo round(($awp->labor_cost/$awp->total_cost)*100,2)."%";
+                             } ?>
+                                </td>
+                                <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?></td>
 
-                        </thead>
+
+
+                                <td style="text-align: center;">
+
+                                </td>
+                            </tr>
+                        </tfoot>
+
+
                     </table>
 
 
