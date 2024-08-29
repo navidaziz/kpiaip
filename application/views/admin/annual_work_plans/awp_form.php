@@ -97,7 +97,7 @@
                             var labor_cost = total_cost - material_cost;
 
                             // Set the calculated labor cost in the corresponding input field
-                            $('#labor_cost').val(labor_cost.toFixed(2));
+                            //$('#labor_cost').val(labor_cost.toFixed(2));
                         }
                         </script>
 
@@ -127,7 +127,7 @@
                                 "style"         =>  "", 
                                 "required"      => "required", 
                                 "title"         =>  $this->lang->line('labor_cost'),
-                                "readonly" => "readonly",
+                                //"readonly" => "readonly",
                                 "value"         =>  set_value("labor_cost", $annual_work_plan->labor_cost),
                                 "placeholder"   =>  $this->lang->line('labor_cost')
                             );

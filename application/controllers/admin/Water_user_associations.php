@@ -532,11 +532,13 @@ class Water_user_associations extends Admin_Controller
 
         // Searching
         if (!empty($this->input->post("search")["value"])) {
-            $sql .= " WHERE ";
-            foreach ($columns as $column) {
-                $sql .= "$column LIKE $search OR ";
-            }
-            $sql = rtrim($sql, "OR "); // Remove the last "OR"
+            // $sql .= " WHERE ";
+            // foreach ($columns as $column) {
+            //     $sql .= "$column LIKE $search OR ";
+            // }
+            // $sql = rtrim($sql, "OR "); // Remove the last "OR"
+
+            $sql .= " WHERE wua_registration_no LIKE $search ";
         }
 
         // Ordering
