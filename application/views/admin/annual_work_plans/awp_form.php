@@ -105,9 +105,9 @@
                     </div>
 
 
-                    <div style="text-align: center;">
+                    <!-- <div style="text-align: center;">
                         <h4><?php echo "Farmar Share: ".$component_category->farmer_share; ?></h4>
-                    </div>
+                    </div> -->
                     <div class="form-group">
                         <?php
                         $label = array(
