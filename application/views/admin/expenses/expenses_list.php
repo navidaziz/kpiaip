@@ -193,6 +193,8 @@
 }
 </style>
 
+
+
 <div class="row" style="margin-top:-25px;">
     <div class="col-md-4" style="text-align: left;">
         <strong>Financial Year: </strong>
@@ -262,15 +264,16 @@
             </script>
         </div>
     </div>
-    <div class="box border blue">
-        <div class="box-title">
-            <h4><i class="fa fa-money"></i> FY: <?php echo $financial_year->financial_year; ?></h4>
-        </div>
-        <div class="box-body">
-            <div class="tabbable header-tabs">
-                <ul class="nav nav-tabs">
+    <div class="col-md-12">
+        <div class="box border blue">
+            <div class="box-title">
+                <h4>FY: <?php echo $financial_year->financial_year; ?></h4>
+            </div>
+            <div class="box-body">
+                <div class="tabbable header-tabs">
+                    <ul class="nav nav-tabs">
 
-                    <?php
+                        <?php
 
                     $start_date = new DateTime($financial_year->start_date);
                     $end_date = new DateTime($financial_year->end_date);
@@ -285,25 +288,35 @@
                         $months[] = $date->format('Y-m-d');
                     } ?>
 
-                    <?php rsort($months) ?>
+                        <?php rsort($months) ?>
 
-                    <?php
+                        <?php
                     foreach ($months as $index => $month) {
                     ?>
-                    <li <?php if (date('y-m', strtotime($filter_date)) == date('y-m', strtotime($month))) {
+                        <li <?php if (date('y-m', strtotime($filter_date)) == date('y-m', strtotime($month))) {
                                 echo ' class="active" ';
                             } ?>>
 
-                        <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?date=<?php echo date('Y-m-d', strtotime($month)); ?>"
-                            contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                            <span class="hidden-inline-mobile"><?php echo date('M, y', strtotime($month)); ?></span></a>
-                    </li>
-                    <?php } ?>
+                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?date=<?php echo date('Y-m-d', strtotime($month)); ?>"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                <span
+                                    class="hidden-inline-mobile"><?php echo date('M, y', strtotime($month)); ?></span></a>
+                        </li>
+                        <?php } ?>
+
+                        <li <?php if ($filter_fy_id == $financial_year->financial_year_id and !$this->input->get('date')) {
+                                echo ' class="active" ';
+                            } ?>>
+                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                <span
+                                    class="hidden-inline-mobile"><?php echo $financial_year->financial_year; ?></span></a>
+
+                        </li>
 
 
-
-
-                </ul>
+                    </ul>
+                </div>
                 <div class="tab-content">
                     <div class="tab-pane fade in active" id="box_tab3">
                         <!-- TAB 1 -->
@@ -512,6 +525,7 @@
         </div>
     </div>
 </div>
+
 
 
 

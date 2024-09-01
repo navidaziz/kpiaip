@@ -69,7 +69,9 @@ $menu_list .= "</ul>";
 
 
 
-<div id="sidebar" <?php if ($this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?> class="sidebar mini-menu" <?php } else { ?>class="sidebar" <?php } ?>>
+<div id="sidebar"
+    <?php if ($this->router->fetch_class() == 'expenses' or $this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?>
+    class="sidebar mini-menu" <?php } else { ?>class="sidebar" <?php } ?>>
 
     <?php if ($this->session->userdata('role_id') == 14) {
 
@@ -87,7 +89,7 @@ WHERE `group_gender_types`.`group_gender_type_id` = `groups`.`group_gender_type_
 AND `group_types`.`group_type_id` = `groups`.`group_type_id`
 AND  `groups`.`group_id` = " . $this->session->userdata('group_id');
         $current_group_query = $this->db->query($query); ?>
-        <!--<span style="text-align:center; color:#000000 !important;">	
+    <!--<span style="text-align:center; color:#000000 !important;">	
 			<h5><?php
                 echo $current_group_query->result()[0]->group_name . " (" . $current_group_query->result()[0]->group_gender_type_title . ")<br />";
                 ?></h5>

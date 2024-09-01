@@ -46,7 +46,7 @@ class Expenses extends Admin_Controller
         } else {
             $filter_date = date('y-m-d');
         }
-
+       $this->data['filter_fy_id'] = $financial_year_id;
         $this->data['filter_date'] = $filter_date;
 
         $filter_month = $this->db->escape(date('m', strtotime($filter_date)));
