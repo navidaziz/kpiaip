@@ -193,10 +193,9 @@
 }
 </style>
 
+<div class="row" style="margin-bottom: 10px; margin-top:-15px">
 
-
-<div class="row" style="margin-top:-25px;">
-    <div class="col-md-4" style="text-align: left;">
+    <div class="col-md-4">
         <strong>Financial Year: </strong>
         <select onchange="reloadPage()" id="financial_year" class="form-control"
             style="width: 120px; display:inline !important">
@@ -209,61 +208,60 @@
                 <?php echo $financialyear->financial_year ?></option>
             <?php } ?>
         </select>
-
     </div>
-    <div class="col-md-8">
+    <div class="col-md-8" style="text-align: right;">
+        <span style="margin-left: 10px;"></span>
+        <script>
+        function reloadPage() {
+            var selectedValue = document.getElementById("financial_year").value;
 
+            window.location.href = '<?php echo site_url(ADMIN_DIR . 'expenses/index/'); ?>' + selectedValue;
+        }
+        </script>
+        <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes Expenses [ A
+            (All) + B (B-2) ] Only</a>
+        <!-- <a href="<?php echo site_url(ADMIN_DIR . "expenses/salaries") ?>" class="btn btn-primary">Salaries</a> -->
 
-        <div style="padding: 4px; text-align:right">
+        <button class="btn btn-success" onclick="expense_form(0)">General Expense</button>
+        <button class="btn btn-warning" onclick="tax_expense_form(0)">Tax As an Expense</button>
+        <script>
+        function tax_expense_form(expense_id, purpose) {
+            $.ajax({
+                    method: "POST",
+                    url: "<?php echo site_url(ADMIN_DIR . 'expenses/tax_expense_form'); ?>",
+                    data: {
+                        expense_id: expense_id,
+                        purpose: purpose,
+                    },
+                })
+                .done(function(respose) {
+                    $('#modal').modal('show');
+                    $('#modal_title').html('Add Tax As an Expense');
+                    $('#modal_body').html(respose);
+                });
+        }
 
-            <span style="margin-left: 10px;"></span>
-            <script>
-            function reloadPage() {
-                var selectedValue = document.getElementById("financial_year").value;
-
-                window.location.href = '<?php echo site_url(ADMIN_DIR . 'expenses/index/'); ?>' + selectedValue;
-            }
-            </script>
-            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes Expenses [ A
-                (All) + B (B-2) ] Only</a>
-            <!-- <a href="<?php echo site_url(ADMIN_DIR . "expenses/salaries") ?>" class="btn btn-primary">Salaries</a> -->
-
-            <button class="btn btn-success" onclick="expense_form(0)">General Expense</button>
-            <button class="btn btn-warning" onclick="tax_expense_form(0)">Tax As an Expense</button>
-            <script>
-            function tax_expense_form(expense_id, purpose) {
-                $.ajax({
-                        method: "POST",
-                        url: "<?php echo site_url(ADMIN_DIR . 'expenses/tax_expense_form'); ?>",
-                        data: {
-                            expense_id: expense_id,
-                            purpose: purpose,
-                        },
-                    })
-                    .done(function(respose) {
-                        $('#modal').modal('show');
-                        $('#modal_title').html('Add Tax As an Expense');
-                        $('#modal_body').html(respose);
-                    });
-            }
-
-            function expense_form(expense_id) {
-                $.ajax({
-                        method: "POST",
-                        url: "<?php echo site_url(ADMIN_DIR . 'expenses/expense_form'); ?>",
-                        data: {
-                            expense_id: expense_id,
-                        },
-                    })
-                    .done(function(respose) {
-                        $('#modal').modal('show');
-                        $('#modal_title').html('Add Expense');
-                        $('#modal_body').html(respose);
-                    });
-            }
-            </script>
-        </div>
+        function expense_form(expense_id) {
+            $.ajax({
+                    method: "POST",
+                    url: "<?php echo site_url(ADMIN_DIR . 'expenses/expense_form'); ?>",
+                    data: {
+                        expense_id: expense_id,
+                    },
+                })
+                .done(function(respose) {
+                    $('#modal').modal('show');
+                    $('#modal_title').html('Add Expense');
+                    $('#modal_body').html(respose);
+                });
+        }
+        </script>
     </div>
+</div>
+
+
+<div class="row">
+
     <div class="col-md-12">
         <div class="box border blue">
             <div class="box-title">
@@ -304,15 +302,7 @@
                         </li>
                         <?php } ?>
 
-                        <li <?php if ($filter_fy_id == $financial_year->financial_year_id and !$this->input->get('date')) {
-                                echo ' class="active" ';
-                            } ?>>
-                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>"
-                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                                <span
-                                    class="hidden-inline-mobile"><?php echo $financial_year->financial_year; ?></span></a>
 
-                        </li>
 
 
                     </ul>
