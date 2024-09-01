@@ -125,8 +125,7 @@
                             SUM(labor_cost) as labor_cost,
                             SUM(total_cost) as total_cost
                              FROM annual_work_plans
-                             WHERE financial_year_id='" . $f_year->financial_year_id . "'
-                             AND component_category_id = " . $component_category->component_category_id . "";
+                             WHERE component_category_id = " . $component_category->component_category_id . "";
                                 $awp = $this->db->query($query)->row();
                             ?>
                         </tbody>
