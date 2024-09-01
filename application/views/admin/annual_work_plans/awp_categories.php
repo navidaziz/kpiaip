@@ -100,7 +100,7 @@
                     <?php echo $component_category->sub_component_name; ?>
                 </th>
                 <th>
-                    <?php echo $component_category->category; ?>:
+                    <?php echo $component_category->category; ?>: <?php echo $component_category->category_detail; ?>
                 </th>
 
                 <?php
