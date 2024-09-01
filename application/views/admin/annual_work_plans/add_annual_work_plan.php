@@ -9,11 +9,13 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                    <a
+                        href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                 </li>
                 <li>
                     <i class="fa fa-table"></i>
-                    <a href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/view/"); ?>"><?php echo $this->lang->line('Annual Work Plans'); ?></a>
+                    <a
+                        href="<?php echo site_url(ADMIN_DIR . "annual_work_plans/view/"); ?>"><?php echo $this->lang->line('Annual Work Plans'); ?></a>
                 </li>
                 <li><?php echo $title; ?></li>
             </ul>
@@ -213,7 +215,9 @@
                             "name"          =>  "material_cost",
                             "id"            =>  "material_cost",
                             "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('material_cost'),
+                            "style"         =>  "", 
+                            "required"      => "required",
+                            "title"         =>  $this->lang->line('material_cost'),
                             "value"         =>  set_value("material_cost"),
                             "placeholder"   =>  $this->lang->line('material_cost')
                         );
@@ -243,7 +247,9 @@
                             "name"          =>  "labor_cost",
                             "id"            =>  "labor_cost",
                             "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('labor_cost'),
+                            "style"         =>  "", 
+                            "required"      => "required", 
+                            "title"         =>  $this->lang->line('labor_cost'),
                             "value"         =>  set_value("labor_cost"),
                             "placeholder"   =>  $this->lang->line('labor_cost')
                         );

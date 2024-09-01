@@ -74,6 +74,7 @@
                                 "class"         =>  "form-control",
                                 "style"         =>  "", "required"      => "required", 
                                 "title"         =>  $this->lang->line('material_cost'),
+                                 "step" => "any",
                                 "value"         =>  set_value("material_cost", $annual_work_plan->material_cost),
                                 "placeholder"   =>  $this->lang->line('material_cost'),
                                 "onkeyup" => "calculate_farmar_share()"
@@ -125,6 +126,7 @@
                                 "id"            =>  "labor_cost",
                                 "class"         =>  "form-control",
                                 "style"         =>  "", 
+                                "step" => "any",
                                 "required"      => "required", 
                                 "title"         =>  $this->lang->line('labor_cost'),
                                 //"readonly" => "readonly",
