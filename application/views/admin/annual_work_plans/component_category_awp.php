@@ -79,15 +79,15 @@
 
                                 <td>Unit</td>
 
-                                <td style="text-align: center;"><?php if ($awp) echo round($awp->anual_target, 2); ?>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->anual_target, 4); ?>
                                 </td>
-                                <td style="text-align: center;"><?php if ($awp) echo round($awp->material_cost, 2); ?>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->material_cost, 4); ?>
                                     <!-- Rs.<br />
-                                    <strong><?php if ($awp) echo round($awp->material_cost/1000000, 2); ?> mm.</strong> -->
+                                    <strong><?php if ($awp) echo round($awp->material_cost/1000000, 4); ?> mm.</strong> -->
                                 </td>
-                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,2); ?>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,4); ?>
                                     <!-- Rs.<br />
-                                    <strong><?php if ($awp) echo round($awp->labor_cost/1000000,2); ?> mm.</strong> -->
+                                    <strong><?php if ($awp) echo round($awp->labor_cost/1000000,4); ?> mm.</strong> -->
                                 </td>
                                 <td style="text-align: center;">
                                     <strong>
@@ -98,7 +98,7 @@
                                 </td>
                                 <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?>
                                     <!-- Rs.<br />
-                                    <strong><?php if ($awp) echo round($awp->total_cost/1000000,2); ?> mm.</strong> -->
+                                    <strong><?php if ($awp) echo round($awp->total_cost/1000000,4); ?> mm.</strong> -->
                                 </td>
 
 
@@ -135,22 +135,22 @@
                                 <td></td>
                                 <th></th>
                                 <td></td>
-                                <td style="text-align: center;"><?php if ($awp) echo round($awp->anual_target, 2); ?>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->anual_target, 4); ?>
                                 </td>
-                                <td style="text-align: center;"><?php if ($awp) echo round($awp->material_cost, 2); ?>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->material_cost, 4); ?>
                                     <!-- Rs.<br />
-                                    <strong> <?php if ($awp) echo round($awp->material_cost/1000000, 2); ?> mm.
+                                    <strong> <?php if ($awp) echo round($awp->material_cost/1000000, 4); ?> mm.
                                     </strong> -->
                                 </td>
-                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,2); ?>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,4); ?>
                                     <!-- Rs.<br />
-                                    <strong><?php if ($awp) echo round($awp->labor_cost/1000000,2); ?> mm.</strong> -->
+                                    <strong><?php if ($awp) echo round($awp->labor_cost/1000000,4); ?> mm.</strong> -->
                                 </td>
                                 <td style="text-align: center;">
                                 </td>
                                 <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?>
                                     <!-- Rs.<br />
-                                    <strong><?php if ($awp) echo round($awp->total_cost/1000000,2); ?> mm.<strong> -->
+                                    <strong><?php if ($awp) echo round($awp->total_cost/1000000,4); ?> mm.<strong> -->
                                 </td>
 
 
