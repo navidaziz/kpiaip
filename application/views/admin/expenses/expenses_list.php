@@ -438,9 +438,9 @@
                                                 <td><?php echo $expense->category_detail; ?></td>
                                                 <td><small><?php echo $expense->purpose; ?></small></td>
 
-                                                <td><?php echo $scheme->wua_reg_no; ?></td>
-                                                <td><?php echo $scheme->wua_name; ?></td>
-                                                <td><?php echo $scheme->scheme_name; ?></td>
+                                                <td><?php echo $expense->wua_registration_no; ?></td>
+                                                <td><?php echo $expense->wua_name; ?></td>
+                                                <td><?php echo $expense->scheme_name; ?></td>
 
                                                 <td><?php echo $expense->financial_year; ?></td>
                                                 <td><?php echo $expense->voucher_number; ?></td>

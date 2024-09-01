@@ -76,18 +76,29 @@
                             <tr>
                                 <td><?php echo $count++; ?></td>
                                 <th><?php echo $f_year->financial_year; ?></th>
+
                                 <td>Unit</td>
-                                <td style="text-align: center;"><?php if ($awp) echo $awp->anual_target; ?></td>
-                                <td style="text-align: center;"><?php if ($awp) echo $awp->material_cost; ?></td>
-                                <td style="text-align: center;"><?php if ($awp) echo $awp->labor_cost; ?></td>
+
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->anual_target, 2); ?>
+                                </td>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->material_cost, 2); ?>
+                                    Rs.<br />
+                                    <?php if ($awp) echo round($awp->material_cost/1000000, 2); ?> M.
+                                </td>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,2); ?>
+                                    Rs.<br />
+                                    <?php if ($awp) echo round($awp->labor_cost/1000000,2); ?> M.
+                                </td>
                                 <td style="text-align: center;">
                                     <?php 
                                     if($awp and $awp->total_cost){
                                     echo round(($awp->labor_cost/$awp->total_cost)*100,2)."%";
                              } ?>
                                 </td>
-                                <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?></td>
-
+                                <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?>
+                                    Rs.<br />
+                                    <?php if ($awp) echo round($awp->total_cost/1000000,2); ?> M.
+                                </td>
 
 
                                 <td style="text-align: center;">
@@ -113,8 +124,9 @@
                             SUM(material_cost) as material_cost,
                             SUM(labor_cost) as labor_cost,
                             SUM(total_cost) as total_cost
-                             FROM annual_work_plans 
-                                        WHERE component_category_id = " . $component_category->component_category_id . "";
+                             FROM annual_work_plans
+                             WHERE financial_year_id='" . $f_year->financial_year_id . "'
+                             AND component_category_id = " . $component_category->component_category_id . "";
                                 $awp = $this->db->query($query)->row();
                             ?>
                         </tbody>
@@ -126,15 +138,23 @@
                                 <td style="text-align: center;"><?php if ($awp) echo round($awp->anual_target, 2); ?>
                                 </td>
                                 <td style="text-align: center;"><?php if ($awp) echo round($awp->material_cost, 2); ?>
+                                    Rs.<br />
+                                    <?php if ($awp) echo round($awp->material_cost/1000000, 2); ?> M.
                                 </td>
-                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,2); ?></td>
+                                <td style="text-align: center;"><?php if ($awp) echo round($awp->labor_cost,2); ?>
+                                    Rs.<br />
+                                    <?php if ($awp) echo round($awp->labor_cost/1000000,2); ?> M.
+                                </td>
                                 <td style="text-align: center;">
                                     <?php 
                                     if($awp and $awp->total_cost){
                                     echo round(($awp->labor_cost/$awp->total_cost)*100,2)."%";
                              } ?>
                                 </td>
-                                <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?></td>
+                                <td style="text-align: center;"><?php if ($awp) echo $awp->total_cost; ?>
+                                    Rs.<br />
+                                    <?php if ($awp) echo round($awp->total_cost/1000000,2); ?> M.
+                                </td>
 
 
 

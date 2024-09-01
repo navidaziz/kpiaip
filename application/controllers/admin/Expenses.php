@@ -16,6 +16,7 @@ class Expenses extends Admin_Controller
         $this->lang->load("wua_members", 'english');
         $this->lang->load("schemes", 'english');
         $this->lang->load("system", 'english');
+       // $this->load->library('Php_Excel.php');     
         //$this->output->enable_profiler(TRUE);
     }
     //---------------------------------------------------------------
@@ -26,7 +27,7 @@ class Expenses extends Admin_Controller
      */
     public function index($financial_year_id = 0)
     {
-
+ini_set('memory_limit', '1G');
         $financial_year_id = (int) $financial_year_id;
 
         if ($financial_year_id != 0) {
@@ -969,4 +970,125 @@ LEFT JOIN
         $requested_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url();
         redirect($requested_url);
     }
+
+    // public function export_all_expense_data()
+    // {
+    //         $query = "SELECT  
+    //         e.*, 
+    //         fy.financial_year, 
+    //         cc.category, 
+    //         cc.category_detail, 
+    //         s.scheme_name,
+    //         s.scheme_code,
+    //         wua.wua_registration_no,
+    //         wua.wua_name,
+    //         d.district_name, 
+    //         d.region  
+    //         FROM 
+    //             expenses AS e
+    //         INNER JOIN 
+    //             financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+    //         INNER JOIN 
+    //             districts AS d ON d.district_id = e.district_id
+    //         LEFT JOIN 
+    //             component_categories AS cc ON cc.component_category_id = e.component_category_id
+    //             LEFT JOIN schemes AS s ON(s.scheme_id = e.scheme_id)
+    //             LEFT JOIN water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)";
+            
+                    
+    //             $expenses = $this->db->query($query)->result();
+
+    //             $objPHPExcel = new PHPExcel();
+    //             $objPHPExcel->setActiveSheetIndex(0);
+    //             // set Header
+    //             $objPHPExcel->getActiveSheet()->SetCellValue('A1', 'S:NO');
+    //             $objPHPExcel->getActiveSheet()->SetCellValue('B1', 'Employee Name.');   
+    //             // set Row
+    //             $rowCount = 2;
+    //             $serial_counter=1;
+    //             foreach ($expenses as $val) 
+    //             {
+    //                 $objPHPExcel->getActiveSheet()->SetCellValue('A' . $rowCount, $serial_counter);
+    //                 $objPHPExcel->getActiveSheet()->SetCellValue('B' . $rowCount, $val->region);
+
+    //                 $rowCount++;
+    //                 $serial_counter++;
+    //             }
+
+    //         $file_name="abde".time();
+    //             header('Content-Type: application/vnd.ms-excel'); //mime type
+    //             header('Content-Disposition: attachment;filename="'.$file_name.'"'); //tell browser what's the file name
+    //             header('Cache-Control: max-age=0'); //no cache
+    //             $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');  
+    //             $objWriter->save('php://output'); 
+    //  }
+
+     public function to_csv()
+    {
+        // Define your query
+        $query = "SELECT
+            fy.financial_year, 
+            d.region,
+            d.district_name,
+            cc.category,
+            e.purpose, 
+            cc.category_detail, 
+            s.scheme_name,
+            s.scheme_code,
+            wua.wua_registration_no,
+            wua.wua_name,
+            e.voucher_number,
+            e.cheque,   
+            e.date,
+            e.payee_name,
+            e.gross_pay,
+            e.whit_tax,
+            e.whst_tax,
+            e.st_duty_tax,
+            e.rdp_tax,
+            e.kpra_tax,
+            e.gur_ret,
+            e.misc_deduction,
+            e.net_pay 
+            FROM 
+                expenses AS e
+            INNER JOIN 
+                financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+            INNER JOIN 
+                districts AS d ON d.district_id = e.district_id
+            LEFT JOIN 
+                component_categories AS cc ON cc.component_category_id = e.component_category_id
+            LEFT JOIN 
+                schemes AS s ON(s.scheme_id = e.scheme_id)
+            LEFT JOIN 
+                water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)";
+
+        // Execute the query
+        $result = $this->db->query($query)->result_array();
+
+        // Set CSV filename
+        $filename = time().'exported_data.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+
+            // Write data rows
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
+    }
+        
 }
