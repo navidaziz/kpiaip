@@ -52,27 +52,10 @@ class Expenses extends Admin_Controller
         $filter_month = $this->db->escape(date('m', strtotime($filter_date)));
         $filter_year = $this->db->escape(date('Y', strtotime($filter_date)));
 
-            $query = "SELECT  
-    e.*, 
-    fy.financial_year, 
-    cc.category, 
-    cc.category_detail, 
-    s.scheme_name,
-    s.scheme_code,
-    wua.wua_registration_no,
-    wua.wua_name,
-    d.district_name, 
-    d.region  
-FROM 
-    expenses AS e
-INNER JOIN 
-    financial_years AS fy ON fy.financial_year_id = e.financial_year_id
-INNER JOIN 
-    districts AS d ON d.district_id = e.district_id
-LEFT JOIN 
-    component_categories AS cc ON cc.component_category_id = e.component_category_id
-    LEFT JOIN schemes AS s ON(s.scheme_id = e.scheme_id)
-    LEFT JOIN water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)";
+        $query = "SELECT e.*,fy.financial_year, d.district_name, d.region  FROM expenses as e 
+        INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
+        INNER JOIN districts as d ON(d.district_id = e.district_id) 
+        ";
             
             if($this->input->get('fy')){
                 if($this->input->get('fy')=='fy'){

@@ -434,14 +434,39 @@
                                                 <td><?php echo $count++; ?></td>
                                                 <td><?php echo $expense->region; ?></td>
                                                 <td><?php echo $expense->district_name; ?></td>
-                                                <td><?php echo $expense->category; ?></td>
-                                                <td><?php echo $expense->category_detail; ?></td>
+                                                <?php
+                                                    if ($expense->component_category_id > 0) {
+                                                        $query = "SELECT cc.`category`, cc.category_detail 
+                                                        FROM `component_categories` as cc 
+                                                        WHERE cc.component_category_id=$expense->component_category_id";
+                                                        $c_category = $this->db->query($query)->row();
+                                                    ?>
+                                                <td><?php echo $c_category->category; ?></td>
+                                                <td><?php echo $c_category->category_detail; ?></td>
+                                                <?php } else { ?>
+                                                <td></td>
+                                                <td></td>
+                                                <?php } ?>
                                                 <td><small><?php echo $expense->purpose; ?></small></td>
 
+                                                <?php
+                                                    if ($expense->scheme_id > 0) {
+                                                        $query = "SELECT wau.wua_registration_no as wua_reg_no,
+                                                            wau.wua_name,
+                                                            s.scheme_name
+                                                            FROM `water_user_associations` as wau
+                                                            INNER JOIN schemes as s ON(s.water_user_association_id = wau.water_user_association_id)
+                                                            WHERE s.scheme_id = $expense->scheme_id";
+                                                        $scheme = $this->db->query($query)->row();
+                                                    ?>
                                                 <td><?php echo $scheme->wua_reg_no; ?></td>
                                                 <td><?php echo $scheme->wua_name; ?></td>
                                                 <td><?php echo $scheme->scheme_name; ?></td>
-
+                                                <?php } else { ?>
+                                                <td></td>
+                                                <td></td>
+                                                <td></td>
+                                                <?php } ?>
                                                 <td><?php echo $expense->financial_year; ?></td>
                                                 <td><?php echo $expense->voucher_number; ?></td>
                                                 <td><?php echo $expense->cheque; ?></td>
