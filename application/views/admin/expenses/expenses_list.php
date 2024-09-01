@@ -270,6 +270,24 @@
             <div class="box-body">
                 <div class="tabbable header-tabs">
                     <ul class="nav nav-tabs">
+                        <!-- <li <?php if ($this->input->get('fy') == 'all') {
+                                echo ' class="active" ';
+                            } ?>>
+
+                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?fy=all"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                <span class="hidden-inline-mobile">Over All Report</span></a>
+                        </li> -->
+
+                        <li <?php if ($this->input->get('fy') == 'fy') {
+                                echo ' class="active" ';
+                            } ?>>
+
+                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?fy=fy"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                <span class="hidden-inline-mobile">FY:
+                                    <?php echo $financial_year->financial_year; ?></span></a>
+                        </li>
 
                         <?php
 

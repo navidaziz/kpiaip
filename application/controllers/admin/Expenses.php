@@ -54,9 +54,15 @@ class Expenses extends Admin_Controller
 
         $query = "SELECT e.*,fy.financial_year, d.district_name, d.region  FROM expenses as e 
         INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
-        INNER JOIN districts as d ON(d.district_id = e.district_id)
-        WHERE MONTH(`e`.`date`) = $filter_month
-        AND YEAR(`e`.`date`) = $filter_year";
+        INNER JOIN districts as d ON(d.district_id = e.district_id) ";
+            
+            if($this->input->get('fy')){
+                if($this->input->get('fy'=='fy')){
+                    $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
+                }
+            }else{
+                $query .= " WHERE MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+            }
         $expenses = $this->db->query($query)->result();
         $this->data["expenses"] = $expenses;
 
@@ -71,9 +77,14 @@ class Expenses extends Admin_Controller
         SUM(net_pay) as net_pay
         FROM expenses as e 
         INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
-        INNER JOIN districts as d ON(d.district_id = e.district_id)
-        WHERE MONTH(`e`.`date`) = $filter_month
-        AND YEAR(`e`.`date`) = $filter_year";
+        INNER JOIN districts as d ON(d.district_id = e.district_id) "; 
+        if($this->input->get('fy')){
+            if($this->input->get('fy'=='fy')){
+            $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
+            }
+            }else{
+                $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+            }
         $expense_summary = $this->db->query($query)->row();
         $this->data["expense_summary"] = $expense_summary;
 
@@ -85,9 +96,17 @@ class Expenses extends Admin_Controller
             FROM expenses as e 
             INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
             INNER JOIN districts as d ON(d.district_id = e.district_id)
-            WHERE e.category = '" . $tax . "'
-            AND MONTH(`e`.`date`) = $filter_month
-            AND YEAR(`e`.`date`) = $filter_year";
+            WHERE e.category = '" . $tax . "' ";
+            
+            if($this->input->get('fy')){
+                if($this->input->get('fy'=='fy')){
+                    $query .= " AND e.financial_year_id = $financial_year->financial_year_id";
+                }
+            }else{
+                $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+            }
+            
+
             if ($this->db->query($query)->row()->net_pay) {
                 $tax_paid[$tax] = $this->db->query($query)->row()->net_pay;
             } else {
