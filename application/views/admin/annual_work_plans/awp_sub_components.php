@@ -146,7 +146,7 @@
                 </td>
                 <td style="text-align: center;">
                     <?php if ($awp){ if($awp->total_cost){ 
-                        if($total_cost!=$awp->total_cost){ echo '<span style="color:red">Error</span>'; }
+                        if(count($total_cost)!=round($awp->total_cost)){ echo '<span style="color:red">Error</span>'; }
                         echo round($awp->total_cost,2); }} ?>
                 </td>
             </tr>
