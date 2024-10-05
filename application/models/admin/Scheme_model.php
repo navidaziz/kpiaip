@@ -35,11 +35,11 @@ class Scheme_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
-            array(
-                "field"  =>  "scheme_code",
-                "label"  =>  "Scheme Code",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "scheme_code",
+            //     "label"  =>  "Scheme Code",
+            //     "rules"  =>  "required"
+            // ),
 
             array(
                 "field"  =>  "scheme_name",
@@ -47,11 +47,11 @@ class Scheme_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
-            array(
-                "field"  =>  "water_source",
-                "label"  =>  "Water Source",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "water_source",
+            //     "label"  =>  "Water Source",
+            //     "rules"  =>  "required"
+            // ),
 
             array(
                 "field"  =>  "latitude",

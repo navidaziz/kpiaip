@@ -19,9 +19,20 @@ class Reports extends Admin_Controller
     /**
      * Default action to be called
      */
+
+      public function financial_summary_report()
+    {
+       
+        $this->data["title"] = 'KP-IAIP Reports';
+        $this->data["description"] = 'Report Dashboard';
+        $this->data["view"] = ADMIN_DIR . "reports/financial_summary_report";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+
     public function index()
     {
-
+        
         $this->data["title"] = 'KP-IAIP Reports';
         $this->data["description"] = 'Report Dashboard';
         $this->data["view"] = ADMIN_DIR . "reports/index";
@@ -332,5 +343,71 @@ class Reports extends Admin_Controller
 
         $this->data["view"] = ADMIN_DIR . "reports/financial_statement";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+     public function export_expenses()
+    {
+        // Define your query
+        $query = "SELECT
+            fy.financial_year as FY, 
+            d.region as REGION,
+            d.district_name as DISTRICT,
+            e.purpose as PURPOSE, 
+            cc.category as CATEGORY,
+            cc.category_detail as CATEGORY_DETAIL, 
+            s.scheme_name as SCHEME_NAME,
+            s.scheme_code as SCHEME_CODE,
+            wua.wua_registration_no as WUA_REG_NO,
+            wua.wua_name as WUA_NAME,
+            e.voucher_number as VOUCHER_NO,
+            e.cheque as CHEQUE,   
+            e.date as `DATE`,
+            e.payee_name as PAYEE_NAME,
+            e.gross_pay as GROSS_PAY,
+            e.whit_tax as WHIT_TAX,
+            e.whst_tax as WHST_TAX,
+            e.st_duty_tax as ST_DUTY_TAX,
+            e.rdp_tax as RDP_TAX,
+            e.kpra_tax as KPRA_TAX,
+            e.gur_ret as GUR_RET,
+            e.misc_deduction as MISC_DEDUCTION,
+            e.net_pay as NET_PAY 
+            FROM 
+                expenses AS e
+            INNER JOIN 
+                financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+            INNER JOIN 
+                districts AS d ON d.district_id = e.district_id
+            LEFT JOIN 
+                component_categories AS cc ON cc.component_category_id = e.component_category_id
+            LEFT JOIN 
+                schemes AS s ON(s.scheme_id = e.scheme_id)
+            LEFT JOIN 
+                water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)";
+
+        // Execute the query
+        $result = $this->db->query($query)->result_array();
+
+        // Set CSV filename
+        $filename = time().'exported_data.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
     }
 }

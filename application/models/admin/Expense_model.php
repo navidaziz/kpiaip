@@ -98,8 +98,8 @@ class Expense_model extends MY_Model
                 "rules"  =>  "required"
             ),
             array(
-                "field"  =>  "st_duty_tax",
-                "label"  =>  "ST. Duty Tax",
+                "field"  =>  "kpra_tax",
+                "label"  =>  "KPRA Tax",
                 "rules"  =>  "required"
             ),
             array(

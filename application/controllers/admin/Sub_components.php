@@ -56,9 +56,9 @@ class Sub_components extends Admin_Controller
      */
     public function view_sub_component($sub_component_id)
     {
-
+ 
         $sub_component_id = (int) $sub_component_id;
-
+        
         $this->data["sub_component"] = $this->sub_component_model->get_sub_component($sub_component_id)[0];
         $this->data["title"] = $this->lang->line('Sub Component Details');
         $this->data["view"] = ADMIN_DIR . "sub_components/view_sub_component";
@@ -280,6 +280,8 @@ class Sub_components extends Admin_Controller
             $this->data['title'] = "Update Category Detail";
             $component_category = $this->component_category_model->get_component_category($component_category_id)[0];
         }
+        $this->data["sub_components"] = $this->component_category_model->getList("sub_components", "sub_component_id", "sub_component_name", $where = "`sub_components`.`status` IN (1) ");
+
         $this->data['component_category'] = $component_category;
         $this->load->view(ADMIN_DIR . "sub_components/sub_component_category_form", $this->data);
     }

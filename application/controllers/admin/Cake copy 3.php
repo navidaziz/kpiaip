@@ -27,9 +27,9 @@ class Cake extends Admin_Controller
         // $this->data["view"] = ADMIN_DIR . "cake/index";
 
 
-        $controller_name = 'water_user_association';
-        $table_name = "water_user_associations";
-        $table_name_singular = "water_user_association";
+        $controller_name = 'all_expenses';
+        $table_name = "all_expenses";
+        $table_name_singular = "all_expense";
         $query = "SHOW COLUMNS FROM $table_name";
 
 

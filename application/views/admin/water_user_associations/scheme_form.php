@@ -42,7 +42,7 @@
                     "name"          =>  "scheme_code",
                     "id"            =>  "scheme_code",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('scheme_code'),
+                    "style"         =>  "", "requ ired"      => "required", "title"         =>  $this->lang->line('scheme_code'),
                     "value"         =>  set_value("scheme_code", $scheme->scheme_code),
                     "placeholder"   =>  $this->lang->line('scheme_code')
                 );
@@ -72,7 +72,8 @@
                     "name"          =>  "scheme_name",
                     "id"            =>  "scheme_name",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('scheme_name'),
+                    "style"         =>  "", "required"      => "requ ired", 
+                    "title"         =>  $this->lang->line('scheme_name'),
                     "value"         =>  set_value("scheme_name", $scheme->scheme_name),
                     "placeholder"   =>  $this->lang->line('scheme_name')
                 );
@@ -102,7 +103,7 @@
                     "name"          =>  "water_source",
                     "id"            =>  "water_source",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('water_source'),
+                    "style"         =>  "", "requ ired"      => "requ ired", "title"         =>  $this->lang->line('water_source'),
                     "value"         =>  set_value("water_source", $scheme->water_source),
                     "placeholder"   =>  $this->lang->line('water_source')
                 );
@@ -132,7 +133,7 @@
                     "name"          =>  "latitude",
                     "id"            =>  "latitude",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('latitude'),
+                    "style"         =>  "", "requ ired"      => "requ ired", "title"         =>  $this->lang->line('latitude'),
                     "value"         =>  set_value("latitude", $scheme->latitude),
                     "placeholder"   =>  $this->lang->line('latitude')
                 );
@@ -162,7 +163,7 @@
                     "name"          =>  "longitude",
                     "id"            =>  "longitude",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('longitude'),
+                    "style"         =>  "", "requ ired"      => "requ ired", "title"         =>  $this->lang->line('longitude'),
                     "value"         =>  set_value("longitude", $scheme->longitude),
                     "placeholder"   =>  $this->lang->line('longitude')
                 );
@@ -195,7 +196,7 @@
                     "id"            =>  "male_beneficiaries",
                     "class"         =>  "form-control beneficiaries",
                     "style"         =>  "",
-                    "required"      => "required",
+                    "requ ired"      => "requ ired",
                     "title"         =>  $this->lang->line('male_beneficiaries'),
                     "value"         =>  set_value("male_beneficiaries", $scheme->male_beneficiaries),
                     "placeholder"   =>  $this->lang->line('male_beneficiaries')
@@ -226,7 +227,8 @@
                     "name"          =>  "female_beneficiaries",
                     "id"            =>  "female_beneficiaries",
                     "class"         =>  "form-control beneficiaries",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('female_beneficiaries'),
+                    "style"         =>  "", "requ ired"      => "requ ired", 
+                    "title"         =>  $this->lang->line('female_beneficiaries'),
                     "value"         =>  set_value("female_beneficiaries", $scheme->female_beneficiaries),
                     "placeholder"   =>  $this->lang->line('female_beneficiaries')
                 );
@@ -256,7 +258,7 @@
                     "name"          =>  "estimated_cost",
                     "id"            =>  "estimated_cost",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('estimated_cost'),
+                    "style"         =>  "", "requ ired"      => "requ ired", "title"         =>  $this->lang->line('estimated_cost'),
                     "value"         =>  set_value("estimated_cost", $scheme->estimated_cost),
                     "placeholder"   =>  $this->lang->line('estimated_cost')
                 );
@@ -269,11 +271,24 @@
 
         </div>
 
+        <div class="form-group">
+
+            <label for="sanctioned_cost" class="col-md-4 control-label">Sactioned Cost</label>
+            <div class="col-md-8">
+                <input type="text" name="sanctioned_cost" value="<?php echo $scheme->sanctioned_cost ?>"
+                    id="sanctioned_cost" class="form-control" title="Sactioned Cost" placeholder="Sactioned Cost">
+            </div>
+
+
+
+        </div>
 
         <div class="form-group">
             <label for="registration_date" class="col-md-4 control-label" style="">Registration Date</label>
             <div class="col-md-8">
-                <input type="date" name="registration_date" value="<?php echo $scheme->registration_date; ?>" id="registration_date" class="form-control" style="" required="required" title="Registration Date" placeholder="Registration Date">
+                <input type="date" name="registration_date" value="<?php echo $scheme->registration_date; ?>"
+                    id="registration_date" class="form-control" style="" required="required" title="Registration Date"
+                    placeholder="Registration Date">
             </div>
 
 
@@ -300,62 +315,69 @@
 
 
 
+
+
+
         <div id="result_response"></div>
 
         <div class=" col-md-12" style="text-align: center;">
+
+            <?php if($scheme->scheme_id==0){ ?>
             <?php
             $submit = array(
                 "type"  =>  "submit",
                 "name"  =>  "submit",
-                "value" =>  $this->lang->line('Update'),
-                "class" =>  "btn btn-primary",
+                "value" =>  "Add New Scheme",
+                "class" =>  "btn btn-danger",
                 "style" =>  ""
             );
             echo form_submit($submit);
             ?>
 
-
-
+            <?php }else{ ?>
             <?php
-            $reset = array(
-                "type"  =>  "reset",
-                "name"  =>  "reset",
-                "value" =>  $this->lang->line('Reset'),
-                "class" =>  "btn btn-default",
+            $submit = array(
+                "type"  =>  "submit",
+                "name"  =>  "submit",
+                "value" =>  "Update Scheme Detail",
+                "class" =>  "btn btn-primary",
                 "style" =>  ""
             );
-            echo form_reset($reset);
+            echo form_submit($submit);
             ?>
+            <?php } ?>
+
+
         </div>
         <div style="clear:both;"></div>
 
     </form>
-
+    <?php $this->load->view(ADMIN_DIR."water_user_associations/expense_reference"); ?>
 </div>
 
 <script>
-    $('#data_form').submit(function(e) {
+$('#data_form').submit(function(e) {
 
-        e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); // Prevent default form submission
 
-        // Create FormData object
-        var formData = new FormData(this);
+    // Create FormData object
+    var formData = new FormData(this);
 
-        // Send AJAX request
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/add_scheme") ?>', // URL to submit form data
-            data: formData,
-            processData: false, // Don't process the data
-            contentType: false, // Don't set contentType
-            success: function(response) {
-                // Display response
-                if (response == 'success') {
-                    location.reload();
-                } else {
-                    $('#result_response').html(response);
-                }
+    // Send AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/add_scheme") ?>', // URL to submit form data
+        data: formData,
+        processData: false, // Don't process the data
+        contentType: false, // Don't set contentType
+        success: function(response) {
+            // Display response
+            if (response == 'success') {
+                location.reload();
+            } else {
+                $('#result_response').html(response);
             }
-        });
+        }
     });
+});
 </script>

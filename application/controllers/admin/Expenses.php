@@ -108,15 +108,18 @@ LEFT JOIN
         $expense_summary = $this->db->query($query)->row();
         $this->data["expense_summary"] = $expense_summary;
 
-        $taxes = array('WHIT', 'WHST', 'St. Duty', 'RDP', 'KPRA', 'GUR.RET.', 'MISC.DEDU');
+        $query="SELECT component_category_id, category FROM `component_categories` where sub_component_id=22;";
+        $taxes = $this->db->query($query)->result();
         $tax_paid = array();
+        $taxes_ids = array();
         foreach ($taxes as $tax) {
+            $taxes_ids[] = $tax->component_category_id;
             $query = "SELECT 
             SUM(net_pay) as net_pay
             FROM expenses as e 
             INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
             INNER JOIN districts as d ON(d.district_id = e.district_id)
-            WHERE e.category = '" . $tax . "' ";
+            WHERE e.component_category_id= '" . $tax->component_category_id . "' ";
             
             if($this->input->get('fy')){
                 if($this->input->get('fy')=='fy'){
@@ -128,11 +131,12 @@ LEFT JOIN
             
 
             if ($this->db->query($query)->row()->net_pay) {
-                $tax_paid[$tax] = $this->db->query($query)->row()->net_pay;
+                $tax_paid[$tax->category] = $this->db->query($query)->row()->net_pay;
             } else {
-                $tax_paid[$tax] = 0;
+                $tax_paid[$tax->category] = 0;
             }
         }
+        $this->data["taxes_ids"] = $taxes_ids;
         $this->data["tax_paid"] = $tax_paid;
         $this->data["title"] = "Expenses Dashboard";
         $this->data["description"] = "All Expenses List";
@@ -166,18 +170,28 @@ LEFT JOIN
             $expense['net_pay'] = 0.00;
             //scheme fields are required
             $expense =  (object) $expense;
+            $query = "select cc.*, sc.sub_component_name, c.component_name FROM component_categories as cc
+        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+        INNER JOIN components as c ON(c.component_id = sc.component_id)
+        AND cc.status=1
+        AND c.component_id NOT IN(1,2,7)
+        ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
+        
+        $this->data['component_catagories'] = $this->db->query($query)->result();
         } else {
             $query = "SELECT * FROM expenses WHERE expense_id = $expense_id";
             $expense = $this->db->query($query)->row();
-        }
-        $this->data['expense'] = $expense;
-        $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts ORDER BY district_name ASC')->result();
-        $query = "select cc.*, sc.sub_component_name, c.component_name FROM component_categories as cc
+            $query = "select cc.*, sc.sub_component_name, c.component_name FROM component_categories as cc
         INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
         INNER JOIN components as c ON(c.component_id = sc.component_id)
         AND cc.status=1
         ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
+        
         $this->data['component_catagories'] = $this->db->query($query)->result();
+        }
+        $this->data['expense'] = $expense;
+        $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts ORDER BY district_name ASC')->result();
+        
 
         $this->load->view(ADMIN_DIR . "expenses/expense_form", $this->data);
     }
@@ -223,6 +237,8 @@ LEFT JOIN
             $expense['whit_tax'] = 0.00;
             $expense['whst_tax'] = 0.00;
             $expense['rdp_tax'] = 0.00;
+            $expense['gur_ret'] = 0.00;
+            $expense['kpra_tax'] = 0.00;
             $expense['st_duty_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;
@@ -234,14 +250,15 @@ LEFT JOIN
         }
         $this->data['expense'] = $expense;
         $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts')->result();
-        $query = "SELECT cc.component_category_id,
-        cc.category,
-        sc.sub_component_name,
-        s.component_name
-        FROM component_categories as cc
-        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.component_category_id)
-        INNER JOIN components as s ON(s.component_id = cc.component_id)";
-        $this->data['component_catagories'] = $this->db->query($query)->result();
+        // $query = "SELECT cc.component_category_id,
+        // cc.category,
+        // sc.sub_component_name,
+        // s.component_name
+        // FROM component_categories as cc
+        // INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.component_category_id)
+        // INNER JOIN components as s ON(s.component_id = sc.component_id)
+        // WHERE s.components_id NOT IN(8)";
+        // $this->data['component_catagories'] = $this->db->query($query)->result();
 
         $this->load->view(ADMIN_DIR . "expenses/tax_expense_form", $this->data);
     }
@@ -1023,72 +1040,41 @@ LEFT JOIN
     //             $objWriter->save('php://output'); 
     //  }
 
-     public function to_csv()
-    {
-        // Define your query
-        $query = "SELECT
-            fy.financial_year, 
-            d.region,
-            d.district_name,
-            cc.category,
-            e.purpose, 
-            cc.category_detail, 
-            s.scheme_name,
-            s.scheme_code,
-            wua.wua_registration_no,
-            wua.wua_name,
-            e.voucher_number,
-            e.cheque,   
-            e.date,
-            e.payee_name,
-            e.gross_pay,
-            e.whit_tax,
-            e.whst_tax,
-            e.st_duty_tax,
-            e.rdp_tax,
-            e.kpra_tax,
-            e.gur_ret,
-            e.misc_deduction,
-            e.net_pay 
-            FROM 
-                expenses AS e
-            INNER JOIN 
-                financial_years AS fy ON fy.financial_year_id = e.financial_year_id
-            INNER JOIN 
-                districts AS d ON d.district_id = e.district_id
-            LEFT JOIN 
-                component_categories AS cc ON cc.component_category_id = e.component_category_id
-            LEFT JOIN 
-                schemes AS s ON(s.scheme_id = e.scheme_id)
-            LEFT JOIN 
-                water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)";
+    
 
-        // Execute the query
-        $result = $this->db->query($query)->result_array();
+    public function search_expenses(){
+      $search = $this->input->post('search');
+$search_param = "%{$search}%";  // Adding wildcards for LIKE search
 
-        // Set CSV filename
-        $filename = time().'exported_data.csv';
+$query = "SELECT  
+    e.*, 
+    fy.financial_year, 
+    cc.category, 
+    cc.category_detail, 
+    s.scheme_name,
+    s.scheme_code,
+    wua.wua_registration_no,
+    wua.wua_name,
+    d.district_name, 
+    d.region  
+FROM 
+    expenses AS e
+INNER JOIN 
+    financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+INNER JOIN 
+    districts AS d ON d.district_id = e.district_id
+LEFT JOIN 
+    component_categories AS cc ON cc.component_category_id = e.component_category_id
+LEFT JOIN 
+    schemes AS s ON s.scheme_id = e.scheme_id
+LEFT JOIN 
+    water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
+WHERE 
+    e.cheque = ? OR e.payee_name LIKE ? LIMIT 100";
 
-        // Set headers to download the file
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment;filename=' . $filename);
-
-        // Open the output stream
-        $output = fopen('php://output', 'w');
-
-        // Write column headers
-        if (!empty($result)) {
-            // Get headers from the first row
-            fputcsv($output, array_keys($result[0]));
-
-            // Write data rows
-            foreach ($result as $row) {
-                fputcsv($output, $row);
-            }
-        }
-
-        // Close the output stream
-        fclose($output);
+$expenses = $this->db->query($query, [$search, $search_param])->result();
+$this->data["expenses"] = $expenses;
+$this->load->view(ADMIN_DIR . "expenses/expense_search_list", $this->data);
     }
         
 }

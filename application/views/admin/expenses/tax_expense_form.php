@@ -11,8 +11,8 @@
         <?php echo form_hidden("whit_tax", $expense->whit_tax); ?>
         <?php echo form_hidden("whst_tax", $expense->whst_tax); ?>
         <?php echo form_hidden("rdp_tax", $expense->rdp_tax); ?>
-        <?php echo form_hidden("rdp_tax", $expense->gur_ret); ?>
-
+        <?php echo form_hidden("gur_ret", $expense->gur_ret); ?>
+        <?php echo form_hidden("kpra_tax", $expense->kpra_tax); ?>
         <?php echo form_hidden("st_duty_tax", $expense->st_duty_tax); ?>
         <?php echo form_hidden("misc_deduction", $expense->misc_deduction); ?>
         <?php echo form_hidden("component_category_id", $expense->component_category_id); ?>
@@ -44,31 +44,23 @@
         <div class="form-group">
             <label for="District" class="col-md-3 control-label" style="">Category</label>
             <div class="col-md-9">
-                <input <?php if ($expense->category == 'WHIT') { ?> checked <?php } ?> type="radio" name="category"
-                    value="WHIT" /> WHIT <span style="margin-left: 3px;"></span>
-                <input <?php if ($expense->category == 'WSHT') { ?> checked <?php } ?> type="radio" name="category"
-                    value="WSHT" /> WSHT <span style="margin-left: 3px;"></span>
-                <input <?php if ($expense->category == 'ST.DUTY') { ?> checked <?php } ?> type="radio" name="category"
-                    value="ST.DUTY" /> ST.DUTY <span style="margin-left: 3px;"></span>
-                <input <?php if ($expense->category == 'RDP') { ?> checked <?php } ?> type="radio" name="category"
-                    value="RDP" /> RDP <span style="margin-left: 3px;"></span>
-                <input <?php if ($expense->category == 'KPRA') { ?> checked <?php } ?> type="radio" name="category"
-                    value="KPRA" /> KPRA <span style="margin-left: 3px;"></span>
-                <input <?php if ($expense->category == 'GUR.RET.') { ?> checked <?php } ?> type="radio" name="category"
-                    value="GUR.RET." /> GUR.RET. <span style="margin-left: 3px;"></span>
-                <input <?php if ($expense->category == 'GUR.RET.') { ?> checked <?php } ?> type="radio" name="category"
-                    value="GUR.RET." /> GUR.RET. <span style="margin-left: 3px;"></span>
-
-                <input <?php if ($expense->category == 'MISC.DEDU') { ?> checked <?php } ?> type="radio" name="category"
-                    value="MISC.DEDU" /> MISC.DEDU
-
+                <?php 
+                $query="SELECT component_category_id, category FROM `component_categories` where sub_component_id=22;";
+                $tax_heads = $this->db->query($query)->result();
+                foreach($tax_heads as $tax_head){ ?>
+                <input required <?php if ($expense->component_category_id == $tax_head->component_category_id) { ?>
+                    checked <?php } ?> type="radio" name="component_category_id"
+                    value="<?php echo $tax_head->component_category_id ?>" />
+                <?php echo $tax_head->category ?>
+                <span style="margin-left: 3px;"></span>
+                <?php } ?>
             </div>
         </div>
 
         <div class="form-group">
             <label for="Payee Name" class="col-md-3 control-label" style="">Payee Name</label>
             <div class="col-md-9">
-                <input type="text" s name="payee_name" value="<?php echo $expense->payee_name; ?>" id="payee_name"
+                <input type="text" name="payee_name" value="<?php echo $expense->payee_name; ?>" id="payee_name"
                     class="form-control" style="" required="required" placeholder="Payee Name">
             </div>
         </div>
@@ -89,12 +81,26 @@
             </div>
         </div>
 
+        <div class="form-group">
+            <label for="Gross Pay" class="col-md-3 control-label" style="">Gross Pay</label>
+            <div class="col-md-9">
+                <input type="number" min="1" onkeyup="calculate_net_pay()" step="any" name="gross_pay"
+                    value="<?php echo $expense->gross_pay; ?>" id="gross_pay" class="form-control" style=""
+                    required="required" placeholder="Gross Pay">
+            </div>
+        </div>
+        <script>
+        function calculate_net_pay() {
+            var gross_pay = parseFloat($('#gross_pay').val()) || 0;
+            $('#net_pay').val(gross_pay);
 
+        }
+        </script>
 
         <div class="form-group">
             <label for="Net Pay" class="col-md-3 control-label" style="">Net Pay</label>
             <div class="col-md-9">
-                <input min="1" type="number" step="any" name="net_pay" value="<?php echo $expense->net_pay; ?>"
+                <input readonly min="1" type="number" step="any" name="net_pay" value="<?php echo $expense->net_pay; ?>"
                     id="net_pay" class="form-control" style="" required="required" placeholder="Net Pay">
             </div>
         </div>

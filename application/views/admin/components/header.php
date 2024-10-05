@@ -132,7 +132,7 @@
 
     $this->load->view(ADMIN_DIR . "components/nav.php"); ?>
         <div id="main-content"
-            <?php if ($this->router->fetch_class() == 'expenses' or $this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?>
+            <?php if ($this->router->fetch_class() == 'water_user_associations' or $this->router->fetch_class() == 'expenses' or $this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?>
             class="margin-left-50" <?php } ?>>
             <div class="container">
                 <div class="row">

@@ -112,9 +112,10 @@ class Component_category_model extends MY_Model
 
         $inputs["project_id"]  =  $this->input->post("project_id");
 
-        $inputs["component_id"]  =  $this->input->post("component_id");
-
-        $inputs["sub_component_id"]  =  $this->input->post("sub_component_id");
+        $inputs["sub_component_id"]  =  $sub_component_id = (int) $this->input->post("sub_component_id");
+        $query = "SELECT component_id FROM sub_components WHERE sub_component_id = ?";
+        $result = $this->db->query($query, [$sub_component_id])->row();
+        $inputs["component_id"]  =  $result->component_id;
 
         $inputs["category"]  =  $this->input->post("category");
 
@@ -146,9 +147,12 @@ class Component_category_model extends MY_Model
 
         $inputs["project_id"]  =  $this->input->post("project_id");
 
-        $inputs["component_id"]  =  $this->input->post("component_id");
+        
 
-        $inputs["sub_component_id"]  =  $this->input->post("sub_component_id");
+        $inputs["sub_component_id"]  =  $sub_component_id = (int) $this->input->post("sub_component_id");
+        $query = "SELECT component_id FROM sub_components WHERE sub_component_id = ?";
+        $result = $this->db->query($query, [$sub_component_id])->row();
+        $inputs["component_id"]  =  $result->component_id;
 
         $inputs["category"]  =  $this->input->post("category");
 

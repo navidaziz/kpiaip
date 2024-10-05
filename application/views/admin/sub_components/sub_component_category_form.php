@@ -8,8 +8,23 @@
         <?php echo form_hidden("component_category_id", $component_category->component_category_id); ?>
         <?php echo form_hidden("project_id", $component_category->project_id); ?>
         <?php echo form_hidden("component_id", $component_category->component_id); ?>
-        <?php echo form_hidden("sub_component_id", $component_category->sub_component_id); ?>
 
+        <div class="form-group">
+            <?php
+                    $label = array(
+                        "class" => "col-md-4 control-label",
+                        "style" => "",
+                    );
+                    echo form_label($this->lang->line('sub_component_name'), "Sub Component Id", $label);
+                    ?>
+
+            <div class="col-md-8">
+                <?php
+                        echo form_dropdown("sub_component_id", $sub_components, $component_category->sub_component_id, "class=\"form-control\" required style=\"\"");
+                        ?>
+            </div>
+            <?php echo form_error("sub_component_id", "<p class=\"text-danger\">", "</p>"); ?>
+        </div>
 
         <div class="form-group">
 
@@ -159,7 +174,7 @@
                     "style"         =>  "",
                     "required"      => "required",
                     "title"         =>  'Material Share',
-                    "value"         =>  set_value("material_share", $component_category->material_share),
+                    "value"         =>  set_value("material_share", @$component_category->material_share),
                     "placeholder"   =>  'Material Share',
                     "Onkeyup" => 'calculate_farmer_share()',
                     "min" => "0",
@@ -170,10 +185,10 @@
                 <?php echo form_error("material_share", "<p class=\"text-danger\">", "</p>"); ?>
             </div>
             <script>
-                function calculate_farmer_share() {
-                    matrial_share = $('#material_share').val();
-                    $('#farmer_share').val(100 - matrial_share);
-                }
+            function calculate_farmer_share() {
+                matrial_share = $('#material_share').val();
+                $('#farmer_share').val(100 - matrial_share);
+            }
             </script>
 
 
@@ -282,26 +297,26 @@
     </div>
 </form>
 <script>
-    $('#data_form').submit(function(e) {
-        e.preventDefault(); // Prevent default form submission
+$('#data_form').submit(function(e) {
+    e.preventDefault(); // Prevent default form submission
 
-        // Serialize form data
-        var formData = $(this).serialize();
+    // Serialize form data
+    var formData = $(this).serialize();
 
-        // Send AJAX request
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo site_url(ADMIN_DIR . "sub_components/add_component_category") ?>', // URL to submit form data
-            data: formData,
-            success: function(response) {
-                // Display response
-                if (response == 'success') {
-                    location.reload();
-                } else {
-                    $('#result_response').html(response);
-                }
-
+    // Send AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo site_url(ADMIN_DIR . "sub_components/add_component_category") ?>', // URL to submit form data
+        data: formData,
+        success: function(response) {
+            // Display response
+            if (response == 'success') {
+                location.reload();
+            } else {
+                $('#result_response').html(response);
             }
-        });
+
+        }
     });
+});
 </script>

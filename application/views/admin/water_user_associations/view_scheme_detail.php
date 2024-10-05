@@ -1,18 +1,18 @@
 <style>
-    .table_small>thead>tr>th,
-    .table_small>tbody>tr>th,
-    .table_small>tfoot>tr>th,
-    .table_small>thead>tr>td,
-    .table_small>tbody>tr>td,
-    .table_small>tfoot>tr>td {
-        padding: 4px;
-        line-height: 1;
-        vertical-align: top;
-        border-top: 1px solid #ddd;
-        font-size: 10px !important;
-        color: black;
-        margin: 0px !important;
-    }
+.table_small>thead>tr>th,
+.table_small>tbody>tr>th,
+.table_small>tfoot>tr>th,
+.table_small>thead>tr>td,
+.table_small>tbody>tr>td,
+.table_small>tfoot>tr>td {
+    padding: 2px;
+    line-height: 1;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
+    font-size: 10px !important;
+    color: black;
+    margin: 0px !important;
+}
 </style>
 
 <!-- PAGE HEADER-->
@@ -26,15 +26,18 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                    <a
+                        href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                 </li>
                 <li>
                     <i class="fa fa-table"></i>
-                    <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/"); ?>"><?php echo $this->lang->line('Water User Associations'); ?></a>
+                    <a
+                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/"); ?>"><?php echo $this->lang->line('Water User Associations'); ?></a>
                 </li>
                 <li>
                     <i class="fa fa-table"></i>
-                    <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_water_user_association/" . $water_user_association->water_user_association_id); ?>"><?php echo $water_user_association->wua_registration_no; ?></a>
+                    <a
+                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_water_user_association/" . $water_user_association->water_user_association_id); ?>"><?php echo $title; ?><?php //echo $water_user_association->wua_registration_no; ?></a>
                 </li>
                 <li><?php echo $scheme->scheme_code; ?></li>
             </ul>
@@ -56,6 +59,8 @@
                         SUM(e.whst_tax) as whst_tax,
                         SUM(e.st_duty_tax) as st_duty_tax,
                         SUM(e.rdp_tax) as rdp_tax,
+                        SUM(e.kpra_tax) as kpra_tax,
+                        SUM(e.gur_ret) as gur_ret,
                         SUM(e.misc_deduction) as misc_deduction,
                         SUM(e.net_pay) as net_pay
                           FROM expenses as e 
@@ -80,8 +85,10 @@
                                     else "notmentioned" ?></th>
                                 <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
                                     else echo "0.00" ?></th>
-                                <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->net_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?></th>
-                                <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?></th>
+                                <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->net_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?>
+                                </th>
+                                <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
+                                </th>
                             </tr>
 
                         </table>
@@ -99,7 +106,7 @@
 <!-- PAGE MAIN CONTENT -->
 <div class="row">
     <!-- MESSENGER -->
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="box border blue" id="messenger">
             <div class="box-title">
                 <h4><i class="fa fa-tasks"></i> Scheme Details</h4>
@@ -224,24 +231,25 @@
                                             echo 'Not Revised';
                                         } ?>
                                         <?php if ($scheme->scheme_status == 'Ongoing') { ?>
-                                            <button onclick="revise_cost(0)" class="btn btn-link btn-sm" style="padding:0px !important; margin:0px !important">Revise Cost</button>
-                                            <script>
-                                                function revise_cost(revise_cost_id) {
-                                                    $.ajax({
-                                                            method: "POST",
-                                                            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/revise_cost'); ?>",
-                                                            data: {
-                                                                scheme_id: '<?php echo $scheme->scheme_id; ?>',
-                                                                revise_cost_id: revise_cost_id
-                                                            },
-                                                        })
-                                                        .done(function(respose) {
-                                                            $('#modal').modal('show');
-                                                            $('#modal_title').html('Revise Cost');
-                                                            $('#modal_body').html(respose);
-                                                        });
-                                                }
-                                            </script>
+                                        <button onclick="revise_cost(0)" class="btn btn-link btn-sm"
+                                            style="padding:0px !important; margin:0px !important">Revise Cost</button>
+                                        <script>
+                                        function revise_cost(revise_cost_id) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/revise_cost'); ?>",
+                                                    data: {
+                                                        scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                        revise_cost_id: revise_cost_id
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Revise Cost');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                        </script>
                                         <?php } ?>
                                     </td>
                                 </tr>
@@ -260,22 +268,23 @@
                                     <th>Scheme Status</th>
                                     <td>
                                         <?php echo scheme_status($scheme->scheme_status); ?>
-                                        <button onclick="scheme_logs()" class="btn btn-link btn-sm" style="padding:0px !important; margin:0px !important">Scheme Logs</button>
+                                        <button onclick="scheme_logs()" class="btn btn-link btn-sm"
+                                            style="padding:0px !important; margin:0px !important">Scheme Logs</button>
                                         <script>
-                                            function scheme_logs() {
-                                                $.ajax({
-                                                        method: "POST",
-                                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_logs'); ?>",
-                                                        data: {
-                                                            scheme_id: '<?php echo $scheme->scheme_id; ?>',
-                                                        },
-                                                    })
-                                                    .done(function(respose) {
-                                                        $('#modal').modal('show');
-                                                        $('#modal_title').html('Scheme Status Logs');
-                                                        $('#modal_body').html(respose);
-                                                    });
-                                            }
+                                        function scheme_logs() {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_logs'); ?>",
+                                                    data: {
+                                                        scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Scheme Status Logs');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
                                         </script>
                                     </td>
                                 </tr>
@@ -284,41 +293,46 @@
                         </table>
 
                         <?php if ($scheme->scheme_status == 'Initiated') { ?>
-                            <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm">Approve</button>
-                            <button onclick="chanage_status_form('Not Approve')" class="btn btn-danger btn-sm">Not Approve</button>
+                        <button onclick="chanage_status_form('Approval')"
+                            class="btn btn-primary btn-sm">Approve</button>
+                        <button onclick="chanage_status_form('Not Approve')" class="btn btn-danger btn-sm">Not
+                            Approve</button>
 
                         <?php } ?>
                         <?php if ($scheme->scheme_status == 'Not Approved') { ?>
-                            <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm">Approve</button>
+                        <button onclick="chanage_status_form('Approval')"
+                            class="btn btn-primary btn-sm">Approve</button>
                         <?php } ?>
 
                         <?php if ($scheme->scheme_status == 'Disputed') { ?>
-                            <button onclick="chanage_status_form('Ongoing')" class="btn btn-primary btn-sm">Mark as Ongoing Scheme</button>
+                        <button onclick="chanage_status_form('Ongoing')" class="btn btn-primary btn-sm">Mark as Ongoing
+                            Scheme</button>
                         <?php } ?>
                         <?php if ($scheme->scheme_status == 'Ongoing') { ?>
-                            <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm">Dispute</button>
-                            <button onclick="chanage_status_form('Complete')" class="btn btn-success btn-sm">Complete</button>
+                        <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm">Dispute</button>
+                        <button onclick="chanage_status_form('Complete')"
+                            class="btn btn-success btn-sm">Complete</button>
 
                         <?php } ?>
                         <?php if ($scheme->scheme_status == 'Completed') { ?>
-                            <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
+                        <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
                         <?php } ?>
                         <script>
-                            function chanage_status_form(status_form) {
-                                $.ajax({
-                                        method: "POST",
-                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/chanage_status_form'); ?>",
-                                        data: {
-                                            scheme_id: '<?php echo $scheme->scheme_id; ?>',
-                                            status_form: status_form
-                                        },
-                                    })
-                                    .done(function(respose) {
-                                        $('#modal').modal('show');
-                                        $('#modal_title').html('Change Scheme Status');
-                                        $('#modal_body').html(respose);
-                                    });
-                            }
+                        function chanage_status_form(status_form) {
+                            $.ajax({
+                                    method: "POST",
+                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/chanage_status_form'); ?>",
+                                    data: {
+                                        scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                        status_form: status_form
+                                    },
+                                })
+                                .done(function(respose) {
+                                    $('#modal').modal('show');
+                                    $('#modal_title').html('Change Scheme Status');
+                                    $('#modal_body').html(respose);
+                                });
+                        }
                         </script>
 
                     </div>
@@ -413,43 +427,62 @@
                             $wua_members = $this->db->query($query)->result();
                             foreach ($wua_members as $wua_member) : ?>
 
-                                <tr>
+                            <tr>
 
-                                    <td><?php echo $count++; ?></td>
+                                <td><?php echo $count++; ?></td>
 
-                                    <td>
-                                        <?php echo $wua_member->member_type; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $wua_member->member_name; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $wua_member->member_father_name; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $wua_member->member_gender; ?>
-                                    </td>
-                                    <td>
-                                        <?php
+                                <td>
+                                    <?php echo $wua_member->member_type; ?>
+                                </td>
+                                <td>
+                                    <?php echo $wua_member->member_name; ?>
+                                </td>
+                                <td>
+                                    <?php echo $wua_member->member_father_name; ?>
+                                </td>
+                                <td>
+                                    <?php echo $wua_member->member_gender; ?>
+                                </td>
+                                <td>
+                                    <?php
                                         if ($wua_member->contact_no) {
                                             echo $wua_member->contact_no . "<br />";
                                         } ?>
-                                        <?php echo $wua_member->member_cnic; ?>
-                                    </td>
-                                    <td>
-                                        <?php
+                                    <?php echo $wua_member->member_cnic; ?>
+                                </td>
+                                <td>
+                                    <?php
                                         echo file_type(base_url("assets/uploads/" . $wua_member->attachment), false, 20, 20);
                                         ?>
-                                    </td>
+                                </td>
 
 
-                                </tr>
+                            </tr>
                             <?php endforeach; ?>
 
                         </tbody>
                     </table>
 
+                    <button onclick="scheme_form(0)" class="btn btn-danger btn-sm" style="margin-top: -4px;">Add New
+                        Scheme</button>
+                    <script>
+                    function scheme_form(scheme_id) {
 
+                        $.ajax({
+                                method: "POST",
+                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_form'); ?>",
+                                data: {
+                                    scheme_id: scheme_id,
+                                    water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                                },
+                            })
+                            .done(function(respose) {
+                                $('#modal').modal('show');
+                                $('#modal_title').html('Add Scheme');
+                                $('#modal_body').html(respose);
+                            });
+                    }
+                    </script>
                 </div>
 
 
@@ -457,21 +490,21 @@
 
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-tasks"></i> Payments</h4>
+                <h4><i class="fa fa-tasks"></i> Scheme Payments</h4>
 
             </div>
             <div class="box-body">
 
                 <div class="table-responsive">
 
-                    <table class="table table-bordered table_small" id="db_table">
+                    <table class="table table-bordered table_small" id="wua_scheme_payment">
                         <thead>
 
                             <th>#</th>
-                            <th>Category</th>
+                            <th>Cat.</th>
                             <th>Cheque</th>
                             <th>Date</th>
                             <th>Payee Name</th>
@@ -480,107 +513,108 @@
                             <th>WHST</th>
                             <th>St.Duty</th>
                             <th>RDP</th>
+                            <th>KPRA</th>
+                            <th>GUR.RET.</th>
                             <th>Misc.Dedu.</th>
                             <th>Net Pay</th>
-                            <th>Payment %</th>
+                            <th>%</th>
+                            <th></th>
                         </thead>
                         <tbody>
 
                             <?php
-                            $query = "SELECT e.*,fy.financial_year, d.district_name, d.region  FROM expenses as e 
+                            $query = "SELECT e.*,fy.financial_year, d.district_name, d.region, cc.category  FROM expenses as e 
                             INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
                             INNER JOIN districts as d ON(d.district_id = e.district_id)
+                            INNER JOIN component_categories as cc ON(cc.component_category_id = e.component_category_id)
                             WHERE scheme_id = $scheme->scheme_id";
                             $expenses = $this->db->query($query)->result();
 
                             $count = 1;
                             foreach ($expenses as $expense) : ?>
 
-                                <tr>
+                            <tr>
 
-                                    <td><?php echo $count++; ?></td>
+                                <td><?php echo $count++; ?></td>
 
-                                    <td><?php echo $expense->category; ?></td>
-                                    <td><?php echo $expense->cheque; ?></td>
-                                    <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
-                                    <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
-                                    <td><?php echo number_format($expense->gross_pay); ?></td>
-                                    <td><?php echo number_format($expense->whit_tax); ?></td>
-                                    <td><?php echo number_format($expense->whst_tax); ?></td>
-                                    <td><?php echo number_format($expense->st_duty_tax); ?></td>
-                                    <td><?php echo number_format($expense->rdp_tax); ?></td>
-                                    <td><?php echo number_format($expense->misc_deduction); ?></td>
-                                    <td><?php echo number_format($expense->net_pay); ?></td>
-                                    <th>
-                                        <?php if ($scheme->sanctioned_cost) echo round(($expense->net_pay * 100) / $scheme->sanctioned_cost, 2) . " %"   ?>
-                                    </th>
-
-                                </tr>
+                                <td><?php echo $expense->category; ?></td>
+                                <td><?php echo $expense->cheque; ?></td>
+                                <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
+                                <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
+                                <td><?php if($expense->gross_pay>0){ echo number_format($expense->gross_pay, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->whit_tax>0){ echo number_format($expense->whit_tax, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->whst_tax>0){ echo number_format($expense->whst_tax, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->st_duty_tax>0){ echo number_format($expense->st_duty_tax, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->rdp_tax>0){ echo number_format($expense->rdp_tax, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->kpra_tax>0){ echo number_format($expense->kpra_tax, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->gur_ret>0){ echo number_format($expense->gur_ret, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->misc_deduction>0){ echo number_format($expense->misc_deduction, 2); }else{ echo 0; }?>
+                                </td>
+                                <td><?php if($expense->net_pay>0){ echo number_format($expense->net_pay, 2); }else{ echo 0; }?>
+                                </td>
+                                <th>
+                                    <?php if ($scheme->sanctioned_cost) echo round(($expense->net_pay * 100) / $scheme->sanctioned_cost, 2) . " %"   ?>
+                                </th>
+                                <th><button
+                                        onclick="change_cheque_schem(<?php echo $expense->expense_id ?>)">Change</button>
+                                </th>
+                            </tr>
                             <?php endforeach; ?>
 
-                            <?php
-
-                            if ($expense_summary) {
-                            ?>
-                                <tr>
-                                    <th colspan="5" style="text-align: right;"> Total Payment</th>
-                                    <th><?php if ($expense_summary->gross_pay) echo number_format($expense_summary->gross_pay);
-                                        else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->whit_tax) echo number_format($expense_summary->whit_tax);
-                                        else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->whst_tax) echo number_format($expense_summary->whst_tax);
-                                        else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->st_duty_tax) echo number_format($expense_summary->st_duty_tax);
-                                        else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->st_duty_tax) echo number_format($expense_summary->rdp_tax);
-                                        else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->st_duty_tax) echo number_format($expense_summary->misc_deduction);
-                                        else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
-                                        else echo "0.00" ?></th>
-                                    <th>
-                                        <?php if ($scheme->sanctioned_cost) echo round(($expense_summary->net_pay * 100) / $scheme->sanctioned_cost, 3) . " %"   ?>
-                                    </th>
-                                </tr>
-                            <?php } ?>
 
 
                         </tbody>
                         <tfoot>
+                            <?php
+
+                            if ($expense_summary) {
+                            ?>
                             <tr>
-                                <td colspan="12" style="height: 20px;"></td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;" colspan="11">
-                                    Total Scheme Cost (Rs):
-                                </td>
-                                <th>
-                                    <?php if ($scheme->sanctioned_cost) echo number_format($scheme->sanctioned_cost) ?>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th><?php if($expense_summary->gross_pay>0){ echo number_format($expense_summary->gross_pay, 2); }else{ echo 0; }?>
                                 </th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;" colspan="11">
-                                    Total Paid (Rs):
-                                </td>
-                                <th>
-                                    <?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
-                                    else echo "0.00" ?>
+                                <th><?php if($expense_summary->whit_tax>0){ echo number_format($expense_summary->whit_tax, 2); }else{ echo 0; }?>
                                 </th>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td style="text-align: right;" colspan="11">
-                                    Total Remaining (Rs):
-                                </td>
-                                <th>
-                                    <?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
+                                <th><?php if($expense_summary->whst_tax>0){ echo number_format($expense_summary->whst_tax, 2); }else{ echo 0; }?>
                                 </th>
-                                <td></td>
+                                <th><?php if($expense_summary->st_duty_tax>0){ echo number_format($expense_summary->st_duty_tax, 2); }else{ echo 0; }?>
+                                </th>
+                                <th><?php if($expense_summary->rdp_tax>0){ echo number_format($expense_summary->rdp_tax, 2); }else{ echo 0; }?>
+                                </th>
+                                <th><?php if($expense_summary->kpra_tax>0){ echo number_format($expense_summary->kpra_tax, 2); }else{ echo 0; }?>
+                                </th>
+                                <th><?php if($expense_summary->gur_ret>0){ echo number_format($expense_summary->gur_ret, 2); }else{ echo 0; }?>
+                                </th>
+                                <th><?php if($expense_summary->misc_deduction>0){ echo number_format($expense_summary->misc_deduction, 2); }else{ echo 0; }?>
+                                </th>
+                                <th><?php if($expense_summary->net_pay>0){ echo number_format($expense_summary->net_pay, 2); }else{ echo 0; }?>
+                                </th>
+                                <th>
+                                    <?php if ($scheme->sanctioned_cost) echo round(($expense_summary->net_pay * 100) / $scheme->sanctioned_cost, 2) . " %"   ?>
+                                </th>
+                                <th>
+                                </th>
+
+
                             </tr>
+                            <?php } ?>
+
+
 
                         </tfoot>
                     </table>
+
 
                 </div>
 
@@ -589,5 +623,63 @@
 
         </div>
     </div>
-    <!-- /MESSENGER -->
+
+
+    <div>
+        a
+        <?php $this->load->view(ADMIN_DIR."water_user_associations/expense_reference"); ?>
+    </div>
 </div>
+
+
+<script>
+function change_cheque_schem(expense_id) {
+
+    $.ajax({
+            method: "POST",
+            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_cheque_schem'); ?>",
+            data: {
+                expense_id: expense_id,
+                scheme_id: <?php echo $scheme->scheme_id ?>,
+                wua_id: <?php echo $scheme->water_user_association_id; ?>,
+            },
+        })
+        .done(function(respose) {
+            $('#modal').modal('show');
+            $('#modal_title').html('Change Scheme');
+            $('#modal_body').html(respose);
+        });
+}
+
+title = "WUA: <?php echo $title . ' - Scheme Payments List ' . date('Y-m-d'); ?>";
+$(document).ready(function() {
+    $('#wua_scheme_payment').DataTable({
+        dom: 'Bfrtip',
+        paging: false,
+        title: title,
+        "order": [],
+        searching: true,
+        buttons: [{
+                extend: 'print',
+                title: title,
+            },
+            {
+                extend: 'excelHtml5',
+                title: title,
+            },
+            {
+                extend: 'pdfHtml5',
+                title: title,
+                pageSize: 'A4', // A4 page size
+                orientation: 'landscape', // Set to landscape mode
+                exportOptions: {
+                    columns: ':visible' // Specify columns to be exported
+                },
+                customize: function(doc) {
+                    doc.defaultStyle.fontSize = 10; // Adjust font size if needed
+                }
+            }
+        ]
+    });
+});
+</script>
