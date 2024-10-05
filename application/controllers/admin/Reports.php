@@ -349,6 +349,7 @@ class Reports extends Admin_Controller
     {
         // Define your query
         $query = "SELECT
+            e.expense_id as EXPENSE_ID,
             fy.financial_year as FY, 
             d.region as REGION,
             d.district_name as DISTRICT,
