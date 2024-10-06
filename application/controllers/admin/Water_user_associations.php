@@ -523,7 +523,7 @@ class Water_user_associations extends Admin_Controller
     }
 
 
-   public function fetch_wua_list()
+  public function fetch_wua_list()
 {
     $columns = [
         "water_user_association_id", "district_name", "tehsil_name", "union_council",
@@ -537,18 +537,27 @@ class Water_user_associations extends Admin_Controller
     $limit = (int) $this->input->post("length");
     $start = (int) $this->input->post("start");
     $order_column_index = (int) $this->input->post("order")[0]["column"];
-    $order_column = $columns[$order_column_index];
-    $dir = $this->input->post("order")[0]["dir"] === 'asc' ? 'asc' : 'desc';
+
+    // Check if the order_column_index exists in columns array, otherwise set default
+    if (isset($columns[$order_column_index])) {
+        $order_column = $columns[$order_column_index];
+    } else {
+        $order_column = "water_user_association_id"; // Default column
+    }
+
+    // Validate direction, default to 'desc' if invalid
+    $dir = ($this->input->post("order")[0]["dir"] === 'asc') ? 'asc' : 'desc';
+
     $search_value = $this->input->post("search")["value"];
 
     // Ensure reasonable limits on the pagination
-    if ($limit < 1 || $limit > 100) { 
-        $limit = 10; 
+    if ($limit < 1 || $limit > 100) {
+        $limit = 10; // Set a reasonable default
     }
 
     // Ensure valid start index
-    if ($start < 0) { 
-        $start = 0; 
+    if ($start < 0) {
+        $start = 0;
     }
 
     // Prepare the base query
@@ -580,22 +589,23 @@ class Water_user_associations extends Admin_Controller
     // Filtered records count
     $filtered_query = $this->db->query("SELECT COUNT(*) as count FROM `wua_list` WHERE " . 
         implode(" LIKE ? OR ", $columns) . " LIKE ?", array_fill(0, count($columns), "%$search_value%"));
-    $recordsFiltered = $filtered_query->row()->count ?? 0;
+    $recordsFiltered = $filtered_query->row()->count ? $filtered_query->row()->count : 0;
 
     // Total records count
     $total_records_query = $this->db->query("SELECT COUNT(*) as count FROM `wua_list`");
-    $total_records = $total_records_query->row()->count ?? 0;
+    $total_records = $total_records_query->row()->count ? $total_records_query->row()->count : 0;
 
     // Output result
     $output = [
         "draw" => intval($this->input->post("draw")),
         "recordsTotal" => $total_records,
-        "recordsFiltered" => $search_value ? $recordsFiltered : $total_records,
+        "recordsFiltered" => !empty($search_value) ? $recordsFiltered : $total_records,
         "data" => $data
     ];
 
     echo json_encode($output);
 }
+
 
     function chanage_status_form()
     {
