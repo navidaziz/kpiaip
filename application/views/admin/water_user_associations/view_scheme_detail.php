@@ -431,8 +431,10 @@
                                             echo $scheme->approved_cost;
                                             echo "<br />";
                                             echo 'Date: '.date('d M,  Y', strtotime($scheme->approval_date));
+                                            if($scheme->scheme_status !='Completed'){
                                             echo '<br /><button onclick="chanage_status_form(\'Approval\')"
                                 class="btn btn-link btn-sm">Update</button>';
+                                            }
                                         } else {
                                             echo 'Not Approve Yet';
                                         } ?>

@@ -443,9 +443,11 @@
                                         href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_scheme_detail/" . $water_user_association->water_user_association_id . "/" . $scheme->scheme_id); ?>"><i
                                             class="fa fa-eye"></i></a>
                                     <span style="margin-left: 10px;"></span>
+                                    <?php if($scheme->scheme_status !='Completed'){ ?>
                                     <a class="llink llink-edit" href="#"
                                         onclick="scheme_form(<?php echo $scheme->scheme_id; ?>)"><i
                                             class="fa fa-pencil-square-o"></i></a>
+                                    <?php } ?>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
