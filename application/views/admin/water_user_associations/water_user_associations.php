@@ -104,9 +104,9 @@
                                 <th>Gender</th>
                                 <th>CNIC</th>
                                 <th>Contact</th>
-                                <th>B-A. Title</th>
+                                <th>Bank Account Title</th>
                                 <th>Branch Code</th>
-                                <th>B-A. No.</th>
+                                <th>Bank Account No.</th>
                                 <th>Schemes</th>
                                 <th>Cheques</th>
                                 <th>Action</th>
