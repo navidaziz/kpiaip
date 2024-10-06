@@ -174,7 +174,7 @@ class Water_user_associations extends Admin_Controller
 
         $this->data["projects"] = $this->water_user_association_model->getList("projects", "project_id", "project_name", $where = "`projects`.`status` IN (1) ");
 
-        $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) ");
+        $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) and is_district = 1 ");
 
         $this->data["tehsils"] = $this->water_user_association_model->getList("tehsils", "tehsil_id", "tehsil_name", $where = "`tehsils`.`status` IN (1) ");
 
@@ -217,7 +217,7 @@ class Water_user_associations extends Admin_Controller
 
         $this->data["projects"] = $this->water_user_association_model->getList("projects", "project_id", "project_name", $where = "`projects`.`status` IN (1) ");
 
-        $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) ");
+         $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) and is_district = 1 ");
 
         $this->data["tehsils"] = $this->water_user_association_model->getList("tehsils", "tehsil_id", "tehsil_name", $where = "`tehsils`.`status` IN (1) ");
 
