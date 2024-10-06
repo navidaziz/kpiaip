@@ -523,65 +523,79 @@ class Water_user_associations extends Admin_Controller
     }
 
 
-    public function fetch_data2()
-    {
+   public function fetch_wua_list()
+{
+    $columns = [
+        "water_user_association_id", "district_name", "tehsil_name", "union_council",
+        "address", "file_number", "wua_registration_no", "wua_name", 
+        "cm_name", "cm_father_name", "cm_gender", "cm_cnic", 
+        "cm_contact_no", "bank_account_title", "bank_branch_code", 
+        "bank_account_number", "total_schemes", "total_cheques"
+    ];
 
+    // Sanitize and validate inputs
+    $limit = (int) $this->input->post("length");
+    $start = (int) $this->input->post("start");
+    $order_column_index = (int) $this->input->post("order")[0]["column"];
+    $order_column = $columns[$order_column_index];
+    $dir = $this->input->post("order")[0]["dir"] === 'asc' ? 'asc' : 'desc';
+    $search_value = $this->input->post("search")["value"];
 
-        $columns[] = "water_user_association_id";
-        $columns[] = "district_name";
-        $columns[] = "tehsil_name";
-        $columns[] = "union_council";
-        $columns[] = "address";
-        $columns[] = "file_number";
-        $columns[] = "wua_registration_no";
-        $columns[] = "wua_name";
-        $columns[] = "total_schemes";
-        $columns[] = "total_cheques";
-
-        $limit = $this->input->post("length");
-        $start = $this->input->post("start");
-        $order = $columns[$this->input->post("order")[0]["column"]];
-        $dir = $this->input->post("order")[0]["dir"];
-
-
-        $search = $this->db->escape("%" . $this->input->post("search")["value"] . '%');
-        // Manual SQL query building
-        $sql = "SELECT * FROM `wua_list` ";
-
-        // Searching
-        if (!empty($this->input->post("search")["value"])) {
-            $sql .= " WHERE ";
-            foreach ($columns as $column) {
-                $sql .= "$column LIKE $search OR ";
-            }
-            $sql = rtrim($sql, "OR "); // Remove the last "OR"
-
-            //$sql .= " WHERE wua_registration_no LIKE $search ";
-        }
-
-        // Ordering
-        $sql .= " ORDER BY $order $dir";
-
-        // Pagination
-        if ($limit != -1) {
-            $sql .= " LIMIT $limit OFFSET $start";
-        }
-
-        $query = $this->db->query($sql);
-        $data = $query->result();
-
-        // Total records count
-        $total_records = $this->db->query("SELECT COUNT(*) as count FROM wua_list")->row()->count;
-
-        $output = array(
-            "draw" => intval($this->input->post("draw")),
-            "recordsTotal" => $total_records,
-            "recordsFiltered" => $total_records,
-            "data" => $data
-        );
-
-        echo json_encode($output);
+    // Ensure reasonable limits on the pagination
+    if ($limit < 1 || $limit > 100) { 
+        $limit = 10; 
     }
+
+    // Ensure valid start index
+    if ($start < 0) { 
+        $start = 0; 
+    }
+
+    // Prepare the base query
+    $sql = "SELECT * FROM `wua_list`";
+    $params = [];
+
+    // Searching
+    if (!empty($search_value)) {
+        $sql .= " WHERE ";
+        foreach ($columns as $column) {
+            $sql .= "$column LIKE ? OR ";
+            $params[] = "%" . $search_value . "%";
+        }
+        $sql = rtrim($sql, "OR ");
+    }
+
+    // Ordering
+    $sql .= " ORDER BY $order_column $dir";
+
+    // Pagination
+    $sql .= " LIMIT ? OFFSET ?";
+    $params[] = $limit;
+    $params[] = $start;
+
+    // Execute the query securely using parameterized binding
+    $query = $this->db->query($sql, $params);
+    $data = $query->result();
+
+    // Filtered records count
+    $filtered_query = $this->db->query("SELECT COUNT(*) as count FROM `wua_list` WHERE " . 
+        implode(" LIKE ? OR ", $columns) . " LIKE ?", array_fill(0, count($columns), "%$search_value%"));
+    $recordsFiltered = $filtered_query->row()->count ?? 0;
+
+    // Total records count
+    $total_records_query = $this->db->query("SELECT COUNT(*) as count FROM `wua_list`");
+    $total_records = $total_records_query->row()->count ?? 0;
+
+    // Output result
+    $output = [
+        "draw" => intval($this->input->post("draw")),
+        "recordsTotal" => $total_records,
+        "recordsFiltered" => $search_value ? $recordsFiltered : $total_records,
+        "data" => $data
+    ];
+
+    echo json_encode($output);
+}
 
     function chanage_status_form()
     {

@@ -5,11 +5,11 @@
 .table_small>thead>tr>td,
 .table_small>tbody>tr>td,
 .table_small>tfoot>tr>td {
-    padding: 5px;
+    padding: 2px;
     line-height: 1;
     vertical-align: top;
     border-top: 1px solid #ddd;
-    font-size: 12px !important;
+    font-size: 10px !important;
     color: black;
     margin: 0px !important;
 }
@@ -92,16 +92,25 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>District Name</th>
-                                <th>Tehsil Name</th>
-                                <th>Union Council</th>
+                                <th>District</th>
+                                <th>Tehsil</th>
+                                <th>UC</th>
                                 <th>Address</th>
                                 <th>File No.</th>
                                 <th>WUA Reg. No.</th>
                                 <th>WUA Name</th>
-                                <th>Total Schemes</th>
-                                <th>Total Cheques</th>
+                                <th>Chairman</th>
+                                <th>Father Name</th>
+                                <th>Gender</th>
+                                <th>CNIC</th>
+                                <th>Contact</th>
+                                <th>B-A. Title</th>
+                                <th>Branch Code</th>
+                                <th>B-A. No.</th>
+                                <th>Schemes</th>
+                                <th>Cheques</th>
                                 <th>Action</th>
+
                             </tr>
                         </thead>
                         <tbody></tbody>
@@ -114,7 +123,7 @@
                             "processing": true,
                             "serverSide": true,
                             "ajax": {
-                                "url": "<?php echo base_url(ADMIN_DIR . "water_user_associations/fetch_data2"); ?>",
+                                "url": "<?php echo base_url(ADMIN_DIR . "water_user_associations/fetch_wua_list"); ?>",
                                 "type": "POST"
                             },
                             "columns": [{
@@ -148,6 +157,30 @@
 
                                 {
                                     "data": "wua_name"
+                                },
+                                {
+                                    "data": "cm_name"
+                                },
+                                {
+                                    "data": "cm_father_name"
+                                },
+                                {
+                                    "data": "cm_gender"
+                                },
+                                {
+                                    "data": "cm_cnic"
+                                },
+                                {
+                                    "data": "cm_contact_no"
+                                },
+                                {
+                                    "data": "bank_account_title"
+                                },
+                                {
+                                    "data": "bank_branch_code"
+                                },
+                                {
+                                    "data": "bank_account_number"
                                 },
                                 {
                                     "data": "total_schemes"
