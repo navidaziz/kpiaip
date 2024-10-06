@@ -271,7 +271,17 @@
 
         </div>
 
+        <div class="form-group">
 
+            <label for="sanctioned_cost" class="col-md-4 control-label">Sactioned Cost</label>
+            <div class="col-md-8">
+                <input type="text" name="sanctioned_cost" value="<?php echo $scheme->sanctioned_cost ?>"
+                    id="sanctioned_cost" class="form-control" title="Sactioned Cost" placeholder="Sactioned Cost">
+            </div>
+
+
+
+        </div>
 
         <div class="form-group">
             <label for="registration_date" class="col-md-4 control-label" style="">Registration Date</label>

@@ -78,33 +78,25 @@
 <!-- PAGE MAIN CONTENT -->
 <div class="row">
     <!-- MESSENGER -->
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-users"></i> <?php echo $title; ?></h4>
+                <h4><i class="fa fa-users"></i> Water User Assosiation Detail</h4>
 
             </div>
             <div class="box-body">
 
                 <div class="table-responsive">
-                    <h4> WUA Other Detail
-
-                    </h4>
-                    <table class="table table_small">
+                    <h5>WUA REG No: <?php echo $water_user_association->wua_registration_no; ?></h5>
+                    <strong>WUA Address</strong>
+                    <table class="table table-bordered table_small">
                         <thead>
 
                         </thead>
                         <tbody>
+
                             <tr>
-                                <th>
-                                    <h5>WUA REG. No.</h5>
-                                </th>
-                                <th>
-                                    <h5> <?php echo $water_user_association->wua_registration_no; ?></h5>
-                                </th>
-                            </tr>
-                            <tr>
-                                <th><?php echo $this->lang->line('district_name'); ?></th>
+                                <th style="width: 120px;"><?php echo $this->lang->line('district_name'); ?></th>
                                 <td>
                                     <?php echo $water_user_association->district_name; ?>
                                 </td>
@@ -127,8 +119,13 @@
                                     <?php echo $water_user_association->address; ?>
                                 </td>
                             </tr>
+                        </tbody>
+                    </table>
+                    <strong>WUA Bank Detail</strong>
+                    <table class="table table-bordered table_small">
+                        <tbody>
                             <tr>
-                                <th><?php echo $this->lang->line('bank_account_title'); ?></th>
+                                <th style="width: 120px;"><?php echo $this->lang->line('bank_account_title'); ?></th>
                                 <td>
                                     <?php echo $water_user_association->bank_account_title; ?>
                                 </td>
@@ -163,7 +160,44 @@
 
                         </tbody>
                     </table>
-                    <h4> WUA Members</h4>
+
+                    <strong>WUA Chairman Detail</strong>
+                    <table class="table table-bordered table_small">
+                        <tbody>
+                            <tr>
+                                <th style="width: 120px;">Chairman Name</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_name; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">Father Name</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_father_name; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">Gender</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_gender; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">CNIC</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_cnic; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">Contact</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_contact_no; ?>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <strong> WUA Other Members</strong>
 
                     <table class="table table_s_small " style="font-size: 8px;">
                         <thead>
@@ -255,6 +289,7 @@
                             </tr>
                         </tbody>
                     </table>
+
                     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
                     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
                     <script>
@@ -296,7 +331,7 @@
 
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-9">
         <div class="box border blue" id="messenger">
             <div class="box-title">
                 <h4>
@@ -355,7 +390,8 @@
                                 </td>
                                 <td>
                                     <?php echo $scheme->scheme_status; ?>
-                                    <button onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change
+                                    <button style="display: none;"
+                                        onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change
                                         Status</button>
                                 </td>
                                 <td>

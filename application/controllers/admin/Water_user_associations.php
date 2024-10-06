@@ -61,7 +61,7 @@ class Water_user_associations extends Admin_Controller
 
         $this->data["water_user_association"] = $this->water_user_association_model->get_water_user_association($water_user_association_id)[0];
         $this->data["title"] = "WUA: ".$this->data["water_user_association"]->wua_name;
-        $this->data["description"] = $this->data["water_user_association"]->wua_registration_no;
+        $this->data["description"] = "WUA REG NO: ".$this->data["water_user_association"]->wua_registration_no;
         $this->data["view"] = ADMIN_DIR . "water_user_associations/view_water_user_association";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
@@ -378,7 +378,7 @@ class Water_user_associations extends Admin_Controller
 
         $_POST['approved_cost'] = 0;
         $_POST['revised_cost'] = 0;
-        //$_POST['sanctioned_cost'] = 0;
+        $_POST['sanctioned_cost'] = 0;
         $_POST['scheme_status'] = 'Initiated';
 
 
@@ -399,8 +399,12 @@ class Water_user_associations extends Admin_Controller
                 $log_inputs['operation'] = 'insert';
                 $log_inputs['scheme_id'] = $scheme_id;
                 $log_inputs['scheme_status'] = 'Initiated';
+                $log_inputs['remarks'] = 'Insert';
+                $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", S_Code:".$_POST['scheme_code'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
                 $log_inputs["created_by"] = $this->session->userdata("userId");
                 $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                
+                
                 $this->db->insert('scheme_logs', $log_inputs);
             } else {
 
@@ -412,6 +416,16 @@ class Water_user_associations extends Admin_Controller
                 }
 
                 $scheme_id = $this->scheme_model->update_data($scheme_id);
+                $log_inputs['operation'] = 'Update';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Initiated';
+                $log_inputs['remarks'] = 'Update';
+                $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", S_Code:".$_POST['scheme_code'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                
+                
+                $this->db->insert('scheme_logs', $log_inputs);
             }
             if ($scheme_id) {
                 echo "success";
@@ -435,8 +449,8 @@ class Water_user_associations extends Admin_Controller
         //$scheme = $this->scheme_model->get_scheme($scheme_id)[0];
         $scheme = $this->db->query($query)->row();
         $this->data["scheme"] = $scheme;
-        $this->data["title"] = $scheme->scheme_name . " (" . $scheme->scheme_code . ")";
-        $this->data["description"] = $this->data["water_user_association"]->wua_registration_no . " - " . $this->data["water_user_association"]->wua_name;
+        $this->data["title"] = "Scheme: ". $scheme->scheme_name;
+        $this->data["description"] = "Scheme Code: ".$scheme->scheme_code;
         $this->data["view"] = ADMIN_DIR . "water_user_associations/view_scheme_detail";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
@@ -622,6 +636,9 @@ class Water_user_associations extends Admin_Controller
     {
         $scheme_id =  (int) $this->input->post('scheme_id');
         $status_form = $this->input->post('status_form');
+        $query="SELECT * FROM schemes WHERE scheme_id = ?";
+        $s = $this->db->query($query, $scheme_id)->row();
+        
 
         if ($status_form == 'Complete') {
             $inputs["remarks"] = $remarks = '';
@@ -709,7 +726,8 @@ class Water_user_associations extends Admin_Controller
                 $log_inputs['operation'] = 'insert';
                 $log_inputs['scheme_id'] = $scheme_id;
                 $log_inputs['scheme_status'] = 'Ongoing';
-                $log_inputs['remarks'] = '';
+                $log_inputs['remarks'] = 'Approved '.(date("Y-m-d H:i:s"));
+                $log_inputs['detail'] =  "Approved Cost:".$inputs["approved_cost"];
                 $log_inputs["created_by"] = $this->session->userdata("userId");
                 $log_inputs["last_updated"] = date('Y-m-d H:i:s');
                 $this->db->insert('scheme_logs', $log_inputs);

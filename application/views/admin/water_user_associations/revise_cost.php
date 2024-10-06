@@ -7,10 +7,13 @@
 
         <div class="form-group">
             <div class="col-md-12">
-                <h4>Please enter Approved Cost and Date for scheme. <br />
+                <h4>Please enter Revised Cost and Date for scheme. <br />
                     Scheme Name: <?php echo $scheme->scheme_name ?><br />
                     Scheme Code: <?php echo $scheme->scheme_code; ?><br />
-                    Estimated Cost: <?php echo $scheme->estimated_cost; ?></h4>
+                    Estimated Cost: <?php echo $scheme->estimated_cost; ?><br />
+                    Approved Cost: <?php echo $scheme->approved_cost; ?><br />
+                    Sanctioned Cost: <?php echo $scheme->sanctioned_cost; ?>
+                </h4>
             </div>
             <?php
             $label = array(
@@ -28,7 +31,9 @@
                     "name"          =>  "revised_cost",
                     "id"            =>  "revised_cost",
                     "class"         =>  "form-control",
-                    "style"         =>  "", "required"      => "required",
+                    "style"         =>  "", 
+                    "required"      => "required",
+                    "min" => $scheme->sanctioned_cost,
                     "title"         =>  $this->lang->line('revised_cost'),
                     "value"         =>  set_value("revised_cost", $revised_cost->revised_cost),
                     "placeholder"   =>  $this->lang->line('revised_cost')
@@ -41,7 +46,8 @@
         <div class="form-group">
             <label for="date" class="col-md-4 control-label" style="">Revised Cost Date</label>
             <div class="col-md-8">
-                <input type="date" name="date" value="<?php echo $revised_cost->date; ?>" id="date" class="form-control" style="" required="required" title="Date" placeholder="Date">
+                <input type="date" name="date" value="<?php echo $revised_cost->date; ?>" id="date" class="form-control"
+                    style="" required="required" title="Date" placeholder="Date">
             </div>
 
 
@@ -95,28 +101,28 @@
 </div>
 
 <script>
-    $('#data_form').submit(function(e) {
+$('#data_form').submit(function(e) {
 
-        e.preventDefault(); // Prevent default form submission
+    e.preventDefault(); // Prevent default form submission
 
-        // Create FormData object
-        var formData = new FormData(this);
+    // Create FormData object
+    var formData = new FormData(this);
 
-        // Send AJAX request
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/update_revised_cost") ?>', // URL to submit form data
-            data: formData,
-            processData: false, // Don't process the data
-            contentType: false, // Don't set contentType
-            success: function(response) {
-                // Display response
-                if (response == 'success') {
-                    location.reload();
-                } else {
-                    $('#result_response').html(response);
-                }
+    // Send AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/update_revised_cost") ?>', // URL to submit form data
+        data: formData,
+        processData: false, // Don't process the data
+        contentType: false, // Don't set contentType
+        success: function(response) {
+            // Display response
+            if (response == 'success') {
+                location.reload();
+            } else {
+                $('#result_response').html(response);
             }
-        });
+        }
     });
+});
 </script>
