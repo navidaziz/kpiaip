@@ -174,9 +174,9 @@ LEFT JOIN
         INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
         INNER JOIN components as c ON(c.component_id = sc.component_id)
         AND cc.status=1
-        AND c.component_id NOT IN(1,2,7)
-        ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
         
+        ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
+        //AND c.component_id NOT IN(1,2,7)
         $this->data['component_catagories'] = $this->db->query($query)->result();
         } else {
             $query = "SELECT * FROM expenses WHERE expense_id = $expense_id";
