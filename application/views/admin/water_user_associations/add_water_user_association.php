@@ -252,106 +252,6 @@
                     <h4>WUA Bank Detail</h4>
                     <div class="form-group">
 
-                        <label for="cm_name" class="col-md-4 control-label" style="">Name</label>
-                        <div class="col-md-8">
-                            <input type="text" name="cm_name" value="" id="cm_name" class="form-control" style=""
-                                required="required" title="Name" placeholder="Name">
-                        </div>
-
-
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="cm_father_name" class="col-md-4 control-label" style="">Father Name</label>
-                        <div class="col-md-8">
-                            <input type="text" name="cm_father_name" value="" id="cm_father_name" class="form-control"
-                                style="" required="required" title="Father Name" placeholder="Father Name">
-                        </div>
-
-
-
-                    </div>
-
-                    <div class="form-group">
-                        <label for="cm_gender" class="col-md-4 control-label" style="">Gender</label>
-                        <div class="col-md-8">
-                            <input type="radio" name="cm_gender" value="Male" id="cm_gender" style=""
-                                required="required" class="uniform">
-                            <label for="cm_gender" style="margin-left:10px;">Male</label><input type="radio"
-                                name="cm_gender" value="Female" id="cm_gender" style="" required="required"
-                                class="uniform">
-                            <label for="cm_gender" style="margin-left:10px;">Female</label>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="cm_cnic" class="col-md-4 control-label" style="">CNIC</label>
-                        <div class="col-md-8">
-                            <input type="text" name="cm_cnic" value="" id="cm_cnic" pattern="\d{5}-\d{7}-\d{1}"
-                                onkeyup="nic_dash1(this)" class="form-control" style="" required="required" title="Cnic"
-                                placeholder="Cnic">
-                        </div>
-                        <script language="javascript">
-                        function nic_dash1(t)
-
-                        {
-                            var donepatt = /^(\d{5})\/(\d{7})\/(\d{1})$/;
-
-                            var patt = /(\d{5}).*(\d{7}).*(\d{1})/;
-
-                            var str = t.value;
-
-                            if (!str.match(donepatt))
-
-                            {
-                                result = str.match(patt);
-
-                                if (result != null)
-
-                                {
-                                    t.value = t.value.replace(/[^\d]/gi, '');
-
-                                    str = result[1] + '-' + result[2] + '-' + result[3];
-
-                                    t.value = str;
-
-                                } else {
-
-                                    if (t.value.match(/[^\d]/gi))
-
-                                        t.value = t.value.replace(/[^\d]/gi, '');
-
-                                }
-                            }
-                        }
-                        </script>
-
-
-                    </div>
-
-                    <div class="form-group">
-
-                        <label for="cm_contact_no" class="col-md-4 control-label" style="">Contact No</label>
-                        <div class="col-md-8">
-                            <input type="text" name="cm_contact_no" value="" id="cm_contact_no" class="form-control"
-                                pattern="0[0-9]{10}" style="" required="required"
-                                title="Please enter an 11-digit mobile number starting with '0'"
-                                placeholder="032400000000">
-                        </div>
-
-
-
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <h4>WUA Chaiman Detail</h4>
-                    <div class="form-group">
-
                         <?php
                             $label = array(
                                 "class" => "col-md-4 control-label",
@@ -470,6 +370,108 @@
                     </div>
 
                 </div>
+
+                <div class="col-md-4">
+                    <h4>WUA Chairman Detail</h4>
+                    <div class="form-group">
+
+                        <label for="cm_name" class="col-md-4 control-label" style="">Chairman Name</label>
+                        <div class="col-md-8">
+                            <input type="text" name="cm_name" value="" id="cm_name" class="form-control" style=""
+                                required="required" title="Name" placeholder="Name">
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="cm_father_name" class="col-md-4 control-label" style="">Father Name</label>
+                        <div class="col-md-8">
+                            <input type="text" name="cm_father_name" value="" id="cm_father_name" class="form-control"
+                                style="" required="required" title="Father Name" placeholder="Father Name">
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="cm_gender" class="col-md-4 control-label" style="">Gender</label>
+                        <div class="col-md-8">
+                            <input type="radio" name="cm_gender" value="Male" id="cm_gender" style=""
+                                required="required" class="uniform">
+                            <label for="cm_gender" style="margin-left:10px;">Male</label><input type="radio"
+                                name="cm_gender" value="Female" id="cm_gender" style="" required="required"
+                                class="uniform">
+                            <label for="cm_gender" style="margin-left:10px;">Female</label>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="cm_cnic" class="col-md-4 control-label" style="">CNIC</label>
+                        <div class="col-md-8">
+                            <input type="text" name="cm_cnic" value="" id="cm_cnic" pattern="\d{5}-\d{7}-\d{1}"
+                                onkeyup="nic_dash1(this)" class="form-control" style="" required="required" title="Cnic"
+                                placeholder="Cnic">
+                        </div>
+                        <script language="javascript">
+                        function nic_dash1(t)
+
+                        {
+                            var donepatt = /^(\d{5})\/(\d{7})\/(\d{1})$/;
+
+                            var patt = /(\d{5}).*(\d{7}).*(\d{1})/;
+
+                            var str = t.value;
+
+                            if (!str.match(donepatt))
+
+                            {
+                                result = str.match(patt);
+
+                                if (result != null)
+
+                                {
+                                    t.value = t.value.replace(/[^\d]/gi, '');
+
+                                    str = result[1] + '-' + result[2] + '-' + result[3];
+
+                                    t.value = str;
+
+                                } else {
+
+                                    if (t.value.match(/[^\d]/gi))
+
+                                        t.value = t.value.replace(/[^\d]/gi, '');
+
+                                }
+                            }
+                        }
+                        </script>
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <label for="cm_contact_no" class="col-md-4 control-label" style="">Contact No</label>
+                        <div class="col-md-8">
+                            <input type="text" name="cm_contact_no" value="" id="cm_contact_no" class="form-control"
+                                pattern="0[0-9]{10}" style="" required="required"
+                                title="Please enter an 11-digit mobile number starting with '0'"
+                                placeholder="032400000000">
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
 
                 <div style="clear:both;"></div>
                 <div style="text-align: center;">
