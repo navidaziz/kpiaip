@@ -259,6 +259,7 @@
                     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
                     <script>
                     function awa_member_form(wua_member_id) {
+                        alert('we are here');
                         $.ajax({
                                 method: "POST",
                                 url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/awa_member_form'); ?>",
@@ -267,7 +268,8 @@
                                     water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
                                 },
                             })
-                            .done(function(respose) {
+                            .done(function(response) {
+
                                 $('#modal').modal('show');
                                 $('#modal_title').html('Add WUA Member');
                                 $('#modal_body').html(response);

@@ -171,10 +171,10 @@ class Expense_model extends MY_Model
         // $inputs["sub_component_id"]  =  $component->sub_component_id;
         if ($this->input->post("scheme_id")) {
             $inputs["scheme_id"]  = $this->input->post("scheme_id");
-            $inputs["category"]  = 'Scheme';
+            //$inputs["category"]  = 'Scheme';
         } else {
             $inputs["scheme_id"]  = 0;
-            $inputs["category"]  = $this->input->post("category");
+            //$inputs["category"]  = $this->input->post("category");
         }
 
         $inputs["date"]  =  $this->input->post("date");
@@ -204,6 +204,17 @@ class Expense_model extends MY_Model
         $inputs["net_pay"]  =  $this->input->post("net_pay");
         $inputs["created_by"] = $this->session->userdata("userId");
         $inputs["last_updated"] = date('Y-m-d H:i:s');
+        $deduction = $inputs["whit_tax"]+$inputs["whst_tax"]+ $inputs["rdp_tax"]+$inputs["st_duty_tax"]+$inputs["kpra_tax"]+$inputs["gur_ret"]+$inputs["misc_deduction"]+$inputs["net_pay"];
+
+        if(round($inputs["gross_pay"])!=round($deduction)){
+            
+            echo '<div class="alert alert-danger">Error: Gross Paid must equal to Deductions + Net Paid<div>';
+            exit();
+        }
+
+
+
+
 
         return $inputs;
     }
