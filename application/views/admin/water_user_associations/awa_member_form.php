@@ -19,11 +19,11 @@
 
             <div class="col-md-8">
                 <?php
-                $options = array(
-                    "Chairman" => "Chairman",
+                $options = array( 
+                    "Member" => "Member",
                     "Vice Chairman" => "Vice Chairman",
-                    "Secretary" => "Secretary",
-                    "Member" => "Member"
+                    "Secretary" => "Secretary"
+                   
                 );
                 foreach ($options as $option_value => $options_name) {
 
@@ -165,38 +165,38 @@
                 <?php echo form_error("member_cnic", "<p class=\"text-danger\">", "</p>"); ?>
             </div>
             <script language="javascript">
-                function nic_dash1(t)
+            function nic_dash1(t)
+
+            {
+                var donepatt = /^(\d{5})\/(\d{7})\/(\d{1})$/;
+
+                var patt = /(\d{5}).*(\d{7}).*(\d{1})/;
+
+                var str = t.value;
+
+                if (!str.match(donepatt))
 
                 {
-                    var donepatt = /^(\d{5})\/(\d{7})\/(\d{1})$/;
+                    result = str.match(patt);
 
-                    var patt = /(\d{5}).*(\d{7}).*(\d{1})/;
-
-                    var str = t.value;
-
-                    if (!str.match(donepatt))
+                    if (result != null)
 
                     {
-                        result = str.match(patt);
+                        t.value = t.value.replace(/[^\d]/gi, '');
 
-                        if (result != null)
+                        str = result[1] + '-' + result[2] + '-' + result[3];
 
-                        {
+                        t.value = str;
+
+                    } else {
+
+                        if (t.value.match(/[^\d]/gi))
+
                             t.value = t.value.replace(/[^\d]/gi, '');
 
-                            str = result[1] + '-' + result[2] + '-' + result[3];
-
-                            t.value = str;
-
-                        } else {
-
-                            if (t.value.match(/[^\d]/gi))
-
-                                t.value = t.value.replace(/[^\d]/gi, '');
-
-                        }
                     }
                 }
+            }
             </script>
 
 
@@ -300,27 +300,27 @@
 </div>
 
 <script>
-    $('#data_form').submit(function(e) {
-        e.preventDefault(); // Prevent default form submission
+$('#data_form').submit(function(e) {
+    e.preventDefault(); // Prevent default form submission
 
-        // Create FormData object
-        var formData = new FormData(this);
+    // Create FormData object
+    var formData = new FormData(this);
 
-        // Send AJAX request
-        $.ajax({
-            type: 'POST',
-            url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/add_wua_member") ?>', // URL to submit form data
-            data: formData,
-            processData: false, // Don't process the data
-            contentType: false, // Don't set contentType
-            success: function(response) {
-                // Display response
-                if (response == 'success') {
-                    location.reload();
-                } else {
-                    $('#result_response').html(response);
-                }
+    // Send AJAX request
+    $.ajax({
+        type: 'POST',
+        url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/add_wua_member") ?>', // URL to submit form data
+        data: formData,
+        processData: false, // Don't process the data
+        contentType: false, // Don't set contentType
+        success: function(response) {
+            // Display response
+            if (response == 'success') {
+                location.reload();
+            } else {
+                $('#result_response').html(response);
             }
-        });
+        }
     });
+});
 </script>

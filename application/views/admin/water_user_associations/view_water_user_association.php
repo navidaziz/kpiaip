@@ -227,30 +227,30 @@
                             <tr>
                                 <td colspan="9" style="text-align: center;">
 
-                                    <button class="btn btn-danger btn-sm"
+                                    <button style="display: none;" class="btn btn-danger btn-sm"
                                         onclick="get_water_user_association_form('<?php echo $water_user_association->water_user_association_id; ?>')">
                                         Edit WUA Detail
-                                        <botton>
+                                        </botton>
 
-                                            <script>
-                                            function get_water_user_association_form(water_user_association_id) {
-                                                $.ajax({
-                                                        method: "POST",
-                                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_water_user_association_form'); ?>",
-                                                        data: {
-                                                            water_user_association_id: water_user_association_id
-                                                        },
-                                                    })
-                                                    .done(function(respose) {
-                                                        $('#modal').modal('show');
-                                                        $('#modal_title').html('Water User Associations');
-                                                        $('#modal_body').html(respose);
-                                                    });
-                                            }
-                                            </script>
+                                        <script>
+                                        function get_water_user_association_form(water_user_association_id) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_water_user_association_form'); ?>",
+                                                    data: {
+                                                        water_user_association_id: water_user_association_id
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Water User Associations');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                        </script>
 
-                                            <button onclick="awa_member_form(0)" class="btn btn-primary btn-sm">Add WUA
-                                                Member</button>
+                                        <button onclick="awa_member_form(0)" class="btn btn-primary btn-sm">Add WUA
+                                            Member</button>
                                 </td>
                             </tr>
                         </tbody>
@@ -259,7 +259,6 @@
                     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
                     <script>
                     function awa_member_form(wua_member_id) {
-                        alert('we are here');
                         $.ajax({
                                 method: "POST",
                                 url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/awa_member_form'); ?>",
@@ -275,17 +274,17 @@
                                 $('#modal_body').html(response);
 
                                 // Make the modal draggable
-                                $('#modal .modal-dialog').draggable({
-                                    handle: ".modal-header", // Ensure modal can be dragged by the header
-                                    containment: "window" // Optional: restrict dragging within the window
-                                });
+                                // $('#modal .modal-dialog').draggable({
+                                //     handle: ".modal-header", // Ensure modal can be dragged by the header
+                                //     containment: "window" // Optional: restrict dragging within the window
+                                // });
 
                                 // Ensure modal backdrop stays in place while dragging
-                                $('#modal').on('shown.bs.modal', function() {
-                                    $('.modal-backdrop').remove();
-                                    $('<div class="modal-backdrop fade show"></div>').appendTo(document
-                                        .body);
-                                });
+                                // $('#modal').on('shown.bs.modal', function() {
+                                //     $('.modal-backdrop').remove();
+                                //     $('<div class="modal-backdrop fade show"></div>').appendTo(document
+                                //         .body);
+                                // });
                             });
                     }
                     </script>
