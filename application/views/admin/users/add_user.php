@@ -9,11 +9,13 @@
             <ul class="breadcrumb">
                 <li>
                     <i class="fa fa-home"></i>
-                    <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                    <a
+                        href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                 </li>
                 <li>
                     <i class="fa fa-table"></i>
-                    <a href="<?php echo site_url(ADMIN_DIR . "users/view/"); ?>"><?php echo $this->lang->line('Users'); ?></a>
+                    <a
+                        href="<?php echo site_url(ADMIN_DIR . "users/view/"); ?>"><?php echo $this->lang->line('Users'); ?></a>
                 </li>
                 <li><?php echo $title; ?></li>
             </ul>
@@ -29,8 +31,10 @@
 
                 <div class="col-md-6">
                     <div class="pull-right">
-                        <a class="btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR . "users/add"); ?>"><i class="fa fa-plus"></i> <?php echo $this->lang->line('New'); ?></a>
-                        <a class="btn btn-danger btn-sm" href="<?php echo site_url(ADMIN_DIR . "users/trashed"); ?>"><i class="fa fa-trash-o"></i> <?php echo $this->lang->line('Trash'); ?></a>
+                        <a class="btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR . "users/add"); ?>"><i
+                                class="fa fa-plus"></i> <?php echo $this->lang->line('New'); ?></a>
+                        <a class="btn btn-danger btn-sm" href="<?php echo site_url(ADMIN_DIR . "users/trashed"); ?>"><i
+                                class="fa fa-trash-o"></i> <?php echo $this->lang->line('Trash'); ?></a>
                     </div>
                 </div>
 
@@ -255,6 +259,28 @@
 
 
                 </div>
+
+                <div class="form-group">
+                    <label for="District" class="col-md-2 control-label" style="">District</label>
+                    <div class="col-md-10">
+                        <select name="district" class="form-control searchable" required="">
+                            <option value="">Select District</option>
+                            <option value="0">All Districts</option>
+                            <?php 
+                            $query="SELECT * FROM districts WHERE is_district=1 ORDER BY region, district_name ASC";
+                            $districts = $this->db->query($query)->result();
+                            foreach ($districts as $district) { ?>
+                            <option value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
+                                (<?php echo $district->region ?>)</option>
+                            <?php } ?>
+                        </select>
+                    </div>
+                </div>
+                <script>
+                $('.searchable').selectize({
+                    sortField: 'text'
+                });
+                </script>
 
                 <div class="col-md-offset-2 col-md-10">
                     <?php

@@ -107,9 +107,9 @@
         </div>
 
         <div class="form-group">
-            <label for="Gross Pay" class="col-md-4 control-label" style="">Gross Pay</label>
+            <label for="Gross Paid" class="col-md-4 control-label" style="">Gross Paid</label>
             <div class="col-md-8">
-                <input type="number" min="1" onkeyup="calculate_net_pay()" step="any" name="gross_pay" value="<?php echo $expense->gross_pay; ?>" id="gross_pay" class="form-control" style="" required="required" placeholder="Gross Pay">
+                <input type="number" min="1" onkeyup="calculate_net_pay()" step="any" name="gross_pay" value="<?php echo $expense->gross_pay; ?>" id="gross_pay" class="form-control" style="" required="required" placeholder="Gross Paid">
             </div>
         </div>
 
@@ -152,9 +152,9 @@
         </div>
 
         <div class="form-group">
-            <label for="Net Pay" class="col-md-4 control-label" style="">Net Pay</label>
+            <label for="Net Paid" class="col-md-4 control-label" style="">Net Paid</label>
             <div class="col-md-8">
-                <input min="1" readonly type="number" step="any" name="net_pay" value="<?php echo $expense->net_pay; ?>" id="net_pay" class="form-control" style="" required="required" placeholder="Net Pay">
+                <input min="1" readonly type="number" step="any" name="net_pay" value="<?php echo $expense->net_pay; ?>" id="net_pay" class="form-control" style="" required="required" placeholder="Net Paid">
             </div>
         </div>
         <script>

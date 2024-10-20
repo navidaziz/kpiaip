@@ -31,7 +31,7 @@
                             <tr>
                                 <th></th>
                                 <th>FY</th>
-                                <th>Net Pay</th>
+                                <th>Net Paid</th>
                                 <th>WHST<br />
                                     <small style="color: green;">Paid</small><br /><small
                                         style="color: red;">Unpaid</small><br />
@@ -68,7 +68,7 @@
                                     <small style="color: green;">Paid</small><br /><small
                                         style="color: red;">Unpaid</small><br />
                                 </th>
-                                <th>Gross Pay</th>
+                                <th>Gross Paid</th>
                                 <th>Reconciliation</th>
                                 <th>Tax Paid</th>
                                 <th>Remaining Taxes</th>
@@ -82,7 +82,7 @@
                                     f.financial_year_id AS fy_id, -- ID of the financial year
                                     f.financial_year AS fy,        -- Name of the financial year
                                     f.status AS fy_status,         -- Status of the financial year
-                                    SUM(e.net_pay) AS net_pay,    -- Total net payment
+                                    SUM(e.net_pay) AS net_pay,    -- Total Net Paidment
                                     SUM(e.whit_tax) AS whit_tax,   -- Total withholding tax
                                     SUM(e.whst_tax) AS whst_tax,   -- Total withholding tax on salary
                                     SUM(e.st_duty_tax) AS st_duty_tax, -- Total stamp duty tax
@@ -91,8 +91,8 @@
                                     SUM(e.gur_ret) AS gur_ret,     -- Total government retention
                                     SUM(e.misc_deduction) AS misc_deduction, -- Total miscellaneous deductions
                                     SUM(e.whit_tax) + SUM(e.whst_tax) + SUM(e.st_duty_tax) + SUM(e.rdp_tax) + SUM(e.kpra_tax) + SUM(e.gur_ret) + SUM(e.misc_deduction) AS deduction, -- Total deductions
-                                    SUM(e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay) AS inclusive, -- Total including net pay
-                                    SUM(e.gross_pay) AS gross_pay,  -- Total gross payment
+                                    SUM(e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay) AS inclusive, -- Total including Net Paid
+                                    SUM(e.gross_pay) AS gross_pay,  -- Total Gross Paidment
                                     SUM(e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay - e.gross_pay) AS reconciliation, -- Reconciliation of payments
                                     (
                                     SELECT SUM(ex.net_pay) 
@@ -260,7 +260,7 @@
                             <?php 
                                $count = 1;
                                         $query = "SELECT 
-                                    SUM(e.net_pay) AS net_pay,    -- Total net payment
+                                    SUM(e.net_pay) AS net_pay,    -- Total Net Paidment
                                     SUM(e.whit_tax) AS whit_tax,   -- Total withholding tax
                                     SUM(e.whst_tax) AS whst_tax,   -- Total withholding tax on salary
                                     SUM(e.st_duty_tax) AS st_duty_tax, -- Total stamp duty tax
@@ -269,8 +269,8 @@
                                     SUM(e.gur_ret) AS gur_ret,     -- Total government retention
                                     SUM(e.misc_deduction) AS misc_deduction, -- Total miscellaneous deductions
                                     SUM(e.whit_tax) + SUM(e.whst_tax) + SUM(e.st_duty_tax) + SUM(e.rdp_tax) + SUM(e.kpra_tax) + SUM(e.gur_ret) + SUM(e.misc_deduction) AS deduction,
-                                    SUM(e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay) AS inclusive, -- Total including net pay
-                                    SUM(e.gross_pay) AS gross_pay,  -- Total gross payment
+                                    SUM(e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay) AS inclusive, -- Total including Net Paid
+                                    SUM(e.gross_pay) AS gross_pay,  -- Total Gross Paidment
                                     SUM(e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay - e.gross_pay) AS reconciliation, -- Reconciliation of payments
                                     (
                                     SELECT SUM(ex.net_pay) 

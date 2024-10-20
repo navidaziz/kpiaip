@@ -85,7 +85,28 @@
 
             </div>
             <div class="box-body">
+                <div class="tabbable header-tabs">
+                    <ul class="nav nav-tabs">
 
+                        <?php
+                        $query = "SELECT scheme_status, COUNT(scheme_status) as total FROM schemes GROUP BY scheme_status";
+                        $schemes_status = $this->db->query($query)->result();
+                        foreach ($schemes_status as $scheme_status) { ?>
+
+                        <li <?php if ($scheme_status->scheme_status == $tab) { ?> class="active" <?php } ?>>
+
+                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes"); ?>?scheme_status=<?php echo $scheme_status->scheme_status; ?>"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+
+                                <?php echo $scheme_status->scheme_status; ?> ( <?php echo $scheme_status->total; ?>
+                                )</a>
+                        </li>
+                        <?php } ?>
+
+
+
+                    </ul>
+                </div>
                 <div class="table-responsive">
 
                     <table class="table table_small table-bordered" id="datatable">

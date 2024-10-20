@@ -63,7 +63,7 @@ $f_years = $this->db->query($query)->result();
                             <tr>
                                 <th></th>
                                 <th>FY</th>
-                                <th>Net Pay</th>
+                                <th>Net Paid</th>
                                 <th>WHST<br />
                                     <small style="color: green;">Paid</small><br /><small
                                         style="color: red;">Unpaid</small><br />
@@ -100,7 +100,7 @@ $f_years = $this->db->query($query)->result();
                                     <small style="color: green;">Paid</small><br /><small
                                         style="color: red;">Unpaid</small><br />
                                 </th>
-                                <th>Gross Pay</th>
+                                <th>Gross Paid</th>
                                 <th>Reconciliation</th>
                                 <th>Tax Paid</th>
                                 <th>Remaining Taxes</th>

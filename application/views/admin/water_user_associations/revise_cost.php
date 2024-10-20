@@ -36,10 +36,12 @@
                     "min" => $scheme->sanctioned_cost,
                     "title"         =>  $this->lang->line('revised_cost'),
                     "value"         =>  set_value("revised_cost", $revised_cost->revised_cost),
-                    "placeholder"   =>  $this->lang->line('revised_cost')
+                    "placeholder"   =>  $this->lang->line('revised_cost'),
+                    "onkeyup" => "convertNumberToWords('revised_cost')"
                 );
                 echo  form_input($number);
                 ?>
+                <p id="resultWords"></p>
                 <?php echo form_error("revised_cost", "<p class=\"text-danger\">", "</p>"); ?>
             </div>
         </div>

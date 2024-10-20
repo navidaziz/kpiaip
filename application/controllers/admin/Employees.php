@@ -77,14 +77,14 @@ class Employees extends Admin_Controller
         $this->form_validation->set_rules("basi_pay_scale", "Basi Pay Scale", "required");
         $this->form_validation->set_rules("joining_date", "Joining Date", "required");
         //$this->form_validation->set_rules("leaved_date", "Leaved Date", "required");
-        $this->form_validation->set_rules("gross_pay", "Gross Pay", "required");
+        $this->form_validation->set_rules("gross_pay", "Gross Paid", "required");
         $this->form_validation->set_rules("whit_tax", "Whit Tax", "required");
         $this->form_validation->set_rules("whst_tax", "Whst Tax", "required");
         $this->form_validation->set_rules("st_duty_tax", "St Duty Tax", "required");
         $this->form_validation->set_rules("rdp_tax", "Rdp Tax", "required");
         $this->form_validation->set_rules("kpra_tax", "Kpra Tax", "required");
         $this->form_validation->set_rules("misc_deduction", "Misc Deduction", "required");
-        $this->form_validation->set_rules("net_pay", "Net Pay", "required");
+        $this->form_validation->set_rules("net_pay", "Net Paid", "required");
 
         if ($this->form_validation->run() == FALSE) {
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";

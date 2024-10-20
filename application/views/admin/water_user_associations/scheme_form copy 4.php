@@ -25,6 +25,35 @@
             <?php echo form_error("component_category_id", "<p class=\"text-danger\">", "</p>"); ?>
         </div>
 
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('scheme_code'), "scheme_code", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $text = array(
+                    "type"          =>  "text",
+                    "name"          =>  "scheme_code",
+                    "id"            =>  "scheme_code",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "requ ired"      => "required", "title"         =>  $this->lang->line('scheme_code'),
+                    "value"         =>  set_value("scheme_code", $scheme->scheme_code),
+                    "placeholder"   =>  $this->lang->line('scheme_code')
+                );
+                echo  form_input($text);
+                ?>
+                <?php echo form_error("scheme_code", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
 
         <div class="form-group">
 

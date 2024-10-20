@@ -74,12 +74,12 @@ class Expense_model extends MY_Model
             ),
             array(
                 "field"  =>  "gross_pay",
-                "label"  =>  "Gross Pay",
+                "label"  =>  "Gross Paid",
                 "rules"  =>  "required"
             ),
             array(
                 "field"  =>  "gross_pay",
-                "label"  =>  "Gross Pay",
+                "label"  =>  "Gross Paid",
                 "rules"  =>  "required"
             ),
             array(
@@ -140,9 +140,12 @@ class Expense_model extends MY_Model
 
     public function save_data($image_field = NULL)
     {
-
-
         $inputs = $this->inputs();
+        if($this->input->post("installment")){
+            $inputs['installment'] = $this->input->post("installment");
+            
+        }
+
 
         return $this->expense_model->save($inputs);
     }
@@ -204,6 +207,7 @@ class Expense_model extends MY_Model
         $inputs["net_pay"]  =  $this->input->post("net_pay");
         $inputs["created_by"] = $this->session->userdata("userId");
         $inputs["last_updated"] = date('Y-m-d H:i:s');
+        
         $deduction = $inputs["whit_tax"]+$inputs["whst_tax"]+ $inputs["rdp_tax"]+$inputs["st_duty_tax"]+$inputs["kpra_tax"]+$inputs["gur_ret"]+$inputs["misc_deduction"]+$inputs["net_pay"];
 
         if(round($inputs["gross_pay"])!=round($deduction)){

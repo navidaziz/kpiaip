@@ -73,7 +73,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="gross_pay" class="col-sm-4 col-form-label">Gross Pay</label>
+        <label for="gross_pay" class="col-sm-4 col-form-label">Gross Paid</label>
         <div class="col-sm-8">
             <input type="number" onkeyup="calculate_net_pay()" step="any" required id="gross_pay" name="gross_pay" value="<?php echo $input->gross_pay; ?>" class="form-control">
         </div>
@@ -115,7 +115,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="net_pay" class="col-sm-4 col-form-label">Net Pay</label>
+        <label for="net_pay" class="col-sm-4 col-form-label">Net Paid</label>
         <div class="col-sm-8">
             <input readonly type="number" required id="net_pay" name="net_pay" value="<?php echo $input->net_pay; ?>" class="form-control">
         </div>

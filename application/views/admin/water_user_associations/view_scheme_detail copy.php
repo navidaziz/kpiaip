@@ -714,7 +714,7 @@
                             <th>Cheque</th>
                             <th>Date</th>
                             <th>Payee Name</th>
-                            <th>Gross Pay</th>
+                            <th>Gross Paid</th>
                             <th>WHIT</th>
                             <th>WHST</th>
                             <th>St.Duty</th>
@@ -722,7 +722,7 @@
                             <th>KPRA</th>
                             <th>GUR.RET.</th>
                             <th>Misc.Dedu.</th>
-                            <th>Net Pay</th>
+                            <th>Net Paid</th>
                             <th>%</th>
                             <th></th>
                         </thead>

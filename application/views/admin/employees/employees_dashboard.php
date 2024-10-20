@@ -93,14 +93,14 @@
                                 <th>Designation</th>
                                 <th>Scale</th>
                                 <th>Joining Date</th>
-                                <th>Gross Pay</th>
+                                <th>Gross Paid</th>
                                 <th>Whit Tax</th>
                                 <th>Whst Tax</th>
                                 <th>St Duty Tax</th>
                                 <th>Rdp Tax</th>
                                 <th>Kpra Tax</th>
                                 <th>Misc Dedu.</th>
-                                <th>Net Pay</th>
+                                <th>Net Paid</th>
                                 <th>Leaved</th>
                                 <th>Leaved Date</th>
                                 <th>Action</th>

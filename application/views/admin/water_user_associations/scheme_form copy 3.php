@@ -25,6 +25,35 @@
             <?php echo form_error("component_category_id", "<p class=\"text-danger\">", "</p>"); ?>
         </div>
 
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('scheme_code'), "scheme_code", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $text = array(
+                    "type"          =>  "text",
+                    "name"          =>  "scheme_code",
+                    "id"            =>  "scheme_code",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "requ ired"      => "required", "title"         =>  $this->lang->line('scheme_code'),
+                    "value"         =>  set_value("scheme_code", $scheme->scheme_code),
+                    "placeholder"   =>  $this->lang->line('scheme_code')
+                );
+                echo  form_input($text);
+                ?>
+                <?php echo form_error("scheme_code", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
 
         <div class="form-group">
 
@@ -58,36 +87,33 @@
         </div>
 
         <div class="form-group">
-            <label for="tehsil" class="col-sm-4 control-label">Tehsil</label>
-            <div class="col-sm-8">
-                <input type="text" required id="tehsil" name="tehsil" value="<?php echo $scheme->tehsil; ?>"
-                    class="form-control">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('water_source'), "water_source", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $text = array(
+                    "type"          =>  "text",
+                    "name"          =>  "water_source",
+                    "id"            =>  "water_source",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "requ ired"      => "requ ired", "title"         =>  $this->lang->line('water_source'),
+                    "value"         =>  set_value("water_source", $scheme->water_source),
+                    "placeholder"   =>  $this->lang->line('water_source')
+                );
+                echo  form_input($text);
+                ?>
+                <?php echo form_error("water_source", "<p class=\"text-danger\">", "</p>"); ?>
             </div>
-        </div>
-        <div class="form-group">
-            <label for="uc" class="col-sm-4 control-label">UC</label>
-            <div class="col-sm-8">
-                <input type="text" required id="uc" name="uc" value="<?php echo $scheme->uc; ?>" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="villege" class="col-sm-4 control-label">Villege</label>
-            <div class="col-sm-8">
-                <input type="text" required id="villege" name="villege" value="<?php echo $scheme->villege; ?>"
-                    class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="na" class="col-sm-4 control-label">NA</label>
-            <div class="col-sm-8">
-                <input type="text" required id="na" name="na" value="<?php echo $scheme->na; ?>" class="form-control">
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="pk" class="col-sm-4 control-label">PK</label>
-            <div class="col-sm-8">
-                <input type="text" required id="pk" name="pk" value="<?php echo $scheme->pk; ?>" class="form-control">
-            </div>
+
+
+
         </div>
 
         <div class="form-group">
@@ -209,6 +235,36 @@
                 echo  form_input($number);
                 ?>
                 <?php echo form_error("female_beneficiaries", "<p class=\"text-danger\">", "</p>"); ?>
+            </div>
+
+
+
+        </div>
+
+        <div class="form-group">
+
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('estimated_cost'), "estimated_cost", $label);      ?>
+
+            <div class="col-md-8">
+                <?php
+
+                $number = array(
+                    "type"          =>  "number",
+                    "name"          =>  "estimated_cost",
+                    "id"            =>  "estimated_cost",
+                    "class"         =>  "form-control",
+                    "style"         =>  "", "requ ired"      => "requ ired", "title"         =>  $this->lang->line('estimated_cost'),
+                    "value"         =>  set_value("estimated_cost", $scheme->estimated_cost),
+                    "placeholder"   =>  $this->lang->line('estimated_cost')
+                );
+                echo  form_input($number);
+                ?>
+                <?php echo form_error("estimated_cost", "<p class=\"text-danger\">", "</p>"); ?>
             </div>
 
 

@@ -19,7 +19,7 @@ if($pay_name){ ?>
                 <th>Sub Com</th>
                 <th>Category</th>
                 <th>Section Cost</th>
-                <th>Gross Pay</th>
+                <th>Gross Paid</th>
                 <th>Whit</th>
                 <th>Whst</th>
                 <th>Kpra</th>

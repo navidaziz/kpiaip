@@ -250,6 +250,68 @@
 
                 <div class="col-md-4">
                     <h4>WUA Bank Detail</h4>
+
+                    <div class="form-group">
+
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label("Bank Name", "bank_name", $label);      ?>
+
+                        <div class="col-md-8">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "bank_name",
+                            "id"            =>  "bank_name",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", "required"      => "required", 
+                            "title"         =>  "Bank Name",
+                            "value"         =>  set_value("bank_name"),
+                            "placeholder"   =>  "Bank Name"
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("bank_name", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label($this->lang->line('bank_branch_code'), "bank_branch_code", $label);      ?>
+
+                        <div class="col-md-8">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "bank_branch_code",
+                            "id"            =>  "bank_branch_code",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('bank_branch_code'),
+                            "value"         =>  set_value("bank_branch_code"),
+                            "placeholder"   =>  $this->lang->line('bank_branch_code')
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("bank_branch_code", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
                     <div class="form-group">
 
                         <?php
@@ -310,35 +372,7 @@
 
                     </div>
 
-                    <div class="form-group">
 
-                        <?php
-                            $label = array(
-                                "class" => "col-md-4 control-label",
-                                "style" => "",
-                            );
-                            echo form_label($this->lang->line('bank_branch_code'), "bank_branch_code", $label);      ?>
-
-                        <div class="col-md-8">
-                            <?php
-
-                        $text = array(
-                            "type"          =>  "text",
-                            "name"          =>  "bank_branch_code",
-                            "id"            =>  "bank_branch_code",
-                            "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('bank_branch_code'),
-                            "value"         =>  set_value("bank_branch_code"),
-                            "placeholder"   =>  $this->lang->line('bank_branch_code')
-                        );
-                        echo  form_input($text);
-                        ?>
-                            <?php echo form_error("bank_branch_code", "<p class=\"text-danger\">", "</p>"); ?>
-                        </div>
-
-
-
-                    </div>
 
                     <div class="form-group">
 
@@ -347,7 +381,7 @@
                                 "class" => "col-md-4 control-label",
                                 "style" => "",
                             );
-                            echo form_label($this->lang->line('attachement'), "attachement", $label);      ?>
+                            echo form_label("WUA ".$this->lang->line('attachement'), "attachement", $label);      ?>
 
                         <div class="col-md-8">
                             <?php
@@ -375,10 +409,30 @@
                     <h4>WUA Chairman Detail</h4>
                     <div class="form-group">
 
-                        <label for="cm_name" class="col-md-4 control-label" style="">Chairman Name</label>
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label('Chairman Name', "cm_name", $label);      ?>
+
                         <div class="col-md-8">
-                            <input type="text" name="cm_name" value="" id="cm_name" class="form-control" style=""
-                                required="required" title="Name" placeholder="Name">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "cm_name",
+                            "id"            =>  "cm_name",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", 
+                            "required"      => "required", 
+                            "title"         =>  'Chairman Name',
+                            "value"         =>  set_value("cm_name"),
+                            "placeholder"   =>  'Chairman Name'
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("cm_name", "<p class=\"text-danger\">", "</p>"); ?>
                         </div>
 
 
@@ -387,10 +441,30 @@
 
                     <div class="form-group">
 
-                        <label for="cm_father_name" class="col-md-4 control-label" style="">Father Name</label>
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label('Father Name', "cm_father_name", $label);      ?>
+
                         <div class="col-md-8">
-                            <input type="text" name="cm_father_name" value="" id="cm_father_name" class="form-control"
-                                style="" required="required" title="Father Name" placeholder="Father Name">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "cm_father_name",
+                            "id"            =>  "cm_father_name",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", 
+                            "required"      => "required", 
+                            "title"         =>  'Father Name',
+                            "value"         =>  set_value("cm_father_name"),
+                            "placeholder"   =>  'Father Name'
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("cm_father_name", "<p class=\"text-danger\">", "</p>"); ?>
                         </div>
 
 
@@ -402,73 +476,118 @@
                         <div class="col-md-8">
                             <input type="radio" name="cm_gender" value="Male" id="cm_gender" style=""
                                 required="required" class="uniform">
-                            <label for="cm_gender" style="margin-left:10px;">Male</label><input type="radio"
-                                name="cm_gender" value="Female" id="cm_gender" style="" required="required"
-                                class="uniform">
+                            <label for="cm_gender" style="margin-left:10px;">Male</label>
+                            <input type="radio" name="cm_gender" value="Female" id="cm_gender" style=""
+                                required="required" class="uniform">
                             <label for="cm_gender" style="margin-left:10px;">Female</label>
                         </div>
                     </div>
 
-
                     <div class="form-group">
 
-                        <label for="cm_cnic" class="col-md-4 control-label" style="">CNIC</label>
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label('CNIC', "cm_cnic", $label);      ?>
+
                         <div class="col-md-8">
-                            <input type="text" name="cm_cnic" value="" id="cm_cnic" pattern="\d{5}-\d{7}-\d{1}"
-                                onkeyup="nic_dash1(this)" class="form-control" style="" required="required" title="Cnic"
-                                placeholder="Cnic">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "cm_cnic",
+                            "id"            =>  "cm_cnic",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", 
+                            "required"      => "required", 
+                            "title"         =>  'CNIC',
+                            "value"         =>  set_value("cm_cnic"),
+                            "pattern" => '\d{5}-\d{7}-\d{1}',
+                            "placeholder"   =>  'CNIC',
+                            "onkeyup" => "nic_dash1(this)"
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("cm_cnic", "<p class=\"text-danger\">", "</p>"); ?>
                         </div>
-                        <script language="javascript">
-                        function nic_dash1(t)
+
+
+
+                    </div>
+
+
+
+                    <script language="javascript">
+                    function nic_dash1(t)
+
+                    {
+                        var donepatt = /^(\d{5})\/(\d{7})\/(\d{1})$/;
+
+                        var patt = /(\d{5}).*(\d{7}).*(\d{1})/;
+
+                        var str = t.value;
+
+                        if (!str.match(donepatt))
 
                         {
-                            var donepatt = /^(\d{5})\/(\d{7})\/(\d{1})$/;
+                            result = str.match(patt);
 
-                            var patt = /(\d{5}).*(\d{7}).*(\d{1})/;
-
-                            var str = t.value;
-
-                            if (!str.match(donepatt))
+                            if (result != null)
 
                             {
-                                result = str.match(patt);
+                                t.value = t.value.replace(/[^\d]/gi, '');
 
-                                if (result != null)
+                                str = result[1] + '-' + result[2] + '-' + result[3];
 
-                                {
+                                t.value = str;
+
+                            } else {
+
+                                if (t.value.match(/[^\d]/gi))
+
                                     t.value = t.value.replace(/[^\d]/gi, '');
 
-                                    str = result[1] + '-' + result[2] + '-' + result[3];
-
-                                    t.value = str;
-
-                                } else {
-
-                                    if (t.value.match(/[^\d]/gi))
-
-                                        t.value = t.value.replace(/[^\d]/gi, '');
-
-                                }
                             }
                         }
-                        </script>
-
-
-                    </div>
+                    }
+                    </script>
 
                     <div class="form-group">
 
-                        <label for="cm_contact_no" class="col-md-4 control-label" style="">Contact No</label>
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label('Contact No', "cm_contact_no", $label);      ?>
+
                         <div class="col-md-8">
-                            <input type="text" name="cm_contact_no" value="" id="cm_contact_no" class="form-control"
-                                pattern="0[0-9]{10}" style="" required="required"
-                                title="Please enter an 11-digit mobile number starting with '0'"
-                                placeholder="032400000000">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "cm_contact_no",
+                            "id"            =>  "cm_contact_no",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", 
+                            "required"      => "required", 
+                            "title"         =>  "Please enter an 11-digit mobile number starting with '0'",
+                            "value"         =>  set_value("cm_contact_no"),
+                            "placeholder"   =>  '032400000000',
+                            "pattern" => '0[0-9]{10}'
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("cm_contact_no", "<p class=\"text-danger\">", "</p>"); ?>
                         </div>
 
 
 
                     </div>
+
+
                 </div>
 
 

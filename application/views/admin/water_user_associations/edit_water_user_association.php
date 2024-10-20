@@ -57,6 +57,8 @@
                 <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
 
             </div>
+            <?php 
+            if (strpos($water_user_association->wua_registration_no, 'B3-') == false) { ?>
             <div class="box-body">
 
                 <?php
@@ -259,6 +261,68 @@
                 </div>
                 <div class="col-md-4">
                     <h4>WUA Bank Detail</h4>
+
+                    <div class="form-group">
+
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label("Bank Name", "bank_name", $label);      ?>
+
+                        <div class="col-md-8">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "bank_name",
+                            "id"            =>  "bank_name",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", "required"      => "required", 
+                            "title"         =>  "Bank Name",
+                            "value"         =>  set_value("bank_name", $water_user_association->bank_name),
+                            "placeholder"   =>  "Bank Name"
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("bank_name", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <?php
+                            $label = array(
+                                "class" => "col-md-4 control-label",
+                                "style" => "",
+                            );
+                            echo form_label($this->lang->line('bank_branch_code'), "bank_branch_code", $label);      ?>
+
+                        <div class="col-md-8">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "bank_branch_code",
+                            "id"            =>  "bank_branch_code",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('bank_branch_code'),
+                            "value"         =>  set_value("bank_branch_code", $water_user_association->bank_branch_code),
+                            "placeholder"   =>  $this->lang->line('bank_branch_code')
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("bank_branch_code", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
                     <div class="form-group">
 
                         <?php
@@ -313,41 +377,17 @@
                         echo  form_input($text);
                         ?>
                             <?php echo form_error("bank_account_number", "<p class=\"text-danger\">", "</p>"); ?>
+                            <?php if ($this->session->flashdata('bank_account_number')): ?>
+                            <p class="text-danger">
+                                <?php echo $this->session->flashdata('bank_account_number'); ?>
+                            </p>
+                            <?php endif; ?>
                         </div>
 
 
 
                     </div>
 
-                    <div class="form-group">
-
-                        <?php
-                    $label = array(
-                        "class" => "col-md-4 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('bank_branch_code'), "bank_branch_code", $label);      ?>
-
-                        <div class="col-md-8">
-                            <?php
-
-                        $text = array(
-                            "type"          =>  "text",
-                            "name"          =>  "bank_branch_code",
-                            "id"            =>  "bank_branch_code",
-                            "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('bank_branch_code'),
-                            "value"         =>  set_value("bank_branch_code", $water_user_association->bank_branch_code),
-                            "placeholder"   =>  $this->lang->line('bank_branch_code')
-                        );
-                        echo  form_input($text);
-                        ?>
-                            <?php echo form_error("bank_branch_code", "<p class=\"text-danger\">", "</p>"); ?>
-                        </div>
-
-
-
-                    </div>
 
                     <div class="form-group">
 
@@ -384,6 +424,7 @@
 
                 </div>
                 <div class="col-md-4">
+                    <h4>WUA Chairman Detail</h4>
 
                     <div class="form-group">
 
@@ -600,7 +641,11 @@
                 <?php echo form_close(); ?>
 
             </div>
-
+            <?php }else{ ?>
+            <div style="text-align: center;">
+                <h4>Update not allowed</h4>
+            </div>
+            <?php }  ?>
         </div>
     </div>
     <!-- /MESSENGER -->

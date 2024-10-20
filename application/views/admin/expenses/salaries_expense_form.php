@@ -22,14 +22,14 @@
                         <th>Voucher Number</th>
                         <th>Cheque No.</th>
                         <th>Date</th>
-                        <th>Gross Pay</th>
+                        <th>Gross Paid</th>
                         <th>Whit Tax</th>
                         <th>Whst Tax</th>
                         <th>St Duty Tax</th>
                         <th>Rdp Tax</th>
                         <th>Kpra Tax</th>
                         <th>Misc Dedu.</th>
-                        <th>Net Pay</th>
+                        <th>Net Paid</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,7 +54,7 @@
                             <td> <input type="date" name="employees[<?php echo $row->employee_id; ?>][date]" value="" class="formControl date" style="" required="required" placeholder="Date">
                             </td>
                             <td> <?php echo $row->gross_pay; ?>
-                                <input type="hidden" min="1" onkeyup="calculate_net_pay()" step="any" name="employees[<?php echo $row->employee_id; ?>][gross_pay]" value="<?php echo $row->gross_pay; ?>" class="formControl" style="" required="required" placeholder="Gross Pay">
+                                <input type="hidden" min="1" onkeyup="calculate_net_pay()" step="any" name="employees[<?php echo $row->employee_id; ?>][gross_pay]" value="<?php echo $row->gross_pay; ?>" class="formControl" style="" required="required" placeholder="Gross Paid">
                             </td>
                             <td>
                                 <?php echo $row->whit_tax; ?>
@@ -82,7 +82,7 @@
                             </td>
                             <td>
                                 <?php echo $row->net_pay; ?>
-                                <input readonly min="1" type="hidden" step="any" name="employees[<?php echo $row->employee_id; ?>][net_pay]" value="<?php echo $row->net_pay; ?>" class="formControl" style="" required="required" placeholder="Net Pay">
+                                <input readonly min="1" type="hidden" step="any" name="employees[<?php echo $row->employee_id; ?>][net_pay]" value="<?php echo $row->net_pay; ?>" class="formControl" style="" required="required" placeholder="Net Paid">
                             </td>
                         </tr>
                     <?php } ?>

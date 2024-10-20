@@ -51,7 +51,11 @@ class Roles extends Admin_Controller
         //load required models
         $this->load->model("mr_m");
         $this->load->model("module_m");
+        if($this->input->post("checked_modules")){
         $module_ids = explode(",", $this->input->post("checked_modules"));
+        }else{
+            $module_ids = "";
+        }
 
 
 
@@ -131,7 +135,11 @@ class Roles extends Admin_Controller
         //get this controller data to populate form
         $role_id = (int) $role_id;
         $this->data['role'] = $this->role_m->get($role_id);
+        if($this->input->post("checked_modules")){
         $module_ids = explode(",", $this->input->post("checked_modules"));
+        }else{
+            $module_ids ="";
+        }
 
 
         //validation configuration

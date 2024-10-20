@@ -37,7 +37,11 @@
                 <li>
                     <i class="fa fa-table"></i>
                     <a
-                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_water_user_association/" . $water_user_association->water_user_association_id); ?>"><?php echo $title; ?><?php //echo $water_user_association->wua_registration_no; ?></a>
+                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/$scheme->scheme_status"); ?>">
+
+                        Schemes List ( <?php echo $scheme->scheme_status ?> )
+
+                    </a>
                 </li>
                 <li><?php echo $scheme->scheme_code; ?></li>
             </ul>
@@ -116,6 +120,11 @@
             <div class="box-body">
 
                 <div class="table-responsive">
+                    <a
+                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_water_user_association/" . $water_user_association->water_user_association_id); ?>">
+
+                        <h5>WUA Name: <?php echo $water_user_association->wua_name; ?></h5>
+                    </a>
                     <h5>WUA REG No: <?php echo $water_user_association->wua_registration_no; ?></h5>
                     <strong>WUA Address</strong>
                     <table class="table table-bordered table_small">
@@ -365,8 +374,35 @@
     <div class="col-md-9">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-tasks"></i> Scheme Details</h4>
+                <h4><i class="fa fa-tasks"></i> Scheme Details
 
+
+                </h4>
+                <?php if($scheme->scheme_status !='Completed'){ ?>
+                <span class="pull-right">
+                    <a class="llink llink-edit" style="color: white;" href="#"
+                        onclick="scheme_form(<?php echo $scheme->scheme_id; ?>)"><i class="fa fa-pencil-square-o"></i>
+                        Edit</a>
+                </span>
+                <script>
+                function scheme_form(scheme_id) {
+
+                    $.ajax({
+                            method: "POST",
+                            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_form'); ?>",
+                            data: {
+                                scheme_id: scheme_id,
+                                water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                            },
+                        })
+                        .done(function(respose) {
+                            $('#modal').modal('show');
+                            $('#modal_title').html('Add Scheme');
+                            $('#modal_body').html(respose);
+                        });
+                }
+                </script>
+                <?php } ?>
             </div>
             <div class="box-body">
                 <div class="box-body">
@@ -375,6 +411,12 @@
                             <thead>
                                 <tr>
                                     <th>District</th>
+                                    <th>Tehsil</th>
+                                    <th>Uc</th>
+                                    <th>Villege</th>
+                                    <th>NA</th>
+                                    <th>PK</th>
+
                                     <th>Component Category</th>
                                     <th><?php echo $this->lang->line('water_source'); ?></th>
                                     <th>Coordiantes</th>
@@ -399,6 +441,11 @@
                                 }
                                         ?>
                                     </td>
+                                    <td><?php echo $scheme->tehsil; ?></td>
+                                    <td><?php echo $scheme->uc; ?></td>
+                                    <td><?php echo $scheme->villege; ?></td>
+                                    <td><?php echo $scheme->na; ?></td>
+                                    <td><?php echo $scheme->pk; ?></td>
                                     <td>
                                         <?php 
                                 $query = "SELECT * FROM `component_categories` 
@@ -415,8 +462,68 @@
                                         <?php echo $scheme->water_source; ?>
                                     </td>
                                     <td>
-                                        LATI: <?php echo $scheme->latitude; ?><br />
-                                        LONG: <?php echo $scheme->longitude; ?>
+                                        lati: <?php echo $scheme->latitude; ?><br />
+                                        long: <?php echo $scheme->longitude; ?>
+                                        <style>
+                                        /* Style for the map icon */
+                                        .map-icon {
+                                            display: inline-flex;
+                                            /* Inline block with flex for alignment */
+                                            align-items: center;
+                                            /* Center align items vertically */
+                                            justify-content: center;
+                                            /* Center align items horizontally */
+                                            border: 2px solid gray;
+                                            /* Red border */
+                                            border-radius: 5px;
+                                            /* Rounded corners */
+                                            padding: 3px 5px;
+                                            /* Padding for better spacing */
+                                            background-color: white;
+                                            /* Background color */
+                                            color: gray;
+                                            /* Icon color */
+                                            font-size: 16px;
+                                            /* Font size */
+                                            cursor: pointer;
+                                            /* Pointer cursor on hover */
+                                            transition: all 0.3s;
+                                            /* Smooth transition for hover effects */
+                                            margin: 2px
+                                        }
+
+                                        /* Hover effect */
+                                        .map-icon:hover {
+                                            background-color: gray;
+                                            /* Change background on hover */
+                                            color: white;
+                                            /* Change icon color on hover */
+                                            transform: scale(1.05);
+                                            /* Slightly scale the icon */
+                                        }
+                                        </style>
+                                        <i onclick="get_google_map('<?php echo $scheme->latitude; ?>', '<?php echo $scheme->longitude; ?>')"
+                                            class="fa fa-map map-icon" aria-hidden="true">
+                                            Google Map
+                                        </i>
+                                        <script>
+                                        function get_google_map(lat, long) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_google_map'); ?>",
+                                                    data: {
+                                                        scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                        lat: lat,
+                                                        long: long
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Scheme Google Map View');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                        </script>
                                     </td>
                                     <td>
                                         Males: <?php echo $scheme->male_beneficiaries; ?><br />
@@ -451,6 +558,113 @@
 
                                 </tr>
                         </table>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table_small" id="sche mes">
+                                <thead>
+                                    <tr>
+
+                                        <th>Registration Date</th>
+                                        <th>Survey Date</th>
+                                        <th>Design Date</th>
+                                        <th>Feasibility Date</th>
+                                        <th>Work Order Date</th>
+                                        <th>Scheme Initiation Date</th>
+                                        <th>Estimated Cost</th>
+                                        <th>Estimated Cost Date</th>
+                                        <th>Approved Cost</th>
+                                        <th>Approval Date</th>
+                                        <th>Revised Cost</th>
+                                        <th>Revised Cost Date</th>
+                                        <th>Sanctioned Cost</th>
+                                        <th>Technical Sanction Date</th>
+                                        <th>Completion Date</th>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo $scheme->registration_date; ?></td>
+                                        <td><?php echo $scheme->survey_date; ?></td>
+                                        <td><?php echo $scheme->design_date; ?></td>
+                                        <td><?php echo $scheme->feasibility_date; ?></td>
+                                        <td><?php echo $scheme->work_order_date; ?></td>
+                                        <td><?php echo $scheme->scheme_initiation_date; ?></td>
+                                        <td><?php echo $scheme->estimated_cost; ?></td>
+                                        <td><?php echo $scheme->estimated_cost_date; ?></td>
+                                        <td><?php echo $scheme->approved_cost; ?></td>
+                                        <td><?php echo $scheme->approval_date; ?></td>
+                                        <td><?php echo $scheme->revised_cost; ?></td>
+                                        <td><?php echo $scheme->revised_cost_date; ?></td>
+                                        <td><?php echo $scheme->sanctioned_cost; ?></td>
+                                        <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                        <td><?php echo $scheme->completion_date; ?></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table_small" id="sch emes">
+                                <thead>
+                                    <tr>
+
+                                        <th>Verified By Tpv</th>
+                                        <th>Funding Source</th>
+                                        <th>Water Source</th>
+                                        <th>Cca</th>
+                                        <th>Gca</th>
+                                        <th>Pre</th>
+                                        <th>Pre Additional</th>
+                                        <th>Post</th>
+                                        <th>Saving</th>
+                                        <th>Saving Utilisation To Intensity</th>
+                                        <th>Saving Utilization To Change In Cropping Pattern</th>
+                                        <th>Water Productivity For Wheat And Maize</th>
+                                        <th>Any Increase In Productivity After The List Crop Cycle</th>
+                                        <th>Total</th>
+                                        <th>Lining</th>
+                                        <th>Lwh</th>
+                                        <th>Type Of Lining</th>
+                                        <th>Nacca Pannel</th>
+                                        <th>Culvert</th>
+                                        <th>Risers Pipe</th>
+                                        <th>Risers Pond</th>
+                                        <th>Others</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+
+
+                                        <td><?php echo $scheme->verified_by_tpv; ?></td>
+                                        <td><?php echo $scheme->funding_source; ?></td>
+                                        <td><?php echo $scheme->water_source; ?></td>
+                                        <td><?php echo $scheme->cca; ?></td>
+                                        <td><?php echo $scheme->gca; ?></td>
+                                        <td><?php echo $scheme->pre; ?></td>
+                                        <td><?php echo $scheme->pre_additional; ?></td>
+                                        <td><?php echo $scheme->post; ?></td>
+                                        <td><?php echo $scheme->saving; ?></td>
+                                        <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
+                                        <td><?php echo $scheme->saving_utilization_to_change_in_cropping_pattern; ?>
+                                        </td>
+                                        <td><?php echo $scheme->water_productivity_for_wheat_and_maize; ?></td>
+                                        <td><?php echo $scheme->any_increase_in_productivity_after_the_list_crop_cycle; ?>
+                                        </td>
+                                        <td><?php echo $scheme->total; ?></td>
+                                        <td><?php echo $scheme->lining; ?></td>
+                                        <td><?php echo $scheme->lwh; ?></td>
+                                        <td><?php echo $scheme->type_of_lining; ?></td>
+                                        <td><?php echo $scheme->nacca_pannel; ?></td>
+                                        <td><?php echo $scheme->culvert; ?></td>
+                                        <td><?php echo $scheme->risers_pipe; ?></td>
+                                        <td><?php echo $scheme->risers_pond; ?></td>
+                                        <td><?php echo $scheme->others; ?></td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
                         <div style="text-align: center;">
                             <h4 style="text-align: center;">
                                 Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
@@ -480,9 +694,35 @@
                             }
                             </script>
                             <?php } ?>
+                            <?php 
+                            if (($scheme->scheme_status == 'Registered' or $scheme->scheme_status == 'Initiated') and ($this->session->userdata('role_id')==28 or $this->session->userdata('role_id')==1) ) { ?>
+                            <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
+                                class="btn btn-danger btn-sm"><i class="fa fa-forward"></i>
+                                <?php if ($scheme->scheme_status == 'Registered' and ($this->session->userdata('role_id')==28 or $this->session->userdata('role_id')==1) ) { ?>
+                                Initiate Scheme
+                                <?php }else{?>
+                                Update Scheme Techical Detail
+                                <?php } ?>
+                            </button>
+                            <script>
+                            function initiate_scheme(scheme_id) {
+                                $.ajax({
+                                        method: "POST",
+                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_initiate_form'); ?>",
+                                        data: {
+                                            scheme_id: scheme_id
+                                        },
+                                    })
+                                    .done(function(respose) {
+                                        $('#modal').modal('show');
+                                        $('#modal_title').html('Initiate Scheme');
+                                        $('#modal_body').html(respose);
+                                    });
+                            }
+                            </script>
+                            <?php } ?>
 
-
-                            <?php if ($scheme->scheme_status == 'Initiated') { ?>
+                            <?php if ($scheme->scheme_status == 'Initiated' and ($this->session->userdata('role_id')==4 or $this->session->userdata('role_id')==1)) { ?>
                             <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm"><i
                                     class="fa fa-check-circle"></i> Approve</button>
                             <button onclick="chanage_status_form('Not Approve')" class="btn btn-danger btn-sm">
@@ -506,7 +746,9 @@
 
                             <?php } ?>
                             <?php if ($scheme->scheme_status == 'Completed') { ?>
-                            <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
+                            <div class="alert alert-success">Scheme Status:
+                                <?php echo  $scheme->scheme_status; ?>
+                            </div>
                             <?php } ?>
                             <script>
                             function chanage_status_form(status_form) {
@@ -570,7 +812,7 @@
                             <th>Cheque</th>
                             <th>Date</th>
                             <th>Payee Name</th>
-                            <th>Gross Pay</th>
+                            <th>Gross Paid</th>
                             <th>WHIT</th>
                             <th>WHST</th>
                             <th>St.Duty</th>
@@ -578,7 +820,7 @@
                             <th>KPRA</th>
                             <th>GUR.RET.</th>
                             <th>Misc.Dedu.</th>
-                            <th>Net Pay</th>
+                            <th>Net Paid</th>
                             <th>%</th>
                             <th></th>
                         </thead>
@@ -684,16 +926,14 @@
             </div>
 
         </div>
+
     </div>
 
-
-    <div>
-        a
-        <?php $this->load->view(ADMIN_DIR."water_user_associations/expense_reference"); ?>
-    </div>
 </div>
-
-
+<?php 
+if($scheme->scheme_status =='Par-Completed'){ ?>
+<?php $this->load->view(ADMIN_DIR."temp/data_correction"); ?>
+<?php } ?>
 <script>
 function change_cheque_schem(expense_id) {
 

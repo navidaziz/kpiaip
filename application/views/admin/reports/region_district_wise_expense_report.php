@@ -174,14 +174,14 @@
                                 <th>Region</th>
                                 <th>District</th>
                                 <th>Cheque Count</th>
-                                <th>Gross Pay</th>
+                                <th>Gross Paid</th>
                                 <th>WHIT Tax</th>
                                 <th>WHST Tax</th>
                                 <th>ST. Duty Tax</th>
                                 <th>RDP Tax</th>
                                 <th>KPRA Tax</th>
                                 <th>MISC. Dedu</th>
-                                <th>NET Pay</th>
+                                <th>Net Paid</th>
                             </tr>
                         </thead>
                         <tbody>

@@ -38,15 +38,36 @@ class Water_user_associations extends Admin_Controller
     /**
      * get a list of all items that are not trashed
      */
-    public function view()
+    public function view($tab = 'wua')
     {
+    $user_id = $this->session->userdata("userId");
+    $query="SELECT district as district_id FROM users WHERE user_id = '".$user_id."'";
+    $user = $this->db->query($query)->row();
+    //var_dump($user);
+    $district_name = '';
+    $district_id = 0;
+    if(!is_null($user)){
+        if($user->district_id=='0'){
+            $district = "All Districts";
+        }else{
+            $query="SELECT district_id,  district_name FROM districts WHERE district_id = '".$user->district_id."'";
+            $district = $this->db->query($query)->row();
+            $district_name = $district->district_name;
+            $district_id = $district->district_id;
+        }
+    }
 
-        $where = "`water_user_associations`.`status` IN (0, 1) ";
-        //$data = $this->water_user_association_model->get_water_user_association_list($where);
-        $this->data["water_user_associations"] = $this->water_user_association_model->get_water_user_association_list($where, false);
-        $this->data["title"] = 'Water User Associations';
-        $this->data["description"] = 'Water User Associations List';
-        $this->data["view"] = ADMIN_DIR . "water_user_associations/water_user_associations";
+        $this->data['district_id'] = $district_id;
+        $this->data['tab']=$tab;
+        if($tab=='wua'){
+        $this->data["title"] = 'WUA Dashboard';
+        $this->data["description"] = 'List of Water User Association List ('.$district_name.')';
+        }else{
+          $this->data["title"] = 'Schemes Dashboard';
+        $this->data["description"] = 'List of Schemes ('.$district_name.')';  
+        $this->data['schemestatus'] = $tab;
+        }
+        $this->data["view"] = ADMIN_DIR . "water_user_associations/wua_scheme_dashbaord";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
     //-----------------------------------------------------
@@ -343,6 +364,11 @@ class Water_user_associations extends Admin_Controller
             $scheme["project_id"]  =  $water_user_association->project_id;
             $scheme["district_id"]  =  $water_user_association->district_id;
             $scheme["water_user_association_id"]  =  $water_user_association_id;
+            $scheme["tehsil"] = "";
+             $scheme["uc"] = "";
+              $scheme["villege"] = "";
+              $scheme["na"] = "NA-";
+              $scheme["pk"] = "PK-";
             $scheme["sanctioned_cost"]  =  0;
             $scheme["revised_cost"]  =  0;
             $scheme["approved_cost"]  =  0;
@@ -379,7 +405,8 @@ class Water_user_associations extends Admin_Controller
         $_POST['approved_cost'] = 0;
         $_POST['revised_cost'] = 0;
         $_POST['sanctioned_cost'] = 0;
-        $_POST['scheme_status'] = 'Initiated';
+        $_POST['estimated_cost'] = 0;
+        $_POST['scheme_status'] = 'Registered';
 
 
 
@@ -400,7 +427,7 @@ class Water_user_associations extends Admin_Controller
                 $log_inputs['scheme_id'] = $scheme_id;
                 $log_inputs['scheme_status'] = 'Initiated';
                 $log_inputs['remarks'] = 'Insert';
-                $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", S_Code:".$_POST['scheme_code'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
+                 $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
                 $log_inputs["created_by"] = $this->session->userdata("userId");
                 $log_inputs["last_updated"] = date('Y-m-d H:i:s');
                 
@@ -420,7 +447,7 @@ class Water_user_associations extends Admin_Controller
                 $log_inputs['scheme_id'] = $scheme_id;
                 $log_inputs['scheme_status'] = 'Initiated';
                 $log_inputs['remarks'] = 'Update';
-                $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", S_Code:".$_POST['scheme_code'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
+                $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
                 $log_inputs["created_by"] = $this->session->userdata("userId");
                 $log_inputs["last_updated"] = date('Y-m-d H:i:s');
                 
@@ -577,36 +604,65 @@ class Water_user_associations extends Admin_Controller
     // Prepare the base query
     $sql = "SELECT * FROM `wua_list`";
     $params = [];
-
+   $user_id = $this->session->userdata("userId");
+    $query="SELECT district as district_ids FROM users WHERE user_id = '".$user_id."'";
+    $district_ids = $this->db->query($query)->row();
+    if($district_ids->district_ids){
+       $sql .= " WHERE district_id IN (".$district_ids->district_ids.")";
+    }else{
+        $sql .= " WHERE 1=1  ";
+    }
     // Searching
     if (!empty($search_value)) {
-        $sql .= " WHERE ";
+        $sql .= " AND (";
         foreach ($columns as $column) {
             $sql .= "$column LIKE ? OR ";
             $params[] = "%" . $search_value . "%";
         }
         $sql = rtrim($sql, "OR ");
+        $sql .= " ) ";
+        
     }
+
+    
 
     // Ordering
     $sql .= " ORDER BY $order_column $dir";
-
-    // Pagination
-    $sql .= " LIMIT ? OFFSET ?";
-    $params[] = $limit;
-    $params[] = $start;
+        if($this->input->post("length")>0){
+            // Pagination
+            $sql .= " LIMIT ? OFFSET ?";
+            $params[] = $limit;
+            $params[] = $start;
+        }
 
     // Execute the query securely using parameterized binding
     $query = $this->db->query($sql, $params);
     $data = $query->result();
 
+
+
     // Filtered records count
-    $filtered_query = $this->db->query("SELECT COUNT(*) as count FROM `wua_list` WHERE " . 
-        implode(" LIKE ? OR ", $columns) . " LIKE ?", array_fill(0, count($columns), "%$search_value%"));
+    $filterQuery = "SELECT COUNT(*) as count FROM `wua_list` ";
+    if($district_ids->district_ids){
+       $filterQuery.=" WHERE district_id IN (".$district_ids->district_ids.")";
+    }else{
+        $filterQuery.=" WHERE 1=1 ";
+    }
+    $filterQuery.= " AND ".implode(" LIKE ? OR ", $columns) . " LIKE ? ";
+    $filtered_query = $this->db->query($filterQuery, array_fill(0, count($columns), "%$search_value%"));
     $recordsFiltered = $filtered_query->row()->count ? $filtered_query->row()->count : 0;
 
+
+
+
     // Total records count
-    $total_records_query = $this->db->query("SELECT COUNT(*) as count FROM `wua_list`");
+    $total_count_query="SELECT COUNT(*) as count FROM `wua_list`";
+    if($district_ids->district_ids){
+       $total_count_query.=" WHERE district_id IN (".$district_ids->district_ids.")";
+    }else{
+        $total_count_query.=" WHERE 1=1 ";
+    }
+    $total_records_query = $this->db->query($total_count_query);
     $total_records = $total_records_query->row()->count ? $total_records_query->row()->count : 0;
 
     // Output result
@@ -771,6 +827,7 @@ class Water_user_associations extends Admin_Controller
 
         $inputs["revised_cost"]  = $revised_cost =  $this->input->post("revised_cost");
         $inputs["sanctioned_cost"] = $revised_cost;
+        $inputs["revised_cost_date"] = $this->input->post("date");
         $inputs["last_updated"] = date('Y-m-d H:i:s');
         if ($this->scheme_model->save($inputs, $scheme_id)) {
             $log_inputs['operation'] = 'insert';
@@ -862,35 +919,10 @@ class Water_user_associations extends Admin_Controller
                 echo "success";
             }
         }
-  public function change_cheque_schem()  {
-    $expense_id = (int) $this->input->post('expense_id');
-    $query="SELECT *, cc.category FROM expenses as e 
-    INNER JOIN component_categories as cc ON (cc.component_category_id = e.component_category_id)
-    WHERE e.expense_id = ?";
-    $this->data['cheque'] = $cheque =  $this->db->query($query,[$expense_id])->row();
-    $scheme_id = (int) $this->input->post('scheme_id');
-    $wua_id = (int) $this->input->post('wua_id');
-
-    $this->data["schemes"] = $this->scheme_model->getList("schemes", "scheme_id", "scheme_name", "scheme_id != '".$scheme_id."' and water_user_association_id = '".$wua_id."' and scheme_status !='Completed' AND scheme_status !='Completed-AI' and component_category_id = '".$cheque->component_category_id."'");
-
-    
-    $this->load->view(ADMIN_DIR . "water_user_associations/change_cheque_schem", $this->data);
-  }  
+   
     
   
-  public function  update_cheque_scheme()
-    {
-        $scheme_id =  (int) $this->input->post('scheme_id');
-        
-        $expense_id =  (int) $this->input->post('expense_id');
-      
-        $query="UPDATE expenses SET scheme_id = '".$scheme_id."' WHERE expense_id = '".$expense_id."'";
-        if ($this->db->query($query)) {
-            echo "success";
-        } else {
-            echo  '<div class="alert alert-danger">Error while updating the record.<div>';
-        }
-    }
+ 
 
     public function change_scheme_status(){
         $this->data['scheme_id'] = $scheme_id =  (int) $this->input->post('scheme_id');
@@ -1015,4 +1047,192 @@ class Water_user_associations extends Admin_Controller
         }
     }
 
+    public function scheme_initiate_form(){
+            $scheme_id = (int) $this->input->post('scheme_id');
+            $query = "SELECT * FROM 
+            schemes 
+            WHERE scheme_id = $scheme_id";
+            $input = $this->db->query($query)->row();
+            $this->data["input"] = $input;
+            $this->load->view(ADMIN_DIR . "water_user_associations/scheme_initiate_form", $this->data);
+        
+    }
+
+    public function initiate_scheme()  {
+        
+                $this->form_validation->set_rules("survey_date", "Survey Date", "required");
+                $this->form_validation->set_rules("design_date", "Design Date", "required");
+                $this->form_validation->set_rules("feasibility_date", "Feasibility Date", "required");
+                $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+                $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+                $this->form_validation->set_rules("estimated_cost", "Estimated Cost", "required");
+                $this->form_validation->set_rules("estimated_cost_date", "Estimated Cost Date", "required");
+                $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+                $this->form_validation->set_rules("verified_by_tpv", "Verified By Tpv", "required");
+                $this->form_validation->set_rules("funding_source", "Funding Source", "required");
+                $this->form_validation->set_rules("water_source", "Water Source", "required");
+                $this->form_validation->set_rules("cca", "Cca", "required");
+                $this->form_validation->set_rules("gca", "Gca", "required");
+                $this->form_validation->set_rules("pre", "Pre", "required");
+                $this->form_validation->set_rules("pre_additional", "Pre Additional", "required");
+                $this->form_validation->set_rules("post", "Post", "required");
+                $this->form_validation->set_rules("saving", "Saving", "required");
+                $this->form_validation->set_rules("saving_utilisation_to_intensity", "Saving Utilisation To Intensity", "required");
+                $this->form_validation->set_rules("saving_utilization_to_change_in_cropping_pattern", "Saving Utilization To Change In Cropping Pattern", "required");
+                $this->form_validation->set_rules("water_productivity_for_wheat_and_maize", "Water Productivity For Wheat And Maize", "required");
+                $this->form_validation->set_rules("any_increase_in_productivity_after_the_list_crop_cycle", "Any Increase In Productivity After The List Crop Cycle", "required");
+                $this->form_validation->set_rules("total", "Total", "required");
+                $this->form_validation->set_rules("lining", "Lining", "required");
+                $this->form_validation->set_rules("lwh", "Lwh", "required");
+                $this->form_validation->set_rules("type_of_lining", "Type Of Lining", "required");
+                $this->form_validation->set_rules("nacca_pannel", "Nacca Pannel", "required");
+                $this->form_validation->set_rules("culvert", "Culvert", "required");
+                $this->form_validation->set_rules("risers_pipe", "Risers Pipe", "required");
+                $this->form_validation->set_rules("risers_pond", "Risers Pond", "required");
+                $this->form_validation->set_rules("others", "Others", "required");
+                
+            if ($this->form_validation->run() == FALSE) {
+                echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+                exit();
+            } else {
+                
+                $input["survey_date"] = $this->input->post("survey_date");
+                $input["design_date"] = $this->input->post("design_date");
+                $input["feasibility_date"] = $this->input->post("feasibility_date");
+                $input["work_order_date"] = $this->input->post("work_order_date");
+                $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
+                $input["estimated_cost"] = $this->input->post("estimated_cost");
+                $input["estimated_cost_date"] = $this->input->post("estimated_cost_date");
+                $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
+                $input["verified_by_tpv"] = $this->input->post("verified_by_tpv");
+                $input["funding_source"] = $this->input->post("funding_source");
+                $input["water_source"] = $this->input->post("water_source");
+                $input["cca"] = $this->input->post("cca");
+                $input["gca"] = $this->input->post("gca");
+                $input["pre"] = $this->input->post("pre");
+                $input["pre_additional"] = $this->input->post("pre_additional");
+                $input["post"] = $this->input->post("post");
+                $input["saving"] = $this->input->post("saving");
+                $input["saving_utilisation_to_intensity"] = $this->input->post("saving_utilisation_to_intensity");
+                $input["saving_utilization_to_change_in_cropping_pattern"] = $this->input->post("saving_utilization_to_change_in_cropping_pattern");
+                $input["water_productivity_for_wheat_and_maize"] = $this->input->post("water_productivity_for_wheat_and_maize");
+                $input["any_increase_in_productivity_after_the_list_crop_cycle"] = $this->input->post("any_increase_in_productivity_after_the_list_crop_cycle");
+                $input["total"] = $this->input->post("total");
+                $input["lining"] = $this->input->post("lining");
+                $input["lwh"] = $this->input->post("lwh");
+                $input["type_of_lining"] = $this->input->post("type_of_lining");
+                $input["nacca_pannel"] = $this->input->post("nacca_pannel");
+                $input["culvert"] = $this->input->post("culvert");
+                $input["risers_pipe"] = $this->input->post("risers_pipe");
+                $input["risers_pond"] = $this->input->post("risers_pond");
+                $input["others"] = $this->input->post("others");
+                $input["last_updated"] = date('Y-m-d H:i:s');
+                $input["scheme_status"] = 'Initiated';
+                $scheme_id = (int) $this->input->post("scheme_id");
+                $this->db->where("scheme_id", $scheme_id); 
+                $this->db->update("schemes", $input);
+                $log_inputs['operation'] = 'Update';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Initiated';
+                $log_inputs['remarks'] = 'Record Update';
+                 $log_inputs['detail'] = 'Scheme Technical Detail Updated';
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
+
+                }
+                echo "success";
+            }
+
+            public function scheme_lists()
+    {
+        $columns[] = "scheme_id";
+        $columns[] = "district_name";
+        $columns[] = "wua_reg_code";
+        $columns[] = "wua_name";
+        $columns[] = "financial_year";
+        $columns[] = "scheme_code";
+        $columns[] = "scheme_name";
+        $columns[] = "component_category";
+        $columns[] = "sanctioned_cost";
+        $columns[] = "paid";
+        $columns[] = "paid_percentage";
+        $columns[] = "remaining";
+        $columns[] = "payment_count";
+
+
+        $limit = $this->input->post("length");
+        $start = $this->input->post("start");
+        $order = $columns[$this->input->post("order")[0]["column"]];
+        $dir = $this->input->post("order")[0]["dir"];
+
+        $search = $this->db->escape("%" . $this->input->post("search")["value"], "%");
+        // Manual SQL query building
+        $scheme_status = $this->db->escape($this->input->post('scheme_status'));
+        $sql = "SELECT * FROM scheme_lists WHERE scheme_status = $scheme_status ";
+
+        $user_id = $this->session->userdata("userId");
+        $query="SELECT district as district_ids FROM users WHERE user_id = '".$user_id."'";
+        $district_ids = $this->db->query($query)->row();
+        if($district_ids->district_ids){
+            $sql .= " AND district_id IN (".$district_ids->district_ids.") ";
+        }
+
+
+        // Searching
+        if (!empty($this->input->post("search")["value"])) {
+            $search = $this->input->post("search")["value"];
+            $sql .= " AND (";
+            foreach ($columns as $column) {
+                $sql .= "$column LIKE '%$search%' OR ";
+            }
+            $sql = rtrim($sql, "OR ") . ')'; // Remove the last "OR " and close the parenthesis
+        }
+
+        // Ordering
+        if ($order) {
+            $sql .= " ORDER BY $order $dir";
+        }
+
+        // Pagination
+        if ($limit != -1) {
+            $sql .= " LIMIT $limit OFFSET $start";
+        }
+
+        $query = $this->db->query($sql);
+        $data = $query->result();
+
+        // Total records count
+        $countQuery = "SELECT COUNT(*) as count FROM scheme_lists 
+        WHERE scheme_status = $scheme_status ";
+        if($district_ids->district_ids){
+            $countQuery .= " AND district_id IN (".$district_ids->district_ids.") ";
+        }
+        
+        $total_records = $this->db->query($countQuery)->row()->count;
+
+        $output = array(
+            "draw" => intval($this->input->post("draw")),
+            "recordsTotal" => $total_records,
+            "recordsFiltered" => $total_records,
+            "data" => $data
+        );
+
+        echo json_encode($output);
+    }
+
+    public function get_google_map(){
+        $this->data['lat'] = $this->input->post('lat');
+        $this->data['long'] = $this->input->post('long');
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $query="SELECT s.*, d.district_name, cc.category, cc.category_detail FROM schemes as s 
+        INNER JOIN districts as d ON(d.district_id = s.district_id) 
+        INNER JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
+        WHERE s.scheme_id = ?";
+        $this->data['scheme'] = $this->db->query($query, [$scheme_id])->row();
+                $this->load->view(ADMIN_DIR . "water_user_associations/google_map", $this->data);
+    }
+      
+    
+    
 }

@@ -11,6 +11,8 @@ class Expenses extends Admin_Controller
 
         parent::__construct();
         $this->load->model("admin/expense_model");
+         $this->load->model("admin/scheme_model");
+        
         $this->load->model("admin/water_user_association_model");
         $this->lang->load("water_user_associations", 'english');
         $this->lang->load("wua_members", 'english');
@@ -206,6 +208,63 @@ LEFT JOIN
             } else {
                 $expense_id = $this->expense_model->update_data($expense_id);
             }
+            if($this->input->post("installment") and $this->input->post('scheme_id')){
+                $scheme_id = (int) $this->input->post('scheme_id');
+                if($this->input->post("installment")=='1st'){
+                    $status['scheme_status'] = 'ICR-II';
+                    if ($this->scheme_model->save($status, $scheme_id)) {
+                        $log_inputs['operation'] = 'Payment 1st';
+                        $log_inputs['scheme_id'] = $scheme_id;
+                        $log_inputs['scheme_status'] = 'ICR-II';
+                        $log_inputs['detail'] = 'On 1st Payment Status Change';
+                        $log_inputs['remarks'] = 'On 1st Payment Status Change';
+                        $log_inputs["created_by"] = $this->session->userdata("userId");
+                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                        $this->db->insert('scheme_logs', $log_inputs);
+                    }
+                }
+                if($this->input->post("installment")=='2nd'){
+                    $status['scheme_status'] = 'FCR';
+                    if ($this->scheme_model->save($status, $scheme_id)) {
+                        $log_inputs['operation'] = 'Payment 2nd';
+                        $log_inputs['scheme_id'] = $scheme_id;
+                        $log_inputs['scheme_status'] = 'FCR';
+                        $log_inputs['detail'] = 'On 2nd Payment Status Change';
+                        $log_inputs['remarks'] = 'On 2nd Payment Status Change';
+                        $log_inputs["created_by"] = $this->session->userdata("userId");
+                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                        $this->db->insert('scheme_logs', $log_inputs);
+                    }
+                }
+                if($this->input->post("installment")=='1st_2nd'){
+                    $status['scheme_status'] = 'FCR';
+                    if ($this->scheme_model->save($status, $scheme_id)) {
+                        $log_inputs['operation'] = 'Payment 1st_2nd';
+                        $log_inputs['scheme_id'] = $scheme_id;
+                        $log_inputs['scheme_status'] = 'FCR';
+                        $log_inputs['detail'] = 'On 1st_2nd Payment Status Change';
+                        $log_inputs['remarks'] = 'On 1st_2nd Payment Status Change';
+                        $log_inputs["created_by"] = $this->session->userdata("userId");
+                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                        $this->db->insert('scheme_logs', $log_inputs);
+                    }
+
+                }
+                if($this->input->post("installment")=='Final'){
+                    $status['scheme_status'] = 'Completed';
+                    if ($this->scheme_model->save($status, $scheme_id)) {
+                        $log_inputs['operation'] = 'Payment Final';
+                        $log_inputs['scheme_id'] = $scheme_id;
+                        $log_inputs['scheme_status'] = 'FCR';
+                        $log_inputs['detail'] = 'On Final Payment Scheme Complete';
+                        $log_inputs['remarks'] = 'On  FinalPayment Scheme Complete';
+                        $log_inputs["created_by"] = $this->session->userdata("userId");
+                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                        $this->db->insert('scheme_logs', $log_inputs);
+                    }
+                }
+                
+            }
             if ($expense_id) {
                 echo "success";
             } else {
@@ -329,6 +388,7 @@ LEFT JOIN
             $expense['st_duty_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;
+            $expense['installment'] = "";
             //scheme fields are required
             $expense =  (object) $expense;
         } else {
@@ -349,6 +409,13 @@ LEFT JOIN
         INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.component_category_id)
         INNER JOIN components as s ON(s.component_id = cc.component_id)";
         $this->data['component_catagories'] = $this->db->query($query)->result();
+
+        $installments['1st'] = '1st';
+        $installments['2nd'] = '2nd';
+        $installments['1st_2nd'] = '1st_2nd';
+        $installments['Final'] = 'Final';
+        $this->data['installments'] = $installments;
+
 
         $this->load->view(ADMIN_DIR . "expenses/expense_form", $this->data);
     }

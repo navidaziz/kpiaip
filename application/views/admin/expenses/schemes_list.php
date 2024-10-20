@@ -120,7 +120,7 @@
                                             <th>Scheme Name</th>
                                             <th>Component Category</th>
                                             <th>Sanctioned Cost</th>
-                                            <th>Net Pay</th>
+                                            <th>Net Paid</th>
                                             <th>Paid Percentage</th>
                                             <th>Remaining</th>
                                             <th>Payment Count</th>

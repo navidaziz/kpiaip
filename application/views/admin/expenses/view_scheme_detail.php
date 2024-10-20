@@ -474,7 +474,8 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                     <h4 style="margin-bottom: 20px;">Payments
 
                         <span class="pull-right">
-                            <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                            <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'FCR') { ?>
+
                             <!-- <button onclick="expense_form2(0,'Programme Cost')" class="btn btn-danger btn-sm">Add Payment 2</button> -->
 
                             <button onclick="expense_form(0,'Programme Cost')" class="btn btn-danger btn-sm">Add
@@ -493,7 +494,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                             <th>Cheque</th>
                             <th>Date</th>
                             <th>Payee Name</th>
-                            <th>Gross Pay</th>
+                            <th>Gross Paid</th>
                             <th>WHIT</th>
                             <th>WHST</th>
                             <th>St.Duty</th>
@@ -502,7 +503,8 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 
                             <th>Gre.Ret.</th>
                             <th>Misc.Dedu.</th>
-                            <th>Net Pay</th>
+                            <th>Net Paid</th>
+                            <th>Installment</th>
                             <th>Payment %</th>
                             <th></th>
                         </thead>
@@ -552,6 +554,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                                 <td><?php echo $expense->gur_ret; ?></td>
                                 <td><?php echo number_format($expense->misc_deduction); ?></td>
                                 <td><?php echo number_format($expense->net_pay); ?></td>
+                                <th><?php echo $expense->installment; ?></th>
                                 <th>
                                     <?php if ($scheme->sanctioned_cost) echo round(($expense->net_pay * 100) / $scheme->sanctioned_cost, 2) . " %"   ?>
                                 </th>
@@ -587,6 +590,8 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                                         else echo "0.00" ?></th>
                                 <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
                                         else echo "0.00" ?></th>
+
+                                <th></th>
                                 <th>
                                     <?php if ($scheme->sanctioned_cost) echo round(($expense_summary->net_pay * 100) / $scheme->sanctioned_cost, 3) . " %"   ?>
                                 </th>
@@ -598,7 +603,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="18" style="text-align: right;">
+                                <td colspan="19" style="text-align: right;">
                                     <h5>
 
                                         Total Scheme Cost (Rs):
@@ -620,7 +625,8 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                         </tfoot>
                     </table>
                     <div style="text-align: center;">
-                        <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                        <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'FCR') { ?>
+
                         <?php } else { ?>
                         <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
                         <?php } ?>

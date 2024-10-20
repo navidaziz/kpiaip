@@ -92,11 +92,11 @@
         </div>
 
         <div class="form-group">
-            <label for="Gross Pay" class="col-md-4 control-label" style="">Gross Pay</label>
+            <label for="Gross Paid" class="col-md-4 control-label" style="">Gross Paid</label>
             <div class="col-md-8">
                 <input type="number" min="1" onkeyup="calculate_net_pay()" step="any" name="gross_pay"
                     value="<?php echo $expense->gross_pay; ?>" id="gross_pay" class="form-control" style=""
-                    required="required" placeholder="Gross Pay">
+                    required="required" placeholder="Gross Paid">
             </div>
         </div>
 
@@ -161,10 +161,10 @@
         </div>
 
         <div class="form-group">
-            <label for="Net Pay" class="col-md-4 control-label" style="">Net Pay</label>
+            <label for="Net Paid" class="col-md-4 control-label" style="">Net Paid</label>
             <div class="col-md-8">
                 <input min="1" readonly type="number" step="any" name="net_pay" value="<?php echo $expense->net_pay; ?>"
-                    id="net_pay" class="form-control" style="" required="required" placeholder="Net Pay">
+                    id="net_pay" class="form-control" style="" required="required" placeholder="Net Paid">
             </div>
         </div>
         <script>
@@ -183,7 +183,21 @@
 
         }
         </script>
-        <div class="col-md-12" id="result_response"></div>
+        <?php if($installments){  ?>
+        <div class="form-group">
+            <label for="Net Paid" class="col-md-4 control-label" style="">Installments</label>
+            <div class="col-md-8"><?php 
+                foreach($installments as $installment){ ?>
+                <input <?php if($expense->installment==$installment){?> checked <?php } ?> required type="radio"
+                    name="installment" id="installment" value="<?php echo $installment; ?>" />
+                <?php echo $installment; ?>
+                <span style="margin-left: 10px;"></span>
+                <?php } ?>
+            </div>
+        </div>
+        <?php } ?>
+        <div class="col-md-12" id="result_response">
+        </div>
 
         <div style="text-align: center;" class="col-md-12">
             <?php
@@ -206,7 +220,6 @@
             }
             echo form_submit($submit);
             ?>
-
 
 
         </div>

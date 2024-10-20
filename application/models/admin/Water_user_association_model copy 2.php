@@ -63,11 +63,6 @@ class Water_user_association_model extends MY_Model
             "rules"  => "required"
         ),
         array(
-            "field"  => "bank_name",
-            "label"  => "Bank Name",
-            "rules"  => "required"
-        ),
-        array(
             "field"  => "cm_name",
             "label"  => "Chairman Name",
             "rules"  => "required"
@@ -182,7 +177,6 @@ class Water_user_association_model extends MY_Model
         $inputs["bank_account_number"]  =  $this->input->post("bank_account_number");
 
         $inputs["bank_branch_code"]  =  $this->input->post("bank_branch_code");
-        $inputs["bank_name"]  =  $this->input->post("bank_name");
 
 
         $inputs["cm_name"]  =  $this->input->post("cm_name");
@@ -223,8 +217,7 @@ class Water_user_association_model extends MY_Model
         $inputs["bank_account_number"]  =  $this->input->post("bank_account_number");
 
         $inputs["bank_branch_code"]  =  $this->input->post("bank_branch_code");
-        $inputs["bank_name"]  =  $this->input->post("bank_name");
-        
+
         $inputs["cm_name"]  =  $this->input->post("cm_name");
         $inputs["cm_father_name"]  =  $this->input->post("cm_father_name");
         $inputs["cm_gender"]  =  $this->input->post("cm_gender");

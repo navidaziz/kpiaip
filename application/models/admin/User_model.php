@@ -47,6 +47,12 @@ class User_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
+            array(
+                "field"  =>  "district",
+                "label"  =>  "District",
+                "rules"  =>  "required"
+            ),
+
 
 
         );
@@ -96,6 +102,7 @@ class User_model extends MY_Model
         $inputs["user_name"]  =  $this->input->post("user_name");
 
         $inputs["user_password"]  =  $this->input->post("user_password");
+         $inputs["district"]  =  $this->input->post("district");
 
 
 
@@ -125,7 +132,7 @@ class User_model extends MY_Model
 
         $inputs["user_password"]  =  $this->input->post("user_password");
 
-
+ $inputs["district"]  =  $this->input->post("district");
 
 
 

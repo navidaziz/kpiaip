@@ -52,7 +52,32 @@ class Scheme_model extends MY_Model
             //     "label"  =>  "Water Source",
             //     "rules"  =>  "required"
             // ),
-
+ array(
+    
+                "field"  =>  "tehsil",
+                "label"  =>  "Tehsil",
+                "rules"  =>  "required"
+            ),
+             array(
+                "field"  =>  "uc",
+                "label"  =>  "UC",
+                "rules"  =>  "required"
+            ),
+            array(
+                "field"  =>  "villege",
+                "label"  =>  "Villege",
+                "rules"  =>  "required"
+            ),
+            array(
+                "field"  =>  "na",
+                "label"  =>  "NA",
+                "rules"  =>  "required"
+            ),
+            array(
+                "field"  =>  "pk",
+                "label"  =>  "PK",
+                "rules"  =>  "required"
+            ),
             array(
                 "field"  =>  "latitude",
                 "label"  =>  "Latitude",
@@ -134,11 +159,16 @@ class Scheme_model extends MY_Model
         $component_category = $this->db->query($query)->row()->category;
         $input['category'] = $component_category;
 
-        $inputs["scheme_code"]  =  $this->input->post("scheme_code");
+        
 
         $inputs["scheme_name"]  =  $this->input->post("scheme_name");
 
         $inputs["water_source"]  =  $this->input->post("water_source");
+        $inputs["tehsil"]  =  $this->input->post("tehsil");
+        $inputs["uc"]  =  $this->input->post("uc");
+        $inputs["villege"]  =  $this->input->post("villege");
+        $inputs["na"]  =  $this->input->post("na");
+        $inputs["pk"]  =  $this->input->post("pk");
 
         $inputs["latitude"]  =  $this->input->post("latitude");
 
@@ -167,7 +197,10 @@ class Scheme_model extends MY_Model
         $inputs["last_updated"] = date('Y-m-d H:i:s');
 
 
-        return $this->scheme_model->save($inputs);
+        $scheme_id = $this->scheme_model->save($inputs);
+        $scheme_code["scheme_code"]  =  str_pad($scheme_id, 4, '0', STR_PAD_LEFT);;
+        $this->scheme_model->save($scheme_code, $scheme_id);
+        return $scheme_id;
     }
 
     public function update_data($scheme_id, $image_field = NULL)
@@ -184,11 +217,16 @@ class Scheme_model extends MY_Model
         $component_category = $this->db->query($query)->row()->category;
         $input['category'] = $component_category;
 
-        $inputs["scheme_code"]  =  $this->input->post("scheme_code");
+        //$inputs["scheme_code"]  =  $this->input->post("scheme_code");
 
         $inputs["scheme_name"]  =  $this->input->post("scheme_name");
 
         $inputs["water_source"]  =  $this->input->post("water_source");
+         $inputs["tehsil"]  =  $this->input->post("tehsil");
+        $inputs["uc"]  =  $this->input->post("uc");
+        $inputs["villege"]  =  $this->input->post("villege");
+        $inputs["na"]  =  $this->input->post("na");
+        $inputs["pk"]  =  $this->input->post("pk");
 
         $inputs["latitude"]  =  $this->input->post("latitude");
 
