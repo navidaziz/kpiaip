@@ -90,8 +90,26 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>1.</td>
-                                <td><a href="<?php echo site_url(ADMIN_DIR . 'reports/financial_statement') ?>">Financial
+                                <td>1.1</td>
+                                <td><a target="_blank"
+                                        href="<?php echo site_url(ADMIN_DIR . 'reports/components_wise_financial_statement') ?>">Components
+                                        Wise Financial
+                                        Statement of Receipts and Payments</a> </td>
+                            </tr>
+                            <tr>
+                                <td>1.2</td>
+                                <td><a target="_blank"
+                                        href="<?php echo site_url(ADMIN_DIR . 'reports/sub_financial_statement') ?>">
+                                        Sub Components
+                                        Wise Financial
+                                        Statement of Receipts and Payments</a> </td>
+                            </tr>
+                            <tr>
+                                <td>1.3</td>
+                                <td><a target="_blank"
+                                        href="<?php echo site_url(ADMIN_DIR . 'reports/financial_statement') ?>">
+                                        Components Categories Wise
+                                        Financial
                                         Statement of Receipts and Payments</a> </td>
                             </tr>
                             <tr>

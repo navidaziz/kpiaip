@@ -193,11 +193,18 @@ class Water_user_associations extends Admin_Controller
     public function add()
     {
 
-        $this->data["projects"] = $this->water_user_association_model->getList("projects", "project_id", "project_name", $where = "`projects`.`status` IN (1) ");
+        $user_id = $this->session->userdata("userId");
+    $query="SELECT district as district_ids FROM users WHERE user_id = '".$user_id."'";
+    $district_ids = $this->db->query($query)->row();
+    if($district_ids->district_ids){
+       $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) and is_district = 1 and district_id =  $district_ids->district_ids");
 
+    }else{
         $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) and is_district = 1 ");
 
-        $this->data["tehsils"] = $this->water_user_association_model->getList("tehsils", "tehsil_id", "tehsil_name", $where = "`tehsils`.`status` IN (1) ");
+    }
+       
+        //$this->data["tehsils"] = $this->water_user_association_model->getList("tehsils", "tehsil_id", "tehsil_name", $where = "`tehsils`.`status` IN (1) ");
 
         $this->data["title"] = $this->lang->line('Add New Water User Association');
         $this->data["view"] = ADMIN_DIR . "water_user_associations/add_water_user_association";
@@ -235,13 +242,18 @@ class Water_user_associations extends Admin_Controller
     {
         $water_user_association_id = (int) $water_user_association_id;
         $this->data["water_user_association"] = $this->water_user_association_model->get($water_user_association_id);
+ $user_id = $this->session->userdata("userId");
+    $query="SELECT district as district_ids FROM users WHERE user_id = '".$user_id."'";
+    $district_ids = $this->db->query($query)->row();
+     
+         if($district_ids->district_ids){
+       $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) and is_district = 1 and district_id =  $district_ids->district_ids");
 
-        $this->data["projects"] = $this->water_user_association_model->getList("projects", "project_id", "project_name", $where = "`projects`.`status` IN (1) ");
+    }else{
+        $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) and is_district = 1 ");
 
-         $this->data["districts"] = $this->water_user_association_model->getList("districts", "district_id", "district_name", $where = "`districts`.`status` IN (1) and is_district = 1 ");
-
-        $this->data["tehsils"] = $this->water_user_association_model->getList("tehsils", "tehsil_id", "tehsil_name", $where = "`tehsils`.`status` IN (1) ");
-
+    }
+       
         $this->data["title"] = $this->lang->line('Edit Water User Association');
         $this->data["view"] = ADMIN_DIR . "water_user_associations/edit_water_user_association";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
@@ -425,7 +437,7 @@ class Water_user_associations extends Admin_Controller
                 $scheme_id = $this->scheme_model->save_data();
                 $log_inputs['operation'] = 'insert';
                 $log_inputs['scheme_id'] = $scheme_id;
-                $log_inputs['scheme_status'] = 'Initiated';
+                $log_inputs['scheme_status'] = 'Registered';
                 $log_inputs['remarks'] = 'Insert';
                  $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
                 $log_inputs["created_by"] = $this->session->userdata("userId");
@@ -435,8 +447,9 @@ class Water_user_associations extends Admin_Controller
                 $this->db->insert('scheme_logs', $log_inputs);
             } else {
 
-                $query="SELECT count(*) as total FROM schemes WHERE scheme_name = ? and scheme_id != ?";
+                $query="SELECT count(*) as total, scheme_status FROM schemes WHERE scheme_name = ? and scheme_id != ?";
                 $scheme = $this->db->query($query, [$_POST['scheme_name'], $scheme_id])->row();
+                //var_dump($scheme);
                 if($scheme->total>0){
                    echo '<div class="alert alert-danger">Scheme Duplicate Try With Different Name<div>';
                     exit();
@@ -445,7 +458,7 @@ class Water_user_associations extends Admin_Controller
                 $scheme_id = $this->scheme_model->update_data($scheme_id);
                 $log_inputs['operation'] = 'Update';
                 $log_inputs['scheme_id'] = $scheme_id;
-                $log_inputs['scheme_status'] = 'Initiated';
+                $log_inputs['scheme_status'] = $scheme->scheme_status;
                 $log_inputs['remarks'] = 'Update';
                 $log_inputs['detail'] = "S_Name:".$_POST['scheme_name'].", C_CAT_ID: ".$_POST['component_category_id'].", Estimated Cost:". $_POST['estimated_cost'];
                 $log_inputs["created_by"] = $this->session->userdata("userId");

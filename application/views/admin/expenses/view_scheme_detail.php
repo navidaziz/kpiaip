@@ -110,166 +110,28 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 
 <!-- PAGE MAIN CONTENT -->
 <div class="row">
-    <!-- MESSENGER -->
+
+
     <div class="col-md-3">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-tasks"></i> Scheme Details</h4>
+                <h4><i class="fa fa-users"></i> Water User Assosiation Detail</h4>
 
             </div>
             <div class="box-body">
-                <div class="box-body">
 
-                    <div class="table-responsive">
-
-                        <table class="table table_small">
-                            <thead>
-
-                            </thead>
-                            <tbody>
-
-                                <tr>
-                                    <th><?php echo $this->lang->line('scheme_code'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->scheme_code; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('scheme_name'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->scheme_name; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>District</th>
-                                    <td>
-                                        <?php
-                                        $query = "SELECT district_name FROM districts 
-                                 WHERE district_id='" . $scheme->district_id . "'";
-                                        $district = $this->db->query($query)->row();
-                                        if ($district) {
-                                            echo $district->district_name;
-                                        } else {
-                                            echo 'Not Define';
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th>Component Category</th>
-
-                                    <td>
-                                        <?php $query = "SELECT * FROM `component_categories` 
-                                    WHERE component_category_id=$scheme->component_category_id";
-                                        $category = $this->db->query($query)->row();
-                                        if ($category) {
-                                            echo $category->category . " <small>(" . $category->category_detail . ")</small>";
-                                        } else {
-                                            echo "Undefine";
-                                        }
-                                        ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('water_source'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->water_source; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('latitude'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->latitude; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('longitude'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->longitude; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('beneficiaries'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->beneficiaries; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('male_beneficiaries'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->male_beneficiaries; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('female_beneficiaries'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->female_beneficiaries; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('estimated_cost'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->estimated_cost; ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('approved_cost'); ?></th>
-                                    <td>
-                                        <?php
-                                        if ($scheme->approved_cost) {
-                                            echo $scheme->approved_cost;
-                                        } else {
-                                            echo 'Not Approve Yet';
-                                        } ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('revised_cost'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->revised_cost; ?>
-                                        <?php
-                                        if ($scheme->revised_cost) {
-                                            echo $scheme->revised_cost;
-                                        } else {
-                                            echo 'Not Revised';
-                                        } ?>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <th><?php echo $this->lang->line('sanctioned_cost'); ?></th>
-                                    <td>
-                                        <?php echo $scheme->sanctioned_cost; ?>
-                                    </td>
-                                </tr>
-
-
-
-                                <tr>
-                                    <th>Scheme Status</th>
-                                    <td>
-                                        <?php echo scheme_status($scheme->scheme_status); ?>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-
-
-
-
-                    </div>
-
-
-                </div>
                 <div class="table-responsive">
-                    <strong><?php echo $water_user_association->wua_registration_no . " - " . $water_user_association->wua_name; ?></strong>
-                    <table class="table table_small">
+                    <h5>WUA Name: <?php echo $water_user_association->wua_name; ?></h5>
+                    <h5>WUA REG No: <?php echo $water_user_association->wua_registration_no; ?></h5>
+                    <strong>WUA Address</strong>
+                    <table class="table table-bordered table_small">
                         <thead>
 
                         </thead>
                         <tbody>
+
                             <tr>
-                                <th><?php echo $this->lang->line('district_name'); ?></th>
+                                <th style="width: 120px;"><?php echo $this->lang->line('district_name'); ?></th>
                                 <td>
                                     <?php echo $water_user_association->district_name; ?>
                                 </td>
@@ -292,8 +154,13 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                                     <?php echo $water_user_association->address; ?>
                                 </td>
                             </tr>
+                        </tbody>
+                    </table>
+                    <strong>WUA Bank Detail</strong>
+                    <table class="table table-bordered table_small">
+                        <tbody>
                             <tr>
-                                <th><?php echo $this->lang->line('bank_account_title'); ?></th>
+                                <th style="width: 120px;"><?php echo $this->lang->line('bank_account_title'); ?></th>
                                 <td>
                                     <?php echo $water_user_association->bank_account_title; ?>
                                 </td>
@@ -329,14 +196,50 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                         </tbody>
                     </table>
 
+                    <strong>WUA Chairman Detail</strong>
+                    <table class="table table-bordered table_small">
+                        <tbody>
+                            <tr>
+                                <th style="width: 120px;">Chairman Name</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_name; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">Father Name</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_father_name; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">Gender</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_gender; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">CNIC</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_cnic; ?>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th style="width: 120px;">Contact</th>
+                                <td>
+                                    <?php echo $water_user_association->cm_contact_no; ?>
+                                </td>
+                            </tr>
 
-                    <table class="table table-bordered table_small" style="font-size: 9px;">
+                        </tbody>
+                    </table>
+                    <strong> WUA Other Members</strong>
+
+                    <table class="table table_s_small " style="font-size: 8px;">
                         <thead>
                             <tr>
                                 <th>#</th>
                                 <th>Member</th>
-                                <th>Name</th>
-                                <th>Father Name</th>
+                                <th>Name / Father Name</th>
                                 <th>Gender</th>
                                 <th>Contact / CNIC</th>
                                 <th></th>
@@ -351,6 +254,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 
                             <tr>
 
+
                                 <td><?php echo $count++; ?></td>
 
                                 <td>
@@ -358,8 +262,7 @@ if (isset($_SERVER['HTTP_REFERER'])) {
                                 </td>
                                 <td>
                                     <?php echo $wua_member->member_name; ?>
-                                </td>
-                                <td>
+                                    <br />
                                     <?php echo $wua_member->member_father_name; ?>
                                 </td>
                                 <td>
@@ -393,6 +296,292 @@ if (isset($_SERVER['HTTP_REFERER'])) {
 
         </div>
     </div>
+
+
+    <div class="col-md-9">
+        <div class="box border blue" id="messenger">
+            <div class="box-title">
+                <h4><i class="fa fa-tasks"></i> Scheme Details</h4>
+
+
+            </div>
+            <div class="box-body">
+                <div class="box-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table_small">
+                            <thead>
+                                <tr>
+                                    <th>District</th>
+                                    <th>Tehsil</th>
+                                    <th>Uc</th>
+                                    <th>Villege</th>
+                                    <th>NA</th>
+                                    <th>PK</th>
+
+                                    <th>Component Category</th>
+                                    <th><?php echo $this->lang->line('water_source'); ?></th>
+                                    <th>Coordiantes</th>
+                                    <th>Beneficiaries</th>
+                                    <th><?php echo $this->lang->line('estimated_cost'); ?></th>
+                                    <th><?php echo $this->lang->line('approved_cost'); ?></th>
+                                    <th><?php echo $this->lang->line('sanctioned_cost'); ?></th>
+                                    <th><?php echo $this->lang->line('revised_cost'); ?></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <?php
+                                $query = "SELECT district_name FROM districts 
+                                WHERE district_id='" . $scheme->district_id . "'";
+                                $district = $this->db->query($query)->row();
+                                if ($district) {
+                                echo $district->district_name;
+                                } else {
+                                echo 'Not Define';
+                                }
+                                        ?>
+                                    </td>
+                                    <td><?php echo $scheme->tehsil; ?></td>
+                                    <td><?php echo $scheme->uc; ?></td>
+                                    <td><?php echo $scheme->villege; ?></td>
+                                    <td><?php echo $scheme->na; ?></td>
+                                    <td><?php echo $scheme->pk; ?></td>
+                                    <td>
+                                        <?php 
+                                $query = "SELECT * FROM `component_categories` 
+                                WHERE component_category_id=$scheme->component_category_id";
+                                $category = $this->db->query($query)->row();
+                                if ($category) {
+                                echo $category->category . " <small>(" . $category->category_detail . ")</small>";
+                                } else {
+                                echo "Undefine";
+                                }
+                                        ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $scheme->water_source; ?>
+                                    </td>
+                                    <td>
+                                        lati: <?php echo $scheme->latitude; ?><br />
+                                        long: <?php echo $scheme->longitude; ?>
+                                        <style>
+                                        /* Style for the map icon */
+                                        .map-icon {
+                                            display: inline-flex;
+                                            /* Inline block with flex for alignment */
+                                            align-items: center;
+                                            /* Center align items vertically */
+                                            justify-content: center;
+                                            /* Center align items horizontally */
+                                            border: 2px solid gray;
+                                            /* Red border */
+                                            border-radius: 5px;
+                                            /* Rounded corners */
+                                            padding: 3px 5px;
+                                            /* Padding for better spacing */
+                                            background-color: white;
+                                            /* Background color */
+                                            color: gray;
+                                            /* Icon color */
+                                            font-size: 16px;
+                                            /* Font size */
+                                            cursor: pointer;
+                                            /* Pointer cursor on hover */
+                                            transition: all 0.3s;
+                                            /* Smooth transition for hover effects */
+                                            margin: 2px
+                                        }
+
+                                        /* Hover effect */
+                                        .map-icon:hover {
+                                            background-color: gray;
+                                            /* Change background on hover */
+                                            color: white;
+                                            /* Change icon color on hover */
+                                            transform: scale(1.05);
+                                            /* Slightly scale the icon */
+                                        }
+                                        </style>
+                                        <i onclick="get_google_map('<?php echo $scheme->latitude; ?>', '<?php echo $scheme->longitude; ?>')"
+                                            class="fa fa-map map-icon" aria-hidden="true">
+                                            Google Map
+                                        </i>
+                                        <script>
+                                        function get_google_map(lat, long) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_google_map'); ?>",
+                                                    data: {
+                                                        scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                        lat: lat,
+                                                        long: long
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Scheme Google Map View');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                        </script>
+                                    </td>
+                                    <td>
+                                        Males: <?php echo $scheme->male_beneficiaries; ?><br />
+                                        Females: <?php echo $scheme->female_beneficiaries; ?><br />
+                                        Total: <?php echo $scheme->beneficiaries; ?> </td>
+                                    <td>
+                                        <?php echo $scheme->estimated_cost; ?>
+                                    </td>
+                                    <td>
+                                        <?php
+                                        if ($scheme->approved_cost) {
+                                            echo $scheme->approved_cost;
+                                            echo "<br />";
+                                            echo 'Date: '.date('d M,  Y', strtotime($scheme->approval_date));
+                                            if($scheme->scheme_status !='Completed'){
+                                            echo '<br /><button onclick="chanage_status_form(\'Approval\')"
+                                class="btn btn-link btn-sm">Update</button>';
+                                            }
+                                        } else {
+                                            echo 'Not Approve Yet';
+                                        } ?>
+                                    </td>
+
+                                    <td><?php echo $scheme->sanctioned_cost; ?></td>
+                                    <td><?php
+                                        if ($scheme->revised_cost) {
+                                            echo $scheme->revised_cost;
+                                        } else {
+                                            echo 'Not Revised';
+                                        } ?>
+                                    </td>
+
+                                </tr>
+                        </table>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table_small" id="sche mes">
+                                <thead>
+                                    <tr>
+
+                                        <th>Registration Date</th>
+                                        <th>Survey Date</th>
+                                        <th>Design Date</th>
+                                        <th>Feasibility Date</th>
+                                        <th>Work Order Date</th>
+                                        <th>Scheme Initiation Date</th>
+                                        <th>Estimated Cost</th>
+                                        <th>Estimated Cost Date</th>
+                                        <th>Approved Cost</th>
+                                        <th>Approval Date</th>
+                                        <th>Revised Cost</th>
+                                        <th>Revised Cost Date</th>
+                                        <th>Sanctioned Cost</th>
+                                        <th>Technical Sanction Date</th>
+                                        <th>Completion Date</th>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo $scheme->registration_date; ?></td>
+                                        <td><?php echo $scheme->survey_date; ?></td>
+                                        <td><?php echo $scheme->design_date; ?></td>
+                                        <td><?php echo $scheme->feasibility_date; ?></td>
+                                        <td><?php echo $scheme->work_order_date; ?></td>
+                                        <td><?php echo $scheme->scheme_initiation_date; ?></td>
+                                        <td><?php echo $scheme->estimated_cost; ?></td>
+                                        <td><?php echo $scheme->estimated_cost_date; ?></td>
+                                        <td><?php echo $scheme->approved_cost; ?></td>
+                                        <td><?php echo $scheme->approval_date; ?></td>
+                                        <td><?php echo $scheme->revised_cost; ?></td>
+                                        <td><?php echo $scheme->revised_cost_date; ?></td>
+                                        <td><?php echo $scheme->sanctioned_cost; ?></td>
+                                        <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                        <td><?php echo $scheme->completion_date; ?></td>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table_small" id="sch emes">
+                                <thead>
+                                    <tr>
+
+                                        <th>Verified By Tpv</th>
+                                        <th>Funding Source</th>
+                                        <th>Water Source</th>
+                                        <th>Cca</th>
+                                        <th>Gca</th>
+                                        <th>Pre</th>
+                                        <th>Pre Additional</th>
+                                        <th>Post</th>
+                                        <th>Saving</th>
+                                        <th>Saving Utilisation To Intensity</th>
+                                        <th>Saving Utilization To Change In Cropping Pattern</th>
+                                        <th>Water Productivity For Wheat And Maize</th>
+                                        <th>Any Increase In Productivity After The List Crop Cycle</th>
+                                        <th>Total</th>
+                                        <th>Lining</th>
+                                        <th>Lwh</th>
+                                        <th>Type Of Lining</th>
+                                        <th>Nacca Pannel</th>
+                                        <th>Culvert</th>
+                                        <th>Risers Pipe</th>
+                                        <th>Risers Pond</th>
+                                        <th>Others</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr>
+
+
+                                        <td><?php echo $scheme->verified_by_tpv; ?></td>
+                                        <td><?php echo $scheme->funding_source; ?></td>
+                                        <td><?php echo $scheme->water_source; ?></td>
+                                        <td><?php echo $scheme->cca; ?></td>
+                                        <td><?php echo $scheme->gca; ?></td>
+                                        <td><?php echo $scheme->pre; ?></td>
+                                        <td><?php echo $scheme->pre_additional; ?></td>
+                                        <td><?php echo $scheme->post; ?></td>
+                                        <td><?php echo $scheme->saving; ?></td>
+                                        <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
+                                        <td><?php echo $scheme->saving_utilization_to_change_in_cropping_pattern; ?>
+                                        </td>
+                                        <td><?php echo $scheme->water_productivity_for_wheat_and_maize; ?></td>
+                                        <td><?php echo $scheme->any_increase_in_productivity_after_the_list_crop_cycle; ?>
+                                        </td>
+                                        <td><?php echo $scheme->total; ?></td>
+                                        <td><?php echo $scheme->lining; ?></td>
+                                        <td><?php echo $scheme->lwh; ?></td>
+                                        <td><?php echo $scheme->type_of_lining; ?></td>
+                                        <td><?php echo $scheme->nacca_pannel; ?></td>
+                                        <td><?php echo $scheme->culvert; ?></td>
+                                        <td><?php echo $scheme->risers_pipe; ?></td>
+                                        <td><?php echo $scheme->risers_pond; ?></td>
+                                        <td><?php echo $scheme->others; ?></td>
+
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div style="text-align: center;">
+                            <h4 style="text-align: center;">
+                                Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
+                            </h4>
+                            <hr />
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
     <div class="col-md-9">
         <div class="box border blue" id="messenger">
             <div class="box-title">

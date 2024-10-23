@@ -172,6 +172,7 @@ LEFT JOIN
             $expense['net_pay'] = 0.00;
             //scheme fields are required
             $expense =  (object) $expense;
+            $this->data['installments'] = NULL;
             $query = "select cc.*, sc.sub_component_name, c.component_name FROM component_categories as cc
         INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
         INNER JOIN components as c ON(c.component_id = sc.component_id)
@@ -734,6 +735,7 @@ LEFT JOIN
             $expense['net_pay'] = 0.00;
             //scheme fields are required
             $expense =  (object) $expense;
+            
         } else {
             $query = "SELECT * FROM expenses WHERE expense_id = $expense_id";
             $expense = $this->db->query($query)->row();
