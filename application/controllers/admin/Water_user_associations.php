@@ -60,8 +60,8 @@ class Water_user_associations extends Admin_Controller
         $this->data['district_id'] = $district_id;
         $this->data['tab']=$tab;
         if($tab=='wua'){
-        $this->data["title"] = 'WUA Dashboard';
-        $this->data["description"] = 'List of Water User Association List ('.$district_name.')';
+        $this->data["title"] = $district_name;
+        $this->data["description"] = 'List of Water User Association';
         }else{
           $this->data["title"] = 'Schemes Dashboard';
         $this->data["description"] = 'List of Schemes ('.$district_name.')';  
