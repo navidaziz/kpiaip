@@ -108,7 +108,8 @@
 
                         <tr>
                             <td></td>
-                            <th colspan="2">Receipts (Payments) Controlled by Project</th>
+                            <th colspan="2">Receipts (Payments) <br />
+                            <small>Controlled by Project</small></th>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
                             <td></td>
@@ -167,41 +168,14 @@
                                 <small> <?php echo $component->component_detail; ?></small>
                             </th>
                             <td style="display: none;"></td>
-                            <?php foreach ($financial_years as $financial_year) { ?>
-                            <td></td>
-                            <td></td>
-                            <?php } ?>
-                        </tr>
-                        <?php
-                            $count2 = 1;
-                            if (@$component->sub_components) {
-                                foreach ($component->sub_components as $sub_component) {
-                            ?>
-                        <tr>
-                            <td></td>
-                            <td colspan="2"><?php echo $sub_component->category; ?>
-                                <small> <?php echo $sub_component->category_detail; ?></small>
-                            </td>
-                            <td style="display: none;"></td>
-                            <?php foreach ($sub_component->financial_years as $fy => $total_expense) { ?>
-                            <td>-</td>
-                            <td><?php echo $total_expense; ?></td>
-                            <?php } ?>
-
-                        </tr>
-                        <?php }
-                            } ?>
-
-                        <tr>
-                            <th></th>
-                            <th colspan="2" style="text-align: right;">Sub Total</th>
-                            <td style="display: none;"></td>
                             <?php foreach ($component->financial_years as $fy => $total_expense) { ?>
                             <th>-</th>
                             <th><?php echo $total_expense; ?></th>
-                            <?php } ?>
 
+                            <?php } ?>
                         </tr>
+
+
 
                         <?php } ?>
                         <tr>
@@ -222,7 +196,7 @@
                             <td>-</td>
                             <th>
                                 <?php
-                                    $query = "SELECT SUM(net_pay) as total_payment FROM `expenses` 
+                                    $query = "SELECT SUM(gross_pay) as total_payment FROM `expenses` 
                                         WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                                     $expense = $this->db->query($query)->row();
                                     echo $expense->total_payment; ?></th>
@@ -259,7 +233,7 @@
                             $receipts = $this->db->query($query)->row()->r_total;
 
                             // Get the total expenses for the current financial year
-                            $query = "SELECT SUM(net_pay) as e_total FROM `expenses`
+                            $query = "SELECT SUM(gross_pay) as e_total FROM `expenses`
                             WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                             $expenses = $this->db->query($query)->row()->e_total;
 

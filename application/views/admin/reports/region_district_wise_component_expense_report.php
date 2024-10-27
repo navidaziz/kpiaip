@@ -188,7 +188,7 @@
                                     foreach ($region->component_categories as $component_category) { ?>
 
 
-                                        <td><?php echo @number_format($component_category->expenses->net_pay); ?></td>
+                                        <td><?php echo @number_format($component_category->expenses->gross_pay); ?></td>
 
                                     <?php } ?>
                                 </tr>
@@ -203,7 +203,7 @@
                                         foreach ($district->component_categories as $component_category) { ?>
 
 
-                                            <td><?php echo @number_format($component_category->expenses->net_pay); ?></td>
+                                            <td><?php echo @number_format($component_category->expenses->gross_pay); ?></td>
 
                                         <?php } ?>
                                     </tr>

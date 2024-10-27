@@ -67,80 +67,49 @@
 </div>
 
 <div class="row">
-
-    <div class="col-md-12">
+<div class="col-md-4">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-users"></i><?php echo $title; ?> list</h4>
+                <h4>Summary Reports</h4>
 
             </div>
             <div class="box-body">
+                <h4>Basic Financial Summary Reports</h4>
+                <ol>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/budget_u_summary') ?>">Budget Utilization Summary</a>
+                    </small></li>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/fy_w_expense_summary') ?>">FY Wise Expense Summary</a>
+                    </small></li>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/real_time_financial_proress_reprot') ?>">Financial Progress - Realtime</a>
+                    </small></li>
+                     <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/f_released_by_wb') ?>">Funds Released by World Bank</a>
+                    </small></li>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/f_released_by_fd') ?>">Funds Released by Finance Department</a>
+                    </small></li>
+                     <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/financial_summary_report') ?>">Financial Reconciliation Summary Report</a>
+                    </small></li>
 
-
-
-
-                <div class="table-responsive">
-                    <table class="table  table-bordered" id="reports">
-                        <thead>
-                            <tr>
-                                <th style="width: 10px;">#</th>
-                                <th>Report</th>
-
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1.1</td>
-                                <td><a target="_blank"
-                                        href="<?php echo site_url(ADMIN_DIR . 'reports/components_wise_financial_statement') ?>">Components
-                                        Wise Financial
-                                        Statement of Receipts and Payments</a> </td>
-                            </tr>
-                            <tr>
-                                <td>1.2</td>
-                                <td><a target="_blank"
-                                        href="<?php echo site_url(ADMIN_DIR . 'reports/sub_financial_statement') ?>">
-                                        Sub Components
-                                        Wise Financial
-                                        Statement of Receipts and Payments</a> </td>
-                            </tr>
-                            <tr>
-                                <td>1.3</td>
-                                <td><a target="_blank"
-                                        href="<?php echo site_url(ADMIN_DIR . 'reports/financial_statement') ?>">
-                                        Components Categories Wise
-                                        Financial
-                                        Statement of Receipts and Payments</a> </td>
-                            </tr>
-                            <tr>
-                                <td>2.</td>
-                                <td><a
-                                        href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_expense_report') ?>">Region
-                                        and District Wise Expense Report</a> </td>
-                            </tr>
-                            <tr>
-                                <td>3.</td>
-                                <td><a
-                                        href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_component_expense_report') ?>">Region
-                                        and District Components Wise Expense Report</a> </td>
-                            </tr>
-                            <tr>
-                                <td>4.</td>
-                                <td><a target="_blank"
-                                        href="<?php echo site_url(ADMIN_DIR . 'reports/export_expenses') ?>">Expenses
-                                        Export</a> </td>
-                            </tr>
-                            <tr>
-                                <td>5.</td>
-                                <td><a target="_blank"
-                                        href="<?php echo site_url(ADMIN_DIR . 'reports/financial_summary_report') ?>">Expenses
-                                        Financial Summary Report</a> </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-
-                </div>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_expense_report') ?>">Expenses (Region and District) Wise Report</a>
+                    </small></li>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_component_expense_report') ?>">Expenses Conponent Categories  (Region and District) Wise Report</a>
+                    </small></li>
+                   
+                    
+                </ol>
+                <h4>Basic Schemes Summary Reports</h4>
+                <ol>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/budget_u_summary') ?>">Budget Utilization Summary</a>
+                    </small></li>
+                <ol>
 
             </div>
 
@@ -151,6 +120,66 @@
 
 
 
+<div class="col-md-4">
+        <div class="box border blue" id="messenger">
+            <div class="box-title">
+                <h4>Chart of Accounts</h4>
+
+            </div>
+            <div class="box-body">
+                <h4>Receipts and Payments</h4>
+                <ol>
+                    <li><small>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/components_wise_financial_statement') ?>">
+                                Components Wise (COAs)</a>
+                    </small></li>
+                    <li><small>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/sub_financial_statement') ?>">
+                                Sub Components Wise (COAs)</a>
+                    </small></li>
+                    <li><small>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/cetegory_financial_statement') ?>">
+                                Component Cetrgories Wise (COAs)</a>
+                    </small></li>
+                    <li><small>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/financial_statement') ?>">
+                                Component / Sub Components /  Cetrgories Wise (COAs)</a>
+                    </small></li>
+                </ol>
+
+            </div>
+        </div>
 </div>
-<!-- /MESSENGER -->
+
+
+<div class="col-md-4">
+        <div class="box border blue" id="messenger">
+            <div class="box-title">
+                <h4>Export Data</h4>
+
+            </div>
+            <div class="box-body">
+                <h4>Download Data for Analysis</h4>
+                <ol>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/export_expenses') ?>">Export Financial Data</a>
+                    </small></li>
+                     <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_data') ?>">Export Scheme Data</a>
+                    </small></li>
+                     <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/export_wua_data') ?>">Export Water User Association Data</a>
+                    </small></li>
+                    
+                </ol>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
 </div>
+
+

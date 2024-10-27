@@ -1,4 +1,81 @@
 <style>
+    .table_small>thead>tr>th,
+    .table_small>tbody>tr>th,
+    .table_small>tfoot>tr>th,
+    .table_small>thead>tr>td,
+    .table_small>tbody>tr>td,
+    .table_small>tfoot>tr>td {
+        padding: 4px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 12px !important;
+        color: black;
+        margin: 0px !important;
+    }
+
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        /* border: 1px solid black !important; */
+    }
+
+    .table_s_small>thead>tr>th,
+    .table_s_small>tbody>tr>th,
+    .table_s_small>tfoot>tr>th,
+    .table_s_small>thead>tr>td,
+    .table_s_small>tbody>tr>td,
+    .table_s_small>tfoot>tr>td {
+        padding: 1px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 9px !important;
+        color: black;
+        margin: 0px !important;
+    }
+</style>
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <!-- STYLER -->
+
+            <!-- /STYLER -->
+            <!-- BREADCRUMBS -->
+
+            <!-- /BREADCRUMBS -->
+            <div class="row">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                        </li>
+                        <li>
+                            <i class="fa fa-file"></i>
+                            <a href="<?php echo site_url(ADMIN_DIR . 'reports'); ?>">Reports List</a>
+                        </li>
+                        <li><?php echo $title; ?></li>
+                    </ul>
+                    <div class="clearfix">
+                        <h4 class="content-title pull-left" style="font-size: 20px;"><?php echo $title; ?></h3>
+                    </div>
+                    <div class="description"><?php echo $description; ?></div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+<style>
 .table_small>thead>tr>th,
 .table_small>tbody>tr>th,
 .table_small>tfoot>tr>th,
@@ -72,7 +149,7 @@ $f_years = $this->db->query($query)->result();
                 <div class="table-responsive">
                     <div style="text-align: center;">
                         <h4> Khyber Pakhtunkhwa, Irrigated Agriculture Improvement Project (KP-IAIP) P163474</h4>
-                        <h5>FINANCIAL PROGRESS -REALTIME</h5>
+                        <h5><?php echo $title; ?></h5>
                     </div>
 
                     <table class="table table_small table-bordered" id="taxes">
@@ -255,3 +332,40 @@ $f_years = $this->db->query($query)->result();
 
 
 </div>
+
+<script>
+    title = '<?php echo $title.' '.date('d-m-Y m:h:s'); ?>';
+    $(document).ready(function() {
+        $('#taxes').DataTable({
+            dom: 'Bfrtip',
+            paging: false,
+            title: title,
+            "order": [],
+            "ordering": false,
+            searching: true,
+            buttons: [
+
+                {
+                    extend: 'print',
+                    title: title,
+                    messageTop: '<?php echo $title; ?>'
+
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: title,
+                    messageTop: '<?php echo $title; ?>'
+
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: title,
+                    pageSize: 'A4',
+                    orientation: 'landscape',
+                    messageTop: '<?php echo $title; ?>'
+
+                }
+            ]
+        });
+    });
+</script>

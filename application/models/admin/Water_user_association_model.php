@@ -91,6 +91,11 @@ class Water_user_association_model extends MY_Model
             "field"  => "cm_contact_no",
             "label"  => "Contact No.",
             "rules"  => "required|regex_match[/^[\+\d\-\(\)\s]*$/]"
+        ),
+         array(
+            "field"  => "wua_registration_date",
+            "label"  => "WUA Registration Date",
+            "rules"  => "required"
         )
     );
 
@@ -190,6 +195,7 @@ class Water_user_association_model extends MY_Model
         $inputs["cm_gender"]  =  $this->input->post("cm_gender");
         $inputs["cm_cnic"]  =  $this->input->post("cm_cnic");
         $inputs["cm_contact_no"]  =  $this->input->post("cm_contact_no");
+        $inputs["wua_registration_date"]  =  $this->input->post("wua_registration_date");
 
         $inputs["created_by"] = $this->session->userdata("userId");
 
@@ -230,7 +236,7 @@ class Water_user_association_model extends MY_Model
         $inputs["cm_gender"]  =  $this->input->post("cm_gender");
         $inputs["cm_cnic"]  =  $this->input->post("cm_cnic");
         $inputs["cm_contact_no"]  =  $this->input->post("cm_contact_no");
-
+        $inputs["wua_registration_date"]  =  $this->input->post("wua_registration_date");
         
         $inputs["created_by"] = $this->session->userdata("userId");
         $inputs["last_updated"] = date('Y-m-d H:i:s');

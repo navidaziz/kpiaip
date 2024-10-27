@@ -62,7 +62,7 @@
                               FROM budget_released as br";
                                 $budget_released = $this->db->query($query)->row();
 
-                                $query = "SELECT SUM(e.net_pay) as total_expense
+                                $query = "SELECT SUM(e.gross_pay) as total_expense
                                FROM expenses as e";
                                 $expense = $this->db->query($query)->row();
                                 if ($expense->total_expense) {
@@ -140,7 +140,7 @@
                                 </tr>
                                 <tr>
                                     <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(net_pay) as net_pay FROM `expenses` 
+                                        $query = "SELECT SUM(gross_pay) as gross_pay FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>
@@ -156,7 +156,7 @@
                                 </tr>
                                 <tr>
                                     <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(net_pay) as net_pay FROM `expenses` 
+                                        $query = "SELECT SUM(gross_pay) as gross_pay FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>

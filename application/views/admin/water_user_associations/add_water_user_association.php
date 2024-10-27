@@ -109,6 +109,40 @@
 
                     </div>
 
+
+ <div class="form-group">
+
+                        <?php
+                    $label = array(
+                        "class" => "col-md-4 control-label",
+                        "style" => "",
+                    );
+                    echo form_label('WUA Registration Date', "wua_registration_date", $label);      ?>
+
+                        <div class="col-md-8">
+                            <?php
+
+                        $text = array(
+                            "type"          =>  "date",
+                            "name"          =>  "wua_registration_date",
+                            "id"            =>  "wua_registration_date",
+                            "class"         =>  "form-control",
+                            "style"         =>  "", 
+                            "required"      => "required", 
+                            "title"         =>  'WUA Registration Date',
+                            "value"         =>  set_value("wua_registration_date"),
+                            "placeholder"   =>  'WUA Registration Date'
+                        );
+                        echo  form_input($text);
+                        ?>
+                            <?php echo form_error("wua_registration_date", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+
                     <div class="form-group">
 
                         <?php

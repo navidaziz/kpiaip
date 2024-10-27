@@ -13,31 +13,73 @@ class Reports extends Admin_Controller
         $this->lang->load("system", 'english');
         //$this->output->enable_profiler(TRUE);
     }
-    //---------------------------------------------------------------
-
-
-    /**
-     * Default action to be called
-     */
-
-      public function financial_summary_report()
-    {
-       
-        $this->data["title"] = 'KP-IAIP Reports';
-        $this->data["description"] = 'Report Dashboard';
-        $this->data["view"] = ADMIN_DIR . "reports/financial_summary_report";
-        $this->load->view(ADMIN_DIR . "layout", $this->data);
-    }
-
-
+    
     public function index()
     {
         
-        $this->data["title"] = 'KP-IAIP Reports';
-        $this->data["description"] = 'Report Dashboard';
+        $this->data["title"] = 'Reporting Dashbaord';
+        $this->data["description"] = 'KP-IAIP  Reporting Dashbaord';
         $this->data["view"] = ADMIN_DIR . "reports/index";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+    
+
+      public function fy_w_expense_summary()
+    {
+       
+        $this->data["title"] = 'FY Wise Expense Summary';
+        $this->data["description"] = 'Upto Now';
+        $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/fy_w_expense_summary";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+     public function budget_u_summary()
+    {
+       
+        $this->data["title"] = 'Budget Utilization Summary';
+        $this->data["description"] = 'Upto Now';
+        $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/budget_u_summary";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+
+    public function f_released_by_wb()
+    {
+       
+        $this->data["title"] = 'Funds Released By World Bank';
+        $this->data["description"] = 'Upto Now';
+        $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/f_released_by_wb";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+    public function f_released_by_fd()
+    {
+       
+        $this->data["title"] = 'Funds Released By Finance Department';
+        $this->data["description"] = 'Upto Now';
+        $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/f_released_by_fd";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+    public function real_time_financial_proress_reprot()
+    {
+       
+        $this->data["title"] = 'Financial Progress - Realtime';
+        $this->data["description"] = 'Realtime Financial Progress Summary Report';
+        $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/real_time_financial_proress_reprot";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+    public function financial_summary_report()
+    {
+       
+        $this->data["title"] = 'Financial Reconciliation Summary Report';
+        $this->data["description"] = 'Over All Financial Years';
+        $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/financial_summary_report";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+
+    
 
     // public function region_district_wise_expense_report()
     // {
@@ -79,7 +121,7 @@ class Reports extends Admin_Controller
     //         SUM(rdp_tax) as rdp_tax,
     //         SUM(kpra_tax) as kpra_tax,
     //         SUM(misc_deduction) as misc_deduction,
-    //         SUM(net_pay) as net_pay
+    //         SUM(gross_pay) as gross_pay
     //         FROM expenses as e 
     //         INNER JOIN districts as d ON (d.district_id = e.district_id)
     //         WHERE d.region = '" . $region->region . "'
@@ -96,7 +138,7 @@ class Reports extends Admin_Controller
     //         SUM(rdp_tax) as rdp_tax,
     //         SUM(kpra_tax) as kpra_tax,
     //         SUM(misc_deduction) as misc_deduction,
-    //         SUM(net_pay) as net_pay
+    //         SUM(gross_pay) as gross_pay
     //         FROM expenses as e 
     //         INNER JOIN districts as d ON (d.district_id = e.district_id)
     //         WHERE d.region = '" . $region->region . "'
@@ -238,7 +280,7 @@ class Reports extends Admin_Controller
             $component_categories = $this->db->query($query)->result();
             foreach ($component_categories as $component_category) {
                 $query = "SELECT COUNT(0) as total,
-            SUM(net_pay) as net_pay
+            SUM(gross_pay) as gross_pay
             FROM expenses as e 
             INNER JOIN districts as d ON (d.district_id = e.district_id)
             WHERE d.region = ? 
@@ -259,7 +301,7 @@ class Reports extends Admin_Controller
                 $component_categories = $this->db->query($query)->result();
                 foreach ($component_categories as $component_category) {
                     $query = "SELECT COUNT(0) as total,
-                SUM(net_pay) as net_pay
+                SUM(gross_pay) as gross_pay
                 FROM expenses as e 
                 WHERE e.component_category_id = ? 
                 AND e.district_id = ?
@@ -347,99 +389,81 @@ class Reports extends Admin_Controller
     public function components_wise_financial_statement()
     {
         $this->data["title"] = 'Components Wise Financial Statement';
-        $this->data["description"] = 'Filter By: ';
-        $this->data['f_regions_array'] = NULL;
-        $this->data['f_financial_years_array'] = NULL;
-        $this->data['f_purpose_array'] = NULL;
-        $this->data['f_start_date'] = NULL;
-        $this->data['f_end_date'] = NULL;
-        $purpose_query = '';
-        $fy_query = '';
-
+        $this->data["description"] = 'Chart of Account';
         // Fetch all financial years
         $query = "SELECT * FROM `financial_years`";
         $this->data['financial_years']  = $financial_years = $this->db->query($query)->result();
-
         // Fetch all components
         $query = "SELECT * FROM components";
         $components = $this->db->query($query)->result();
-
         foreach ($components as $component) {
-            
-                 foreach ($financial_years as $financial_year) {
+            foreach ($financial_years as $financial_year) {
                 // Fetch the total expenses for the current component category and financial year
-                $query = "SELECT SUM(net_pay) as total
-                  FROM expenses
-                  INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
-                  INNER JOIN 
-                  WHERE financial_year_id = ?
-                  AND cc.component_id = ?";
+                $query = "SELECT SUM(gross_pay) as total
+                        FROM expenses
+                        INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                        INNER JOIN components as c ON(c.component_id = sc.component_id)
+                        WHERE expenses.financial_year_id = ?
+                        AND c.component_id = ? ";
                 $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id))->row();
 
                 // If expenses are found, assign the total to the financial year, otherwise set it to 0
                 $component->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
             }
-         
-           
         }
-
         $this->data['components'] = $components;
-
-
         $this->data["view"] = ADMIN_DIR . "reports/components_wise_financial_statement";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
      public function sub_financial_statement()
     {
         $this->data["title"] = 'Sub Components Wise Financial Statement';
-        $this->data["description"] = 'Filter By: ';
-        $this->data['f_regions_array'] = NULL;
-        $this->data['f_financial_years_array'] = NULL;
-        $this->data['f_purpose_array'] = NULL;
-        $this->data['f_start_date'] = NULL;
-        $this->data['f_end_date'] = NULL;
-        $purpose_query = '';
-        $fy_query = '';
-
+        $this->data["description"] = 'Chart of Account';
         // Fetch all financial years
         $query = "SELECT * FROM `financial_years`";
         $this->data['financial_years']  = $financial_years = $this->db->query($query)->result();
-
         // Fetch all components
         $query = "SELECT * FROM components";
         $components = $this->db->query($query)->result();
-
         foreach ($components as $component) {
             // Fetch component categories for the current component
             $query = "SELECT * FROM `sub_components` WHERE component_id = ?";
-            $component_categories = $this->db->query($query, array($component->component_id))->result();
+            $sub_components = $this->db->query($query, array($component->component_id))->result();
 
-            foreach ($component_categories as $component_category) {
+            foreach ($sub_components as $sub_component) {
                 foreach ($financial_years as $financial_year) {
                     // Fetch the total expenses for the current component category and financial year
-                    $query = "SELECT SUM(net_pay) as total
-                      FROM expenses
-                      WHERE component_category_id = ? 
-                      AND financial_year_id = ?";
-                    $expenses = $this->db->query($query, array($component_category->component_category_id, $financial_year->financial_year_id))->row();
+                    
+                    $query = "SELECT SUM(gross_pay) as total
+                        FROM expenses
+                        INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                        INNER JOIN components as c ON(c.component_id = sc.component_id)
+                        WHERE expenses.financial_year_id = ?
+                        AND c.component_id = ?
+                        AND sc.sub_component_id = ? ";
+                    $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id, $sub_component->sub_component_id))->row();
 
                     // If expenses are found, assign the total to the financial year, otherwise set it to 0
-                    $component_category->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
+                    $sub_component->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
                 }
 
                 // Assign the component categories to the component's sub_components property
                 if (!isset($component->sub_components)) {
                     $component->sub_components = array();
                 }
-                $component->sub_components[] = $component_category;
+                $component->sub_components[] = $sub_component;
             }
             foreach ($financial_years as $financial_year) {
                 // Fetch the total expenses for the current component category and financial year
-                $query = "SELECT SUM(net_pay) as total
-                  FROM expenses
-                  INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
-                  WHERE financial_year_id = ?
-                  AND cc.component_id = ?";
+                 $query = "SELECT SUM(gross_pay) as total
+                        FROM expenses
+                        INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                        INNER JOIN components as c ON(c.component_id = sc.component_id)
+                        WHERE expenses.financial_year_id = ?
+                        AND c.component_id = ? ";
                 $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id))->row();
 
                 // If expenses are found, assign the total to the financial year, otherwise set it to 0
@@ -448,9 +472,167 @@ class Reports extends Admin_Controller
         }
 
         $this->data['components'] = $components;
+        $this->data["view"] = ADMIN_DIR . "reports/sub_components_financial_statement";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
 
 
-        $this->data["view"] = ADMIN_DIR . "reports/sub_financial_statement";
+     public function component_cetrgory_statment()
+    {
+        $this->data["title"] = 'Sub Components Wise Financial Statement';
+        $this->data["description"] = 'Chart of Account';
+        // Fetch all financial years
+        $query = "SELECT * FROM `financial_years`";
+        $this->data['financial_years']  = $financial_years = $this->db->query($query)->result();
+        // Fetch all components
+        $query = "SELECT * FROM components";
+        $components = $this->db->query($query)->result();
+        foreach ($components as $component) {
+            // Fetch component categories for the current component
+            $query = "SELECT * FROM `sub_components` WHERE component_id = ?";
+            $sub_components = $this->db->query($query, array($component->component_id))->result();
+
+            foreach ($sub_components as $sub_component) {
+
+                //get components categories ....
+
+                $query = "SELECT * FROM `component_categories` WHERE sub_component_id = ?";
+                $component_categories = $this->db->query($query, array($sub_component->sub_component_id))->result();
+                foreach ($component_categories as $component_category) {
+                        foreach ($financial_years as $financial_year) {
+                        // Fetch the total expenses for the current component category and financial year
+                        $query = "SELECT SUM(gross_pay) as total
+                            FROM expenses
+                            INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                            INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                            INNER JOIN components as c ON(c.component_id = sc.component_id)
+                            WHERE expenses.financial_year_id = ?
+                            AND c.component_id = ?
+                            AND sc.sub_component_id = ?
+                            AND cc.component_category_id = ? ";
+                        $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id, $sub_component->sub_component_id, $component_category->component_category_id))->row();
+                        $component_category->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
+                        }
+                        if (!isset($sub_component->component_categories)) {
+                            $sub_component->component_categories = array();
+                        }
+                        $sub_component->component_categories[] = $component_category;
+                    }
+
+
+                // components categories end here .......
+                foreach ($financial_years as $financial_year) {
+                    // Fetch the total expenses for the current component category and financial year
+                    
+                    $query = "SELECT SUM(gross_pay) as total
+                        FROM expenses
+                        INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                        INNER JOIN components as c ON(c.component_id = sc.component_id)
+                        WHERE expenses.financial_year_id = ?
+                        AND c.component_id = ?
+                        AND sc.sub_component_id = ? ";
+                    $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id, $sub_component->sub_component_id))->row();
+
+                    // If expenses are found, assign the total to the financial year, otherwise set it to 0
+                    $sub_component->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
+                }
+
+                // Assign the component categories to the component's sub_components property
+                if (!isset($component->sub_components)) {
+                    $component->sub_components = array();
+                }
+                $component->sub_components[] = $sub_component;
+            }
+
+            //for components only......
+            foreach ($financial_years as $financial_year) {
+                // Fetch the total expenses for the current component category and financial year
+                 $query = "SELECT SUM(gross_pay) as total
+                        FROM expenses
+                        INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                        INNER JOIN components as c ON(c.component_id = sc.component_id)
+                        WHERE expenses.financial_year_id = ?
+                        AND c.component_id = ? ";
+                $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id))->row();
+
+                // If expenses are found, assign the total to the financial year, otherwise set it to 0
+                $component->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
+            }
+        }
+
+        $this->data['components'] = $components;
+        $this->data["view"] = ADMIN_DIR . "reports/category_financial_statement";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+    public function test_component_cetrgory_statment()
+    {
+        $this->data["title"] = 'Component Category Wise Financial Statement';
+        $this->data["description"] = 'Chart of Accounts';
+        // Fetch all financial years
+        $query = "SELECT * FROM `financial_years`";
+        $this->data['financial_years']  = $financial_years = $this->db->query($query)->result();
+        // Fetch all components
+        $query = "SELECT * FROM components";
+        $components = $this->db->query($query)->result();
+        // Fetch component categories for the current component
+            $query = "SELECT * FROM `sub_components` WHERE component_id = ?";
+            $sub_components = $this->db->query($query, array($component->component_id))->result();
+            
+            foreach ($sub_components as $sub_component) {
+                foreach ($financial_years as $financial_year) {
+                    // Fetch the total expenses for the current component category and financial year
+                    $query = "SELECT SUM(gross_pay) as total
+                        FROM expenses
+                        INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                        INNER JOIN components as c ON(c.component_id = sc.component_id)
+                        WHERE expenses.financial_year_id = ?
+                        AND c.component_id = ?
+                        AND sc.sub_component_id = ? ";
+                    $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id, $sub_component->sub_component_id))->row();
+
+                    // If expenses are found, assign the total to the financial year, otherwise set it to 0
+                    $sub_component->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
+                }
+
+                $query = "SELECT * FROM `component_categories` WHERE sub_component_id = ?";
+                $component_categories = $this->db->query($query, array($sub_component->sub_component_id))->result();
+                foreach ($component_categories as $component_category) {
+                        foreach ($financial_years as $financial_year) {
+                        // Fetch the total expenses for the current component category and financial year
+                        $query = "SELECT SUM(gross_pay) as total
+                            FROM expenses
+                            INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
+                            INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+                            INNER JOIN components as c ON(c.component_id = sc.component_id)
+                            WHERE expenses.financial_year_id = ?
+                            AND c.component_id = ?
+                            AND sc.sub_component_id = ?
+                            AND cc.component_category_id = ? ";
+                        $expenses = $this->db->query($query, array($financial_year->financial_year_id, $component->component_id, $sub_component->sub_component_id, $component_category->component_category_id))->row();
+                        $component_category->financial_years[$financial_year->financial_year_id] = $expenses->total > 0 ? $expenses->total : '0.0';
+                        }
+                        if (!isset($sub_component->component_categories)) {
+                            $sub_component->component_categories = array();
+                        }
+                        $sub_component->component_categories[] = $component_category;
+                    }
+            // Assign the component categories to the component's sub_components property
+            if (!isset($component->sub_components)) {
+                $component->sub_components = array();
+            }
+            $component->sub_components[] = $sub_component;
+        }
+        
+        
+        
+        $this->data['components'] = $components;
+
+
+        $this->data["view"] = ADMIN_DIR . "reports/category_financial_statement";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
