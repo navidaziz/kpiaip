@@ -138,7 +138,7 @@
                                 Sub Components Wise (COAs)</a>
                     </small></li>
                     <li><small>
-                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/cetegory_financial_statement') ?>">
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/component_cetrgory_statment') ?>">
                                 Component Cetrgories Wise (COAs)</a>
                     </small></li>
                     <li><small>
