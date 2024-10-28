@@ -14,6 +14,10 @@ class Temp extends Admin_Controller
         //$this->output->enable_profiler(TRUE);
     }
 
+    public function index(){
+        echo 'index';
+    }
+
     public function search_cheques(){
             $scheme_id = (int) $this->input->post('scheme_id');
             $query="SELECT * FROM schemes as s WHERE s.scheme_id = ?";
@@ -61,7 +65,7 @@ class Temp extends Admin_Controller
 
 
 
-        public function change_cheque_scheme()  {
+ public function change_cheque_scheme()  {
                 $expense_id = (int) $this->input->post('expense_id');
                 $query="SELECT *, s.scheme_name,
                 s.scheme_code, cc.category, d.district_name FROM expenses as e 
@@ -85,9 +89,9 @@ class Temp extends Admin_Controller
 
                 
                 $this->load->view(ADMIN_DIR . "temp/change_cheque_scheme", $this->data);
-  } 
+            } 
 
-   public function  update_cheque_scheme()
+   public function update_cheque_scheme()
     {
         $scheme_id = (int) $this->input->post('scheme_id');
         $expense_id = (int) $this->input->post('expense_id');
