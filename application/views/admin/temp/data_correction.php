@@ -200,7 +200,7 @@
                             <?php foreach($schemes as $s){ ?>
                                 <ol>
                                     <a href="<?php echo site_url(ADMIN_DIR.'water_user_associations/view_scheme_detail/'.$s->water_user_association_id.'/'.$s->scheme_id); ?>">    
-                                   <?php echo $s->scheme_code; ?> -  <?php echo $s->scheme_name; ?> - <?php echo $s->category; ?> -  <?php echo $s->district_name; ?>
+                                   <?php echo $s->scheme_code; ?> -  <?php echo $s->scheme_name; ?> - <?php echo $s->category; ?> -  <?php echo $s->district_name; ?> - <?php echo $s->scheme_status; ?>
                                     </a>
                                 </ol>
                             <?php } ?>
