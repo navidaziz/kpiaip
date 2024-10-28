@@ -154,6 +154,7 @@
                     <script>
                     function search() {
                         var search = $('#search').val();
+                        if (search !== '' && search.length > 3) {
                         $.ajax({
                                 method: "POST",
                                 url: "<?php echo site_url(ADMIN_DIR . 'temp/search_cheques'); ?>",
@@ -167,6 +168,7 @@
                                     'visible').hide().fadeIn('fast');
 
                             });
+                        }
 
 
                     }
