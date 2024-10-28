@@ -185,9 +185,14 @@
                 <div style="text-align:center">
 
                     <?php
-                    $query = "SELECT * FROM schemes 
+                    $query = "SELECT s.*, d.district_name, cc.category FROM schemes as s 
+                    INNER JOIN districts as d ON(d.district_id = s.district_id) 
+                    INNER JOIN component_categories as cc ON(cc.component_category_id =  s.component_category_id)
                     WHERE scheme_name LIKE '%".$scheme->scheme_name."%'
-                    AND scheme_id != '".$scheme->scheme_id."' ORDER BY scheme_name ASC";
+                    AND scheme_id != '".$scheme->scheme_id."' 
+                    AND scheme_id != '".$scheme->scheme_id."' 
+                    AND s.district_id != '".$scheme->district_id."'
+                    AND scheme_status !='Completed' ORDER BY scheme_name ASC";
                     $schemes = $this->db->query($query)->result();
                     if($schemes){  ?>
                     <h4>Other Schemes with Similar Names</h4>
@@ -195,7 +200,7 @@
                             <?php foreach($schemes as $s){ ?>
                                 <ol>
                                     <a href="<?php echo site_url(ADMIN_DIR.'water_user_associations/view_scheme_detail/'.$s->water_user_association_id.'/'.$s->scheme_id); ?>">    
-                                    <?php echo $s->scheme_name; ?>
+                                   <?php echo $s->scheme_code; ?> -  <?php echo $s->scheme_name; ?> - <?php echo $s->category; ?> -  <?php echo $s->district_name; ?>
                                     </a>
                                 </ol>
                             <?php } ?>
