@@ -383,7 +383,7 @@ class Reports extends Admin_Controller
         $this->data['components'] = $components;
 
 
-        $this->data["view"] = ADMIN_DIR . "reports/financial_statement";
+        $this->data["view"] = ADMIN_DIR . "reports/chart_of_accounts/financial_statement";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
     public function components_wise_financial_statement()
@@ -413,7 +413,7 @@ class Reports extends Admin_Controller
             }
         }
         $this->data['components'] = $components;
-        $this->data["view"] = ADMIN_DIR . "reports/components_wise_financial_statement";
+        $this->data["view"] = ADMIN_DIR . "reports/chart_of_accounts/components_wise_financial_statement";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
      public function sub_financial_statement()
@@ -472,7 +472,7 @@ class Reports extends Admin_Controller
         }
 
         $this->data['components'] = $components;
-        $this->data["view"] = ADMIN_DIR . "reports/sub_components_financial_statement";
+        $this->data["view"] = ADMIN_DIR . "reports/chart_of_accounts/sub_components_financial_statement";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
@@ -563,7 +563,7 @@ class Reports extends Admin_Controller
         }
 
         $this->data['components'] = $components;
-        $this->data["view"] = ADMIN_DIR . "reports/category_financial_statement";
+        $this->data["view"] = ADMIN_DIR . "reports/chart_of_accounts/category_financial_statement";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
