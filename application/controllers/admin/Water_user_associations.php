@@ -1172,6 +1172,7 @@ class Water_user_associations extends Admin_Controller
         $columns[] = "paid_percentage";
         $columns[] = "remaining";
         $columns[] = "payment_count";
+        $columns[] = "scheme_note";
 
 
         $limit = $this->input->post("length");

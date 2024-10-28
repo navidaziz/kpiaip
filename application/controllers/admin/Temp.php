@@ -94,6 +94,13 @@ class Temp extends Admin_Controller
    public function update_cheque_scheme()
     {
         $scheme_id = (int) $this->input->post('scheme_id');
+         $scheme_data = array(
+            'updated_by' =>  $this->session->userdata("userId"),
+            'last_updated' => date('Y-m-d H:i:s')
+        );
+        $this->db->where('scheme_id', $scheme_id);
+        $this->db->update('schemes', $scheme_data);
+        
         $expense_id = (int) $this->input->post('expense_id');
         $installment = $this->input->post('installment');
         $remarks = $this->input->post('remarks');

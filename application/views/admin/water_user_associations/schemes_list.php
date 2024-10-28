@@ -17,6 +17,7 @@
                 <th>Paid Percentage</th>
                 <th>Remaining</th>
                 <th>Payment Count</th>
+                <th>Note</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -111,6 +112,9 @@
 
                 {
                     "data": "payment_count"
+                },
+                {
+                    "data": "scheme_note"
                 },
 
 

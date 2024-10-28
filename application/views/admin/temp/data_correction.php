@@ -146,7 +146,7 @@
                             <div style="">
                     Search By Cheque No. of Payee Name or Scheme Name: (<?php echo $scheme->scheme_name ?>)  <br />
                     <input  type="text" value="<?php echo $scheme->scheme_name ?>" id="search" name="search"
-                        style="width:500px" onkeydown="if (event.keyCode === 13) search();"  />
+                        style="width:500px" onkeydown="search()"  />
                     <button onclick="search()">Search</button>
 
                     
