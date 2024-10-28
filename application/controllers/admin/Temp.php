@@ -23,6 +23,7 @@ class Temp extends Admin_Controller
             $query="SELECT * FROM schemes as s WHERE s.scheme_id = ?";
             $scheme = $this->db->query($query, $scheme_id)->row();
             $search = $this->input->post('search');
+            $this->data['search'] = $search;
             $search_param = "%{$search}%";  // Adding wildcards for LIKE search
 
             $query = "SELECT  

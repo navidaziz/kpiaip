@@ -58,6 +58,50 @@
     </tbody>
 </table>
 
+<div style="text-align:center">
+
+                    <?php
+                    $search_param = "%" . $this->db->escape_like_str($search) . "%";  // Properly escape $search for LIKE
+                    $query = "
+                    SELECT s.*, d.district_name, cc.category 
+                    FROM schemes AS s 
+                    INNER JOIN districts AS d ON d.district_id = s.district_id 
+                    INNER JOIN component_categories AS cc ON cc.component_category_id = s.component_category_id 
+                    WHERE s.scheme_name LIKE '$search_param'
+                    AND s.scheme_id != '" . intval($scheme->scheme_id) . "' 
+                    AND s.district_id = '" . intval($scheme->district_id) . "'
+                    AND s.component_category_id = '" . intval($scheme->component_category_id) . "'
+                    AND s.scheme_status != 'Completed' 
+                    ORDER BY s.scheme_name ASC
+                    ";
+                    $schemes = $this->db->query($query)->result();
+
+                    if($schemes){  ?>
+                    <h4>Other Schemes with Similar Names</h4>
+                       <table class="table table-strip table_small">
+                            <?php foreach($schemes as $s){ ?>
+                                <tr>
+                                    <td><?php echo $s->scheme_code; ?><td>
+                                        <td><a href="<?php echo site_url(ADMIN_DIR.'water_user_associations/view_scheme_detail/'.$s->water_user_association_id.'/'.$s->scheme_id); ?>">    
+                                    <?php echo $s->scheme_name; ?> 
+                                    </a></td>
+                                    <td>
+                                        <?php echo $s->category; ?> 
+                            </td>
+                            <td>
+                                        <?php echo $s->district_name; ?> 
+                            </td>
+                            <td>
+                                         <?php echo $s->scheme_status; ?>
+                            </td>
+                            </tr>
+                            <?php } ?>
+                            </table>
+                    <?php }else{ ?>
+                       
+                    <?php } ?>
+                </div>
+
 <script>
 function correct_cheque(expense_id) {
 
