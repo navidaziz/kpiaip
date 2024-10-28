@@ -950,10 +950,10 @@ class Water_user_associations extends Admin_Controller
         $scheme_id =  (int) $this->input->post('scheme_id');
         $scheme_status = $this->input->post('scheme_status');
         
-        $remarkrs = 'Manual Change';
-        
+            $remarkrs = 'Manual Change';
             $inputs["remarks"] = $remarkrs;
             $inputs["scheme_status"]  =  $scheme_status;
+            $inputs["scheme_note"]  =  NULL;
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             if ($this->scheme_model->save($inputs, $scheme_id)) {
                 $log_inputs['operation'] = 'insert';
