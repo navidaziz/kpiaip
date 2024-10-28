@@ -113,6 +113,15 @@ class Temp extends Admin_Controller
      public function  remove_cheque_scheme()
     {
         
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $scheme_data = array(
+            'scheme_status' => 'Par-Completed',
+            'updated_by' =>  $this->session->userdata("userId"),
+            'last_updated' => date('Y-m-d H:i:s')
+        );
+        $this->db->where('scheme_id', $scheme_id);
+        $this->db->update('schemes', $scheme_data);
+
         $expense_id = (int) $this->input->post('expense_id');
         $data = array(
             'scheme_id' => NULl,
@@ -125,6 +134,19 @@ class Temp extends Admin_Controller
         } else {
         echo  '<div class="alert alert-danger">Error while updating the record.<div>';
         }
+
+    }
+
+    public function add_scheme_note(){
+         $scheme_id = (int) $this->input->post('scheme_id');
+         $this->db->where('scheme_id', $scheme_id);
+         $input['scheme_note'] = $this->input->post('scheme_note');
+         if($this->db->update('schemes', $input)){
+            echo 'scheme note update';
+         }else{
+            echo 'Error while updating';
+         }
+
 
     }
 

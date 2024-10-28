@@ -16,13 +16,15 @@
 
             </td>
             <td>
-                Cheque No: <?php echo $expense->cheque; ?> - Cheque Date:
+               Cheque No: <?php echo $expense->cheque; ?> - Cheque Date:
                 <?php echo date("d M, Y", strtotime($expense->date)); ?><br />
                 Payee Name: <?php echo $expense->payee_name; ?><br />
                 Scheme Name: <?php echo $expense->schemeName; ?><br />
+                Scheme Code: <?php echo $expense->schemeName; ?><br />
                 Category: <?php echo $expense->category; ?><br />
                 District: <?php echo $expense->district_name; ?><br />
                 Installment: <?php echo $expense->installment; ?><br />
+            
             </td>
         </tr>
     </table>
@@ -105,14 +107,26 @@
     </script>
     <?php }else{ ?>
 
-    <h4>Remove Cheque No: <?php echo $expense->cheque; ?> - Dated:
-        <?php echo date("d M, Y", strtotime($expense->date)); ?> <br />From scheme:
-        Scheme Name: <?php echo $scheme->scheme_name; ?> (<?php echo $scheme->scheme_code ?>)
+    <h4>Remove <br /> 
+    <strong>
+    Cheque No: <?php echo $expense->cheque; ?> - Dated:
+        <?php echo date("d M, Y", strtotime($expense->date)); ?> 
+        <br />
+        <br />
+        From Scheme:<br />
+    
+        <strong>
+        Scheme Code: <?php echo $scheme->scheme_code ?><br />
+        Scheme Name: <?php echo $scheme->scheme_name; ?> <br />
+         Scheme Name: <?php echo $scheme->scheme_status; ?> <br />
+       
+    </strong>
     </h4>
 
     <form id="remove_cheque" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 
         <?php echo form_hidden("expense_id", $expense->expense_id); ?>
+        <?php echo form_hidden("expense_id", $expense->scheme_id)); ?>
 
 
         <div class=" col-md-12" style="text-align: center;">
