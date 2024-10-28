@@ -190,8 +190,8 @@
                     INNER JOIN component_categories as cc ON(cc.component_category_id =  s.component_category_id)
                     WHERE scheme_name LIKE '%".$scheme->scheme_name."%'
                     AND scheme_id != '".$scheme->scheme_id."' 
-                    AND scheme_id != '".$scheme->scheme_id."' 
-                    AND s.district_id != '".$scheme->district_id."'
+                    AND s.district_id = '".$scheme->district_id."'
+                     AND s.component_category_id = '".$scheme->component_category_id."'
                     AND scheme_status !='Completed' ORDER BY scheme_name ASC";
                     $schemes = $this->db->query($query)->result();
                     if($schemes){  ?>
