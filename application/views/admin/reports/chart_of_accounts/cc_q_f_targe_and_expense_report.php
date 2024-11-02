@@ -76,30 +76,7 @@
     }
 </style>
 <div class="row">
-    <div class="col-md-12" style="padding:10px; text-align:right">
-<button class="milltion_converter btn btn-danger btn-sm" onclick="convertToMillions()">Convert to Millions</button>
-<a style="display:none" class="relaod_page btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR.'reports/cc_q_f_targe_and_expense_report') ?>" >Reload Data</a>
-</div>
 
-    <script>
-        function convertToMillions() {
-
-            // Get all elements with the class "values"
-            const valueElements = document.querySelectorAll('.values');
-
-            // Iterate through each element
-            valueElements.forEach(element => {
-                // Get the numerical value, parse it, and convert to millions
-                const value = parseFloat(element.innerText);
-                if (!isNaN(value)) {
-                    const millionValue = value / 1000000; // Convert to millions
-                    element.innerText = millionValue.toFixed(2); // Format to two decimal places and add 'M'
-                }
-            });
-            $('.milltion_converter').hide();
-            $('.relaod_page').show();
-        }
-    </script>
     <div class="col-md-12">
         <div style="background-color: white; padding:5px">
             <div class="table-responsive">
@@ -287,7 +264,7 @@
 <script>
     title = 'Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)\n<?php echo $title; ?>\n<?php echo $description ?>';
     $(document).ready(function() {
-        $('#report').DataTable({
+        var table = $('#report').DataTable({
             dom: 'Bfrtip',
             paging: false,
             title: title,
@@ -295,28 +272,73 @@
             "ordering": false,
             searching: true,
             buttons: [
-
                 {
                     extend: 'print',
                     title: title,
                     messageTop: '<?php echo $table_title; ?>'
-
                 },
                 {
                     extend: 'excelHtml5',
                     title: title,
                     messageTop: '<?php echo $table_title; ?>'
-
                 },
                 {
                     extend: 'pdfHtml5',
                     title: title,
-                    pageSize: 'A4',
+                    pageSize: 'legal',
                     orientation: 'landscape',
-                    messageTop: '<?php echo $table_title; ?>'
+                    messageTop: '<?php echo $table_title; ?>',
+                    customize: function (doc) {
+                        // Set the default font size for all content
+                        doc.defaultStyle.fontSize = 8;
 
+                        // Set page margins (2 points on each side)
+                        doc.pageMargins = [1, 1, 1, 1];
+
+                        // Safely find the table and apply cell padding
+                        doc.content.forEach(function(contentItem) {
+                            if (contentItem.table) {
+                                contentItem.table.body.forEach(function(row) {
+                                    row.forEach(function(cell) {
+                                        cell.margin = [1, 1, 1, 1];  // Apply padding to each cell
+                                    });
+                                });
+                            }
+                        });
+
+                        // Apply font size adjustments if the styles exist
+                        if (doc.styles) {
+                            if (doc.styles.tableHeader) doc.styles.tableHeader.fontSize = 8;
+                            if (doc.styles.title) doc.styles.title.fontSize = 8;
+                            if (doc.styles.messageTop) doc.styles.messageTop.fontSize = 8;
+                        }
+                    }
+                },
+                {
+                    text: 'Convert to Millions',
+                    action: function (e, dt, node, config) {
+                        // Convert values in the 'values' class to millions
+                        $('.values').each(function() {
+                            var currentValue = parseFloat($(this).text().replace(/,/g, '')); // Remove commas
+                            if (!isNaN(currentValue)) {
+                                var millionValue = currentValue / 1000000; // Convert to millions
+                                $(this).text(millionValue.toFixed(3)); // Format to 2 decimal places and add 'M'
+                            }
+                        });
+
+                        // Hide the convert button and show the reload button
+                        dt.button('.convert-to-millions').disable(); // Disable convert button
+                        $('#reload-button').show(); // Show reload button
+                    },
+                    className: 'convert-to-millions' // Add a class for easy identification
                 }
             ]
         });
+
+        // Create a button for reloading the page
+        $('<button id="reload-button" style="display:none;">Reload Page</button>').appendTo('#report_wrapper .dt-buttons').on('click', function() {
+            location.reload(); // Reload the page when clicked
+        });
     });
 </script>
+
