@@ -164,7 +164,7 @@
                                         AND DATE(date) BETWEEN '".$year_start."-07-01' AND '".$year_start."-09-30';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                        echo $fy_q_expense->total;
+                                        echo round($fy_q_expense->total/1000000,3);
                                         }      
                                         ?>
                                     </th>
@@ -176,7 +176,7 @@
                                         AND DATE(date) BETWEEN '".$year_start."-10-01' AND '".$year_start."-12-31';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                        echo $fy_q_expense->total;
+                                       echo round($fy_q_expense->total/1000000,3);
                                         }      
                                         ?></th>
                                     <th><?php 
@@ -187,7 +187,7 @@
                                         AND DATE(date) BETWEEN '".$year_end."-01-01' AND '".$year_end."-03-31';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                        echo $fy_q_expense->total;
+                                        echo round($fy_q_expense->total/1000000,3);
                                         }      
                                         ?></th>
                                     <th><?php 
@@ -198,7 +198,7 @@
                                         AND DATE(date) BETWEEN '".$year_end."-04-01' AND '".$year_end."-06-30';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                        echo $fy_q_expense->total;
+                                        echo round($fy_q_expense->total/1000000,3);
                                         }      
                                         ?></th>
                                 <?php } ?>
@@ -210,9 +210,9 @@
                                     $fy_expense = $this->db->query($query)->row();
                                     if($fy_expense){
                                         if($fy_expense->total>$fy_budget->total){
-                                            echo '<span style="color:red">'.$fy_expense->total.'</span>';
+                                            echo '<span style="color:red">'.round(($fy_expense->total/1000000),3).'</span>';
                                         }else{
-                                          echo $fy_expense->total;  
+                                          echo round(($fy_expense->total/1000000),3); 
                                         }
                                         
                                     }      
@@ -237,7 +237,7 @@
 
 <?php $table_title = 'Upto date(' . date('d M, Y H:m:s') . ')'; ?>
 <script>
-    title = 'Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)\nStatement of Receipts and Payments';
+    title = 'Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)\n'.$title.'\n'.$description;
     $(document).ready(function() {
         $('#report').DataTable({
             dom: 'Bfrtip',
