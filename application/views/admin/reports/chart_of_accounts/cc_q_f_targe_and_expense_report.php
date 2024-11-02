@@ -92,8 +92,17 @@
                             <th></th>
                             <?php foreach ($financial_years as $financial_year) { ?>
                                 <td></td>
-                                <td></td>
+                                 <?php if($financial_year->status==1){ ?>
+                                   <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                <?php } ?>
+                                 <th></th>
                             <?php } ?>
+                           
+                            <th></th>
+                            <th></th>
                         </tr>
                         <tr>
                             <th></th>
@@ -108,6 +117,9 @@
                                 <?php } ?>
                                 <th></th>
                             <?php } ?>
+                            
+                                <th></th>
+                                <th></th>
                         </tr>
                         
                     </thead>
@@ -125,6 +137,9 @@
                                     <?php } ?>
                                 <td>Expense</td>
                             <?php } ?>
+                            
+                                <td>Total Expense</td>
+                                <td>Remaing</td>
                         </tr>
                         <?php 
                         $query = "SELECT cc.* FROM `component_categories` as cc
@@ -218,7 +233,19 @@
                                     }      
                                     ?>
                                 </td>
+                                 
                             <?php } ?>
+                            <th>
+                                    <?php 
+                                    $query="SELECT SUM(gross_pay) as total FROM `expenses` 
+                                            WHERE component_category_id='".$component_category->component_category_id."';";
+                                    $total_expense = $this->db->query($query)->row();
+                                    if($total_expense){
+                                        echo $total_expense->total;
+                                    }      
+                                    ?>
+                                </th>
+                                <th><?php echo $f_budget->total-$total_expense->total; ?></th>
                             <?php } ?>
                         </tr>
                     </tbody>
@@ -237,7 +264,7 @@
 
 <?php $table_title = 'Upto date(' . date('d M, Y H:m:s') . ')'; ?>
 <script>
-    title = 'Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)\n'.$title.'\n'.$description;
+    title = 'Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)\n<?php echo $title; ?>\n<?php echo $description ?>';
     $(document).ready(function() {
         $('#report').DataTable({
             dom: 'Bfrtip',
