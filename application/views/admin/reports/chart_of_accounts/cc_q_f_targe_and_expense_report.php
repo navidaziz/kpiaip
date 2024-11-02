@@ -76,7 +76,30 @@
     }
 </style>
 <div class="row">
+    <div class="col-md-12" style="padding:10px; text-align:right">
+<button class="milltion_converter btn btn-danger btn-sm" onclick="convertToMillions()">Convert to Millions</button>
+<a style="display:none" class="relaod_page btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR.'reports/cc_q_f_targe_and_expense_report') ?>" >Reload Data</a>
+</div>
 
+    <script>
+        function convertToMillions() {
+
+            // Get all elements with the class "values"
+            const valueElements = document.querySelectorAll('.values');
+
+            // Iterate through each element
+            valueElements.forEach(element => {
+                // Get the numerical value, parse it, and convert to millions
+                const value = parseFloat(element.innerText);
+                if (!isNaN(value)) {
+                    const millionValue = value / 1000000; // Convert to millions
+                    element.innerText = millionValue.toFixed(2); // Format to two decimal places and add 'M'
+                }
+            });
+            $('.milltion_converter').hide();
+            $('.relaod_page').show();
+        }
+    </script>
     <div class="col-md-12">
         <div style="background-color: white; padding:5px">
             <div class="table-responsive">
@@ -150,16 +173,18 @@
                         foreach ($component_categories as $component_category) { ?>
                         <tr>
                             <th><?php echo $component_category->category;  ?></th>
-                            <th><?php 
+                            <th class="values"><?php 
                             $query="SELECT SUM(material_cost) as total FROM `annual_work_plans` 
                                     WHERE component_category_id='".$component_category->component_category_id."';";
                             $f_budget = $this->db->query($query)->row();
                             if($f_budget){
-                                echo $f_budget->total;
+                                if($f_budget->total){
+                                echo round($f_budget->total,3);
+                                }
                             }      
                             ?></th>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                                <td><?php 
+                                <td class="values"><?php 
                                     $query="SELECT SUM(material_cost) as total FROM `annual_work_plans` 
                                             WHERE component_category_id='".$component_category->component_category_id."'
                                             AND financial_year_id = '".$financial_year->financial_year_id."';";
@@ -170,7 +195,7 @@
                                     ?>
                                 </td>
                                 <?php if($financial_year->status==1){ ?>
-                                    <th>
+                                    <th class="values">
                                         <?php 
                                         $year_start = date('Y',strtotime($financial_year->start_date));
                                         $query="SELECT SUM(gross_pay) as total FROM `expenses` 
@@ -183,7 +208,7 @@
                                         }      
                                         ?>
                                     </th>
-                                    <th><?php 
+                                    <th class="values"><?php 
                                         $year_start = date('Y',strtotime($financial_year->start_date));
                                         $query="SELECT SUM(gross_pay) as total FROM `expenses` 
                                         WHERE component_category_id='".$component_category->component_category_id."'
@@ -194,7 +219,7 @@
                                         echo $fy_q_expense->total;
                                         }      
                                         ?></th>
-                                    <th><?php 
+                                    <th class="values"><?php 
                                         $year_end = date('Y',strtotime($financial_year->end_date));
                                         $query="SELECT SUM(gross_pay) as total FROM `expenses` 
                                         WHERE component_category_id='".$component_category->component_category_id."'
@@ -205,7 +230,7 @@
                                         echo $fy_q_expense->total;
                                         }      
                                         ?></th>
-                                    <th><?php 
+                                    <th class="values"><?php 
                                         $year_end = date('Y',strtotime($financial_year->end_date));
                                         $query="SELECT SUM(gross_pay) as total FROM `expenses` 
                                         WHERE component_category_id='".$component_category->component_category_id."'
@@ -217,25 +242,20 @@
                                         }      
                                         ?></th>
                                 <?php } ?>
-                                <td>
-                                    <?php 
+                                <?php 
                                     $query="SELECT SUM(gross_pay) as total FROM `expenses` 
                                             WHERE component_category_id='".$component_category->component_category_id."'
                                             AND financial_year_id = '".$financial_year->financial_year_id."';";
-                                    $fy_expense = $this->db->query($query)->row();
-                                    if($fy_expense){
-                                        if($fy_expense->total>$fy_budget->total){
-                                            echo '<span style="color:red">'.$fy_expense->total.'</span>';
-                                        }else{
-                                          echo $fy_expense->total;  
-                                        }
-                                        
-                                    }      
+                                    $fy_expense = $this->db->query($query)->row(); ?>
+                                <td class="values" <?php if($fy_expense->total>$fy_budget->total){ ?> style="color:red" <?php  } ?> >
+                                    <?php if($fy_expense){
+                                          echo $fy_expense->total;
+                                        }      
                                     ?>
                                 </td>
                                  
                             <?php } ?>
-                            <th>
+                            <th class="values">
                                     <?php 
                                     $query="SELECT SUM(gross_pay) as total FROM `expenses` 
                                             WHERE component_category_id='".$component_category->component_category_id."';";
@@ -245,7 +265,8 @@
                                     }      
                                     ?>
                                 </th>
-                                <th><?php echo $f_budget->total-$total_expense->total; ?></th>
+                                <th class="values" <?php  if($total_expense->total>$f_budget->total){ ?> style="color:red" <?php } ?>>
+                                    <?php  echo $f_budget->total-$total_expense->total; ?></th>
                             <?php } ?>
                         </tr>
                     </tbody>
