@@ -76,10 +76,10 @@
     }
 </style>
 <div class="row">
-    <!-- <div class="col-md-12" style="padding:10px; text-align:right">
+    <div class="col-md-12" style="padding:10px; text-align:right">
 <button class="milltion_converter btn btn-danger btn-sm" onclick="convertToMillions()">Convert to Millions</button>
 <a style="display:none" class="relaod_page btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR.'reports/cc_q_f_targe_and_expense_report') ?>" >Reload Data</a>
-</div> -->
+</div>
 
     <script>
         function convertToMillions() {
@@ -319,7 +319,7 @@
         doc.defaultStyle.fontSize = 8;
 
         // Set page margins (2 points on each side)
-        doc.pageMargins = [2, 2, 2, 2];
+        doc.pageMargins = [1, 1, 1, 1];
 
         // Safely find the table and apply cell padding
         doc.content.forEach(function(contentItem) {
