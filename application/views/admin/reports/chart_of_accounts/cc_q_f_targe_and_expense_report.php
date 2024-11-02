@@ -140,13 +140,7 @@
                                     WHERE component_category_id='".$component_category->component_category_id."';";
                             $f_budget = $this->db->query($query)->row();
                             if($f_budget){
-                                 if ($f_budget->total !== null) {
-                                        $f_budget->total = round($f_budget->total);
-                                        } else {
-                                        // Handle the null case, e.g., set to 0 or another default value
-                                        $f_budget->total = 0; // or some other appropriate default
-                                        }
-                                echo round($f_budget->total,3);
+                                echo $f_budget->total;
                             }      
                             ?></th>
                             <?php foreach ($financial_years as $financial_year) { ?>
@@ -156,14 +150,7 @@
                                             AND financial_year_id = '".$financial_year->financial_year_id."';";
                                     $fy_budget = $this->db->query($query)->row();
                                     if($fy_budget){
-                                        if ($fy_budget->total !== null) {
-                                        $fy_budget->total = round($fy_budget->total);
-                                        } else {
-                                        // Handle the null case, e.g., set to 0 or another default value
-                                        $fy_budget->total = 0; // or some other appropriate default
-                                        }
-
-                                        echo round($f_budget->total,3);
+                                        echo $fy_budget->total;
                                     }      
                                     ?>
                                 </td>
@@ -177,7 +164,7 @@
                                         AND DATE(date) BETWEEN '".$year_start."-07-01' AND '".$year_start."-09-30';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                        echo round($fy_q_expense->total/1000000,3);
+                                        echo $fy_q_expense->total;
                                         }      
                                         ?>
                                     </th>
@@ -189,7 +176,7 @@
                                         AND DATE(date) BETWEEN '".$year_start."-10-01' AND '".$year_start."-12-31';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                       echo round($fy_q_expense->total/1000000,3);
+                                        echo $fy_q_expense->total;
                                         }      
                                         ?></th>
                                     <th><?php 
@@ -200,7 +187,7 @@
                                         AND DATE(date) BETWEEN '".$year_end."-01-01' AND '".$year_end."-03-31';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                        echo round($fy_q_expense->total/1000000,3);
+                                        echo $fy_q_expense->total;
                                         }      
                                         ?></th>
                                     <th><?php 
@@ -211,7 +198,7 @@
                                         AND DATE(date) BETWEEN '".$year_end."-04-01' AND '".$year_end."-06-30';";
                                         $fy_q_expense = $this->db->query($query)->row();
                                         if($fy_q_expense){
-                                        echo round($fy_q_expense->total/1000000,3);
+                                        echo $fy_q_expense->total;
                                         }      
                                         ?></th>
                                 <?php } ?>
@@ -222,24 +209,10 @@
                                             AND financial_year_id = '".$financial_year->financial_year_id."';";
                                     $fy_expense = $this->db->query($query)->row();
                                     if($fy_expense){
-
-                                        if ($fy_expense->total !== null) {
-                                        $fy_expense->total = round($fy_expense->total);
-                                        } else {
-                                        // Handle the null case, e.g., set to 0 or another default value
-                                        $fy_expense->total = 0; // or some other appropriate default
-                                        }
-                                        if ($fy_budget->total !== null) {
-                                        $fy_budget->total = round($fy_budget->total);
-                                        } else {
-                                        // Handle the null case, e.g., set to 0 or another default value
-                                        $fy_budget->total = 0; // or some other appropriate default
-                                        }
-
-                                        if(@round($fy_expense->total/1000000,2) > round($fy_budget->total,2) ){
-                                            echo '<span style="color:red">'.round(($fy_expense->total/1000000),3).'</span>';
+                                        if($fy_expense->total>$fy_budget->total){
+                                            echo '<span style="color:red">'.$fy_expense->total.'</span>';
                                         }else{
-                                          echo @round(($fy_expense->total/1000000),3); 
+                                          echo $fy_expense->total;  
                                         }
                                         
                                     }      
