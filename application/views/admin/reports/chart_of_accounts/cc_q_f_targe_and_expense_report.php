@@ -140,7 +140,13 @@
                                     WHERE component_category_id='".$component_category->component_category_id."';";
                             $f_budget = $this->db->query($query)->row();
                             if($f_budget){
-                                echo $f_budget->total;
+                                 if ($f_budget->total !== null) {
+                                        $f_budget->total = round($f_budget->total);
+                                        } else {
+                                        // Handle the null case, e.g., set to 0 or another default value
+                                        $f_budget->total = 0; // or some other appropriate default
+                                        }
+                                echo round($f_budget->total,3);
                             }      
                             ?></th>
                             <?php foreach ($financial_years as $financial_year) { ?>
@@ -150,7 +156,14 @@
                                             AND financial_year_id = '".$financial_year->financial_year_id."';";
                                     $fy_budget = $this->db->query($query)->row();
                                     if($fy_budget){
-                                        echo $fy_budget->total;
+                                        if ($fy_budget->total !== null) {
+                                        $fy_budget->total = round($fy_budget->total);
+                                        } else {
+                                        // Handle the null case, e.g., set to 0 or another default value
+                                        $fy_budget->total = 0; // or some other appropriate default
+                                        }
+
+                                        echo round($f_budget->total,3);
                                     }      
                                     ?>
                                 </td>
@@ -209,10 +222,24 @@
                                             AND financial_year_id = '".$financial_year->financial_year_id."';";
                                     $fy_expense = $this->db->query($query)->row();
                                     if($fy_expense){
-                                        if($fy_expense->total>$fy_budget->total){
+
+                                        if ($fy_expense->total !== null) {
+                                        $fy_expense->total = round($fy_expense->total);
+                                        } else {
+                                        // Handle the null case, e.g., set to 0 or another default value
+                                        $fy_expense->total = 0; // or some other appropriate default
+                                        }
+                                        if ($fy_budget->total !== null) {
+                                        $fy_budget->total = round($fy_budget->total);
+                                        } else {
+                                        // Handle the null case, e.g., set to 0 or another default value
+                                        $fy_budget->total = 0; // or some other appropriate default
+                                        }
+
+                                        if(@round($fy_expense->total/1000000,2) > round($fy_budget->total,2) ){
                                             echo '<span style="color:red">'.round(($fy_expense->total/1000000),3).'</span>';
                                         }else{
-                                          echo round(($fy_expense->total/1000000),3); 
+                                          echo @round(($fy_expense->total/1000000),3); 
                                         }
                                         
                                     }      
