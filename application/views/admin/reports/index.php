@@ -101,6 +101,9 @@
                     <li><small>
                            <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_component_expense_report') ?>">Expenses Conponent Categories  (Region and District) Wise Report</a>
                     </small></li>
+                    <li><small>
+                           <a target="_blank"  href="<?php echo site_url(ADMIN_DIR . 'reports/cc_q_f_targe_and_expense_report') ?>">Annual Budget and Expense</a>
+                    </small></li>
                    
                     
                 </ol>

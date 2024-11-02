@@ -22,6 +22,15 @@ class Reports extends Admin_Controller
         $this->data["view"] = ADMIN_DIR . "reports/index";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+    public function cc_q_f_targe_and_expense_report()
+    {
+        
+        $this->data["title"] = 'Annual Budget and Expense';
+        $this->data["description"] = 'Annual Budget and Expense Breakdown by Component Category';
+        $this->data["view"] = ADMIN_DIR . "reports/chart_of_accounts/cc_q_f_targe_and_expense_report";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
     
 
       public function fy_w_expense_summary()
