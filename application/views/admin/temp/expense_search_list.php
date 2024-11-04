@@ -57,7 +57,7 @@ $net_paid = 0;
                 <button onclick="correct_cheque(<?php echo $expense->expense_id ?>)">Add in Scheme</button>
                 <?php } ?>
                 <?php }else{
-                    echo 'Scheme and Expense category not matched. ';
+                    echo '<span style="color:red">Scheme and Expense category not matched.</span>';
                 } ?>
 
             </td>
