@@ -191,7 +191,7 @@ class Temp extends Admin_Controller
         
         $cheque_update = array(
             'component_category_id' => $component_category_id,
-            'remarks' =>  $expense->remarks.': Category Changed: '.$expense->remarks.": ",
+            'remarks' =>  $expense->remarks.': Category Changed: '.$expense->category.": ",
             'last_updated' => date('Y-m-d H:i:s')
         );
         
