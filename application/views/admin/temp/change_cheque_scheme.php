@@ -126,7 +126,7 @@
     <form id="remove_cheque" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 
         <?php echo form_hidden("expense_id", $expense->expense_id); ?>
-        <?php echo form_hidden("expense_id", $expense->scheme_id); ?>
+        <?php echo form_hidden("scheme_id", $expense->scheme_id); ?>
 
 
         <div class=" col-md-12" style="text-align: center;">
