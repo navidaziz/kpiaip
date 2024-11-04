@@ -49,12 +49,16 @@ $net_paid = 0;
             <td><?php echo $expense->installment; ?>
             </td>
             <td>
+                <?php if($expense->component_category_id==$scheme->component_category_id){ ?>
                 <?php if($expense->scheme_name){ ?>
                 <?php echo $expense->scheme_code; ?>
                 <button onclick="correct_cheque(<?php echo $expense->expense_id ?>)">Edit</button>
                 <?php }else{?>
                 <button onclick="correct_cheque(<?php echo $expense->expense_id ?>)">Add in Scheme</button>
                 <?php } ?>
+                <?php }else{
+                    echo 'Scheme and Expense category not matched. ';
+                } ?>
 
             </td>
         </tr>

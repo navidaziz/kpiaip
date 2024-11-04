@@ -52,9 +52,10 @@ class Temp extends Admin_Controller
             WHERE 
             (e.cheque = ? OR e.payee_name LIKE ? OR e.schemeName LIKE ? ) 
             AND e.district_id = ".$scheme->district_id."
-            AND e.component_category_id = ".$scheme->component_category_id."
+            
             LIMIT 200";
 
+            //AND e.component_category_id = ".$scheme->component_category_id."
 
             $expenses = $this->db->query($query, [$search, $search_param, $search_param])->result();
             $this->data["expenses"] = $expenses;
