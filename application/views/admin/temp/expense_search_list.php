@@ -57,7 +57,9 @@ $net_paid = 0;
                 <button onclick="correct_cheque(<?php echo $expense->expense_id ?>)">Add in Scheme</button>
                 <?php } ?>
                 <?php }else{
-                    echo '<span style="color:red">Scheme and Expense category not matched.</span>';
+                    echo "<small style='color:red'>Scheme and Expense category not matched.</small><br />
+                    <button onclick=\"get_change_chq_cetegory('".$expense->expense_id."')\">Change Cheque Category</button>
+                    ";
                 } ?>
 
             </td>
@@ -135,6 +137,24 @@ $net_paid = 0;
                 </div>
 
 <script>
+
+
+function get_change_chq_cetegory(expense_id) {
+
+    $.ajax({
+            method: "POST",
+            url: "<?php echo site_url(ADMIN_DIR . 'temp/get_change_chq_cetegory'); ?>",
+            data: {
+                expense_id: expense_id
+            },
+        })
+        .done(function(respose) {
+            $('#modal').modal('show');
+            $('#modal_title').html('Cheque Correction');
+            $('#modal_body').html(respose);
+        });
+}
+
 function correct_cheque(expense_id) {
 
     $.ajax({

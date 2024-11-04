@@ -164,4 +164,45 @@ class Temp extends Admin_Controller
     }
 
 
+    public function get_change_chq_cetegory(){
+        $expense_id = (int) $this->input->post('expense_id');
+                $query="SELECT *, s.scheme_name,
+                s.scheme_code, cc.category, d.district_name FROM expenses as e 
+                INNER JOIN component_categories as cc ON (cc.component_category_id = e.component_category_id)
+                INNER JOIN districts as d ON(d.district_id = e.district_id)
+                LEFT JOIN 
+                schemes AS s ON s.scheme_id = e.scheme_id
+                WHERE e.expense_id = ?";
+                $this->data['expense'] = $cheque =  $this->db->query($query,[$expense_id])->row();
+        $this->load->view(ADMIN_DIR . "temp/change_chq_cetegory_form", $this->data);
+    }
+
+    public function  update_cheque_category()
+    {
+        
+        
+
+        $component_category_id = (int) $this->input->post('component_category_id');
+        $expense_id = (int) $this->input->post('expense_id');
+                $query="SELECT e.*, cc.category FROM expenses as e 
+                INNER JOIN component_categories as cc ON (cc.component_category_id = e.component_category_id)
+                WHERE e.expense_id = ?";
+        $expense =  $this->db->query($query,[$expense_id])->row();
+        
+        $cheque_update = array(
+            'component_category_id' => $component_category_id,
+            'remarks' =>  $expense->remarks.': Category Changed: '.$expense->remarks.": ",
+            'last_updated' => date('Y-m-d H:i:s')
+        );
+        
+        $this->db->where('expense_id', $expense_id);
+        if ($this->db->update('expenses', $cheque_update)) {
+        echo "success";
+        } else {
+        echo  '<div class="alert alert-danger">Error while updating the record.<div>';
+        }
+
+    }
+
+
     }
