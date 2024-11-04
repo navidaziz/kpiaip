@@ -2,6 +2,10 @@
         onclick="$('#search_result').slideUp('slow', function() {$(this).html(''); }).slideDown('slow');">Clear Search
         Result <i class="fa fa-times" aria-hidden="true"></i></span>
 </h5>
+<?php 
+$gross_paid = 0;
+$net_paid = 0;
+?>
 <table class="table table-bordered ">
     <thead>
         <th>#</th>
@@ -21,7 +25,12 @@
     <tbody>
         <?php 
         if($expenses){
-        $count = 1; foreach ($expenses as $expense) : ?>
+            
+        $count = 1; 
+        foreach ($expenses as $expense){ 
+        $gross_paid+=$expense->gross_pay;
+        $net_paid+=$expense->net_pay;
+        ?>
         <tr>
             <td><?php echo $count++; ?></td>
             <td class="district"><?php echo $expense->district_name; ?></td>
@@ -49,13 +58,32 @@
 
             </td>
         </tr>
-        <?php endforeach; ?>
+        <?php } ?>
+        
         <?php }else{?>
         <tr>
             <td colspan="26" style="color: red;">Record Not Found</td>
         </tr>
         <?php } ?>
     </tbody>
+    <tfoot>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></h>
+            <th></th>
+            <th></th>
+            <th>Total: </th>
+            <th><?php echo $gross_paid; ?></th>
+            <th><?php echo $net_paid; ?></th>
+            <th></th>
+            <th></th>
+
+        </tr>
+    </tfoot>
 </table>
 
 <div style="text-align:center">
