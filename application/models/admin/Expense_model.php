@@ -141,19 +141,14 @@ class Expense_model extends MY_Model
     public function save_data($image_field = NULL)
     {
         $inputs = $this->inputs();
-        if($this->input->post("installment")){
+        if ($this->input->post("installment")) {
             $inputs['installment'] = $this->input->post("installment");
-            
         }
 
 
         $expense_id = $this->expense_model->save($inputs);
 
         return $this->update_balance_sheet($expense_id);
-
-        
-
-
     }
 
     public function update_data($sub_component_id, $image_field = NULL)
@@ -165,29 +160,40 @@ class Expense_model extends MY_Model
     }
 
 
-    private function update_balance_sheet($expense_id){
-            $query="SELECT * FROM expenses as e WHERE e.expense_id = '".$expense_id."'";
-            $expense = $this->db->query($query)->row();
-            $query="SELECT SUM(e.net_pay) as expense 
+    private function update_balance_sheet($expense_id)
+    {
+        $query = "SELECT * FROM expenses as e WHERE e.expense_id = '" . $expense_id . "'";
+        $expense = $this->db->query($query)->row();
+        $query = "SELECT SUM(e.net_pay) as expense 
                     FROM expenses as e 
-                    WHERE e.expense_id <= '".$expense_id."'";
-            $update = array();
-            $credit =  $this->db->query($query)->row();
-            $query="SELECT 
+                    WHERE e.expense_id <= '" . $expense_id . "'";
+        $update = array();
+        $credit =  $this->db->query($query)->row();
+        $query = "SELECT 
                 MAX(d.forex) AS forex, 
                 SUM(d.rs_total) AS total 
                 FROM 
                 donor_funds_released AS d 
                 WHERE 
-            d.date <= '".$expense->date."';";
-            $debit =  $this->db->query($query)->row();
-            $update['forex'] = $debit->forex;
-            $update['wb_balance_rs'] = $debit->total-$credit->expense;
-            $update['credit'] = $credit->expense;
-            $this->db->where("expense_id", $expense_id); 
-            $this->db->update("expenses", $update);
-            return $expense_id;
-        }
+            d.date <= '" . $expense->date . "';";
+        $debit =  $this->db->query($query)->row();
+        $update['forex'] = $debit->forex;
+        $update['wb_balance_rs'] = $debit->total - $credit->expense;
+
+        $query = "SELECT 
+                SUM(br.rs_total) AS total 
+                FROM 
+                budget_released AS br 
+                WHERE 
+            br.date <= '" . $expense->date . "';";
+        $ag_debit =  $this->db->query($query)->row();
+        $update['ag_balance_rs'] = $ag_debit->total - $credit->expense;
+
+        $update['credit'] = $credit->expense;
+        $this->db->where("expense_id", $expense_id);
+        $this->db->update("expenses", $update);
+        return $expense_id;
+    }
 
     private function inputs()
     {
@@ -239,11 +245,11 @@ class Expense_model extends MY_Model
         $inputs["net_pay"]  =  $this->input->post("net_pay");
         $inputs["created_by"] = $this->session->userdata("userId");
         $inputs["last_updated"] = date('Y-m-d H:i:s');
-        
-        $deduction = $inputs["whit_tax"]+$inputs["whst_tax"]+ $inputs["rdp_tax"]+$inputs["st_duty_tax"]+$inputs["kpra_tax"]+$inputs["gur_ret"]+$inputs["misc_deduction"]+$inputs["net_pay"];
 
-        if(round($inputs["gross_pay"])!=round($deduction)){
-            
+        $deduction = $inputs["whit_tax"] + $inputs["whst_tax"] + $inputs["rdp_tax"] + $inputs["st_duty_tax"] + $inputs["kpra_tax"] + $inputs["gur_ret"] + $inputs["misc_deduction"] + $inputs["net_pay"];
+
+        if (round($inputs["gross_pay"]) != round($deduction)) {
+
             echo '<div class="alert alert-danger">Error: Gross Paid must equal to Deductions + Net Paid<div>';
             exit();
         }

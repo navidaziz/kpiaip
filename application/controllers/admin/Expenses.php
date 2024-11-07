@@ -11,14 +11,14 @@ class Expenses extends Admin_Controller
 
         parent::__construct();
         $this->load->model("admin/expense_model");
-         $this->load->model("admin/scheme_model");
-        
+        $this->load->model("admin/scheme_model");
+
         $this->load->model("admin/water_user_association_model");
         $this->lang->load("water_user_associations", 'english');
         $this->lang->load("wua_members", 'english');
         $this->lang->load("schemes", 'english');
         $this->lang->load("system", 'english');
-       // $this->load->library('Php_Excel.php');     
+        // $this->load->library('Php_Excel.php');     
         //$this->output->enable_profiler(TRUE);
     }
     //---------------------------------------------------------------
@@ -29,7 +29,7 @@ class Expenses extends Admin_Controller
      */
     public function index($financial_year_id = 0)
     {
-ini_set('memory_limit', '1G');
+        ini_set('memory_limit', '1G');
         $financial_year_id = (int) $financial_year_id;
 
         if ($financial_year_id != 0) {
@@ -55,7 +55,7 @@ ini_set('memory_limit', '1G');
         $filter_month = $this->db->escape(date('m', strtotime($filter_date)));
         $filter_year = $this->db->escape(date('Y', strtotime($filter_date)));
 
-            $query = "SELECT  
+        $query = "SELECT  
     e.*, 
     fy.financial_year, 
     cc.category, 
@@ -76,15 +76,15 @@ LEFT JOIN
     component_categories AS cc ON cc.component_category_id = e.component_category_id
     LEFT JOIN schemes AS s ON(s.scheme_id = e.scheme_id)
     LEFT JOIN water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)";
-            
-            if($this->input->get('fy')){
-                if($this->input->get('fy')=='fy'){
-                    $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
-                }
-            }else{
-                $query .= " WHERE MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+
+        if ($this->input->get('fy')) {
+            if ($this->input->get('fy') == 'fy') {
+                $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
             }
-           
+        } else {
+            $query .= " WHERE MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+        }
+
         $expenses = $this->db->query($query)->result();
         $this->data["expenses"] = $expenses;
 
@@ -99,18 +99,18 @@ LEFT JOIN
         SUM(net_pay) as net_pay
         FROM expenses as e 
         INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
-        INNER JOIN districts as d ON(d.district_id = e.district_id) "; 
-        if($this->input->get('fy')){
-            if($this->input->get('fy')=='fy'){
-            $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
+        INNER JOIN districts as d ON(d.district_id = e.district_id) ";
+        if ($this->input->get('fy')) {
+            if ($this->input->get('fy') == 'fy') {
+                $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
             }
-            }else{
-                $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
-            }
+        } else {
+            $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+        }
         $expense_summary = $this->db->query($query)->row();
         $this->data["expense_summary"] = $expense_summary;
 
-        $query="SELECT component_category_id, category FROM `component_categories` where sub_component_id=22;";
+        $query = "SELECT component_category_id, category FROM `component_categories` where sub_component_id=22;";
         $taxes = $this->db->query($query)->result();
         $tax_paid = array();
         $taxes_ids = array();
@@ -122,15 +122,15 @@ LEFT JOIN
             INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
             INNER JOIN districts as d ON(d.district_id = e.district_id)
             WHERE e.component_category_id= '" . $tax->component_category_id . "' ";
-            
-            if($this->input->get('fy')){
-                if($this->input->get('fy')=='fy'){
+
+            if ($this->input->get('fy')) {
+                if ($this->input->get('fy') == 'fy') {
                     $query .= " AND e.financial_year_id = $financial_year->financial_year_id";
                 }
-            }else{
+            } else {
                 $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
             }
-            
+
 
             if ($this->db->query($query)->row()->net_pay) {
                 $tax_paid[$tax->category] = $this->db->query($query)->row()->net_pay;
@@ -179,8 +179,8 @@ LEFT JOIN
         AND cc.status=1
         
         ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
-        //AND c.component_id NOT IN(1,2,7)
-        $this->data['component_catagories'] = $this->db->query($query)->result();
+            //AND c.component_id NOT IN(1,2,7)
+            $this->data['component_catagories'] = $this->db->query($query)->result();
         } else {
             $query = "SELECT * FROM expenses WHERE expense_id = $expense_id";
             $expense = $this->db->query($query)->row();
@@ -189,12 +189,13 @@ LEFT JOIN
         INNER JOIN components as c ON(c.component_id = sc.component_id)
         AND cc.status=1
         ORDER BY c.component_id ASC, sc.sub_component_name ASC, cc.category ASC;";
-        
-        $this->data['component_catagories'] = $this->db->query($query)->result();
+
+            $this->data['component_catagories'] = $this->db->query($query)->result();
         }
+        $this->data['installments'] = NULL;
         $this->data['expense'] = $expense;
         $this->data['districts'] = $this->db->query('SELECT district_id, district_name, region FROM districts ORDER BY district_name ASC')->result();
-        
+
 
         $this->load->view(ADMIN_DIR . "expenses/expense_form", $this->data);
     }
@@ -209,9 +210,9 @@ LEFT JOIN
             } else {
                 $expense_id = $this->expense_model->update_data($expense_id);
             }
-            if($this->input->post("installment") and $this->input->post('scheme_id')){
+            if ($this->input->post("installment") and $this->input->post('scheme_id')) {
                 $scheme_id = (int) $this->input->post('scheme_id');
-                if($this->input->post("installment")=='1st'){
+                if ($this->input->post("installment") == '1st') {
                     $status['scheme_status'] = 'ICR-II';
                     if ($this->scheme_model->save($status, $scheme_id)) {
                         $log_inputs['operation'] = 'Payment 1st';
@@ -224,7 +225,7 @@ LEFT JOIN
                         $this->db->insert('scheme_logs', $log_inputs);
                     }
                 }
-                if($this->input->post("installment")=='2nd'){
+                if ($this->input->post("installment") == '2nd') {
                     $status['scheme_status'] = 'FCR';
                     if ($this->scheme_model->save($status, $scheme_id)) {
                         $log_inputs['operation'] = 'Payment 2nd';
@@ -237,7 +238,7 @@ LEFT JOIN
                         $this->db->insert('scheme_logs', $log_inputs);
                     }
                 }
-                if($this->input->post("installment")=='1st_2nd'){
+                if ($this->input->post("installment") == '1st_2nd') {
                     $status['scheme_status'] = 'FCR';
                     if ($this->scheme_model->save($status, $scheme_id)) {
                         $log_inputs['operation'] = 'Payment 1st_2nd';
@@ -249,9 +250,8 @@ LEFT JOIN
                         $log_inputs["last_updated"] = date('Y-m-d H:i:s');
                         $this->db->insert('scheme_logs', $log_inputs);
                     }
-
                 }
-                if($this->input->post("installment")=='Final'){
+                if ($this->input->post("installment") == 'Final') {
                     $status['scheme_status'] = 'Completed';
                     if ($this->scheme_model->save($status, $scheme_id)) {
                         $log_inputs['operation'] = 'Payment Final';
@@ -264,7 +264,6 @@ LEFT JOIN
                         $this->db->insert('scheme_logs', $log_inputs);
                     }
                 }
-                
             }
             if ($expense_id) {
                 echo "success";
@@ -735,7 +734,6 @@ LEFT JOIN
             $expense['net_pay'] = 0.00;
             //scheme fields are required
             $expense =  (object) $expense;
-            
         } else {
             $query = "SELECT * FROM expenses WHERE expense_id = $expense_id";
             $expense = $this->db->query($query)->row();
@@ -1080,8 +1078,8 @@ LEFT JOIN
     //             component_categories AS cc ON cc.component_category_id = e.component_category_id
     //             LEFT JOIN schemes AS s ON(s.scheme_id = e.scheme_id)
     //             LEFT JOIN water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)";
-            
-                    
+
+
     //             $expenses = $this->db->query($query)->result();
 
     //             $objPHPExcel = new PHPExcel();
@@ -1109,13 +1107,14 @@ LEFT JOIN
     //             $objWriter->save('php://output'); 
     //  }
 
-    
 
-    public function search_expenses(){
-      $search = $this->input->post('search');
-$search_param = "%{$search}%";  // Adding wildcards for LIKE search
 
-$query = "SELECT  
+    public function search_expenses()
+    {
+        $search = $this->input->post('search');
+        $search_param = "%{$search}%";  // Adding wildcards for LIKE search
+
+        $query = "SELECT  
     e.*, 
     fy.financial_year, 
     cc.category, 
@@ -1141,9 +1140,8 @@ LEFT JOIN
 WHERE 
     e.cheque = ? OR e.payee_name LIKE ? LIMIT 100";
 
-$expenses = $this->db->query($query, [$search, $search_param])->result();
-$this->data["expenses"] = $expenses;
-$this->load->view(ADMIN_DIR . "expenses/expense_search_list", $this->data);
+        $expenses = $this->db->query($query, [$search, $search_param])->result();
+        $this->data["expenses"] = $expenses;
+        $this->load->view(ADMIN_DIR . "expenses/expense_search_list", $this->data);
     }
-        
 }

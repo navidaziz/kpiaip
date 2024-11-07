@@ -18,8 +18,12 @@
         <div class="form-group">
             <label for="Purpose" class="col-md-4 control-label" style="">Purpose</label>
             <div class="col-md-8">
-                <input type="text" name="purpose" value="<?php echo $expense->purpose; ?>" id="purpose"
-                    class="form-control" style="" required="required" placeholder="Purpose">
+                <?php $purposes = array("Flood Mgt. Plan", "Operational Cost", "Programme Cost", "Rehabilitation"); ?>
+                <?php foreach ($purposes as $purpose) { ?>
+                    <input required <?php if ($expense->purpose == $purpose) { ?> checked <?php } ?> type="radio" name="purpose" id="purpose" value="<?php echo $purpose; ?>" />
+                    <?php echo $purpose; ?><span style="margin-left: 10px;"></span>
+                <?php } ?>
+
             </div>
         </div>
         <div class="form-group">
@@ -28,9 +32,9 @@
                 <select name="district_id" class="form-control searchable" required="">
                     <option value="">Select District</option>
                     <?php foreach ($districts as $district) { ?>
-                    <option <?php if ($district->district_id == $expense->district_id) { ?> selected <?php } ?>
-                        value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
-                        (<?php echo $district->region ?>)</option>
+                        <option <?php if ($district->district_id == $expense->district_id) { ?> selected <?php } ?>
+                            value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
+                            (<?php echo $district->region ?>)</option>
                     <?php } ?>
                 </select>
             </div>
@@ -43,16 +47,16 @@
                 <select name="component_category_id" class="form-control searchable" required="">
                     <option value="">Select Component Category</option>
                     <?php foreach ($component_catagories as $component_catagory) { ?>
-                    <option
-                        <?php if ($component_catagory->component_category_id == $expense->component_category_id) { ?>
-                        selected <?php } ?> value="<?php echo $component_catagory->component_category_id ?>">
+                        <option
+                            <?php if ($component_catagory->component_category_id == $expense->component_category_id) { ?>
+                            selected <?php } ?> value="<?php echo $component_catagory->component_category_id ?>">
 
-                        <?php echo $component_catagory->category ?>
-                        <?php echo $component_catagory->category_detail ?>
-                        <?php echo $component_catagory->main_heading ?>
+                            <?php echo $component_catagory->category ?>
+                            <?php echo $component_catagory->category_detail ?>
+                            <?php echo $component_catagory->main_heading ?>
 
-                        (<?php echo @$component_catagory->sub_component_name ?> -
-                        <?php echo @$component_catagory->component_name ?>)</option>
+                            (<?php echo @$component_catagory->sub_component_name ?> -
+                            <?php echo @$component_catagory->component_name ?>)</option>
                     <?php } ?>
                 </select>
             </div>
@@ -168,33 +172,33 @@
             </div>
         </div>
         <script>
-        function calculate_net_pay() {
-            var gross_pay = parseFloat($('#gross_pay').val()) || 0;
-            var whit_tax = parseFloat($('#whit_tax').val()) || 0;
-            var whst_tax = parseFloat($('#whst_tax').val()) || 0;
-            var st_duty_tax = parseFloat($('#st_duty_tax').val()) || 0;
-            var rdp_tax = parseFloat($('#rdp_tax').val()) || 0;
-            var misc_deduction = parseFloat($('#misc_deduction').val()) || 0;
-            var kpra_tax = parseFloat($('#kpra_tax').val()) || 0;
-            var gur_ret = parseFloat($('#gur_ret').val()) || 0;
+            function calculate_net_pay() {
+                var gross_pay = parseFloat($('#gross_pay').val()) || 0;
+                var whit_tax = parseFloat($('#whit_tax').val()) || 0;
+                var whst_tax = parseFloat($('#whst_tax').val()) || 0;
+                var st_duty_tax = parseFloat($('#st_duty_tax').val()) || 0;
+                var rdp_tax = parseFloat($('#rdp_tax').val()) || 0;
+                var misc_deduction = parseFloat($('#misc_deduction').val()) || 0;
+                var kpra_tax = parseFloat($('#kpra_tax').val()) || 0;
+                var gur_ret = parseFloat($('#gur_ret').val()) || 0;
 
-            var net_pay = gross_pay - whit_tax - whst_tax - st_duty_tax - rdp_tax - misc_deduction - kpra_tax - gur_ret;
-            $('#net_pay').val(net_pay);
+                var net_pay = gross_pay - whit_tax - whst_tax - st_duty_tax - rdp_tax - misc_deduction - kpra_tax - gur_ret;
+                $('#net_pay').val(net_pay);
 
-        }
+            }
         </script>
-        <?php if($installments){  ?>
-        <div class="form-group">
-            <label for="Net Paid" class="col-md-4 control-label" style="">Installments</label>
-            <div class="col-md-8"><?php 
-                foreach($installments as $installment){ ?>
-                <input <?php if($expense->installment==$installment){?> checked <?php } ?> required type="radio"
-                    name="installment" id="installment" value="<?php echo $installment; ?>" />
-                <?php echo $installment; ?>
-                <span style="margin-left: 10px;"></span>
-                <?php } ?>
+        <?php if ($installments) {  ?>
+            <div class="form-group">
+                <label for="Net Paid" class="col-md-4 control-label" style="">Installments</label>
+                <div class="col-md-8"><?php
+                                        foreach ($installments as $installment) { ?>
+                        <input <?php if ($expense->installment == $installment) { ?> checked <?php } ?> required type="radio"
+                            name="installment" id="installment" value="<?php echo $installment; ?>" />
+                        <?php echo $installment; ?>
+                        <span style="margin-left: 10px;"></span>
+                    <?php } ?>
+                </div>
             </div>
-        </div>
         <?php } ?>
         <div class="col-md-12" id="result_response">
         </div>
@@ -230,30 +234,30 @@
     </div>
 </form>
 <script>
-$('#data_form').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
+    $('#data_form').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
 
-    // Serialize form data
-    var formData = $(this).serialize();
+        // Serialize form data
+        var formData = $(this).serialize();
 
-    // Send AJAX request
-    $.ajax({
-        type: 'POST',
-        url: '<?php echo site_url(ADMIN_DIR . "expenses/add_expense") ?>', // URL to submit form data
-        data: formData,
-        success: function(response) {
-            // Display response
-            if (response == 'success') {
-                location.reload();
-            } else {
-                $('#result_response').html(response);
+        // Send AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo site_url(ADMIN_DIR . "expenses/add_expense") ?>', // URL to submit form data
+            data: formData,
+            success: function(response) {
+                // Display response
+                if (response == 'success') {
+                    location.reload();
+                } else {
+                    $('#result_response').html(response);
+                }
+
             }
-
-        }
+        });
     });
-});
 
-$('.searchable').selectize({
-    sortField: 'text'
-});
+    $('.searchable').selectize({
+        sortField: 'text'
+    });
 </script>
