@@ -1214,7 +1214,7 @@ class Water_user_associations extends Admin_Controller
 
         // Ordering
         if ($order) {
-            $sql .= " ORDER BY $order $dir";
+            $sql .= " ORDER BY scheme_name ASC, $order $dir";
         } else {
             $sql .= " ORDER BY scheme_name ASC";
         }
