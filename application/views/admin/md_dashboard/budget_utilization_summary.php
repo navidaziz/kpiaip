@@ -3,7 +3,7 @@ $start_time = microtime(true);
 
 // Sample financial year IDs
 $fy_ids = $this->input->post('fy_ids');
-//$fy_ids = array("4");
+$fy_ids = array("1", "2", "3", "4", "5", "6");
 // Fetch financial years from the database
 $query = "SELECT * FROM financial_years WHERE financial_year_id IN ? ORDER BY financial_year_id DESC";
 $financial_years = $this->db->query($query, array($fy_ids))->result_array();
