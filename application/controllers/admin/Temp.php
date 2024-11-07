@@ -14,19 +14,21 @@ class Temp extends Admin_Controller
         //$this->output->enable_profiler(TRUE);
     }
 
-    public function index(){
+    public function index()
+    {
         echo 'index';
     }
 
-    public function search_cheques(){
-            $scheme_id = (int) $this->input->post('scheme_id');
-            $query="SELECT * FROM schemes as s WHERE s.scheme_id = ?";
-            $scheme = $this->db->query($query, $scheme_id)->row();
-            $search = $this->input->post('search');
-            $this->data['search'] = $search;
-            $search_param = "%{$search}%";  // Adding wildcards for LIKE search
+    public function search_cheques()
+    {
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $query = "SELECT * FROM schemes as s WHERE s.scheme_id = ?";
+        $scheme = $this->db->query($query, $scheme_id)->row();
+        $search = $this->input->post('search');
+        $this->data['search'] = $search;
+        $search_param = "%{$search}%";  // Adding wildcards for LIKE search
 
-            $query = "SELECT  
+        $query = "SELECT  
             e.*, 
             fy.financial_year, 
             cc.category, 
@@ -51,34 +53,35 @@ class Temp extends Admin_Controller
             water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
             WHERE 
             (e.cheque = ? OR e.payee_name LIKE ? OR e.schemeName LIKE ? ) 
-            AND e.district_id = ".$scheme->district_id."
-            
+            AND e.district_id = " . $scheme->district_id . "
+            AND e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
             LIMIT 200";
 
-            //AND e.component_category_id = ".$scheme->component_category_id."
+        //AND e.component_category_id = ".$scheme->component_category_id."
 
-            $expenses = $this->db->query($query, [$search, $search_param, $search_param])->result();
-            $this->data["expenses"] = $expenses;
-            $this->data["scheme_id"] = $scheme_id;
-            $this->data["scheme"] = $scheme;
-            
-            $this->load->view(ADMIN_DIR . "temp/expense_search_list", $this->data);
-        }
+        $expenses = $this->db->query($query, [$search, $search_param, $search_param])->result();
+        $this->data["expenses"] = $expenses;
+        $this->data["scheme_id"] = $scheme_id;
+        $this->data["scheme"] = $scheme;
+
+        $this->load->view(ADMIN_DIR . "temp/expense_search_list", $this->data);
+    }
 
 
 
- public function change_cheque_scheme()  {
-                $expense_id = (int) $this->input->post('expense_id');
-                $query="SELECT *, s.scheme_name,
+    public function change_cheque_scheme()
+    {
+        $expense_id = (int) $this->input->post('expense_id');
+        $query = "SELECT *, s.scheme_name,
                 s.scheme_code, cc.category, d.district_name FROM expenses as e 
                 INNER JOIN component_categories as cc ON (cc.component_category_id = e.component_category_id)
                 INNER JOIN districts as d ON(d.district_id = e.district_id)
                 LEFT JOIN 
                 schemes AS s ON s.scheme_id = e.scheme_id
                 WHERE e.expense_id = ?";
-                $this->data['expense'] = $cheque =  $this->db->query($query,[$expense_id])->row();
-                $scheme_id = (int) $this->input->post('scheme_id');
-                 $query="SELECT s.*, cc.category, d.district_name,
+        $this->data['expense'] = $cheque =  $this->db->query($query, [$expense_id])->row();
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $query = "SELECT s.*, cc.category, d.district_name,
                  wua.wua_name,
                  wua.cm_name
                  FROM schemes as s 
@@ -86,23 +89,23 @@ class Temp extends Admin_Controller
                  INNER JOIN districts as d ON(d.district_id = s.district_id)
                  INNER JOIN water_user_associations as wua ON(wua.water_user_association_id = s.water_user_association_id)
                  WHERE s.scheme_id = ?";
-                $this->data['scheme'] = $this->db->query($query, $scheme_id)->row();
-                $wua_id = (int) $this->input->post('wua_id');
+        $this->data['scheme'] = $this->db->query($query, $scheme_id)->row();
+        $wua_id = (int) $this->input->post('wua_id');
 
-                
-                $this->load->view(ADMIN_DIR . "temp/change_cheque_scheme", $this->data);
-            } 
 
-   public function update_cheque_scheme()
+        $this->load->view(ADMIN_DIR . "temp/change_cheque_scheme", $this->data);
+    }
+
+    public function update_cheque_scheme()
     {
         $scheme_id = (int) $this->input->post('scheme_id');
-         $scheme_data = array(
+        $scheme_data = array(
             'updated_by' =>  $this->session->userdata("userId"),
             'last_updated' => date('Y-m-d H:i:s')
         );
         $this->db->where('scheme_id', $scheme_id);
         $this->db->update('schemes', $scheme_data);
-        
+
         $expense_id = (int) $this->input->post('expense_id');
         $installment = $this->input->post('installment');
         $remarks = $this->input->post('remarks');
@@ -116,16 +119,15 @@ class Temp extends Admin_Controller
         );
         $this->db->where('expense_id', $expense_id);
         if ($this->db->update('expenses', $data)) {
-        echo "success";
+            echo "success";
         } else {
-        echo  '<div class="alert alert-danger">Error while updating the record.<div>';
+            echo  '<div class="alert alert-danger">Error while updating the record.<div>';
         }
-
     }
 
-     public function  remove_cheque_scheme()
+    public function  remove_cheque_scheme()
     {
-        
+
         $scheme_id = (int) $this->input->post('scheme_id');
         $scheme_data = array(
             'scheme_status' => 'Par-Completed',
@@ -143,66 +145,62 @@ class Temp extends Admin_Controller
         );
         $this->db->where('expense_id', $expense_id);
         if ($this->db->update('expenses', $data)) {
-        echo "success";
+            echo "success";
         } else {
-        echo  '<div class="alert alert-danger">Error while updating the record.<div>';
+            echo  '<div class="alert alert-danger">Error while updating the record.<div>';
         }
-
     }
 
-    public function add_scheme_note(){
-         $scheme_id = (int) $this->input->post('scheme_id');
-         $this->db->where('scheme_id', $scheme_id);
-         $input['scheme_note'] = $this->input->post('scheme_note');
-         if($this->db->update('schemes', $input)){
+    public function add_scheme_note()
+    {
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $this->db->where('scheme_id', $scheme_id);
+        $input['scheme_note'] = $this->input->post('scheme_note');
+        if ($this->db->update('schemes', $input)) {
             echo 'scheme note update';
-         }else{
+        } else {
             echo 'Error while updating';
-         }
-
-
+        }
     }
 
 
-    public function get_change_chq_cetegory(){
+    public function get_change_chq_cetegory()
+    {
         $expense_id = (int) $this->input->post('expense_id');
-                $query="SELECT *, s.scheme_name,
+        $query = "SELECT *, s.scheme_name,
                 s.scheme_code, cc.category, d.district_name FROM expenses as e 
                 INNER JOIN component_categories as cc ON (cc.component_category_id = e.component_category_id)
                 INNER JOIN districts as d ON(d.district_id = e.district_id)
                 LEFT JOIN 
                 schemes AS s ON s.scheme_id = e.scheme_id
                 WHERE e.expense_id = ?";
-                $this->data['expense'] = $cheque =  $this->db->query($query,[$expense_id])->row();
+        $this->data['expense'] = $cheque =  $this->db->query($query, [$expense_id])->row();
         $this->load->view(ADMIN_DIR . "temp/change_chq_cetegory_form", $this->data);
     }
 
     public function  update_cheque_category()
     {
-        
-        
+
+
 
         $component_category_id = (int) $this->input->post('component_category_id');
         $expense_id = (int) $this->input->post('expense_id');
-                $query="SELECT e.*, cc.category FROM expenses as e 
+        $query = "SELECT e.*, cc.category FROM expenses as e 
                 INNER JOIN component_categories as cc ON (cc.component_category_id = e.component_category_id)
                 WHERE e.expense_id = ?";
-        $expense =  $this->db->query($query,[$expense_id])->row();
-        
+        $expense =  $this->db->query($query, [$expense_id])->row();
+
         $cheque_update = array(
             'component_category_id' => $component_category_id,
-            'remarks' =>  $expense->remarks.': Category Changed: '.$expense->category.": ",
+            'remarks' =>  $expense->remarks . ': Category Changed: ' . $expense->category . ": ",
             'last_updated' => date('Y-m-d H:i:s')
         );
-        
+
         $this->db->where('expense_id', $expense_id);
         if ($this->db->update('expenses', $cheque_update)) {
-        echo "success";
+            echo "success";
         } else {
-        echo  '<div class="alert alert-danger">Error while updating the record.<div>';
+            echo  '<div class="alert alert-danger">Error while updating the record.<div>';
         }
-
     }
-
-
-    }
+}
