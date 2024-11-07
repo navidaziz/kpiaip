@@ -55,6 +55,7 @@ class Temp extends Admin_Controller
             (e.cheque = ? OR e.payee_name LIKE ? OR e.schemeName LIKE ? ) 
             AND e.district_id = " . $scheme->district_id . "
             AND e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+            ORDER BY d.district_id, e.component_category_id ASC, e.date ASC
             LIMIT 200";
 
         //AND e.component_category_id = ".$scheme->component_category_id."
