@@ -5,6 +5,13 @@
 
 
         <div class="col-md-6">
+            <div class="form-group row">
+                <label for="feasibility_date" class="col-sm-6 col-form-label">Feasibility Date</label>
+                <div class="col-sm-6">
+                    <input type="date" required id="feasibility_date" name="feasibility_date"
+                        value="<?php echo $input->feasibility_date; ?>" class="form-control">
+                </div>
+            </div>
             <div class="box border blue" id="messenger" style="padding: 5px;">
                 <div class="form-group row">
                     <label for="survey_date" class="col-sm-6 col-form-label">Survey Date</label>
@@ -20,13 +27,15 @@
                             value="<?php echo $input->design_date; ?>" class="form-control">
                     </div>
                 </div>
+
                 <div class="form-group row">
-                    <label for="feasibility_date" class="col-sm-6 col-form-label">Feasibility Date</label>
+                    <label for="technical_sanction_date" class="col-sm-6 col-form-label">Technical Sanction Date</label>
                     <div class="col-sm-6">
-                        <input type="date" required id="feasibility_date" name="feasibility_date"
-                            value="<?php echo $input->feasibility_date; ?>" class="form-control">
+                        <input type="date" required id="technical_sanction_date" name="technical_sanction_date"
+                            value="<?php echo $input->technical_sanction_date; ?>" class="form-control">
                     </div>
                 </div>
+
                 <div class="form-group row">
                     <label for="work_order_date" class="col-sm-6 col-form-label">Work Order Date</label>
                     <div class="col-sm-6">
@@ -59,24 +68,18 @@
                             value="<?php echo $input->estimated_cost_date; ?>" class="form-control">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="technical_sanction_date" class="col-sm-6 col-form-label">Technical Sanction Date</label>
-                    <div class="col-sm-6">
-                        <input type="date" required id="technical_sanction_date" name="technical_sanction_date"
-                            value="<?php echo $input->technical_sanction_date; ?>" class="form-control">
-                    </div>
-                </div>
+
                 <div class="form-group row">
                     <label for="verified_by_tpv" class="col-sm-6 col-form-label">Verified By TPV</label>
                     <div class="col-sm-6">
-                        <?php 
+                        <?php
                         $options['Yes'] = 'Yes';
                         $options['No'] = 'No';
-                        foreach($options as $index => $value){
+                        foreach ($options as $index => $value) {
                         ?>
-                        <input <?php if($input->verified_by_tpv == $index){?> checked <?php } ?> type="radio" required
-                            id="verified_by_tpv" name="verified_by_tpv" value="<?php echo $value; ?>" />
-                        <?php echo $value; ?><span style="margin-left: 10px;"></span>
+                            <input <?php if ($input->verified_by_tpv == $index) { ?> checked <?php } ?> type="radio" required
+                                id="verified_by_tpv" name="verified_by_tpv" value="<?php echo $value; ?>" />
+                            <?php echo $value; ?><span style="margin-left: 10px;"></span>
                         <?php } ?>
                     </div>
                 </div>
@@ -89,17 +92,17 @@
                 <div class="form-group row">
                     <label for="funding_source" class="col-sm-4 col-form-label">Funding Source</label>
                     <div class="col-sm-8">
-                        <?php 
-                        $options=array();
+                        <?php
+                        $options = array();
                         $options['KPIAIP'] = 'KPIAIP';
-                        $options['World Bank'] = 'World Bank';
-                        $options['Project Funds'] = 'Project Funds';
-                        
-                        foreach($options as $index => $value){
+                        //$options['World Bank'] = 'World Bank';
+                        //$options['Project Funds'] = 'Project Funds';
+
+                        foreach ($options as $index => $value) {
                         ?>
-                        <input <?php if($input->funding_source == $index){?> checked <?php } ?> type="radio" required
-                            id="funding_source" name="funding_source" value="<?php echo $value; ?>" />
-                        <?php echo $value; ?><span style="margin-left: 10px;"></span>
+                            <input <?php if ($input->funding_source == $index) { ?> checked <?php } ?> type="radio" required
+                                id="funding_source" name="funding_source" value="<?php echo $value; ?>" />
+                            <?php echo $value; ?><span style="margin-left: 10px;"></span>
                         <?php } ?>
                     </div>
                 </div>
@@ -107,37 +110,37 @@
                 <div class="form-group row">
                     <label for="water_source" class="col-sm-4 col-form-label">Water Source</label>
                     <div class="col-sm-8">
-                        <?php 
+                        <?php
                         $options = [
-                        'Mangal Stream',
-                        'Beer Katha',
-                        'Bore Well',
-                        'Spring',
-                        'Spring/Bore Well',
-                        'Stream',
-                        'Water Storage Tank (WST)',
-                        'Stream (Lift Pump)',
-                        'Solar Tube Well',
-                        'Tube Well',
-                        'Tube Well (TW)',
-                        'Civil Canal',
-                        'Tube Well/Watercourse (TW/WC)',
-                        'Lift Irrigation (L/Irrigation)',
-                        'Water Storage Tank/Watercourse (WST/WC)',
-                        'Dug Well',
-                        'Pressure Pump',
-                        'Natural Spring',
-                        'Water Tank',
-                        'Bama Lift Canal',
-                        'Tube Well + Canal',
-                        'River'
+                            'Mangal Stream',
+                            'Beer Katha',
+                            'Bore Well',
+                            'Spring',
+                            'Spring/Bore Well',
+                            'Stream',
+                            'Water Storage Tank (WST)',
+                            'Stream (Lift Pump)',
+                            'Solar Tube Well',
+                            'Tube Well',
+                            'Tube Well (TW)',
+                            'Civil Canal',
+                            'Tube Well/Watercourse (TW/WC)',
+                            'Lift Irrigation (L/Irrigation)',
+                            'Water Storage Tank/Watercourse (WST/WC)',
+                            'Dug Well',
+                            'Pressure Pump',
+                            'Natural Spring',
+                            'Water Tank',
+                            'Bama Lift Canal',
+                            'Tube Well + Canal',
+                            'River'
                         ];
                         ?>
                         <select required class="form-control" id="water_source" name="water_source">
                             <option value="">Select Water Source</option>
-                            <?php  foreach($options as $index => $value){ ?>
-                            <option <?php if($input->water_source == $value){?> selected <?php } ?>
-                                value="<?php echo $value; ?>"><?php echo $value; ?></option>
+                            <?php foreach ($options as $index => $value) { ?>
+                                <option <?php if ($input->water_source == $value) { ?> selected <?php } ?>
+                                    value="<?php echo $value; ?>"><?php echo $value; ?></option>
                             <?php } ?>
                         </select>
 
@@ -266,40 +269,40 @@
                 <div class="form-group row">
                     <label for="type_of_lining" class="col-sm-4 col-form-label">Type Of Lining</label>
                     <div class="col-sm-8">
-                        <?php 
+                        <?php
                         $liningTypes = [
-                        'Brick Lining',
-                        'Bricks',
-                        'Bricks Lining',
-                        'HDPE Pipe',
-                        'HDPE Pipe 4" Dia',
-                        'HDPE Pipe & PCC',
-                        'HDPE Pipe PN8',
-                        'HDPE Pipe PN8 110mm',
-                        'HDPE Pipe PN8 90mm',
-                        'HDPE PN8 Pipe 90mm',
-                        'MS Pipe',
-                        'None',
-                        'PCC + Pipe Lining',
-                        'Pipe',
-                        'Pipe Lining',
-                        'Plum Concrete',
-                        'Precast Concrete Pipes (PCPS)',
-                        'PVC',
-                        'Plain Cement Concrete (PCC)',
-                        'Water Storage Tank (WST)',
-                        'WST (8.25x8.25x1.4) m',
-                        'WST (8.5x8.5x1.4) m',
-                        'WST (9x9x1.4) m',
-                        'WST (10x10x1.4) m'
+                            'Brick Lining',
+                            'Bricks',
+                            'Bricks Lining',
+                            'HDPE Pipe',
+                            'HDPE Pipe 4" Dia',
+                            'HDPE Pipe & PCC',
+                            'HDPE Pipe PN8',
+                            'HDPE Pipe PN8 110mm',
+                            'HDPE Pipe PN8 90mm',
+                            'HDPE PN8 Pipe 90mm',
+                            'MS Pipe',
+                            'None',
+                            'PCC + Pipe Lining',
+                            'Pipe',
+                            'Pipe Lining',
+                            'Plum Concrete',
+                            'Precast Concrete Pipes (PCPS)',
+                            'PVC',
+                            'Plain Cement Concrete (PCC)',
+                            'Water Storage Tank (WST)',
+                            'WST (8.25x8.25x1.4) m',
+                            'WST (8.5x8.5x1.4) m',
+                            'WST (9x9x1.4) m',
+                            'WST (10x10x1.4) m'
                         ];
 
                         ?>
                         <select required class="form-control" id="type_of_lining" name="type_of_lining">
                             <option value="">Select Water Source</option>
-                            <?php  foreach($liningTypes as $index => $value){ ?>
-                            <option <?php if($input->type_of_lining == $value){?> selected <?php } ?>
-                                value="<?php echo $value; ?>"><?php echo $value; ?></option>
+                            <?php foreach ($liningTypes as $index => $value) { ?>
+                                <option <?php if ($input->type_of_lining == $value) { ?> selected <?php } ?>
+                                    value="<?php echo $value; ?>"><?php echo $value; ?></option>
                             <?php } ?>
                         </select>
 
@@ -349,31 +352,31 @@
     <div class="form-group row" style="text-align:center">
         <div id="result_response"></div>
         <?php if ($input->scheme_id == 0) { ?>
-        <button type="submit" class="btn btn-primary">Add Data</button>
-        <?php }else{ ?>
-        <button type="submit" class="btn btn-primary">Update Data</button>
+            <button type="submit" class="btn btn-primary">Add Data</button>
+        <?php } else { ?>
+            <button type="submit" class="btn btn-primary">Update Data</button>
         <?php } ?>
     </div>
 </form>
 </div>
 
 <script>
-$('#schemes').submit(function(e) {
-    e.preventDefault();
-    var formData = $(this).serialize();
-    $.ajax({
-        type: 'POST',
-        url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/initiate_scheme"); ?>', // URL to submit form data
-        data: formData,
-        success: function(response) {
-            // Display response
-            if (response == 'success') {
-                location.reload();
-            } else {
-                $('#result_response').html(response);
-            }
+    $('#schemes').submit(function(e) {
+        e.preventDefault();
+        var formData = $(this).serialize();
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/initiate_scheme"); ?>', // URL to submit form data
+            data: formData,
+            success: function(response) {
+                // Display response
+                if (response == 'success') {
+                    location.reload();
+                } else {
+                    $('#result_response').html(response);
+                }
 
-        }
+            }
+        });
     });
-});
 </script>
