@@ -5,14 +5,15 @@
 
 
         <div class="col-md-6">
-            <div class="form-group row">
-                <label for="feasibility_date" class="col-sm-6 col-form-label">Feasibility Date</label>
-                <div class="col-sm-6">
-                    <input type="date" required id="feasibility_date" name="feasibility_date"
-                        value="<?php echo $input->feasibility_date; ?>" class="form-control">
-                </div>
-            </div>
+
             <div class="box border blue" id="messenger" style="padding: 5px;">
+                <div class="form-group row">
+                    <label for="feasibility_date" class="col-sm-6 col-form-label">Feasibility Date</label>
+                    <div class="col-sm-6">
+                        <input type="date" required id="feasibility_date" name="feasibility_date"
+                            value="<?php echo $input->feasibility_date; ?>" class="form-control">
+                    </div>
+                </div>
                 <div class="form-group row">
                     <label for="survey_date" class="col-sm-6 col-form-label">Survey Date</label>
                     <div class="col-sm-6">
@@ -90,8 +91,8 @@
 
             <div class="box border blue" id="messenger" style="padding: 5px;">
                 <div class="form-group row">
-                    <label for="funding_source" class="col-sm-4 col-form-label">Funding Source</label>
-                    <div class="col-sm-8">
+                    <label for="funding_source" class="col-sm-6 col-form-label">Funding Source</label>
+                    <div class="col-sm-6">
                         <?php
                         $options = array();
                         $options['KPIAIP'] = 'KPIAIP';
