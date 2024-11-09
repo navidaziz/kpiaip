@@ -181,7 +181,7 @@
                         <?php } ?>
 
                         <th>Total</th>
-                        <th>Completed (As Per Finance Data)</th>
+                        <th>Completed (Finance Data)</th>
                     </tr>
                     <?php
                     // Query all component categories
@@ -244,7 +244,7 @@
                                                             // Total for this category across all scheme statuses
                                                             $query = "SELECT COUNT(*) as total FROM expenses as e
                           WHERE e.component_category_id = $category->component_category_id
-                          AND e.installment = 'Final' ";
+                          AND e.installment = 'Final' ";
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
@@ -304,7 +304,7 @@
                                                         // Grand total for all categories and statuses
                                                         $query = "SELECT COUNT(*) as total FROM expenses as e 
                       WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                      AND installment = 'Final'";
+                      AND installment = 'Final'";
                                                         if ($district_id) {
                                                             $query .= " AND e.district_id = $district_id";
                                                         }
