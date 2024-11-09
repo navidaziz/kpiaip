@@ -913,7 +913,7 @@
                                     </th>
                                     <th>
                                         <!-- <button onclick="change_cheque_schem(<?php echo $expense->expense_id ?>)">Change</button> -->
-                                        <?php $expense->installment; ?>
+                                        <?php echo $expense->installment; ?>
                                     </th>
                                 </tr>
                             <?php endforeach; ?>
