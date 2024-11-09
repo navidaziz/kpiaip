@@ -414,7 +414,7 @@
                                                             $query = "SELECT COUNT(*) as total FROM schemes as s 
                                                             WHERE s.financial_year_id = $fy->financial_year_id
                                                             AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                                                            AND scheme_status = 'Completed'";
+                                                            AND scheme_status IN ('Completed', 'Par-Completed') ";
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
@@ -431,7 +431,7 @@
                                                             }
                                                             echo $finance_completed  = $this->db->query($query)->row()->total;
                                                             ?></th>
-                            <th style="text-align: center;"><?php echo $finance_completed - $sft_completed; ?></th>
+                            <th style="text-align: center;"><?php echo  $sft_completed - $finance_completed; ?></th>
 
                         </tr>
                     <?php } ?>
@@ -478,7 +478,7 @@
                                                         // Grand total for all categories and statuses
                                                         $query = "SELECT COUNT(*) as total FROM schemes as s 
                       WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                      AND scheme_status = 'Completed'";
+                      AND scheme_status IN ('Completed', 'Par-Completed') ";
                                                         if ($district_id) {
                                                             $query .= " AND district_id = $district_id";
                                                         }
@@ -494,7 +494,7 @@
                                                         }
                                                         echo $finance_completed_total = $this->db->query($query)->row()->total;
                                                         ?></th>
-                        <th style="text-align:center"><?php echo $finance_completed_total - $sft_completed_total; ?></th>
+                        <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
                     </tr>
                 </table>
 
