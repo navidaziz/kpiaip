@@ -277,18 +277,18 @@
                             echo $cat_cheques->total;
                             ?>
                         </th>
-                        <th>
-                            <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                        <?php $query = "SELECT COUNT(*) as total FROM expenses as e
                                                 WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
                                                  AND e.scheme_id IS NULL";
-                            if ($district_id) {
-                                $query .= " AND e.district_id = $district_id";
-                            }
-                            $cat_not_user_cheques = $this->db->query($query)->row();
-                            echo $cat_not_user_cheques->total;
-                            ?>
-                        </th>
+                        if ($district_id) {
+                            $query .= " AND e.district_id = $district_id";
+                        }
+                        $cat_not_user_cheques = $this->db->query($query)->row();
+
+                        ?>
+
                         <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
+                        <th><?php echo $cat_not_user_cheques->total; ?></th>
                         <th></th>
                         <?php
                         // Total for each scheme status across all component categories
@@ -447,18 +447,18 @@
                             echo $cat_cheques->total;
                             ?>
                         </th>
-                        <th>
-                            <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                        <?php $query = "SELECT COUNT(*) as total FROM expenses as e
                                                 WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
                                                  AND e.scheme_id IS NULL";
-                            if ($district_id) {
-                                $query .= " AND e.district_id = $district_id";
-                            }
-                            $cat_not_user_cheques = $this->db->query($query)->row();
-                            echo $cat_not_user_cheques->total;
-                            ?>
-                        </th>
+                        if ($district_id) {
+                            $query .= " AND e.district_id = $district_id";
+                        }
+                        $cat_not_user_cheques = $this->db->query($query)->row();
+
+                        ?>
+
                         <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
+                        <th><?php echo $cat_not_user_cheques->total; ?></th>
                         <th></th>
                         <?php
                         // Total for each scheme status across all component categories
