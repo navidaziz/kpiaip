@@ -240,6 +240,17 @@
                                                             }
                                                             echo $this->db->query($query)->row()->total;
                                                             ?></th>
+                            <th style="text-align: center;"><?php
+                                                            // Total for this category across all scheme statuses
+                                                            $query = "SELECT COUNT(*) as total FROM expenses as e
+                          WHERE e.component_category_id = $category->component_category_id
+                          AND installment = 'Final'";
+                                                            if ($district_id) {
+                                                                $query .= " AND district_id = $district_id";
+                                                            }
+                                                            echo $this->db->query($query)->row()->total;
+                                                            ?></th>
+
                         </tr>
                     <?php } ?>
                     <tr>
@@ -292,7 +303,8 @@
                         <th style="text-align: center;"><?php
                                                         // Grand total for all categories and statuses
                                                         $query = "SELECT COUNT(*) as total FROM expenses as e 
-                      WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                      WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                      AND installment = 'Final'";
                                                         if ($district_id) {
                                                             $query .= " AND e.district_id = $district_id";
                                                         }
