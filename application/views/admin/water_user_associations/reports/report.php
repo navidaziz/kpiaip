@@ -243,7 +243,8 @@
                             <th style="text-align: center;"><?php
                                                             // Total for this category across all scheme statuses
                                                             $query = "SELECT COUNT(*) as total FROM schemes as s 
-                          WHERE s.component_category_id = $category->component_category_id";
+                          WHERE s.component_category_id = $category->component_category_id
+                           AND scheme_status = 'Completed' ";
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
@@ -306,7 +307,8 @@
                         <th style="text-align: center;"><?php
                                                         // Grand total for all categories and statuses
                                                         $query = "SELECT COUNT(*) as total FROM schemes as s 
-                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                      AND scheme_status = 'Completed' ";
                                                         if ($district_id) {
                                                             $query .= " AND district_id = $district_id";
                                                         }
@@ -411,7 +413,8 @@
                                                             // Total for this category across all scheme statuses
                                                             $query = "SELECT COUNT(*) as total FROM schemes as s 
                                                             WHERE s.financial_year_id = $fy->financial_year_id
-                                                            AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                                                            AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                            AND scheme_status = 'Completed'";
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
@@ -474,7 +477,8 @@
                         <th style="text-align: center;"><?php
                                                         // Grand total for all categories and statuses
                                                         $query = "SELECT COUNT(*) as total FROM schemes as s 
-                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                      AND scheme_status = 'Completed'";
                                                         if ($district_id) {
                                                             $query .= " AND district_id = $district_id";
                                                         }
