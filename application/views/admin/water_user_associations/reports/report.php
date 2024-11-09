@@ -244,7 +244,7 @@
                                                             // Total for this category across all scheme statuses
                                                             $query = "SELECT COUNT(*) as total FROM expenses as e
                           WHERE e.component_category_id = $category->component_category_id
-                          AND installment = 'Final'";
+                          AND e.installment = 'Final' ";
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
