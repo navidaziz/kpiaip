@@ -168,8 +168,9 @@
                         <th>Component Category</th>
                         <th>Detail</th>
                         <th>Cheques Total</th>
+                        <th>Cheques Corrected</th>
                         <th>Cheques Free</th>
-                        <th>Cheques Used</th>
+
                         <?php
                         // Query all scheme statuses to use as headers for transposed columns
                         //$query = "SELECT scheme_status FROM schemes GROUP BY scheme_status";
@@ -178,7 +179,9 @@
                         foreach ($schemes_status as $scheme_status) { ?>
                             <th style="text-align: center;"><?php echo $scheme_status; ?></th>
                         <?php } ?>
+
                         <th>Total</th>
+                        <th>Completed (As Per Finance Data)</th>
                     </tr>
                     <?php
                     // Query all component categories
@@ -201,18 +204,20 @@
                                 echo $cat_cheques->total;
                                 ?>
                             </th>
-                            <th>
-                                <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                            <?php $query = "SELECT COUNT(*) as total FROM expenses as e
                                                 WHERE e.component_category_id = $category->component_category_id
                                                 AND e.scheme_id IS NULL";
-                                if ($district_id) {
-                                    $query .= " AND e.district_id = $district_id";
-                                }
-                                $cat_not_user_cheques = $this->db->query($query)->row();
-                                echo $cat_not_user_cheques->total;
-                                ?>
-                            </th>
+                            if ($district_id) {
+                                $query .= " AND e.district_id = $district_id";
+                            }
+                            $cat_not_user_cheques = $this->db->query($query)->row();
+
+                            ?>
                             <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
+                            <th>
+                                <?php echo $cat_not_user_cheques->total; ?>
+                            </th>
+
                             <?php
                             // Populate cell values for each scheme status
                             foreach ($schemes_status as $scheme_status) { ?>
@@ -281,6 +286,15 @@
                       WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
                                                         if ($district_id) {
                                                             $query .= " AND district_id = $district_id";
+                                                        }
+                                                        echo $this->db->query($query)->row()->total;
+                                                        ?></th>
+                        <th style="text-align: center;"><?php
+                                                        // Grand total for all categories and statuses
+                                                        $query = "SELECT COUNT(*) as total FROM expenses as e 
+                      WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                                                        if ($district_id) {
+                                                            $query .= " AND e.district_id = $district_id";
                                                         }
                                                         echo $this->db->query($query)->row()->total;
                                                         ?></th>
