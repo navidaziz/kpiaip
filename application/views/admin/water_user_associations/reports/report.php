@@ -61,8 +61,7 @@
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $description;
-                                                ?></div>
+                    <div class="description"><?php echo $description; ?></div>
                 </div>
 
                 <div class="col-md-9">
@@ -165,23 +164,31 @@
 
                 <table class="table table-bordered table_small">
                     <tr>
-                        <th>Component Category</th>
-                        <th>Detail</th>
-                        <th>Cheques Total</th>
-                        <th>Cheques Corrected</th>
-                        <th>Cheques Free</th>
+                        <th></th>
+                        <th></th>
 
+                        <th style="text-align: center;" colspan="3">Finance Cheque Counts</th>
+                        <th></th>
+                        <th style="text-align: center;" colspan="8">Scheme Status</th>
+                        <th></th>
+                        <th style="text-align: center;" colspan="3">Scheme Reconciliation</th>
+                    </tr>
+                    <tr>
+                        <th>Component</th>
+                        <th>Detail</th>
+                        <th>Total</th>
+                        <th>Corrected</th>
+                        <th>Remaining</th>
+                        <th></th>
                         <?php
-                        // Query all scheme statuses to use as headers for transposed columns
-                        //$query = "SELECT scheme_status FROM schemes GROUP BY scheme_status";
-                        //$schemes_status = $this->db->query($query)->result();
                         $schemes_status = array("Par-Completed", "Registered", "Initiated", "Ongoing", "ICR-I", "ICR-II", "FCR", "Completed");
                         foreach ($schemes_status as $scheme_status) { ?>
                             <th style="text-align: center;"><?php echo $scheme_status; ?></th>
                         <?php } ?>
-
-                        <th>Total</th>
-                        <th>Completed (Finance Data)</th>
+                        <th></th>
+                        <th>SFT Completed</th>
+                        <th>Finance Completed</th>
+                        <th>Difference</th>
                     </tr>
                     <?php
                     // Query all component categories
@@ -206,17 +213,18 @@
                             </th>
                             <?php $query = "SELECT COUNT(*) as total FROM expenses as e
                                                 WHERE e.component_category_id = $category->component_category_id
-                                                AND e.scheme_id IS NULL";
+                                                AND e.scheme_id IS NOT NULL";
                             if ($district_id) {
                                 $query .= " AND e.district_id = $district_id";
                             }
-                            $cat_not_user_cheques = $this->db->query($query)->row();
+                            $cat_not_use_cheques = $this->db->query($query)->row();
 
                             ?>
-                            <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
                             <th>
-                                <?php echo $cat_not_user_cheques->total; ?>
+                                <?php echo $cat_not_use_cheques->total; ?>
                             </th>
+                            <th><?php echo $cat_cheques->total - $cat_not_use_cheques->total; ?></th>
+                            <th style="width: 20px;"></th>
 
                             <?php
                             // Populate cell values for each scheme status
@@ -231,6 +239,7 @@
                                                                                         echo $this->db->query($query)->row()->total;
                                                                                         ?></td>
                             <?php } ?>
+                            <th style="width: 20px;"></th>
                             <th style="text-align: center;"><?php
                                                             // Total for this category across all scheme statuses
                                                             $query = "SELECT COUNT(*) as total FROM schemes as s 
@@ -238,7 +247,7 @@
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
-                                                            echo $this->db->query($query)->row()->total;
+                                                            echo $sft_completed = $this->db->query($query)->row()->total;
                                                             ?></th>
                             <th style="text-align: center;"><?php
                                                             // Total for this category across all scheme statuses
@@ -248,8 +257,9 @@
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
-                                                            echo $this->db->query($query)->row()->total;
+                                                            echo $finance_completed  = $this->db->query($query)->row()->total;
                                                             ?></th>
+                            <th style="text-align: center;"><?php echo $finance_completed - $sft_completed; ?></th>
 
                         </tr>
                     <?php } ?>
@@ -278,6 +288,7 @@
                             ?>
                         </th>
                         <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
+                        <th></th>
                         <?php
                         // Total for each scheme status across all component categories
                         foreach ($schemes_status as $scheme_status) { ?>
@@ -291,6 +302,7 @@
                                                             echo $this->db->query($query)->row()->total;
                                                             ?></td>
                         <?php } ?>
+                        <th></th>
                         <th style="text-align: center;"><?php
                                                         // Grand total for all categories and statuses
                                                         $query = "SELECT COUNT(*) as total FROM schemes as s 
@@ -298,7 +310,7 @@
                                                         if ($district_id) {
                                                             $query .= " AND district_id = $district_id";
                                                         }
-                                                        echo $this->db->query($query)->row()->total;
+                                                        echo $sft_completed_total = $this->db->query($query)->row()->total;
                                                         ?></th>
                         <th style="text-align: center;"><?php
                                                         // Grand total for all categories and statuses
@@ -308,8 +320,9 @@
                                                         if ($district_id) {
                                                             $query .= " AND e.district_id = $district_id";
                                                         }
-                                                        echo $this->db->query($query)->row()->total;
+                                                        echo $finance_completed_total = $this->db->query($query)->row()->total;
                                                         ?></th>
+                        <th style="text-align:center"><?php echo $finance_completed_total - $sft_completed_total; ?></th>
                     </tr>
                 </table>
 
