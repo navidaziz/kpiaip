@@ -260,7 +260,7 @@
                                                             }
                                                             echo $finance_completed  = $this->db->query($query)->row()->total;
                                                             ?></th>
-                            <th style="text-align: center;"><?php echo $finance_completed - $sft_completed; ?></th>
+                            <th style="text-align: center;"><?php echo $sft_completed - $finance_completed; ?></th>
 
                         </tr>
                     <?php } ?>
@@ -324,7 +324,7 @@
                                                         }
                                                         echo $finance_completed_total = $this->db->query($query)->row()->total;
                                                         ?></th>
-                        <th style="text-align:center"><?php echo $finance_completed_total - $sft_completed_total; ?></th>
+                        <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
                     </tr>
                 </table>
 
