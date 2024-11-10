@@ -110,7 +110,7 @@
                 <ol>
                     <li>
                         <small>
-                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/ledger/ledger_combined') ?>">Ledger</a>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/ledger_combined') ?>">Ledger</a>
                         </small>
                     </li>
                     <?php
