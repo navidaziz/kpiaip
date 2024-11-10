@@ -498,49 +498,74 @@
                     </tr>
                 </table>
 
+
+                <h4>Completed Scheme Average Cost</h4>
+                <table class="table table-bordered table_small">
+                    <tr>
+                        <th>Component Category</th>
+                        <?php
+                        // Query all financial years to display as columns
+                        $query = "SELECT * FROM financial_years";
+                        $fys = $this->db->query($query)->result();
+                        foreach ($fys as $fy) { ?>
+                            <th colspan="3"><?php echo $fy->financial_year; ?></th>
+                        <?php } ?>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <?php
+                        // Add sub-headers for Schemes, Cost, and AVG Cost under each financial year
+                        foreach ($fys as $fy) { ?>
+                            <th>Schemes</th>
+                            <th>Cost</th>
+                            <th>AVG Cost</th>
+                        <?php } ?>
+                    </tr>
+                    <?php
+                    // Query all component categories to display as rows
+                    $query = "SELECT * FROM component_categories as cc
+              WHERE cc.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                    $categories = $this->db->query($query)->result();
+
+                    foreach ($categories as $category) { ?>
+                        <tr>
+                            <th><?php echo $category->category; ?></th>
+                            <?php
+                            // Loop over each financial year for each category
+                            foreach ($fys as $fy) {
+                                $query = "
+                                    SELECT 
+                                        COUNT(s.scheme_id) AS total_schemes,
+                                        SUM(e.gross_pay) AS total_cost,
+                                        AVG(e.gross_pay) AS avg_cost
+                                    FROM 
+                                        schemes AS s 
+                                    INNER JOIN 
+                                        expenses AS e ON e.scheme_id = s.scheme_id
+                                    WHERE 
+                                        s.component_category_id = '" . intval($category->component_category_id) . "' 
+                                        AND s.financial_year_id = '" . intval($fy->financial_year_id) . "' 
+                                        AND s.scheme_status = 'Completed'
+                                ";
+
+                                if ($district_id) {
+                                    $query .= " AND s.district_id = $district_id";
+                                }
+                                $category_scheme = $this->db->query($query)->row();
+                            ?>
+                                <td><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></td>
+                                <td><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></td>
+                                <td><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></td>
+                            <?php } ?>
+                        </tr>
+                    <?php } ?>
+                </table>
+
+
+
             </div>
 
         </div>
     </div>
     <!-- /MESSENGER -->
 </div>
-
-<script>
-    // Function to apply heatmap color based on value
-    function Heatmap(className, maxColor) {
-        // Function to convert a value to a color between white and maxColor
-        function valueToColor(value, min, max) {
-            if (value === 0 || isNaN(value)) {
-                return 'rgb(255, 255, 255)'; // White color for 0 or non-numeric values
-            }
-            const ratio = (value - min) / (max - min);
-            const [rMax, gMax, bMax] = maxColor.match(/\w\w/g).map(hex => parseInt(hex, 16));
-            const r = Math.round(255 + ratio * (rMax - 255)); // Interpolating between 255 and rMax
-            const g = Math.round(255 + ratio * (gMax - 255)); // Interpolating between 255 and gMax
-            const b = Math.round(255 + ratio * (bMax - 255)); // Interpolating between 255 and bMax
-            return `rgb(${r}, ${g}, ${b})`;
-        }
-
-        // Get all table cells with the specified class name
-        const cells = document.querySelectorAll(`td.${className}`);
-
-        // Extract numeric values from the cells
-        const values = Array.from(cells).map(cell => parseFloat(cell.textContent.trim()) || 0);
-
-        // Determine the minimum and maximum values, excluding 0 and non-numeric values
-        const nonZeroValues = values.filter(value => !isNaN(value) && value !== 0);
-        const min = Math.min(...nonZeroValues);
-        const max = Math.max(...nonZeroValues);
-
-        // Apply the heatmap effect to each cell
-        cells.forEach(cell => {
-            const value = parseFloat(cell.textContent.trim()) || 0;
-            const color = valueToColor(value, min, max);
-            cell.style.backgroundColor = color;
-        });
-    }
-
-    // Example usage
-    Heatmap('scheme_status', '#82B018');
-    Heatmap('scheme_status_total', '#82B018');
-</script>
