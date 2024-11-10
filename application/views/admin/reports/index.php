@@ -108,9 +108,11 @@
 
                 <h4>Ledgers</h4>
                 <ol>
-                    <li><small>
+                    <li>
+                        <small>
                             <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/ledger/ledger_combined') ?>">Ledger</a>
-                        </small></li>
+                        </small>
+                    </li>
                     <?php
                     $query = "SELECT * FROM financial_years";
                     $fys = $this->db->query($query)->result();
