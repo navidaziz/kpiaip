@@ -5,13 +5,13 @@
 </div>
 </section>
 <style>
-.dt-buttons {
-    display: inline;
-}
+    .dt-buttons {
+        display: inline;
+    }
 
-.dt-button-collection {
-    margin-top: 5px !important;
-}
+    .dt-button-collection {
+        margin-top: 5px !important;
+    }
 </style>
 
 <div class="modal" id="g_modal" tabindex="-1" role="dialog">
@@ -32,99 +32,104 @@
 </script>
 <script src="<?php echo site_url("assets/" . ADMIN_DIR . "js/script.js"); ?>"></script>
 <script type="text/javascript">
-jQuery(document).ready(function() {
-    App.setPage("widgets_box");
-    App.init();
-});
+    jQuery(document).ready(function() {
+        App.setPage("widgets_box");
+        App.init();
+    });
 </script>
 <link href="<?php echo site_url("assets/" . ADMIN_DIR . "font-awesome/css/font-awesome.min.css"); ?>"
     rel="stylesheet" />
 <?php
 if ($this->router->fetch_method() == 'add_order_new') { ?>
-<script src="<?php echo site_url("assets/" . ADMIN_DIR . "js/jquery-1.min.js"); ?>"></script>
+    <script src="<?php echo site_url("assets/" . ADMIN_DIR . "js/jquery-1.min.js"); ?>"></script>
 <?php } else { ?>
 
-<script src="<?php echo site_url("assets/" . ADMIN_DIR . "js/jquery-0.min.js"); ?>"></script>
+    <script src="<?php echo site_url("assets/" . ADMIN_DIR . "js/jquery-0.min.js"); ?>"></script>
 <?php } ?>
 
 <script>
-function convertNumberToWords(inputId) {
+    function convertNumberToWords(inputId) {
 
-    const numberInput = $('#' + inputId).val();
-    const resultElement = document.getElementById('resultWords');
-    const inwords = numberToWords(numberInput);
-    resultElement.innerHTML = '<span style="color:green">' + inwords + '<span>';
+        const numberInput = $('#' + inputId).val();
+        const resultElement = document.getElementById('resultWords');
+        const inwords = numberToWords(numberInput);
+        resultElement.innerHTML = '<span style="color:green">' + inwords + '<span>';
 
-}
-
-function numberToWords(num) {
-    const ones = [
-        '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-        'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
-    ];
-    const tens = [
-        '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
-    ];
-    const thousands = ['', 'thousand', 'million', 'billion'];
-
-    if (num === 0) return 'zero';
-
-    let words = '';
-    let thousandIndex = 0;
-
-    while (num > 0) {
-        const remainder = num % 1000;
-        if (remainder > 0) {
-            const currentWords = convertThreeDigitNumberToWords(remainder);
-            words = currentWords + (thousands[thousandIndex] ? ' ' + thousands[thousandIndex] : '') + ' ' + words;
-        }
-        num = Math.floor(num / 1000);
-        thousandIndex++;
     }
 
-    return words.trim();
-}
+    function numberToWords(num) {
+        const ones = [
+            '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+            'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+        ];
+        const tens = [
+            '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+        ];
+        const thousands = ['', 'thousand', 'million', 'billion'];
 
-function convertThreeDigitNumberToWords(num) {
-    const ones = [
-        '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
-        'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
-    ];
-    const tens = [
-        '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
-    ];
+        if (num === 0) return 'zero';
 
-    let words = '';
+        let words = '';
+        let thousandIndex = 0;
 
-    if (num >= 100) {
-        words += ones[Math.floor(num / 100)] + ' hundred';
-        num %= 100;
-        if (num > 0) {
-            words += ' and ';
+        while (num > 0) {
+            const remainder = num % 1000;
+            if (remainder > 0) {
+                const currentWords = convertThreeDigitNumberToWords(remainder);
+                words = currentWords + (thousands[thousandIndex] ? ' ' + thousands[thousandIndex] : '') + ' ' + words;
+            }
+            num = Math.floor(num / 1000);
+            thousandIndex++;
         }
+
+        return words.trim();
     }
 
-    if (num >= 20) {
-        words += tens[Math.floor(num / 10)];
-        num %= 10;
-        if (num > 0) {
-            words += '-' + ones[num];
-        }
-    } else if (num > 0) {
-        words += ones[num];
-    }
+    function convertThreeDigitNumberToWords(num) {
+        const ones = [
+            '', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten',
+            'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen'
+        ];
+        const tens = [
+            '', '', 'twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety'
+        ];
 
-    return words;
-}
+        let words = '';
+
+        if (num >= 100) {
+            words += ones[Math.floor(num / 100)] + ' hundred';
+            num %= 100;
+            if (num > 0) {
+                words += ' and ';
+            }
+        }
+
+        if (num >= 20) {
+            words += tens[Math.floor(num / 10)];
+            num %= 10;
+            if (num > 0) {
+                words += '-' + ones[num];
+            }
+        } else if (num > 0) {
+            words += ones[num];
+        }
+
+        return words;
+    }
 </script>
 
 <link rel="stylesheet" type="text/css"
     href="<?php echo site_url("assets/" . ADMIN_DIR . "js/magic-suggest/magicsuggest-1.3.1-min.css"); ?>" />
 <style>
-.table-responsive {
-    overflow-x: auto !important;
-}
+    .table-responsive {
+        overflow-x: auto !important;
+    }
 </style>
+
+
+
+
+
 </body>
 
 </html>

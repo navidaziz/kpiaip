@@ -368,15 +368,20 @@ class Water_user_associations extends Admin_Controller
         $water_user_association_id = (int) $this->input->post('water_user_association_id');
         $this->data['water_user_association'] = $water_user_association = $this->water_user_association_model->get_water_user_association($water_user_association_id)[0];
         if ($scheme_id == 0) {
+
+            $query = "SELECT * FROM water_user_associations WHERE water_user_association_id = ?";
+            $wua = $this->db->query($query, [$water_user_association_id])->row();
+
+
             $scheme["scheme_id"]  =  0;
             $scheme["project_id"]  =  $water_user_association->project_id;
             $scheme["district_id"]  =  $water_user_association->district_id;
             $scheme["water_user_association_id"]  =  $water_user_association_id;
-            $scheme["tehsil"] = "";
-            $scheme["uc"] = "";
-            $scheme["villege"] = "";
-            $scheme["na"] = "NA-";
-            $scheme["pk"] = "PK-";
+            $scheme["tehsil"] = $wua->tehsil_name;
+            $scheme["uc"] = $wua->union_council;
+            $scheme["villege"] = $wua->address;
+            $scheme["na"] = "";
+            $scheme["pk"] = "";
             $scheme["sanctioned_cost"]  =  0;
             $scheme["revised_cost"]  =  0;
             $scheme["approved_cost"]  =  0;
@@ -387,7 +392,7 @@ class Water_user_associations extends Admin_Controller
             $scheme["longitude"]  =  0;
             $scheme["latitude"]  =  0;
             $scheme["water_source"]  =  "";
-            $scheme["scheme_name"]  =  "";
+            $scheme["scheme_name"]  =  $wua->wua_name;
             $scheme["scheme_code"]  =  "";
             $scheme["component_category_id"]  = 0;
             $scheme["registration_date"]  = '';

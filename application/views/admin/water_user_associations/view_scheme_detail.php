@@ -1013,7 +1013,8 @@
 
 </div>
 <?php
-if ($scheme->scheme_status == 'Par-Completed' or 1 == 1) { ?>
+//if ($scheme->scheme_status == 'Par-Completed') {
+if ($scheme->scheme_status != 'Completed') { ?>
     <?php $this->load->view(ADMIN_DIR . "temp/data_correction"); ?>
 <?php } ?>
 <script>
