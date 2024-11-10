@@ -32,6 +32,13 @@ class Reports extends Admin_Controller
         $this->data["view"] = ADMIN_DIR . "reports/ledger/ledger";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+    public function ledger_combined()
+    {
+        $this->data["title"] = 'Ledger Report';
+        $this->data["description"] = 'Financial Year Wise ledger';
+        $this->data["view"] = ADMIN_DIR . "reports/ledger/ledger_combined";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
 
 
 

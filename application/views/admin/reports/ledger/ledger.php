@@ -77,74 +77,231 @@
                     <?php
                     $query = "SELECT * FROM financial_years WHERE financial_year_id = ?";
                     $fy = $this->db->query($query, [$fy_id])->row();
+                    $start_month_date = new DateTime($fy->start_date); // Start date
+                    $end_month_date = new DateTime($fy->end_date); // End date
+                    $date = clone $start_month_date;
+
+                    $query = "SELECT SUM(rs_total) as total_rs,
+                    SUM(dollar_total)
+                    FROM `donor_funds_released`
+                    WHERE DATE(date) < '" . $date->format(' Y-m-1') . "';";
+                    $wb_commulative = $this->db->query($query)->row();
+
+                    $query = "SELECT SUM(net_pay) as total_rs
+                        FROM `expenses`
+                        WHERE DATE(date) < '" . $date->format(' Y-m-1') . "';";
+                    $expense_cummulative = $this->db->query($query)->row();
+                    $wb_balance = $wb_commulative->total_rs - $expense_cummulative->total_rs;
+
+                    $query = "SELECT SUM(rs_total) as total_rs
+                            FROM `budget_released`
+                            WHERE DATE(date) < '" . $date->format(' Y-m-1') . "';";
+                    $br_commulative = $this->db->query($query)->row();
+                    $budget_opening_balance = $br_commulative->total_rs - $expense_cummulative->total_rs;
+
+
+
                     ?>
-                    <h4><?php echo $fy->financial_year; ?></h4>
-                    <table class="table table-bordered">
-                        <tr>
-                            <th>Months</th>
-                            <th>World Bank (Debited)</th>
+                    <h3><strong>Fiscal Year:</strong> <?php echo $fy->financial_year; ?></h3>
 
-                            <th>Expenses (Credited)</th>
-                            <th>Balance</th>
-                        </tr>
-                        <?php
-                        $start_month_date = new DateTime($fy->start_date); // Start date
-                        $end_month_date = new DateTime($fy->end_date); // End date
+                    <table class="table table-bordered table_small" id="ledger">
 
-                        // Loop through each month between start and end dates
-                        for ($date = clone $start_month_date; $date <= $end_month_date; $date->modify('+1 month')) {
-                        ?><tr>
-                                <th><?php echo $date->format('F Y'); ?></th>
-                                <th>
-                                    <?php
-                                    $query = "SELECT SUM(rs_total) as total_rs, 
+                        <thead>
+                            <tr>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="border: none;"></th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th colspan="5">
+                                    <h4> <strong>Donor: </strong> World Bank</h4>
+                                </th>
+                                <th style="display: none;"></th>
+                                <th style="display: none;"></th>
+                                <th style="display: none;"></th>
+                                <th style="border: none;"></th>
+                                <th style="display: none;"></th>
+                                <th colspan="5">
+                                    <h4><strong>Source: </strong> Finance Department (Budget Released)</h4>
+                                </th>
+                                <th style="display: none;"></th>
+                                <th style="display: none;"></th>
+                                <th style="display: none;"></th>
+                                <th style="display: none;"></th>
+                            </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Months</th>
+                                <th>Receipts (Debited) Rs.</th>
+                                <th>Expenses (Credited) Rs.</th>
+                                <th>Monthly Balance Rs.</th>
+                                <th style="border: none;"></th>
+                                <th>#</th>
+                                <th>Months</th>
+                                <th>Receipts (Debited) Rs.</th>
+                                <th>Expenses (Credited) Rs.</th>
+                                <th>Monthly Balance Rs.</th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th>Opening Balance</th>
+                                <th></th>
+                                <th></th>
+                                <th><?php if ($wb_balance > 0) {
+                                        echo number_format($wb_balance);
+                                    } else {
+                                        echo '00.00';
+                                    } ?></th>
+                                <th style="border: none;"></th>
+                                <th></th>
+                                <th>Opening Balance</th>
+                                <th></th>
+                                <th></th>
+                                <th><?php if ($budget_opening_balance > 0) {
+                                        echo number_format($budget_opening_balance);
+                                    } else {
+                                        echo '00.00';
+                                    } ?></th>
+                            </tr>
+                            <?php
+
+                            $count = 1;
+                            // Loop through each month between start and end dates
+                            for ($date; $date <= $end_month_date; $date->modify('+1 month')) {
+                            ?>
+                                <tr>
+                                    <th><?php echo $count; ?></th>
+                                    <th><?php echo $date->format('M, Y'); ?></th>
+                                    <td>
+                                        <?php
+                                        $query = "SELECT SUM(rs_total) as total_rs, 
                                          SUM(dollar_total) 
                                          FROM `donor_funds_released` 
                                          WHERE MONTH(date) = '" . $date->format('m') . "' AND YEAR(date) = '" . $date->format('Y') . "';";
-                                    $wb_released = $this->db->query($query)->row();
-                                    if ($wb_released->total_rs and $wb_released->total_rs > 0) {
-                                        echo number_format($wb_released->total_rs);
-                                    }
+                                        $wb_released = $this->db->query($query)->row();
+                                        if ($wb_released->total_rs and $wb_released->total_rs > 0) {
+                                            echo number_format($wb_released->total_rs);
+                                        }
 
-                                    ?>
-                                </th>
+                                        ?>
+                                    </td>
 
 
-                                <th>
-                                    <?php
-                                    $query = "SELECT SUM(net_pay) as total_rs 
+                                    <td>
+                                        <?php
+                                        $query = "SELECT SUM(net_pay) as total_rs 
                                          FROM `expenses` 
                                          WHERE MONTH(date) = '" . $date->format('m') . "' AND YEAR(date) = '" . $date->format('Y') . "';";
-                                    $expenses = $this->db->query($query)->row();
-                                    if ($expenses->total_rs and $expenses->total_rs > 0) {
-                                        echo number_format($expenses->total_rs);
-                                    }
+                                        $expenses = $this->db->query($query)->row();
+                                        if ($expenses->total_rs and $expenses->total_rs > 0) {
+                                            echo number_format($expenses->total_rs);
+                                        }
 
-                                    ?>
-                                </th>
-                                <th>
-                                    <?php
-                                    $query = "SELECT SUM(rs_total) as total_rs, 
+                                        ?>
+                                    </td>
+
+                                    <th>
+                                        <?php
+                                        $query = "SELECT SUM(rs_total) as total_rs, 
                                          SUM(dollar_total) 
                                          FROM `donor_funds_released` 
                                          WHERE DATE(date) <= '" . $date->format('Y-m-31') . "';";
-                                    $wb_commulative = $this->db->query($query)->row();
+                                        $wb_commulative = $this->db->query($query)->row();
 
-                                    $query = "SELECT SUM(net_pay) as total_rs 
+                                        $query = "SELECT SUM(net_pay) as total_rs 
                                          FROM `expenses` 
                                         WHERE DATE(date) <= '" . $date->format('Y-m-31') . "';";
-                                    $expense_cummulative = $this->db->query($query)->row();
-                                    $wb_balance = $wb_commulative->total_rs - $expense_cummulative->total_rs;
-                                    if ($wb_balance > 0) {
+                                        $expense_cummulative = $this->db->query($query)->row();
+                                        $wb_balance = $wb_commulative->total_rs - $expense_cummulative->total_rs;
+                                        if ($wb_balance > 0) {
+                                            echo number_format($wb_balance);
+                                        }
+
+
+                                        ?>
+
+                                    </th>
+                                    <th style="border: none;"></th>
+                                    <th><?php echo $count; ?></th>
+                                    <th><?php echo $date->format('M, Y'); ?></th>
+                                    <th>
+                                        <?php
+                                        $query = "SELECT SUM(rs_total) as total_rs
+                                         FROM `budget_released` 
+                                         WHERE MONTH(date) = '" . $date->format('m') . "' AND YEAR(date) = '" . $date->format('Y') . "';";
+                                        $bg_released = $this->db->query($query)->row();
+                                        if ($bg_released->total_rs and $bg_released->total_rs > 0) {
+                                            echo number_format($bg_released->total_rs);
+                                        }
+
+                                        ?>
+                                    </th>
+
+
+                                    <th>
+                                        <?php
+                                        if ($expenses->total_rs and $expenses->total_rs > 0) {
+                                            echo number_format($expenses->total_rs);
+                                        }
+                                        ?>
+                                    </th>
+                                    <th>
+                                        <?php
+                                        $query = "SELECT SUM(rs_total) as total_rs
+                                         FROM `budget_released` 
+                                         WHERE DATE(date) <= '" . $date->format('Y-m-31') . "';";
+                                        $br_commulative = $this->db->query($query)->row();
+                                        $br_balance = $br_commulative->total_rs - $expense_cummulative->total_rs;
+                                        if ($br_balance > 0) {
+                                            echo number_format($br_balance);
+                                        } else {
+                                            echo '0.00';
+                                        }
+
+
+                                        ?>
+                                    </th>
+                                </tr>
+                            <?php
+                                $count++;
+                            } ?>
+                            <tr>
+                                <th></th>
+                                <th>Closing Balance</th>
+                                <th></th>
+                                <th></th>
+                                <th><?php if ($wb_balance > 0) {
                                         echo number_format($wb_balance);
-                                    }
-
-
-                                    ?>
-                                </th>
+                                    } else {
+                                        echo '00.00';
+                                    } ?></th>
+                                <th style="border: none;"></th>
+                                <th></th>
+                                <th>Closing Balance</th>
+                                <th></th>
+                                <th></th>
+                                <th><?php if ($br_balance > 0) {
+                                        echo number_format($br_balance);
+                                    } else {
+                                        echo '00.00';
+                                    } ?></th>
                             </tr>
-                        <?php } ?>
+                        </tbody>
 
+                        <tfoot>
+
+                        </tfoot>
 
 
 
@@ -160,38 +317,56 @@
 
 
 </div>
-
 <script>
-    title = '<?php echo $title . ' ' . date('d-m-Y m:h:s'); ?>';
+    title = '<?php echo $title . ' ' . date('d-m-Y H:i:s'); ?>';
     $(document).ready(function() {
-        $('#taxes').DataTable({
+        $('#ledger').DataTable({
             dom: 'Bfrtip',
             paging: false,
             title: title,
             "order": [],
             "ordering": false,
             searching: true,
-            buttons: [
-
-                {
+            footerCallback: function(row, data, start, end, display) {
+                // You can calculate the footer content dynamically here if needed
+            },
+            buttons: [{
                     extend: 'print',
                     title: title,
-                    messageTop: '<?php echo $title; ?>'
-
+                    messageTop: '<?php echo 'Fiscal Year: ' . $fy->financial_year; ?>',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all'
+                        },
+                        columns: ':visible', // Export all visible columns
+                        footer: true // Include the footer in the export
+                    }
                 },
                 {
                     extend: 'excelHtml5',
                     title: title,
-                    messageTop: '<?php echo $title; ?>'
-
+                    messageTop: '<?php echo 'Fiscal Year: ' . $fy->financial_year; ?>',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all'
+                        },
+                        columns: ':visible', // Export all visible columns
+                        footer: true // Include the footer in the export
+                    }
                 },
                 {
                     extend: 'pdfHtml5',
                     title: title,
                     pageSize: 'A4',
                     orientation: 'landscape',
-                    messageTop: '<?php echo $title; ?>'
-
+                    messageTop: '<?php echo 'Fiscal Year: ' . $fy->financial_year; ?>',
+                    exportOptions: {
+                        modifier: {
+                            page: 'all'
+                        },
+                        columns: ':visible', // Export all visible columns
+                        footer: true // Include the footer in the export
+                    }
                 }
             ]
         });

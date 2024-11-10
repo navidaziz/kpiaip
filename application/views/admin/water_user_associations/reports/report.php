@@ -647,7 +647,7 @@
                     </tbody>
                 </table>
 
-                <h4>Completed Scheme Average Cost</h4>
+                <h4>Completed Scheme and Final Payment</h4>
                 <table class="table table-bordered table_small">
                     <tr>
                         <th>Financial Years</th>
