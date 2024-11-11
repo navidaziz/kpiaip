@@ -27,17 +27,17 @@ $world_bank = $this->db->query($query)->row();
                 polar: true
             },
             title: {
-                text: 'Financial Summary Report',
+                text: 'Over All Budget Utilization Analysis',
                 align: 'left',
                 style: {
                     fontSize: '15px' // Set the font size of data labels
                 }
             },
             subtitle: {
-                text: 'Comparison of Receipts, Expenses, and Balances',
+                text: 'FY: 2019-20 to <?php echo $f_year[0]; ?>',
                 align: 'left',
                 style: {
-                    fontSize: '10px' // Set the font size of data labels
+                    fontSize: '13px' // Set the font size of data labels
                 }
             },
             tooltip: {
@@ -66,17 +66,14 @@ $world_bank = $this->db->query($query)->row();
             },
             yAxis: {
                 lineWidth: 1,
-                tickInterval: 3000,
+                tickInterval: 1000,
                 reversedStacks: false,
                 endOnTick: true,
                 showLastLabel: true,
                 gridLineWidth: 0,
                 labels: {
                     formatter: function() {
-                        return this.value + ' million';
-                    },
-                    style: {
-                        fontSize: '8px' // Adjust font size as needed
+                        return this.value + 'M';
                     }
                 },
             },
@@ -91,58 +88,57 @@ $world_bank = $this->db->query($query)->row();
             },
             series: [{
                     name: 'World Bank',
-                    data: [<?php echo $world_bank->total / 1000000; ?>],
-                    color: '#FF645A'
+                    data: [<?php echo $world_bank->total; ?>]
                 },
                 {
-                    name: 'Budget',
-                    data: [<?php echo $budget_released->total / 1000000; ?>],
-                    color: '#FFA500'
+                    name: 'Budget Released',
+                    data: [<?php echo $budget_released->total; ?>]
                 },
-
+                {
+                    name: 'Workplan Budget',
+                    data: [<?php echo $awp_budget->total; ?>]
+                },
                 {
                     name: 'Expenses',
-                    data: [<?php echo $expenses->total / 1000000; ?>],
-                    color: '#19F98B'
+                    data: [<?php echo $expenses->total; ?>]
                 }
 
             ]
         });
     </script>
+    <table>
+        <thead>
+            <tr>
+                <th>Category</th>
+                <th>Data</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>World Bank</td>
+                <td>Budget Released</td>
+                <td>Workplan Budget</td>
+                <td>Expenses</td>
 
+            </tr>
+            <tr>
+                <td><?php echo number_format(max($world_bank->total, 0)); ?></td>
+                <td><?php echo number_format(max($budget_released->total, 0)); ?></td>
+                <!-- <td><?php echo number_format(max($awp_budget->total, 0)); ?></td> -->
+                <td><?php echo number_format(max($expenses->total, 0)); ?></td>
+            </tr>
+            <tr>
+                <td><?php echo number_format(max($world_bank->total - $expenses->total, 0)); ?></td>
+                <td><?php echo number_format(max($budget_released->total - $expenses->total, 0)); ?></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+        </tbody>
+    </table>
     <?php
     $end_time = microtime(true);
     $execution_time = $end_time - $start_time;
     ?>
-    <div style="background-color: white; margin-top:10px">
-        <table class="table  table_medium table-bordered">
-            <thead>
-                <tr>
-                    <th></th>
-                    <th style="background-color: #FF645A;">World Bank</th>
-                    <th style="background-color: #FFBE18;">Budget Released</th>
-
-                </tr>
-            </thead>
-            <tbody>
-
-                <tr>
-                    <th>Reciepts</th>
-                    <td style="background-color: #FF645A;"><?php echo number_format(max($world_bank->total, 0)); ?></td>
-                    <td style="background-color: #FFBE18;"><?php echo number_format(max($budget_released->total, 0)); ?></td>
-                </tr>
-                <tr>
-                    <th style="background-color: #19F98B">Expenses</th>
-                    <td colspan=" 2" style="text-align: center; background-color: #19F98B"><?php echo number_format(max($expenses->total, 0)); ?></td>
-                </tr>
-                <tr>
-                    <th>Balance</th>
-                    <td style="background-color: #FF645A;"><?php echo number_format(max($world_bank->total - $expenses->total, 0)); ?></td>
-                    <td style="background-color: #FFBE18;"><?php echo number_format(max($budget_released->total - $expenses->total, 0)); ?></td>
-                </tr>
-
-            </tbody>
-        </table>
-    </div>
     <small style="font-size:9px !important">Execution Time: <?php echo $execution_time; ?> seconds</small>
 </div>

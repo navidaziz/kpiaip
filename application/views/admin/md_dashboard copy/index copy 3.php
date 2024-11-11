@@ -11,6 +11,7 @@
     <!-- Include Highcharts library from CDN -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/heatmap.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
@@ -51,14 +52,7 @@
         color: black !important;
     }
 
-    .table_medium>tbody>tr>th,
-    .table_medium>tfoot>tr>td,
-    .table_medium>tfoot>tr>th,
-    .table_medium>thead>tr>td,
-    .table_medium>thead>tr>th {
-        padding: 2px;
 
-    }
 
     .container,
     .container-lg,
@@ -123,57 +117,38 @@
     <!-- Dashboard Content -->
     <div class="container" style="padding-top: 5px;">
         <div class="row">
-
-            <div class="col-md-4">
-                <div id="budget_utilization_summary"></div>
-            </div>
-            <div class="col-md-8">
-                <div id="fy_wise_budget_utilization"></div>
-            </div>
-
-            <div class="col-md-8">
-                <div id="district_expenses"></div>
-            </div>
-            <div class="col-md-4">
-                <div id="region_expenses"></div>
-            </div>
-            <div class="col-md-6">
-                <div id="beneficiaries"></div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div id="components_expenses"></div>
-            </div>
-            <div class="col-md-8">
-                <div id="sub_components_expenses"></div>
-            </div>
-            <div class="col-md-12">
-                <div id="categories_expenses"></div>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-md-4">
                 <div id="components_targets"></div>
             </div>
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <div id="sub_components_targets"></div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-4">
                 <div id="categories_targets"></div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div id="districts_summary"></div>
-            </div>
 
         </div>
 
 
+    </div>
+    </div>
 
-    </div>
-    </div>
+
+
+    <!-- Include Bootstrap JS from CDN
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.da taTables.css" />
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.3.6/js/buttons.print.min.js"></script> -->
+
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script>
         function get_report(funcation_name) {
@@ -200,24 +175,9 @@
         }
 
         function filter_data() {
-
-            get_report("budget_utilization_summary");
-            get_report("fy_wise_budget_utilization");
-            get_report("district_expenses");
-            get_report("region_expenses");
-
-            //get_report("budget_utilization");
-            //get_report("expense_purpose");
-            get_report("beneficiaries");
             get_report("components_targets");
-            get_report("sub_components_targets");
-            get_report("categories_targets");
-            get_report("components_expenses");
-            get_report("sub_components_expenses");
-            get_report("categories_expenses");
-            get_report("districts_summary");
-
-
+            //get_report("sub_components_targets");
+            // get_report("categories_targets");
         }
         filter_data();
     </script>

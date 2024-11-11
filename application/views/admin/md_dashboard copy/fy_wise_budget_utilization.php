@@ -12,33 +12,21 @@ foreach ($fys as $fy) {
     // Fetch expenses
     $expense_query = "SELECT SUM(net_pay) as total FROM expenses WHERE DATE(`date`) BETWEEN '" . $fy->start_date . "' AND '" . $fy->end_date . "'";
     $expense_result = $this->db->query($expense_query)->row();
-    if (isset($expense_result->total)) {
-        $fy->expense = $expense_result->total;
-    } else {
-        $fy->expense = 0;
-    }
+    $fy->expense = $expense_result->total;
     $expense_cumulative += $fy->expense;
     $fy->cumulative_expense = $expense_cumulative;
 
     // Fetch World Bank funding (assuming you have data for this)
     $world_bank_query = "SELECT SUM(rs_total) as total FROM donor_funds_released WHERE DATE(`date`) BETWEEN '" . $fy->start_date . "' AND '" . $fy->end_date . "'";
     $world_bank_result = $this->db->query($world_bank_query)->row();
-    if (isset($world_bank_result->total)) {
-        $fy->world_bank = $world_bank_result->total;
-    } else {
-        $fy->world_bank = 0;
-    }
+    $fy->world_bank = $world_bank_result->total;
     $world_bank_cumulative += $fy->world_bank;
     $fy->world_bank_cumulative = $world_bank_cumulative;
 
     // Fetch Budget Released (assuming you have data for this)
     $budget_released_query = "SELECT SUM(rs_total) as total FROM budget_released WHERE DATE(`date`) BETWEEN '" . $fy->start_date . "' AND '" . $fy->end_date . "'";
     $budget_released_result = $this->db->query($budget_released_query)->row();
-    if (isset($budget_released_result->total)) {
-        $fy->budget_released = $budget_released_result->total;
-    } else {
-        $fy->budget_released = 0;
-    }
+    $fy->budget_released = $budget_released_result->total;
     $budget_released_cumulative += $fy->budget_released;
     $fy->budget_released_cumulative = $budget_released_cumulative;
 }
@@ -278,7 +266,7 @@ foreach ($fys as $fy) {
                                 <?php foreach ($fys as $fy) { ?>
                                     <th><?php echo $fy->financial_year; ?></th>
                                 <?php } ?>
-                                <!-- <th>Current Account Balance</th> -->
+                                <th>Current Account Balance</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -289,9 +277,9 @@ foreach ($fys as $fy) {
                                 <?php foreach ($fys as $fy) { ?>
                                     <td><?php echo number_format($fy->world_bank, 2); ?></td>
                                 <?php } ?>
-                                <!-- <th rowspan="3" style="vertical-align: middle; font-size:12px">
+                                <th rowspan="3" style="vertical-align: middle; font-size:12px">
                                     <?php echo number_format($world_bank_cumulative - $expense_cumulative, 2); ?>
-                                </th> -->
+                                </th>
                             </tr>
                             <tr style="background-color: #FF645A;">
                                 <th>Cumulative</th>
@@ -314,9 +302,9 @@ foreach ($fys as $fy) {
                                 <?php foreach ($fys as $fy) { ?>
                                     <td><?php echo number_format($fy->budget_released, 2); ?></td>
                                 <?php } ?>
-                                <!-- <th rowspan="3" style="vertical-align: middle; font-size:12px">
+                                <th rowspan="3" style="vertical-align: middle; font-size:12px">
                                     <?php echo number_format($budget_released_cumulative - $expense_cumulative, 2); ?>
-                                </th> -->
+                                </th>
                             </tr>
                             <tr style="background-color: #FFA500;">
                                 <th>Cumulative</th>
@@ -353,13 +341,13 @@ foreach ($fys as $fy) {
                     <table class="table table-bordered table_small">
                         <tr>
                             <th>Expense Purpose</th>
-                            <td>Total</td>
+                            <td>Total (M)</td>
                             <td>%</td>
                         </tr>
                         <?php foreach ($expense_purposes as $e_purpose) { ?>
                             <tr>
                                 <th><?php echo $e_purpose['purpose'] ?> </th>
-                                <td> <?php echo number_format($e_purpose['total'], 2) ?></td>
+                                <td> <?php echo number_format($e_purpose['total'] / 1000000, 2) ?></td>
                                 <td> <?php echo number_format(($e_purpose['total'] * 100) / $expense_cumulative, 2) ?> %</td>
                             </tr>
                         <?php } ?>

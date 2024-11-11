@@ -51,14 +51,7 @@
         color: black !important;
     }
 
-    .table_medium>tbody>tr>th,
-    .table_medium>tfoot>tr>td,
-    .table_medium>tfoot>tr>th,
-    .table_medium>thead>tr>td,
-    .table_medium>thead>tr>th {
-        padding: 2px;
 
-    }
 
     .container,
     .container-lg,
@@ -124,20 +117,16 @@
     <div class="container" style="padding-top: 5px;">
         <div class="row">
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div id="budget_utilization_summary"></div>
             </div>
-            <div class="col-md-8">
-                <div id="fy_wise_budget_utilization"></div>
+            <div class="col-md-3">
+                <div id="budget_utilization"></div>
             </div>
-
-            <div class="col-md-8">
-                <div id="district_expenses"></div>
+            <div class="col-md-3">
+                <div id="expense_purpose"></div>
             </div>
-            <div class="col-md-4">
-                <div id="region_expenses"></div>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div id="beneficiaries"></div>
             </div>
         </div>
@@ -202,12 +191,8 @@
         function filter_data() {
 
             get_report("budget_utilization_summary");
-            get_report("fy_wise_budget_utilization");
-            get_report("district_expenses");
-            get_report("region_expenses");
-
-            //get_report("budget_utilization");
-            //get_report("expense_purpose");
+            get_report("budget_utilization");
+            get_report("expense_purpose");
             get_report("beneficiaries");
             get_report("components_targets");
             get_report("sub_components_targets");
@@ -216,7 +201,6 @@
             get_report("sub_components_expenses");
             get_report("categories_expenses");
             get_report("districts_summary");
-
 
         }
         filter_data();

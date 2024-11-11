@@ -91,19 +91,16 @@ $world_bank = $this->db->query($query)->row();
             },
             series: [{
                     name: 'World Bank',
-                    data: [<?php echo $world_bank->total / 1000000; ?>],
-                    color: '#FF645A'
+                    data: [<?php echo $world_bank->total / 1000000; ?>]
                 },
                 {
                     name: 'Budget',
-                    data: [<?php echo $budget_released->total / 1000000; ?>],
-                    color: '#FFA500'
+                    data: [<?php echo $budget_released->total / 1000000; ?>]
                 },
 
                 {
                     name: 'Expenses',
-                    data: [<?php echo $expenses->total / 1000000; ?>],
-                    color: '#19F98B'
+                    data: [<?php echo $expenses->total / 1000000; ?>]
                 }
 
             ]
@@ -115,12 +112,12 @@ $world_bank = $this->db->query($query)->row();
     $execution_time = $end_time - $start_time;
     ?>
     <div style="background-color: white; margin-top:10px">
-        <table class="table  table_medium table-bordered">
+        <table class="table table-bordered table_small ">
             <thead>
                 <tr>
                     <th></th>
-                    <th style="background-color: #FF645A;">World Bank</th>
-                    <th style="background-color: #FFBE18;">Budget Released</th>
+                    <th>World Bank</th>
+                    <th>Budget Released</th>
 
                 </tr>
             </thead>
@@ -128,17 +125,17 @@ $world_bank = $this->db->query($query)->row();
 
                 <tr>
                     <th>Reciepts</th>
-                    <td style="background-color: #FF645A;"><?php echo number_format(max($world_bank->total, 0)); ?></td>
-                    <td style="background-color: #FFBE18;"><?php echo number_format(max($budget_released->total, 0)); ?></td>
+                    <td><?php echo number_format(max($world_bank->total, 0)); ?></td>
+                    <td><?php echo number_format(max($budget_released->total, 0)); ?></td>
                 </tr>
                 <tr>
-                    <th style="background-color: #19F98B">Expenses</th>
-                    <td colspan=" 2" style="text-align: center; background-color: #19F98B"><?php echo number_format(max($expenses->total, 0)); ?></td>
+                    <th>Expenses</th>
+                    <td colspan="2" style="text-align: center;"><?php echo number_format(max($expenses->total, 0)); ?></td>
                 </tr>
                 <tr>
                     <th>Balance</th>
-                    <td style="background-color: #FF645A;"><?php echo number_format(max($world_bank->total - $expenses->total, 0)); ?></td>
-                    <td style="background-color: #FFBE18;"><?php echo number_format(max($budget_released->total - $expenses->total, 0)); ?></td>
+                    <td><?php echo number_format(max($world_bank->total - $expenses->total, 0)); ?></td>
+                    <td><?php echo number_format(max($budget_released->total - $expenses->total, 0)); ?></td>
                 </tr>
 
             </tbody>
