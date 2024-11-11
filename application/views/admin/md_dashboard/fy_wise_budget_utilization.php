@@ -12,21 +12,21 @@ foreach ($fys as $fy) {
     // Fetch expenses
     $expense_query = "SELECT SUM(net_pay) as total FROM expenses WHERE DATE(`date`) BETWEEN '" . $fy->start_date . "' AND '" . $fy->end_date . "'";
     $expense_result = $this->db->query($expense_query)->row();
-    $fy->expense = $expense_result->total ?? 0;
+    $fy->expense = $expense_result->total;
     $expense_cumulative += $fy->expense;
     $fy->cumulative_expense = $expense_cumulative;
 
     // Fetch World Bank funding (assuming you have data for this)
     $world_bank_query = "SELECT SUM(rs_total) as total FROM donor_funds_released WHERE DATE(`date`) BETWEEN '" . $fy->start_date . "' AND '" . $fy->end_date . "'";
     $world_bank_result = $this->db->query($world_bank_query)->row();
-    $fy->world_bank = $world_bank_result->total ?? 0;
+    $fy->world_bank = $world_bank_result->total;
     $world_bank_cumulative += $fy->world_bank;
     $fy->world_bank_cumulative = $world_bank_cumulative;
 
     // Fetch Budget Released (assuming you have data for this)
     $budget_released_query = "SELECT SUM(rs_total) as total FROM budget_released WHERE DATE(`date`) BETWEEN '" . $fy->start_date . "' AND '" . $fy->end_date . "'";
     $budget_released_result = $this->db->query($budget_released_query)->row();
-    $fy->budget_released = $budget_released_result->total ?? 0;
+    $fy->budget_released = $budget_released_result->total;
     $budget_released_cumulative += $fy->budget_released;
     $fy->budget_released_cumulative = $budget_released_cumulative;
 }
