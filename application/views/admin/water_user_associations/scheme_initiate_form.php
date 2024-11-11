@@ -15,6 +15,13 @@
                     </div>
                 </div>
                 <div class="form-group row">
+                    <label for="survey_date" class="col-sm-6 col-form-label">TOP Date</label>
+                    <div class="col-sm-6">
+                        <input type="date" required id="top_date" name="top_date"
+                            value="<?php echo $input->top_date; ?>" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group row">
                     <label for="survey_date" class="col-sm-6 col-form-label">Survey Date</label>
                     <div class="col-sm-6">
                         <input type="date" required id="survey_date" name="survey_date"

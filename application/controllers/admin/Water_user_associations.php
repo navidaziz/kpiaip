@@ -383,6 +383,7 @@ class Water_user_associations extends Admin_Controller
             $scheme["na"] = "";
             $scheme["pk"] = "";
             $scheme["sanctioned_cost"]  =  0;
+            $scheme["top_date"]  =  0;
             $scheme["revised_cost"]  =  0;
             $scheme["approved_cost"]  =  0;
             $scheme["estimated_cost"]  =  0;
