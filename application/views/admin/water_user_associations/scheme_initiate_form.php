@@ -125,6 +125,7 @@
                             'Tube Well',
                             'Tube Well (TW)',
                             'Civil Canal',
+                            'Canal',
                             'Tube Well/Watercourse (TW/WC)',
                             'Lift Irrigation (L/Irrigation)',
                             'Water Storage Tank/Watercourse (WST/WC)',
@@ -134,7 +135,8 @@
                             'Water Tank',
                             'Bama Lift Canal',
                             'Tube Well + Canal',
-                            'River'
+                            'River',
+                            'Others'
                         ];
                         ?>
                         <select required class="form-control" id="water_source" name="water_source">

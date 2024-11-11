@@ -539,16 +539,13 @@
                             foreach ($fys as $fy) {
                                 $query = "
                                     SELECT 
-                                        COUNT(s.scheme_id) AS total_schemes,
-                                        SUM(e.gross_pay) AS total_cost,
-                                        AVG(e.gross_pay) AS avg_cost
+                                        COUNT(*) AS total_schemes,
+                                        SUM(paid) AS total_cost,
+                                        AVG(paid) AS avg_cost
                                     FROM 
-                                        schemes AS s 
-                                    INNER JOIN 
-                                        expenses AS e ON e.scheme_id = s.scheme_id
-                                    WHERE 
-                                        s.component_category_id = '" . intval($category->component_category_id) . "' 
-                                        AND s.financial_year_id = '" . intval($fy->financial_year_id) . "' 
+                                        scheme_lists AS s
+                                        WHERE s.component_category_id = '" . intval($category->component_category_id) . "' 
+                                        AND s.financial_year = '" . $fy->financial_year . "' 
                                         AND s.scheme_status = 'Completed'
                                 ";
 
@@ -564,17 +561,14 @@
                             <?php } ?>
                             <?php
                             $query = "
-                            SELECT
-                            COUNT(s.scheme_id) AS total_schemes,
-                            SUM(e.gross_pay) AS total_cost,
-                            AVG(e.gross_pay) AS avg_cost
-                            FROM
-                            schemes AS s
-                            INNER JOIN
-                            expenses AS e ON e.scheme_id = s.scheme_id
-                            WHERE
-                            s.component_category_id = '" . intval($category->component_category_id) . "'
-                            AND s.scheme_status = 'Completed'
+                            SELECT 
+                                        COUNT(*) AS total_schemes,
+                                        SUM(paid) AS total_cost,
+                                        AVG(paid) AS avg_cost
+                                    FROM 
+                                        scheme_lists AS s
+                                        WHERE s.component_category_id = '" . intval($category->component_category_id) . "'
+                                        AND s.scheme_status = 'Completed'
                             ";
 
                             if ($district_id) {
@@ -598,15 +592,12 @@
                             foreach ($fys as $fy) {
                                 $query = "
                                     SELECT 
-                                        COUNT(s.scheme_id) AS total_schemes,
-                                        SUM(e.gross_pay) AS total_cost,
-                                        AVG(e.gross_pay) AS avg_cost
+                                        COUNT(*) AS total_schemes,
+                                        SUM(paid) AS total_cost,
+                                        AVG(paid) AS avg_cost
                                     FROM 
-                                        schemes AS s 
-                                    INNER JOIN 
-                                        expenses AS e ON e.scheme_id = s.scheme_id
-                                    WHERE  
-                                         s.financial_year_id = '" . intval($fy->financial_year_id) . "' 
+                                        scheme_lists AS s 
+                                        WHERE s.financial_year = '" . $fy->financial_year . "' 
                                         AND s.scheme_status = 'Completed'
                                 ";
 
@@ -622,15 +613,13 @@
                             <?php } ?>
                             <?php
                             $query = "
-                            SELECT
-                            COUNT(s.scheme_id) AS total_schemes,
-                            SUM(e.gross_pay) AS total_cost,
-                            AVG(e.gross_pay) AS avg_cost
-                            FROM
-                            schemes AS s
-                            INNER JOIN
-                            expenses AS e ON e.scheme_id = s.scheme_id
-                            WHERE s.scheme_status = 'Completed'
+                            SELECT 
+                                        COUNT(*) AS total_schemes,
+                                        SUM(paid) AS total_cost,
+                                        AVG(paid) AS avg_cost
+                                    FROM 
+                                        scheme_lists AS s
+                                        WHERE  s.scheme_status = 'Completed'
                             ";
 
                             if ($district_id) {
