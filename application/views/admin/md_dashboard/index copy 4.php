@@ -120,16 +120,13 @@
             <div class="col-md-3">
                 <div id="budget_utilization_summary"></div>
             </div>
-            <div class="col-md-9">
-                <div id="fy_wise_budget_utilization"></div>
-            </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div id="budget_utilization"></div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div id="expense_purpose"></div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div id="beneficiaries"></div>
             </div>
         </div>
@@ -194,7 +191,6 @@
         function filter_data() {
 
             get_report("budget_utilization_summary");
-            get_report("fy_wise_budget_utilization");
             get_report("budget_utilization");
             get_report("expense_purpose");
             get_report("beneficiaries");
@@ -205,7 +201,6 @@
             get_report("sub_components_expenses");
             get_report("categories_expenses");
             get_report("districts_summary");
-
 
         }
         filter_data();

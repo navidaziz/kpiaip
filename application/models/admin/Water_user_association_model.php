@@ -17,116 +17,113 @@ class Water_user_association_model extends MY_Model
 
 
     public function validate_form_data()
-{
-    // Basic validation rules for the form
-    $validation_config = array(
+    {
+        // Basic validation rules for the form
+        $validation_config = array(
 
-        array(
-            "field"  => "project_id",
-            "label"  => "Project Id",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "district_id",
-            "label"  => "District Id",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "tehsil_name",
-            "label"  => "Tehsil Name",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "union_council",
-            "label"  => "Union Council",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "address",
-            "label"  => "Address",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "wua_name",
-            "label"  => "Wua Name",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "bank_account_title",
-            "label"  => "Bank Account Title",
-            "rules"  => "required"
-        ),
-        
-        array(
-            "field"  => "bank_branch_code",
-            "label"  => "Bank Branch Code",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "bank_name",
-            "label"  => "Bank Name",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "cm_name",
-            "label"  => "Chairman Name",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "cm_father_name",
-            "label"  => "Father Name",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "cm_gender",
-            "label"  => "Gender",
-            "rules"  => "required"
-        ),
-        array(
-            "field"  => "cm_cnic",
-            "label"  => "Chairman CNIC",
-            "rules"  => "required|regex_match[/^[0-9]{5}-[0-9]{7}-[0-9]{1}$/]"
-        ),
-        array(
-            "field"  => "cm_contact_no",
-            "label"  => "Contact No.",
-            "rules"  => "required|regex_match[/^[\+\d\-\(\)\s]*$/]"
-        ),
-         array(
-            "field"  => "wua_registration_date",
-            "label"  => "WUA Registration Date",
-            "rules"  => "required"
-        )
-    );
+            array(
+                "field"  => "project_id",
+                "label"  => "Project Id",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "district_id",
+                "label"  => "District Id",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "tehsil_name",
+                "label"  => "Tehsil Name",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "union_council",
+                "label"  => "Union Council",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "address",
+                "label"  => "Address",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "wua_name",
+                "label"  => "Wua Name",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "bank_account_title",
+                "label"  => "Bank Account Title",
+                "rules"  => "required"
+            ),
 
-    // water_user_association_id == 0 means add a new record
-    if (!$this->input->post('water_user_association_id')) {
-        // Validation for creating a new record
-        $validation_config[] = array(
-            "field"  => "wua_registration_no",
-            "label"  => "Wua Registration No",
-            "rules"  => "required|is_unique[water_user_associations.wua_registration_no]",
+            array(
+                "field"  => "bank_branch_code",
+                "label"  => "Bank Branch Code",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "bank_name",
+                "label"  => "Bank Name",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "cm_name",
+                "label"  => "Chairman Name",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "cm_father_name",
+                "label"  => "Father Name",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "cm_gender",
+                "label"  => "Gender",
+                "rules"  => "required"
+            ),
+            array(
+                "field"  => "cm_cnic",
+                "label"  => "Chairman CNIC",
+                "rules"  => "required|regex_match[/^[0-9]{5}-[0-9]{7}-[0-9]{1}$/]"
+            ),
+            array(
+                "field"  => "cm_contact_no",
+                "label"  => "Contact No.",
+                "rules"  => "required|regex_match[/^[\+\d\-\(\)\s]*$/]"
+            ),
+            array(
+                "field"  => "wua_registration_date",
+                "label"  => "WUA Registration Date",
+                "rules"  => "required"
+            )
         );
-        $validation_config[] = array(
-            "field"  => "bank_account_number",
-            "label"  => "Bank Account Number",
-            "rules"  => "required|is_unique[water_user_associations.bank_account_number]",
-        );
-    } else {
-        $water_user_association_id = (int)$this->input->post('water_user_association_id');
+
+        // water_user_association_id == 0 means add a new record
+
+
         $wua_registration_no = $this->input->post('wua_registration_no');
-
+        $district_id = $this->input->post('district_id');
+        $water_user_association_id = (int)$this->input->post('water_user_association_id');
         // Check if registration number already exists for another record
         $this->db->where('wua_registration_no', $wua_registration_no);
-        $this->db->where('water_user_association_id !=', $water_user_association_id);
+        if ($this->input->post('water_user_association_id') > 0) {
+            $this->db->where('water_user_association_id !=', $water_user_association_id);
+        }
+        $this->db->where('district_id =', $district_id);
         $query = $this->db->get('water_user_associations');
 
         if ($query->num_rows() > 0) {
             // Set flashdata for the error message
+
             $this->session->set_flashdata('wua_registration_no', 'The Water User Association Registration No is already registered. Please use a different WUA Registration No.');
 
             // Redirect back to the update form
-            redirect(ADMIN_DIR . 'water_user_associations/update_data/' . $water_user_association_id);
+            if ($this->input->post('water_user_association_id') > 0) {
+                redirect(ADMIN_DIR . 'water_user_associations/edit/' . $water_user_association_id);
+            } else {
+                redirect(ADMIN_DIR . 'water_user_associations/add');
+            }
             return; // Return to avoid further processing
         }
 
@@ -141,21 +138,24 @@ class Water_user_association_model extends MY_Model
             // Set flashdata for the error message
             $this->session->set_flashdata('bank_account_number', 'The Water User Association Account No is already registered. Please use a different WUA Account No.');
 
-            // Redirect back to the update form
-            redirect(ADMIN_DIR . 'water_user_associations/update_data/' . $water_user_association_id);
+            if ($this->input->post('water_user_association_id') > 0) {
+                redirect(ADMIN_DIR . 'water_user_associations/edit/' . $water_user_association_id);
+            } else {
+                redirect(ADMIN_DIR . 'water_user_associations/add');
+            }
             return; // Return to avoid further processing
         }
+
+
+
+
+
+        // Set validation rules
+        $this->form_validation->set_rules($validation_config);
+
+        // Run validation
+        return $this->form_validation->run();
     }
-        
-       
-    
-
-    // Set validation rules
-    $this->form_validation->set_rules($validation_config);
-
-    // Run validation
-    return $this->form_validation->run();
-}
 
 
 
@@ -230,14 +230,14 @@ class Water_user_association_model extends MY_Model
 
         $inputs["bank_branch_code"]  =  $this->input->post("bank_branch_code");
         $inputs["bank_name"]  =  $this->input->post("bank_name");
-        
+
         $inputs["cm_name"]  =  $this->input->post("cm_name");
         $inputs["cm_father_name"]  =  $this->input->post("cm_father_name");
         $inputs["cm_gender"]  =  $this->input->post("cm_gender");
         $inputs["cm_cnic"]  =  $this->input->post("cm_cnic");
         $inputs["cm_contact_no"]  =  $this->input->post("cm_contact_no");
         $inputs["wua_registration_date"]  =  $this->input->post("wua_registration_date");
-        
+
         $inputs["created_by"] = $this->session->userdata("userId");
         $inputs["last_updated"] = date('Y-m-d H:i:s');
 
@@ -257,7 +257,9 @@ class Water_user_association_model extends MY_Model
     {
         $data = (object) array();
         $fields = array(
-            "water_user_associations.*", "projects.project_name", "districts.district_name"
+            "water_user_associations.*",
+            "projects.project_name",
+            "districts.district_name"
         );
         $join_table = array(
             "projects" => "projects.project_id = water_user_associations.project_id",
@@ -297,7 +299,9 @@ class Water_user_association_model extends MY_Model
     {
 
         $fields = array(
-            "water_user_associations.*", "projects.project_name", "districts.district_name"
+            "water_user_associations.*",
+            "projects.project_name",
+            "districts.district_name"
         );
         $join_table = array(
             "projects" => "projects.project_id = water_user_associations.project_id",
@@ -308,8 +312,4 @@ class Water_user_association_model extends MY_Model
 
         return $this->water_user_association_model->joinGet($fields, "water_user_associations", $join_table, $where, FALSE, TRUE);
     }
-
-
-   
-
 }

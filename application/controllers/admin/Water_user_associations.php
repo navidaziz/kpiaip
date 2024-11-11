@@ -429,8 +429,10 @@ class Water_user_associations extends Admin_Controller
 
             if ($scheme_id == 0) {
 
-                $query = "SELECT count(*) as total FROM schemes WHERE scheme_name = ?";
-                $scheme = $this->db->query($query, [$_POST['scheme_name']])->row();
+                $district_id = $this->input->post('district_id');
+
+                $query = "SELECT count(*) as total FROM schemes WHERE scheme_name = ? and district_id = ?";
+                $scheme = $this->db->query($query, [$_POST['scheme_name'], $district_id])->row();
                 if ($scheme->total > 0) {
                     echo '<div class="alert alert-danger">Scheme Duplicate Try With Different Name<div>';
                     exit();
@@ -448,9 +450,9 @@ class Water_user_associations extends Admin_Controller
 
                 $this->db->insert('scheme_logs', $log_inputs);
             } else {
-
-                $query = "SELECT count(*) as total, scheme_status FROM schemes WHERE scheme_name = ? and scheme_id != ?";
-                $scheme = $this->db->query($query, [$_POST['scheme_name'], $scheme_id])->row();
+                $district_id = $this->input->post('district_id');
+                $query = "SELECT count(*) as total, scheme_status FROM schemes WHERE scheme_name = ? and scheme_id != ? and district_id = ?";
+                $scheme = $this->db->query($query, [$_POST['scheme_name'], $scheme_id, $district_id])->row();
                 //var_dump($scheme);
                 if ($scheme->total > 0) {
                     echo '<div class="alert alert-danger">Scheme Duplicate Try With Different Name<div>';
