@@ -280,6 +280,7 @@
                     <label for="type_of_lining" class="col-sm-4 col-form-label">Type Of Lining</label>
                     <div class="col-sm-8">
                         <?php
+
                         $liningTypes = [
                             'Brick Lining',
                             'Bricks',
@@ -292,19 +293,20 @@
                             'HDPE Pipe PN8 90mm',
                             'HDPE PN8 Pipe 90mm',
                             'MS Pipe',
-                            'None',
                             'PCC + Pipe Lining',
                             'Pipe',
                             'Pipe Lining',
                             'Plum Concrete',
                             'Precast Concrete Pipes (PCPS)',
+                            'PCPS',
                             'PVC',
                             'Plain Cement Concrete (PCC)',
                             'Water Storage Tank (WST)',
                             'WST (8.25x8.25x1.4) m',
                             'WST (8.5x8.5x1.4) m',
                             'WST (9x9x1.4) m',
-                            'WST (10x10x1.4) m'
+                            'WST (10x10x1.4) m',
+                            'Others',
                         ];
 
                         ?>
