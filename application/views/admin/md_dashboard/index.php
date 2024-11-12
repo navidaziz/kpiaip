@@ -138,6 +138,15 @@
                 <div id="region_expenses"></div>
             </div>
 
+            <div class="col-md-4">
+                <div id="region_schemes"></div>
+            </div>
+
+            <div class="col-md-12">
+                <div id="district_schemes"></div>
+            </div>
+
+
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -203,6 +212,10 @@
             get_report("fy_wise_budget_utilization");
             get_report("district_expenses");
             get_report("region_expenses");
+
+            get_report("region_schemes");
+            get_report("district_schemes");
+
 
             //get_report("budget_utilization");
             //get_report("expense_purpose");

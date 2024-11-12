@@ -42,6 +42,20 @@ class Md_dashboard extends Admin_Controller
       $this->load->view('admin/md_dashboard/region_expenses', $this->data);
    }
 
+   public function district_schemes()
+   {
+      $this->data['title'] = 'KPIAIP Dashboard';
+      $this->data['description'] = 'Monitoring and evaluation dashboard';
+      $this->load->view('admin/md_dashboard/district_schemes', $this->data);
+   }
+
+   public function region_schemes()
+   {
+      $this->data['title'] = 'KPIAIP Dashboard';
+      $this->data['description'] = 'Monitoring and evaluation dashboard';
+      $this->load->view('admin/md_dashboard/region_schemes', $this->data);
+   }
+
 
 
 
