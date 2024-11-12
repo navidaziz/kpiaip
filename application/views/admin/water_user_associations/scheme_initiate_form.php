@@ -298,7 +298,7 @@
                             'Pipe Lining',
                             'Plum Concrete',
                             'Precast Concrete Pipes (PCPS)',
-                            'PCPS',
+                            'Pre Cast Parabolic Segment PCPS',
                             'PVC',
                             'Plain Cement Concrete (PCC)',
                             'Water Storage Tank (WST)',
