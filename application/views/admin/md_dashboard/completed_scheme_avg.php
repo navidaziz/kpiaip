@@ -138,9 +138,22 @@ $fys = $this->db->query($query)->result();
                                 FROM scheme_lists as s 
                                 WHERE s.component_category_id = '" . $category->component_category_id . "'
                                 AND s.financial_year = '" . $fy->financial_year_id . "'
-                                AND scheme_status = 'Completed'";
+                                ";
                                 $cat_schemes = $this->db->query($query)->row();
-                            ?>[<?php echo $cat_schemes->min; ?>, <?php echo $cat_schemes->avg; ?>, <?php echo $cat_schemes->max; ?>],
+                                $min = 0;
+                                if ($cat_schemes->min) {
+                                    $min = $cat_schemes->min;
+                                }
+                                $max = 0;
+                                if ($cat_schemes->min) {
+                                    $max = $cat_schemes->max;
+                                }
+                                $avg = 0;
+                                if ($cat_schemes->avg) {
+                                    $avg = $cat_schemes->avg;
+                                }
+
+                            ?>[<?php echo $min; ?>, <?php echo $avg; ?>, <?php echo $max; ?>],
                             <?php } ?>
                         ]
                     },
