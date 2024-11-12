@@ -138,13 +138,17 @@
                 <div id="region_expenses"></div>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <div id="region_schemes"></div>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-9">
                 <div id="district_schemes"></div>
             </div>
+            <div class="col-md-12">
+                <div id="completed_scheme_avg"></div>
+            </div>
+
 
 
         </div>
@@ -215,6 +219,8 @@
 
             get_report("region_schemes");
             get_report("district_schemes");
+            get_report("completed_scheme_avg");
+
 
 
             //get_report("budget_utilization");
