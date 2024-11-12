@@ -138,7 +138,7 @@ $fys = $this->db->query($query)->result();
                                 FROM scheme_lists as s 
                                 WHERE s.component_category_id = '" . $category->component_category_id . "'
                                 AND s.financial_year = '" . $fy->financial_year . "'
-                                AND s.status IN ('Completed')
+                                AND s.scheme_status IN ('Completed')
                                 ";
                                 $cat_schemes = $this->db->query($query)->row();
                                 $min = 0;
