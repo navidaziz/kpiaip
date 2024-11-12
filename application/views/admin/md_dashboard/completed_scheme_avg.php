@@ -137,7 +137,8 @@ $fys = $this->db->query($query)->result();
                                 MAX(s.paid) as max
                                 FROM scheme_lists as s 
                                 WHERE s.component_category_id = '" . $category->component_category_id . "'
-                                AND s.financial_year = '" . $fy->financial_year_id . "'
+                                AND s.financial_year = '" . $fy->financial_year . "'
+                                AND s.status IN ('Completed')
                                 ";
                                 $cat_schemes = $this->db->query($query)->row();
                                 $min = 0;
