@@ -137,9 +137,7 @@
             <div class="col-md-4">
                 <div id="region_expenses"></div>
             </div>
-            <div class="col-md-6">
-                <div id="beneficiaries"></div>
-            </div>
+
         </div>
         <div class="row">
             <div class="col-md-4">
@@ -208,7 +206,7 @@
 
             //get_report("budget_utilization");
             //get_report("expense_purpose");
-            get_report("beneficiaries");
+            // get_report("beneficiaries");
             get_report("components_targets");
             get_report("sub_components_targets");
             get_report("categories_targets");

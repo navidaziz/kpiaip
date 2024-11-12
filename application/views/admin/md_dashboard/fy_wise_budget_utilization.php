@@ -49,7 +49,7 @@ foreach ($fys as $fy) {
     <script>
         Highcharts.chart('cumulative', {
             title: {
-                text: 'Financial Data - Trands and Yearly Analysis',
+                text: 'Financial Data - Trends and Yearly Analysis',
                 align: 'left'
             },
 
