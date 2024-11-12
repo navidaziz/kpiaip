@@ -99,52 +99,52 @@ class Water_user_association_model extends MY_Model
             )
         );
 
-        // water_user_association_id == 0 means add a new record
+        // // water_user_association_id == 0 means add a new record
 
 
-        $wua_registration_no = $this->input->post('wua_registration_no');
-        $district_id = $this->input->post('district_id');
-        $water_user_association_id = (int)$this->input->post('water_user_association_id');
-        // Check if registration number already exists for another record
-        $this->db->where('wua_registration_no', $wua_registration_no);
-        if ($this->input->post('water_user_association_id') > 0) {
-            $this->db->where('water_user_association_id !=', $water_user_association_id);
-        }
-        $this->db->where('district_id =', $district_id);
-        $query = $this->db->get('water_user_associations');
+        // $wua_registration_no = $this->input->post('wua_registration_no');
+        // $district_id = $this->input->post('district_id');
+        // $water_user_association_id = (int)$this->input->post('water_user_association_id');
+        // // Check if registration number already exists for another record
+        // $this->db->where('wua_registration_no', $wua_registration_no);
+        // if ($this->input->post('water_user_association_id') > 0) {
+        //     $this->db->where('water_user_association_id !=', $water_user_association_id);
+        // }
+        // $this->db->where('district_id =', $district_id);
+        // $query = $this->db->get('water_user_associations');
 
-        if ($query->num_rows() > 0) {
-            // Set flashdata for the error message
+        // if ($query->num_rows() > 0) {
+        //     // Set flashdata for the error message
 
-            $this->session->set_flashdata('wua_registration_no', 'The Water User Association Registration No is already registered. Please use a different WUA Registration No.');
+        //     $this->session->set_flashdata('wua_registration_no', 'The Water User Association Registration No is already registered. Please use a different WUA Registration No.');
 
-            // Redirect back to the update form
-            if ($this->input->post('water_user_association_id') > 0) {
-                redirect(ADMIN_DIR . 'water_user_associations/edit/' . $water_user_association_id);
-            } else {
-                redirect(ADMIN_DIR . 'water_user_associations/add');
-            }
-            return; // Return to avoid further processing
-        }
+        //     // Redirect back to the update form
+        //     if ($this->input->post('water_user_association_id') > 0) {
+        //         redirect(ADMIN_DIR . 'water_user_associations/edit/' . $water_user_association_id);
+        //     } else {
+        //         redirect(ADMIN_DIR . 'water_user_associations/add');
+        //     }
+        //     return; // Return to avoid further processing
+        // }
 
-        $bank_account_number = $this->input->post('bank_account_number');
+        // $bank_account_number = $this->input->post('bank_account_number');
 
-        // Check if registration number already exists for another record
-        $this->db->where('bank_account_number', $bank_account_number);
-        $this->db->where('water_user_association_id !=', $water_user_association_id);
-        $query = $this->db->get('water_user_associations');
+        // // Check if registration number already exists for another record
+        // $this->db->where('bank_account_number', $bank_account_number);
+        // $this->db->where('water_user_association_id !=', $water_user_association_id);
+        // $query = $this->db->get('water_user_associations');
 
-        if ($query->num_rows() > 0) {
-            // Set flashdata for the error message
-            $this->session->set_flashdata('bank_account_number', 'The Water User Association Account No is already registered. Please use a different WUA Account No.');
+        // if ($query->num_rows() > 0) {
+        //     // Set flashdata for the error message
+        //     $this->session->set_flashdata('bank_account_number', 'The Water User Association Account No is already registered. Please use a different WUA Account No.');
 
-            if ($this->input->post('water_user_association_id') > 0) {
-                redirect(ADMIN_DIR . 'water_user_associations/edit/' . $water_user_association_id);
-            } else {
-                redirect(ADMIN_DIR . 'water_user_associations/add');
-            }
-            return; // Return to avoid further processing
-        }
+        //     if ($this->input->post('water_user_association_id') > 0) {
+        //         redirect(ADMIN_DIR . 'water_user_associations/edit/' . $water_user_association_id);
+        //     } else {
+        //         redirect(ADMIN_DIR . 'water_user_associations/add');
+        //     }
+        //     return; // Return to avoid further processing
+        // }
 
 
 
