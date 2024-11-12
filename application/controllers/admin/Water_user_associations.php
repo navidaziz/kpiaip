@@ -44,7 +44,7 @@ class Water_user_associations extends Admin_Controller
         $query = "SELECT district as district_id FROM users WHERE user_id = '" . $user_id . "'";
         $user = $this->db->query($query)->row();
         //var_dump($user);
-        $district_name = '';
+        $district_name = 'All District';
         $district_id = 0;
         if (!is_null($user)) {
             if ($user->district_id == '0') {
@@ -52,8 +52,10 @@ class Water_user_associations extends Admin_Controller
             } else {
                 $query = "SELECT district_id,  district_name FROM districts WHERE district_id = '" . $user->district_id . "'";
                 $district = $this->db->query($query)->row();
-                $district_name = $district->district_name;
-                $district_id = $district->district_id;
+                if ($district) {
+                    $district_name = $district->district_name;
+                    $district_id = $district->district_id;
+                }
             }
         }
 
@@ -882,6 +884,19 @@ class Water_user_associations extends Admin_Controller
 
     public function get_water_user_association_form()
     {
+
+
+        $user_id = $this->session->userdata('userId');
+        $query = "SELECT district as user_district_id, role_id FROM users WHERE user_id = $user_id";
+        $user = $this->db->query($query)->row();
+        $this->data['user_district_id'] = $user->user_district_id;
+        if ($user->role_id != 28) {
+            echo '<div class="alert alert-danger">You are not allowed to add Water User Assosiation. 
+            Only District Office can add Water User Assosiation. </div>';
+            return;
+        }
+
+
         $water_user_association_id = (int) $this->input->post("water_user_association_id");
         if ($water_user_association_id == 0) {
 
@@ -891,6 +906,7 @@ class Water_user_associations extends Admin_Controller
             water_user_associations 
             WHERE water_user_association_id = $water_user_association_id";
             $input = $this->db->query($query)->row();
+
             $this->data["water_user_association"] = $this->water_user_association_model->get_water_user_association($water_user_association_id)[0];
         }
         $this->data["input"] = $input;
@@ -901,16 +917,23 @@ class Water_user_associations extends Admin_Controller
     {
 
         $input["water_user_association_id"] = $this->input->post("water_user_association_id");
-        $input["project_id"] = $this->input->post("project_id");
+        //$input["project_id"] = $this->input->post("project_id");
         $input["district_id"] = $this->input->post("district_id");
         $input["tehsil_name"] = $this->input->post("tehsil_name");
         $input["union_council"] = $this->input->post("union_council");
         $input["address"] = $this->input->post("address");
         $input["file_number"] = $this->input->post("file_number");
         $input["wua_registration_no"] = $this->input->post("wua_registration_no");
+        $input["wua_registration_date"] = $this->input->post("wua_registration_date");
         $input["wua_name"] = $this->input->post("wua_name");
+        $input["cm_name"] = $this->input->post("cm_name");
+        $input["cm_father_name"] = $this->input->post("cm_father_name");
+        $input["cm_gender"] = $this->input->post("cm_gender");
+        $input["cm_cnic"] = $this->input->post("cm_cnic");
+        $input["cm_contact_no"] = $this->input->post("cm_contact_no");
         $input["bank_account_title"] = $this->input->post("bank_account_title");
         $input["bank_account_number"] = $this->input->post("bank_account_number");
+        $input["bank_name"] = $this->input->post("bank_name");
         $input["bank_branch_code"] = $this->input->post("bank_branch_code");
         $input["attachement"] = $this->input->post("attachement");
         $inputs =  (object) $input;
@@ -919,18 +942,25 @@ class Water_user_associations extends Admin_Controller
 
     public function add_water_user_association()
     {
-        $this->form_validation->set_rules("project_id", "Project Id", "required");
+        //$this->form_validation->set_rules("project_id", "Project Id", "required");
         $this->form_validation->set_rules("district_id", "District Id", "required");
-        //$this->form_validation->set_rules("tehsil_name", "Tehsil Name", "required");
-        //$this->form_validation->set_rules("union_council", "Union Council", "required");
-        //$this->form_validation->set_rules("address", "Address", "required");
-        //$this->form_validation->set_rules("file_number", "File Number", "required");
+        $this->form_validation->set_rules("tehsil_name", "Tehsil Name", "required");
+        $this->form_validation->set_rules("union_council", "Union Council", "required");
+        $this->form_validation->set_rules("address", "Address", "required");
+        $this->form_validation->set_rules("file_number", "File Number", "required");
         $this->form_validation->set_rules("wua_registration_no", "Wua Registration No", "required");
+        $this->form_validation->set_rules("wua_registration_date", "Wua Registration Date", "required");
         $this->form_validation->set_rules("wua_name", "Wua Name", "required");
-        //$this->form_validation->set_rules("bank_account_title", "Bank Account Title", "required");
-        //$this->form_validation->set_rules("bank_account_number", "Bank Account Number", "required");
-        //$this->form_validation->set_rules("bank_branch_code", "Bank Branch Code", "required");
-        //$this->form_validation->set_rules("attachement", "Attachement", "required");
+        $this->form_validation->set_rules("cm_name", "Cm Name", "required");
+        $this->form_validation->set_rules("cm_father_name", "Cm Father Name", "required");
+        $this->form_validation->set_rules("cm_gender", "Cm Gender", "required");
+        $this->form_validation->set_rules("cm_cnic", "Cm Cnic", "required");
+        $this->form_validation->set_rules("cm_contact_no", "Cm Contact No", "required");
+        $this->form_validation->set_rules("bank_account_title", "Bank Account Title", "required");
+        $this->form_validation->set_rules("bank_account_number", "Bank Account Number", "required");
+        $this->form_validation->set_rules("bank_name", "Bank Name", "required");
+        $this->form_validation->set_rules("bank_branch_code", "Bank Branch Code", "required");
+        // $this->form_validation->set_rules("attachement", "Attachement", "required");
 
         if ($this->form_validation->run() == FALSE) {
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";

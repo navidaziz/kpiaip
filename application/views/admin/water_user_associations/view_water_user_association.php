@@ -1,33 +1,48 @@
 <style>
-.table_small>thead>tr>th,
-.table_small>tbody>tr>th,
-.table_small>tfoot>tr>th,
-.table_small>thead>tr>td,
-.table_small>tbody>tr>td,
-.table_small>tfoot>tr>td {
-    padding: 4px;
-    line-height: 1;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-    font-size: 10px !important;
-    color: black;
-    margin: 0px !important;
-}
+    .table_small>thead>tr>th,
+    .table_small>tbody>tr>th,
+    .table_small>tfoot>tr>th,
+    .table_small>thead>tr>td,
+    .table_small>tbody>tr>td,
+    .table_small>tfoot>tr>td {
+        padding: 4px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 10px !important;
+        color: black;
+        margin: 0px !important;
+    }
 
-.table_s_small>thead>tr>th,
-.table_s_small>tbody>tr>th,
-.table_s_small>tfoot>tr>th,
-.table_s_small>thead>tr>td,
-.table_s_small>tbody>tr>td,
-.table_s_small>tfoot>tr>td {
-    padding: 1px;
-    line-height: 1;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-    font-size: 9px !important;
-    color: black;
-    margin: 0px !important;
-}
+    .table_s_small>thead>tr>th,
+    .table_s_small>tbody>tr>th,
+    .table_s_small>tfoot>tr>th,
+    .table_s_small>thead>tr>td,
+    .table_s_small>tbody>tr>td,
+    .table_s_small>tfoot>tr>td {
+        padding: 1px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 9px !important;
+        color: black;
+        margin: 0px !important;
+    }
+
+    .table_medium>thead>tr>th,
+    .table_medium>tbody>tr>th,
+    .table_medium>tfoot>tr>th,
+    .table_medium>thead>tr>td,
+    .table_medium>tbody>tr>td,
+    .table_medium>tfoot>tr>td {
+        padding: 5px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 13px !important;
+        color: black;
+        margin: 0px !important;
+    }
 </style>
 
 <!-- PAGE HEADER-->
@@ -64,6 +79,8 @@
 
                 <div class="col-md-6">
                     <div class="pull-right">
+                        <button onclick="scheme_form(0)" class="btn btn-danger" style="margin-top: -7px;">Add New
+                            Scheme</button>
                     </div>
                 </div>
 
@@ -219,44 +236,44 @@
                             $wua_members = $this->db->query($query)->result();
                             foreach ($wua_members as $wua_member) : ?>
 
-                            <tr>
+                                <tr>
 
-                                <td><a class="llink llink-trash"
-                                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/delete_member/" . $water_user_association->water_user_association_id . "/" . $water_user_association->water_user_association_id); ?>"><i
-                                            class="fa fa-trash-o"></i></a> </td>
-                                </td>
-                                <td><?php echo $count++; ?></td>
+                                    <td><a class="llink llink-trash"
+                                            href="<?php echo site_url(ADMIN_DIR . "water_user_associations/delete_member/" . $water_user_association->water_user_association_id . "/" . $water_user_association->water_user_association_id); ?>"><i
+                                                class="fa fa-trash-o"></i></a> </td>
+                                    </td>
+                                    <td><?php echo $count++; ?></td>
 
-                                <td>
-                                    <?php echo $wua_member->member_type; ?>
-                                </td>
-                                <td>
-                                    <?php echo $wua_member->member_name; ?>
-                                    <br />
-                                    <?php echo $wua_member->member_father_name; ?>
-                                </td>
-                                <td>
-                                    <?php echo $wua_member->member_gender; ?>
-                                </td>
-                                <td>
-                                    <?php
+                                    <td>
+                                        <?php echo $wua_member->member_type; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $wua_member->member_name; ?>
+                                        <br />
+                                        <?php echo $wua_member->member_father_name; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $wua_member->member_gender; ?>
+                                    </td>
+                                    <td>
+                                        <?php
                                         if ($wua_member->contact_no) {
                                             echo $wua_member->contact_no . "<br />";
                                         } ?>
-                                    <?php echo $wua_member->member_cnic; ?>
-                                </td>
-                                <td>
-                                    <?php
+                                        <?php echo $wua_member->member_cnic; ?>
+                                    </td>
+                                    <td>
+                                        <?php
                                         echo file_type(base_url("assets/uploads/" . $wua_member->attachment), false, 20, 20);
                                         ?>
-                                </td>
+                                    </td>
 
-                                <td>
-                                    <a class="llink llink-edit" href="#"
-                                        onclick="awa_member_form(<?php echo $wua_member->wua_member_id; ?>)"><i
-                                            class="fa fa-pencil-square-o"></i></a>
-                                </td>
-                            </tr>
+                                    <td>
+                                        <a class="llink llink-edit" href="#"
+                                            onclick="awa_member_form(<?php echo $wua_member->wua_member_id; ?>)"><i
+                                                class="fa fa-pencil-square-o"></i></a>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
                             <tr>
                                 <td colspan="9" style="text-align: center;">
@@ -267,20 +284,20 @@
                                         </botton>
 
                                         <script>
-                                        function get_water_user_association_form(water_user_association_id) {
-                                            $.ajax({
-                                                    method: "POST",
-                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_water_user_association_form'); ?>",
-                                                    data: {
-                                                        water_user_association_id: water_user_association_id
-                                                    },
-                                                })
-                                                .done(function(respose) {
-                                                    $('#modal').modal('show');
-                                                    $('#modal_title').html('Water User Associations');
-                                                    $('#modal_body').html(respose);
-                                                });
-                                        }
+                                            function get_water_user_association_form(water_user_association_id) {
+                                                $.ajax({
+                                                        method: "POST",
+                                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_water_user_association_form'); ?>",
+                                                        data: {
+                                                            water_user_association_id: water_user_association_id
+                                                        },
+                                                    })
+                                                    .done(function(respose) {
+                                                        $('#modal').modal('show');
+                                                        $('#modal_title').html('Water User Associations');
+                                                        $('#modal_body').html(respose);
+                                                    });
+                                            }
                                         </script>
 
                                         <button onclick="awa_member_form(0)" class="btn btn-primary btn-sm">Add WUA
@@ -293,35 +310,35 @@
                     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
                     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
                     <script>
-                    function awa_member_form(wua_member_id) {
-                        $.ajax({
-                                method: "POST",
-                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/awa_member_form'); ?>",
-                                data: {
-                                    wua_member_id: wua_member_id,
-                                    water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
-                                },
-                            })
-                            .done(function(response) {
+                        function awa_member_form(wua_member_id) {
+                            $.ajax({
+                                    method: "POST",
+                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/awa_member_form'); ?>",
+                                    data: {
+                                        wua_member_id: wua_member_id,
+                                        water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                                    },
+                                })
+                                .done(function(response) {
 
-                                $('#modal').modal('show');
-                                $('#modal_title').html('Add WUA Member');
-                                $('#modal_body').html(response);
+                                    $('#modal').modal('show');
+                                    $('#modal_title').html('Add WUA Member');
+                                    $('#modal_body').html(response);
 
-                                // Make the modal draggable
-                                // $('#modal .modal-dialog').draggable({
-                                //     handle: ".modal-header", // Ensure modal can be dragged by the header
-                                //     containment: "window" // Optional: restrict dragging within the window
-                                // });
+                                    // Make the modal draggable
+                                    // $('#modal .modal-dialog').draggable({
+                                    //     handle: ".modal-header", // Ensure modal can be dragged by the header
+                                    //     containment: "window" // Optional: restrict dragging within the window
+                                    // });
 
-                                // Ensure modal backdrop stays in place while dragging
-                                // $('#modal').on('shown.bs.modal', function() {
-                                //     $('.modal-backdrop').remove();
-                                //     $('<div class="modal-backdrop fade show"></div>').appendTo(document
-                                //         .body);
-                                // });
-                            });
-                    }
+                                    // Ensure modal backdrop stays in place while dragging
+                                    // $('#modal').on('shown.bs.modal', function() {
+                                    //     $('.modal-backdrop').remove();
+                                    //     $('<div class="modal-backdrop fade show"></div>').appendTo(document
+                                    //         .body);
+                                    // });
+                                });
+                        }
                     </script>
 
                 </div>
@@ -339,8 +356,7 @@
 
                 </h4>
                 <div class="pull-right">
-                    <button onclick="scheme_form(0)" class="btn btn-danger btn-sm" style="margin-top: -4px;">Add New
-                        Scheme</button>
+
                 </div>
 
             </div>
@@ -352,7 +368,7 @@
                 <div class="table-responsive">
 
 
-                    <table class="table table-bordered table_small" id="wua_schemes">
+                    <table class="table table-bordered table_medium" id="wua_schemes">
                         <thead>
                             <tr>
                                 <!-- <th></th> -->
@@ -366,7 +382,8 @@
                                 <th>Paid</th>
                                 <th>Paid %</th>
                                 <th>Remaining</th>
-                                <th>Action</th>
+                                <th></th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -377,46 +394,46 @@
                             $schemes = $this->db->query($query)->result();
                             foreach ($schemes as $scheme) : ?>
 
-                            <tr>
-                                <!-- <td></td> -->
-                                <td><?php echo $count++; ?></td>
-                                <td>
-                                    <?php
+                                <tr>
+                                    <!-- <td></td> -->
+                                    <td><?php echo $count++; ?></td>
+                                    <td>
+                                        <?php
                                         $query = "SELECT * FROM financial_years WHERE financial_year_id = $scheme->financial_year_id";
                                         $financial_year = $this->db->query($query)->row();
                                         if ($financial_year) { ?>
-                                    <?php echo $financial_year->financial_year; ?>
-                                    <?php } ?>
-                                </td>
-                                <td>
-                                    <?php echo $scheme->scheme_status; ?>
-                                    <button style="display: none;"
-                                        onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change
-                                        Status</button>
-                                </td>
-                                <td>
-                                    <?php echo $scheme->scheme_code; ?>
-                                </td>
-                                <td>
-                                    <?php echo $scheme->scheme_name; ?>
-                                </td>
-                                <td>
-                                    <?php $query = "SELECT * FROM `component_categories` 
+                                            <?php echo $financial_year->financial_year; ?>
+                                        <?php } ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $scheme->scheme_status; ?>
+                                        <button style="display: none;"
+                                            onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change
+                                            Status</button>
+                                    </td>
+                                    <td>
+                                        <?php echo $scheme->scheme_code; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $scheme->scheme_name; ?>
+                                    </td>
+                                    <td>
+                                        <?php $query = "SELECT * FROM `component_categories` 
                                                         WHERE component_category_id=$scheme->component_category_id";
                                         $category = $this->db->query($query)->row();
                                         if ($category) {
-                                            echo $category->category; 
+                                            echo $category->category;
                                             //echo $category->category . " <small>(" . $category->category_detail . ")</small>";
                                         } else {
                                             echo "Undefine";
                                         }
                                         ?>
-                                </td>
-                                <th>
-                                    <?php if ($scheme->sanctioned_cost) echo number_format($scheme->sanctioned_cost); ?>
-                                </th>
+                                    </td>
+                                    <th>
+                                        <?php if ($scheme->sanctioned_cost) echo number_format($scheme->sanctioned_cost); ?>
+                                    </th>
 
-                                <?php
+                                    <?php
                                     $query = "SELECT SUM(e.gross_pay) as gross_pay,
                                         SUM(e.whit_tax) as whit_tax,
                                         SUM(e.whst_tax) as whst_tax,
@@ -431,63 +448,65 @@
                                     $expense_summary = $this->db->query($query)->row();
                                     ?>
 
-                                <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
+                                    <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
                                         else echo "0.00" ?></th>
-                                <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->net_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?>
-                                </th>
-                                <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
-                                </th>
+                                    <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->net_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?>
+                                    </th>
+                                    <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
+                                    </th>
 
-                                <td>
-                                    <a class="llink llink-edit"
-                                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_scheme_detail/" . $water_user_association->water_user_association_id . "/" . $scheme->scheme_id); ?>"><i
-                                            class="fa fa-eye"></i></a>
-                                    <span style="margin-left: 10px;"></span>
-                                    <?php if($scheme->scheme_status !='Completed'){ ?>
-                                    <a class="llink llink-edit" href="#"
-                                        onclick="scheme_form(<?php echo $scheme->scheme_id; ?>)"><i
-                                            class="fa fa-pencil-square-o"></i></a>
-                                    <?php } ?>
-                                </td>
-                            </tr>
+                                    <td>
+                                        <a style="padding:2px" class="btn btn-success"
+                                            href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_scheme_detail/" . $water_user_association->water_user_association_id . "/" . $scheme->scheme_id); ?>">
+                                            View </a>
+                                    </td>
+                                    <td>
+                                        <?php if ($scheme->scheme_status != 'Completed') { ?>
+                                            <a style="padding:2px" class="btn btn-primary" href="#"
+                                                onclick="scheme_form(<?php echo $scheme->scheme_id; ?>)">
+                                                Update
+                                            </a>
+                                        <?php } ?>
+                                    </td>
+                                </tr>
                             <?php endforeach; ?>
 
                         </tbody>
                     </table>
 
                     <script>
-                    function change_scheme_status(scheme_id) {
-                        $.ajax({
-                                method: "POST",
-                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
-                                data: {
-                                    scheme_id: scheme_id,
-                                    water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
-                                },
-                            })
-                            .done(function(respose) {
-                                $('#modal').modal('show');
-                                $('#modal_title').html('Change Scheme Status');
-                                $('#modal_body').html(respose);
-                            });
-                    }
+                        function change_scheme_status(scheme_id) {
+                            $.ajax({
+                                    method: "POST",
+                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
+                                    data: {
+                                        scheme_id: scheme_id,
+                                        water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                                    },
+                                })
+                                .done(function(respose) {
+                                    $('#modal').modal('show');
+                                    $('#modal_title').html('Change Scheme Status');
+                                    $('#modal_body').html(respose);
+                                });
+                        }
 
-                    function scheme_form(scheme_id) {
+                        function scheme_form(scheme_id) {
 
-                        $.ajax({
-                                method: "POST",
-                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_form'); ?>",
-                                data: {
-                                    scheme_id: scheme_id,
-                                    water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
-                                },
-                            })
-                            .done(function(respose) {
-                                $('#modal').modal('show');
-                                $('#modal_title').html('Add Scheme');
-                                $('#modal_body').html(respose);
-                            });
-                    }
+                            $.ajax({
+                                    method: "POST",
+                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_form'); ?>",
+                                    data: {
+                                        scheme_id: scheme_id,
+                                        water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                                    },
+                                })
+                                .done(function(respose) {
+                                    $('#modal').modal('show');
+                                    $('#modal_title').html('Add Scheme');
+                                    $('#modal_body').html(respose);
+                                });
+                        }
                     </script>
 
                 </div>
@@ -505,35 +524,35 @@
 
 </div>
 <div>
-    <?php $this->load->view(ADMIN_DIR."water_user_associations/expense_reference"); ?>
+    <?php $this->load->view(ADMIN_DIR . "water_user_associations/expense_reference"); ?>
 </div>
 <script>
-title = "<?php echo $title." - Schemes List ".date('Y-m-d'); ?>";
-$(document).ready(function() {
-    $('#wua_schemes').DataTable({
-        dom: 'Bfrtip',
-        paging: false,
-        title: title,
-        "order": [],
-        searching: true,
-        buttons: [
+    title = "<?php echo $title . " - Schemes List " . date('Y-m-d'); ?>";
+    $(document).ready(function() {
+        $('#wua_schemes').DataTable({
+            dom: 'Bfrtip',
+            paging: false,
+            title: title,
+            "order": [],
+            searching: true,
+            buttons: [
 
-            {
-                extend: 'print',
-                title: title,
-            },
-            {
-                extend: 'excelHtml5',
-                title: title,
+                {
+                    extend: 'print',
+                    title: title,
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: title,
 
-            },
-            {
-                extend: 'pdfHtml5',
-                title: title,
-                pageSize: 'A4',
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: title,
+                    pageSize: 'A4',
 
-            }
-        ]
+                }
+            ]
+        });
     });
-});
 </script>

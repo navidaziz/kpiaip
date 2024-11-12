@@ -8,22 +8,6 @@
         <?php echo form_hidden("water_user_association_id", $scheme->water_user_association_id); ?>
 
 
-        <div class="form-group">
-            <?php
-            $label = array(
-                "class" => "col-md-4 control-label",
-                "style" => "",
-            );
-            echo form_label($this->lang->line('category'), "Component Category Id", $label);
-            ?>
-
-            <div class="col-md-8">
-                <?php
-                echo form_dropdown("component_category_id", array("" => "Select Category") + $component_categories, $scheme->component_category_id, "class=\"form-control\" required style=\"\"");
-                ?>
-            </div>
-            <?php echo form_error("component_category_id", "<p class=\"text-danger\">", "</p>"); ?>
-        </div>
 
 
         <div class="form-group">
@@ -57,6 +41,24 @@
 
 
         </div>
+
+        <div class="form-group">
+            <?php
+            $label = array(
+                "class" => "col-md-4 control-label",
+                "style" => "",
+            );
+            echo form_label($this->lang->line('category'), "Component Category Id", $label);
+            ?>
+
+            <div class="col-md-8">
+                <?php
+                echo form_dropdown("component_category_id", array("" => "Select Category") + $component_categories, $scheme->component_category_id, "class=\"form-control\" required style=\"\"");
+                ?>
+            </div>
+            <?php echo form_error("component_category_id", "<p class=\"text-danger\">", "</p>"); ?>
+        </div>
+
 
         <div class="form-group">
             <label for="tehsil" class="col-sm-4 control-label">Tehsil</label>
