@@ -651,7 +651,9 @@
                         <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
                     </tr>
                 </table>
-                <?php if ($district_id < 1) { ?>
+                <?php if ($district_id) { ?>
+
+                <?php } else { ?>
 
                     <h4>Completed Scheme Average Cost</h4>
                     <table class="table table-bordered table_small">
