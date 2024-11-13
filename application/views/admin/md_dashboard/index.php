@@ -145,8 +145,11 @@
             <div class="col-md-9">
                 <div id="district_schemes"></div>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-8">
                 <div id="completed_scheme_avg"></div>
+            </div>
+            <div class="col-md-8">
+                <div id="category_totals"></div>
             </div>
 
 
@@ -220,6 +223,8 @@
             get_report("region_schemes");
             get_report("district_schemes");
             get_report("completed_scheme_avg");
+            get_report("category_totals");
+
 
 
 

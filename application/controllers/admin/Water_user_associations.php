@@ -907,7 +907,7 @@ class Water_user_associations extends Admin_Controller
             WHERE water_user_association_id = $water_user_association_id";
             $input = $this->db->query($query)->row();
 
-            $this->data["water_user_association"] = $this->water_user_association_model->get_water_user_association($water_user_association_id)[0];
+            //$this->data["water_user_association"] = $this->water_user_association_model->get_water_user_association($water_user_association_id);
         }
         $this->data["input"] = $input;
         $this->load->view(ADMIN_DIR . "water_user_associations/wua_form", $this->data);
@@ -966,12 +966,40 @@ class Water_user_associations extends Admin_Controller
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
             exit();
         } else {
+
+            $district_id = $this->input->post("district_id");
+            $wua_registration_no = $this->input->post("wua_registration_no");
+
+
+
+
+
             $inputs = $this->get_wua_inputs();
             $inputs->created_by = $this->session->userdata("userId");
             $water_user_association_id = (int) $this->input->post("water_user_association_id");
+
             if ($water_user_association_id == 0) {
+                $query = "SELECT COUNT(*) as total FROM water_user_associations 
+                    WHERE district_id = '" . $district_id . "'
+                    AND wua_registration_no = '" . $wua_registration_no . "'";
+
+                $wua_count = $this->db->query($query)->row();
+                if ($wua_count->total > 0) {
+                    echo '<div class="alert alert-danger">WUA Already Registered.</div>';
+                    exit();
+                }
                 $this->db->insert("water_user_associations", $inputs);
             } else {
+                $query = "SELECT COUNT(*) as total FROM water_user_associations 
+                    WHERE district_id = '" . $district_id . "'
+                    AND wua_registration_no = '" . $wua_registration_no . "'
+                    AND water_user_association_id != '" . $water_user_association_id . "'";
+
+                $wua_count = $this->db->query($query)->row();
+                if ($wua_count->total > 0) {
+                    echo '<div class="alert alert-danger">WUA Already Registered.</div>';
+                    exit();
+                }
                 $this->db->where("water_user_association_id", $water_user_association_id);
                 $inputs->last_updated = date('Y-m-d H:i:s');
                 $this->db->update("water_user_associations", $inputs);

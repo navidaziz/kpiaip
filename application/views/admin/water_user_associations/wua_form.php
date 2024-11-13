@@ -48,7 +48,7 @@
                             ?>
                           <select class="form-control" name="district_id">
                               <?php foreach ($districts as $district) { ?>
-                                  <option class="<?php echo $district->district_id ?>"><?php echo $district->district_name; ?></option>
+                                  <option value="<?php echo $district->district_id ?>"><?php echo $district->district_name; ?></option>
                               <?php } ?>
                           </select>
 
