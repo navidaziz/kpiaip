@@ -81,6 +81,7 @@ class Water_user_associations extends Admin_Controller
     {
 
         $water_user_association_id = (int) $water_user_association_id;
+        $data['water_user_association_id'] = (int) $water_user_association_id;
 
         $this->data["water_user_association"] = $this->water_user_association_model->get_water_user_association($water_user_association_id)[0];
         $this->data["title"] = "WUA: " . $this->data["water_user_association"]->wua_name;
