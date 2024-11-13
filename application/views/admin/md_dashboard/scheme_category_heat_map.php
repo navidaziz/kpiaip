@@ -113,8 +113,25 @@ $fys = $this->db->query($query)->result();
                             $result = $this->db->query($query)->row();
                             $total = $result ? $result->total : 0;  // If no result, set total to 0
 
+                            // Manually find the index of sub_component_name and scheme_status
+                            $x_index = 0;
+                            foreach ($sub_components as $key => $sub) {
+                                if ($sub->sub_component_name == $sub_component->sub_component_name) {
+                                    $x_index = $key;
+                                    break;
+                                }
+                            }
+
+                            $y_index = 0;
+                            foreach ($schemes as $key => $status) {
+                                if ($status == $scheme_status) {
+                                    $y_index = $key;
+                                    break;
+                                }
+                            }
+
                             // Insert this data into the heatmap (category index, status index, count)
-                            echo "[" . array_search($sub_component->sub_component_name, array_column($sub_components, 'sub_component_name')) . ", " . array_search($scheme_status, $schemes) . ", " . $total . "], ";
+                            echo "[" . $x_index . ", " . $y_index . ", " . $total . "], ";
                         }
                     }
                     ?>
