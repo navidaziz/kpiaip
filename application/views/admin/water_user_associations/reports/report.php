@@ -169,7 +169,8 @@
 
                         <th style="text-align: center;" colspan="3">Finance Cheque Counts</th>
                         <th></th>
-                        <th style="text-align: center;" colspan="8">Scheme Status</th>
+                        <th style="text-align: center;" colspan="6">Ongoing Scheme</th>
+                        <th style="text-align: center;" colspan="6">Completed Status</th>
                         <th></th>
                         <th style="text-align: center;" colspan="3">Scheme Reconciliation</th>
                     </tr>
@@ -338,7 +339,8 @@
 
                             <th style="text-align: center;" colspan="3">Finance Cheque Counts</th>
                             <th></th>
-                            <th style="text-align: center;" colspan="8">Scheme Status</th>
+                            <th style="text-align: center;" colspan="6">Ongoing Scheme</th>
+                            <th style="text-align: center;" colspan="6">Completed Status</th>
                             <th></th>
                             <th style="text-align: center;" colspan="3">Scheme Reconciliation</th>
                         </tr>
