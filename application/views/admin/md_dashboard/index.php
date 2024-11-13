@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <!-- Include Highcharts library from CDN -->
     <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-3d.js"></script>
     <script src="https://code.highcharts.com/modules/heatmap.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
@@ -137,6 +138,13 @@
             <div class="col-md-4">
                 <div id="region_expenses"></div>
             </div>
+            <div class="col-md-5">
+                <div id="scheme_category_heat_map"></div>
+            </div>
+
+            <div class="col-md-7">
+                <div id="scheme_category_total"></div>
+            </div>
 
             <div class="col-md-3">
                 <div id="region_schemes"></div>
@@ -219,11 +227,13 @@
             get_report("fy_wise_budget_utilization");
             get_report("district_expenses");
             get_report("region_expenses");
+            get_report("scheme_category_total");
+            get_report("scheme_category_heat_map");
 
             get_report("region_schemes");
             get_report("district_schemes");
             get_report("completed_scheme_avg");
-            get_report("category_totals");
+            //get_report("category_totals");
 
 
 

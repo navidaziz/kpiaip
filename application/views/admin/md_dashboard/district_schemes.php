@@ -8,31 +8,53 @@ $fys = $this->db->query($query)->result();
 <div class="jumbotron" style="padding: 2px;">
     <div id="district_schemes_div" style="width:100%; height:400px;"></div>
 
+
+    <?php
+    // Calculate the total number of schemes for district-level summary
+    $totalDistrictQuery = "SELECT COUNT(*) as grand_total FROM schemes as s
+                       INNER JOIN districts as d ON(d.district_id = s.district_id) 
+                       WHERE d.is_district = 1";
+    $totalDistrictSchemes = $this->db->query($totalDistrictQuery)->row()->grand_total;
+    ?>
+
     <script>
         Highcharts.chart('district_schemes_div', {
             chart: {
                 type: 'column'
             },
             title: {
-                text: 'Ferry passengers by vehicle type 2024',
-                align: 'left'
+                text: 'District-level Scheme Summary:',
+                align: 'center'
+            },
+            subtitle: {
+                text: 'Total Schemes: <?php echo $totalDistrictSchemes; ?>'
             },
             xAxis: {
                 categories: [
                     <?php
                     $query = "SELECT d.district_name, d.district_id, COUNT(*) as total FROM schemes as s
-                            INNER JOIN districts as d ON(d.district_id = s.district_id)
-                            and d.is_district =1
-                            GROUP BY d.district_name ORDER BY total DESC";
+                          INNER JOIN districts as d ON(d.district_id = s.district_id)
+                          AND d.is_district = 1
+                          GROUP BY d.district_name ORDER BY total DESC";
                     $districts = $this->db->query($query)->result();
-                    $count = 1;
-                    foreach ($districts as $district) { ?> '<?php echo $district->district_name; ?>', <?php } ?>
+                    foreach ($districts as $district) { ?> '<?php echo $district->district_name; ?>',
+                    <?php } ?>
                 ]
             },
             yAxis: {
                 min: 0,
                 title: {
                     text: ''
+                },
+                stackLabels: {
+                    enabled: true, // Show the total stacked value on top
+                    style: {
+                        fontWeight: 'bold',
+                        color: '#000000', // Change text color if needed
+                        textOutline: 'none'
+                    },
+                    verticalAlign: 'top', // Position stack label at the top of the column
+                    y: -10 // Adjust vertical positioning if needed
                 }
             },
             legend: {
@@ -42,7 +64,18 @@ $fys = $this->db->query($query)->result();
                 series: {
                     stacking: 'normal',
                     dataLabels: {
-                        enabled: true
+                        enabled: true, // Enable data labels to show the stacked value
+                        style: {
+                            fontWeight: 'normal',
+                            color: '#000000', // Change text color if needed
+                        },
+                        formatter: function() {
+                            // Only show the data label if the value is greater than 0
+                            if (this.y > 0) {
+                                return this.y;
+                            }
+                            return null; // Hide data label if the value is 0
+                        }
                     }
                 }
             },
@@ -65,13 +98,10 @@ $fys = $this->db->query($query)->result();
                         data: [
                             <?php foreach ($districts as $district) {
                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                WHERE s.district_id = '" . $district->district_id . "'
-                                AND s.scheme_status IN('" . $scheme_status . "')";
+                                  WHERE s.district_id = '" . $district->district_id . "'
+                                  AND s.scheme_status IN('" . $scheme_status . "')";
                                 $scheme = $this->db->query($query)->row();
-                                $s_status = 0;
-                                if ($scheme and $scheme->total > 0) {
-                                    $s_status = $scheme->total;
-                                }
+                                $s_status = $scheme && $scheme->total ? $scheme->total : 0;
                             ?>
                                 <?php echo $s_status; ?>,
                             <?php } ?>
@@ -81,7 +111,6 @@ $fys = $this->db->query($query)->result();
             ]
         });
     </script>
-
 
 
     <small style="font-size:9px !important">Execution Time: <?php

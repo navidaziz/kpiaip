@@ -70,6 +70,20 @@ class Md_dashboard extends Admin_Controller
       $this->load->view('admin/md_dashboard/category_totals', $this->data);
    }
 
+   public function scheme_category_total()
+   {
+      $this->data['title'] = 'KPIAIP Dashboard';
+      $this->data['description'] = 'Monitoring and evaluation dashboard';
+      $this->load->view('admin/md_dashboard/scheme_category_total', $this->data);
+   }
+
+   public function scheme_category_heat_map()
+   {
+      $this->data['title'] = 'KPIAIP Dashboard';
+      $this->data['description'] = 'Monitoring and evaluation dashboard';
+      $this->load->view('admin/md_dashboard/scheme_category_heat_map', $this->data);
+   }
+
 
 
 

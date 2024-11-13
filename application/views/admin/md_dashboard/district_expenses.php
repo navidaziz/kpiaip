@@ -14,10 +14,10 @@ $fys = $this->db->query($query)->result();
                 type: 'column'
             },
             title: {
-                text: 'District Wise Expenses'
+                text: 'District-Level Analysis of Scheme Expenditures'
             },
             subtitle: {
-                text: 'Expense on districts Max to Min'
+                text: 'Districts Ranked by Highest to Lowest Scheme Expenses'
             },
             xAxis: {
                 type: 'category',
@@ -37,7 +37,7 @@ $fys = $this->db->query($query)->result();
             },
             tooltip: {
                 shared: true,
-                pointFormat: 'Expenses : <b>{point.y:.1f} millions</b>'
+                pointFormat: 'Expenses: <b>{point.y:.1f} millions</b>'
             },
             series: [{
                     type: 'column',
@@ -71,38 +71,7 @@ $fys = $this->db->query($query)->result();
                         color: '#FFFFFF',
                     }
                 },
-                {
-                    name: 'Beneficiaries',
-                    type: 'pie',
-                    data: [
-                        <?php
-                        $query = "SELECT SUM(beneficiaries) as total_beneficiaries,
-                        SUM(male_beneficiaries) as male_beneficiaries,
-                        SUM(female_beneficiaries) as female_beneficiaries
-                        FROM `schemes`
-                        WHERE scheme_status IN('Completed')";
-                        $beneficiaries = $this->db->query($query)->row(); ?> {
-                            name: 'Male',
-                            y: <?php if ($beneficiaries->male_beneficiaries) {
-                                    echo $beneficiaries->male_beneficiaries;
-                                } else {
-                                    echo '0';
-                                } ?>
-                        },
-                        {
-                            name: 'Female',
-                            y: <?php if ($beneficiaries->female_beneficiaries) {
-                                    echo $beneficiaries->female_beneficiaries;
-                                } else {
-                                    echo '0';
-                                } ?>
-                        },
 
-                    ],
-                    size: '20%', // Adjust the size as needed
-                    center: ['90%', '30%'], // Position the pie chart on the left
-                    showInLegend: true
-                },
             ]
         });
     </script>

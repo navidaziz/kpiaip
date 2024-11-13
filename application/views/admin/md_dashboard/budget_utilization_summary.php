@@ -27,14 +27,14 @@ $world_bank = $this->db->query($query)->row();
                 polar: true
             },
             title: {
-                text: 'Financial Summary Report',
+                text: 'Financial Overview and Performance Summary',
                 align: 'left',
                 style: {
                     fontSize: '15px' // Set the font size of data labels
                 }
             },
             subtitle: {
-                text: 'Comparison of Receipts, Expenses, and Balances',
+                text: 'A Comparative Report on Receipts, Expenses, and Remaining Balances',
                 align: 'left',
                 style: {
                     fontSize: '10px' // Set the font size of data labels

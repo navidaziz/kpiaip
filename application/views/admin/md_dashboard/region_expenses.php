@@ -13,10 +13,10 @@ $fys = $this->db->query($query)->result();
                 type: 'bar'
             },
             title: {
-                text: 'Region Wise Expenses'
+                text: 'Regional-Level Analysis of Scheme Expenditures'
             },
             subtitle: {
-                text: 'Expense on Region Max to Min'
+                text: 'Regional Ranked by Highest to Lowest Scheme Expenses'
             },
             xAxis: {
                 type: 'category',
@@ -31,14 +31,14 @@ $fys = $this->db->query($query)->result();
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Population (millions)'
+                    text: 'Expenses (millions)'
                 }
             },
             legend: {
                 enabled: false
             },
             tooltip: {
-                pointFormat: 'Population in 2021: <b>{point.y:.1f} millions</b>'
+                pointFormat: 'Expenses: <b>{point.y:.1f} millions</b>'
             },
             series: [{
                 name: 'Population',

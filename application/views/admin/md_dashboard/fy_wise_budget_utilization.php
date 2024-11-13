@@ -49,12 +49,12 @@ foreach ($fys as $fy) {
     <script>
         Highcharts.chart('cumulative', {
             title: {
-                text: 'Financial Data - Trends and Yearly Analysis',
+                text: 'Financial Year Data - Trends and Analysis',
                 align: 'left'
             },
 
             subtitle: {
-                text: 'Comparison of Cumulative and Yearly Totals for Expenses, World Bank Funds, and Budget Released',
+                text: 'Yearly Comparison of Expenses, World Bank Funds, and Budget Released Totals',
                 align: 'left'
             },
 
