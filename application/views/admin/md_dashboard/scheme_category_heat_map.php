@@ -19,7 +19,7 @@ $fys = $this->db->query($query)->result();
             },
 
             title: {
-                text: 'Scheme Status Distribution by Sub Category',
+                text: 'Scheme Status Distribution by Category',
                 style: {
                     fontSize: '1em'
                 }
@@ -33,11 +33,13 @@ $fys = $this->db->query($query)->result();
                 INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id) 
                 WHERE cc.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
                     $sub_components = $this->db->query($query)->result();
-                    foreach ($sub_components as $sub_component) { ?> '<?php echo $sub_component->sub_component_name; ?>',
-                    <?php } ?>
+                    foreach ($sub_components as $sub_component) {
+                        echo "'" . $sub_component->sub_component_name . "',";
+                    }
+                    ?>
                 ],
                 title: {
-                    text: 'Sub Category'
+                    text: 'Category'
                 }
             },
 
@@ -57,8 +59,10 @@ $fys = $this->db->query($query)->result();
                         "Final",
                         "Completed"
                     );
-                    foreach ($schemes as $scheme_status) { ?> '<?php echo $scheme_status; ?>',
-                    <?php } ?>
+                    foreach ($schemes as $scheme_status) {
+                        echo "'" . $scheme_status . "',";
+                    }
+                    ?>
                 ],
                 title: null,
                 reversed: true
@@ -66,8 +70,8 @@ $fys = $this->db->query($query)->result();
 
             accessibility: {
                 point: {
-                    descriptionFormat: '{series.xAxis.categories.(point.x)} ' +
-                        '{series.yAxis.categories.(point.y)}, {value}.'
+                    descriptionFormat: '{series.xAxis.categories[(point.x)]} ' +
+                        '{series.yAxis.categories[(point.y)]}, {value}.'
                 }
             },
 
@@ -87,9 +91,9 @@ $fys = $this->db->query($query)->result();
             },
 
             tooltip: {
-                format: '<b>{series.xAxis.categories.(point.x)}</b><br>' +
+                format: '<b>{series.xAxis.categories[(point.x)]}</b><br>' +
                     '<b>{point.value}</b> schemes with <br>' +
-                    '<b>{series.yAxis.categories.(point.y)}</b>'
+                    '<b>{series.yAxis.categories[(point.y)]}</b>'
             },
 
             series: [{
