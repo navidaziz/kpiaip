@@ -181,7 +181,7 @@
                         <th>Remaining</th>
                         <th></th>
                         <?php
-                        $schemes_status = array("Par-Completed", "Registered", "Initiated", "Ongoing", "ICR-I", "ICR-II", "FCR", "Completed");
+                        $schemes_status = array("Registered", "Initiated", "Ongoing", "ICR-I", "ICR-II", "FCR", "Par-Completed", "Completed");
                         foreach ($schemes_status as $scheme_status) { ?>
                             <th style="text-align: center;"><?php echo $scheme_status; ?></th>
                         <?php } ?>
@@ -350,7 +350,6 @@
                             <th>Remaining</th>
                             <th></th>
                             <?php
-                            $schemes_status = array("Par-Completed", "Registered", "Initiated", "Ongoing", "ICR-I", "ICR-II", "FCR", "Completed");
                             foreach ($schemes_status as $scheme_status) { ?>
                                 <th style="text-align: center;"><?php echo $scheme_status; ?></th>
                             <?php } ?>
@@ -505,7 +504,6 @@
                         <th>Remaining</th>
                         <th></th>
                         <?php
-                        $schemes_status = array("Par-Completed", "Registered", "Initiated", "Ongoing", "ICR-I", "ICR-II", "FCR", "Completed");
                         foreach ($schemes_status as $scheme_status) { ?>
                             <th style="text-align: center;"><?php echo $scheme_status; ?></th>
                         <?php } ?>
