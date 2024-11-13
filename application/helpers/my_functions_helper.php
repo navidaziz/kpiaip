@@ -7,6 +7,7 @@
 
 
 
+
 function remarks($percentage, $promote)
 {
 	$fail = 33;

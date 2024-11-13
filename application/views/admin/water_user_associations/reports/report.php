@@ -328,7 +328,161 @@
                     </tr>
                 </table>
 
+                <h4>District Wise Data Reconciliation</h4>
+                <table class="table table-bordered table_small">
+                    <tr>
+                        <th></th>
+                        <th></th>
 
+                        <th style="text-align: center;" colspan="3">Finance Cheque Counts</th>
+                        <th></th>
+                        <th style="text-align: center;" colspan="8">Scheme Status</th>
+                        <th></th>
+                        <th style="text-align: center;" colspan="3">Scheme Reconciliation</th>
+                    </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>District</th>
+                        <th>Total</th>
+                        <th>Corrected</th>
+                        <th>Remaining</th>
+                        <th></th>
+                        <?php
+                        $schemes_status = array("Par-Completed", "Registered", "Initiated", "Ongoing", "ICR-I", "ICR-II", "FCR", "Completed");
+                        foreach ($schemes_status as $scheme_status) { ?>
+                            <th style="text-align: center;"><?php echo $scheme_status; ?></th>
+                        <?php } ?>
+                        <th></th>
+                        <th>SFT Completed</th>
+                        <th>Finance Completed</th>
+                        <th>Difference</th>
+                    </tr>
+                    <?php
+                    // Query all component categories
+                    $count = 1;
+                    $query = "SELECT *, COUNT(e.expense_id) as total FROM districts as d  
+                    INNER JOIN expenses as e ON(e.district_id = d.district_id )
+                    WHERE d.is_district = 1 GROUP BY e.district_id ORDER BY total DESC";
+                    $districts = $this->db->query($query)->result();
+                    foreach ($districts as $district) { ?>
+                        <tr>
+
+                            <th><?php echo $count++; ?></th>
+                            <th><?php echo $district->district_name; ?></th>
+                            <th>
+                                <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                                 WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                                $query .= " AND e.district_id = $district->district_id";
+
+                                $cat_cheques = $this->db->query($query)->row();
+                                echo $cat_cheques->total;
+                                ?>
+                            </th>
+                            <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                                                WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                 AND e.scheme_id IS NULL";
+                            $query .= " AND e.district_id = $district->district_id";
+                            $cat_not_user_cheques = $this->db->query($query)->row();
+
+                            ?>
+
+                            <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
+                            <th><?php echo $cat_not_user_cheques->total; ?></th>
+                            <th></th>
+                            <?php
+                            // Total for each scheme status across all component categories
+                            foreach ($schemes_status as $scheme_status) { ?>
+                                <td style="text-align: center;"><?php
+                                                                $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                WHERE s.scheme_status = '" . $scheme_status . "'
+                                AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                                                                $query .= " AND s.district_id = $district->district_id";
+                                                                echo $this->db->query($query)->row()->total;
+                                                                ?></td>
+                            <?php } ?>
+                            <th></th>
+                            <th style="text-align: center;"><?php
+                                                            // Grand total for all categories and statuses
+                                                            $query = "SELECT COUNT(*) as total FROM schemes as s 
+                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                      AND scheme_status IN ('Completed', 'Par-Completed')  ";
+                                                            $query .= " AND s.district_id = $district->district_id";
+                                                            echo $sft_completed_total = $this->db->query($query)->row()->total;
+                                                            ?></th>
+                            <th style="text-align: center;"><?php
+                                                            // Grand total for all categories and statuses
+                                                            $query = "SELECT COUNT(*) as total FROM expenses as e 
+                      WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                      AND installment = 'Final'";
+                                                            $query .= " AND e.district_id = $district->district_id";
+                                                            echo $finance_completed_total = $this->db->query($query)->row()->total;
+                                                            ?></th>
+                            <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
+                        </tr>
+                    <?php } ?>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th>
+                            <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                            WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                            if ($district_id) {
+                                $query .= " AND e.district_id = $district_id";
+                            }
+                            $cat_cheques = $this->db->query($query)->row();
+                            echo $cat_cheques->total;
+                            ?>
+                        </th>
+                        <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                                                WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                 AND e.scheme_id IS NULL";
+                        if ($district_id) {
+                            $query .= " AND e.district_id = $district_id";
+                        }
+                        $cat_not_user_cheques = $this->db->query($query)->row();
+
+                        ?>
+
+                        <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
+                        <th><?php echo $cat_not_user_cheques->total; ?></th>
+                        <th></th>
+                        <?php
+                        // Total for each scheme status across all component categories
+                        foreach ($schemes_status as $scheme_status) { ?>
+                            <td style="text-align: center;"><?php
+                                                            $query = "SELECT COUNT(*) as total FROM schemes as s 
+                          WHERE s.scheme_status = '" . $scheme_status . "'
+                          AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                                                            if ($district_id) {
+                                                                $query .= " AND district_id = $district_id";
+                                                            }
+                                                            echo $this->db->query($query)->row()->total;
+                                                            ?></td>
+                        <?php } ?>
+                        <th></th>
+                        <th style="text-align: center;"><?php
+                                                        // Grand total for all categories and statuses
+                                                        $query = "SELECT COUNT(*) as total FROM schemes as s 
+                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                      AND scheme_status IN ('Completed', 'Par-Completed')  ";
+                                                        if ($district_id) {
+                                                            $query .= " AND district_id = $district_id";
+                                                        }
+                                                        echo $sft_completed_total = $this->db->query($query)->row()->total;
+                                                        ?></th>
+                        <th style="text-align: center;"><?php
+                                                        // Grand total for all categories and statuses
+                                                        $query = "SELECT COUNT(*) as total FROM expenses as e 
+                      WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                      AND installment = 'Final'";
+                                                        if ($district_id) {
+                                                            $query .= " AND e.district_id = $district_id";
+                                                        }
+                                                        echo $finance_completed_total = $this->db->query($query)->row()->total;
+                                                        ?></th>
+                        <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
+                    </tr>
+                </table>
 
 
 
@@ -497,47 +651,47 @@
                         <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
                     </tr>
                 </table>
+                <?php if ($district_id < 1) { ?>
 
-
-                <h4>Completed Scheme Average Cost</h4>
-                <table class="table table-bordered table_small">
-                    <tr>
-                        <th></th>
-                        <?php
-                        // Query all financial years to display as columns
-                        $query = "SELECT * FROM financial_years";
-                        $fys = $this->db->query($query)->result();
-                        foreach ($fys as $fy) { ?>
-                            <th style="text-align: center;" colspan="3"><?php echo $fy->financial_year; ?></th>
-                        <?php } ?>
-                        <th style="text-align: center;" colspan="3">Total</th>
-                    </tr>
-                    <tr>
-                        <th>Category</th>
-                        <?php
-                        // Add sub-headers for Schemes, Cost, and AVG Cost under each financial year
-                        foreach ($fys as $fy) { ?>
+                    <h4>Completed Scheme Average Cost</h4>
+                    <table class="table table-bordered table_small">
+                        <tr>
+                            <th></th>
+                            <?php
+                            // Query all financial years to display as columns
+                            $query = "SELECT * FROM financial_years";
+                            $fys = $this->db->query($query)->result();
+                            foreach ($fys as $fy) { ?>
+                                <th style="text-align: center;" colspan="3"><?php echo $fy->financial_year; ?></th>
+                            <?php } ?>
+                            <th style="text-align: center;" colspan="3">Total</th>
+                        </tr>
+                        <tr>
+                            <th>Category</th>
+                            <?php
+                            // Add sub-headers for Schemes, Cost, and AVG Cost under each financial year
+                            foreach ($fys as $fy) { ?>
+                                <th>Schemes</th>
+                                <th>Cost</th>
+                                <th>AVG.</th>
+                            <?php } ?>
                             <th>Schemes</th>
                             <th>Cost</th>
                             <th>AVG.</th>
-                        <?php } ?>
-                        <th>Schemes</th>
-                        <th>Cost</th>
-                        <th>AVG.</th>
-                    </tr>
-                    <?php
-                    // Query all component categories to display as rows
-                    $query = "SELECT * FROM component_categories as cc
+                        </tr>
+                        <?php
+                        // Query all component categories to display as rows
+                        $query = "SELECT * FROM component_categories as cc
                     WHERE cc.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
-                    $categories = $this->db->query($query)->result();
+                        $categories = $this->db->query($query)->result();
 
-                    foreach ($categories as $category) { ?>
-                        <tr>
-                            <th><?php echo $category->category; ?>: </th>
-                            <?php
-                            // Loop over each financial year for each category
-                            foreach ($fys as $fy) {
-                                $query = "
+                        foreach ($categories as $category) { ?>
+                            <tr>
+                                <th><?php echo $category->category; ?>: </th>
+                                <?php
+                                // Loop over each financial year for each category
+                                foreach ($fys as $fy) {
+                                    $query = "
                                     SELECT 
                                         COUNT(*) AS total_schemes,
                                         SUM(paid) AS total_cost,
@@ -549,18 +703,18 @@
                                         AND s.scheme_status = 'Completed'
                                 ";
 
-                                if ($district_id) {
-                                    $query .= " AND s.district_id = $district_id";
-                                }
-                                $category_scheme = $this->db->query($query)->row();
-                            ?>
+                                    if ($district_id) {
+                                        $query .= " AND s.district_id = $district_id";
+                                    }
+                                    $category_scheme = $this->db->query($query)->row();
+                                ?>
 
-                                <td style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></td>
-                                <td><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></td>
-                                <td><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></td>
-                            <?php } ?>
-                            <?php
-                            $query = "
+                                    <td style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></td>
+                                    <td><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></td>
+                                    <td><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></td>
+                                <?php } ?>
+                                <?php
+                                $query = "
                             SELECT 
                                         COUNT(*) AS total_schemes,
                                         SUM(paid) AS total_cost,
@@ -571,26 +725,26 @@
                                         AND s.scheme_status = 'Completed'
                             ";
 
-                            if ($district_id) {
-                                $query .= " AND s.district_id = $district_id";
-                            }
-                            $category_scheme = $this->db->query($query)->row();
-                            ?>
+                                if ($district_id) {
+                                    $query .= " AND s.district_id = $district_id";
+                                }
+                                $category_scheme = $this->db->query($query)->row();
+                                ?>
 
-                            <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>
-                            <th><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></th>
-                            <th><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></th>
+                                <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>
+                                <th><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></th>
+                                <th><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></th>
 
-                        </tr>
-                    <?php } ?>
+                            </tr>
+                        <?php } ?>
 
-                    <tbody>
-                        <tr>
-                            <th style="text-align: right;">Total</th>
-                            <?php
-                            // Loop over each financial year for each category
-                            foreach ($fys as $fy) {
-                                $query = "
+                        <tbody>
+                            <tr>
+                                <th style="text-align: right;">Total</th>
+                                <?php
+                                // Loop over each financial year for each category
+                                foreach ($fys as $fy) {
+                                    $query = "
                                     SELECT 
                                         COUNT(*) AS total_schemes,
                                         SUM(paid) AS total_cost,
@@ -601,18 +755,18 @@
                                         AND s.scheme_status = 'Completed'
                                 ";
 
-                                if ($district_id) {
-                                    $query .= " AND s.district_id = $district_id";
-                                }
-                                $category_scheme = $this->db->query($query)->row();
-                            ?>
+                                    if ($district_id) {
+                                        $query .= " AND s.district_id = $district_id";
+                                    }
+                                    $category_scheme = $this->db->query($query)->row();
+                                ?>
 
-                                <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>
-                                <th><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></th>
-                                <th><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></th>
-                            <?php } ?>
-                            <?php
-                            $query = "
+                                    <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>
+                                    <th><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></th>
+                                    <th><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></th>
+                                <?php } ?>
+                                <?php
+                                $query = "
                             SELECT 
                                         COUNT(*) AS total_schemes,
                                         SUM(paid) AS total_cost,
@@ -622,20 +776,20 @@
                                         WHERE  s.scheme_status = 'Completed'
                             ";
 
-                            if ($district_id) {
-                                $query .= " AND s.district_id = $district_id";
-                            }
-                            $category_scheme = $this->db->query($query)->row();
-                            ?>
+                                if ($district_id) {
+                                    $query .= " AND s.district_id = $district_id";
+                                }
+                                $category_scheme = $this->db->query($query)->row();
+                                ?>
 
-                            <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>
-                            <th><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></th>
-                            <th><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></th>
+                                <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>
+                                <th><?php echo $category_scheme->total_cost > 0 ? number_format(round($category_scheme->total_cost, 2)) : ''; ?></th>
+                                <th><?php echo $category_scheme->avg_cost > 0 ? number_format(round($category_scheme->avg_cost, 2)) : ''; ?></th>
 
-                        </tr>
-                    </tbody>
-                </table>
-
+                            </tr>
+                        </tbody>
+                    </table>
+                <?php } ?>
                 <h4>Completed Scheme and Final Payment</h4>
                 <table class="table table-bordered table_small">
                     <tr>
@@ -696,6 +850,8 @@
                 </table>
 
             </div>
+
+
 
         </div>
     </div>

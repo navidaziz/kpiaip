@@ -183,7 +183,7 @@
                         foreach ($schemes as $scheme_status) {
                             // Build the query to count the total of each scheme_status
                             $query = "SELECT COUNT(scheme_status) as total FROM schemes 
-                  WHERE scheme_status = '" . $scheme_status . "'";
+                            WHERE scheme_status = '" . $scheme_status . "'";
 
                             // Add the district filter if district_id is provided
                             if ($district_id) {
