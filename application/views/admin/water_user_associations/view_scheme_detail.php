@@ -648,18 +648,18 @@
                                         <td><?php echo $scheme->water_source; ?></td>
                                         <td><?php echo $scheme->cca; ?></td>
                                         <td><?php echo $scheme->gca; ?></td>
-                                        <td><?php echo $scheme->pre; ?></td>
+                                        <td><?php echo $scheme->pre_water_losses; ?></td>
                                         <td><?php echo $scheme->pre_additional; ?></td>
-                                        <td><?php echo $scheme->post; ?></td>
-                                        <td><?php echo $scheme->saving; ?></td>
+                                        <td><?php echo $scheme->post_water_losses; ?></td>
+                                        <td><?php echo $scheme->saving_water_losses; ?></td>
                                         <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
                                         <td><?php echo $scheme->saving_utilization_to_change_in_cropping_pattern; ?>
                                         </td>
                                         <td><?php echo $scheme->water_productivity_for_wheat_and_maize; ?></td>
                                         <td><?php echo $scheme->any_increase_in_productivity_after_the_list_crop_cycle; ?>
                                         </td>
-                                        <td><?php echo $scheme->total; ?></td>
-                                        <td><?php echo $scheme->lining; ?></td>
+                                        <td><?php echo $scheme->total_lenght; ?></td>
+                                        <td><?php echo $scheme->lining_length; ?></td>
                                         <td><?php echo $scheme->lwh; ?></td>
                                         <td><?php echo $scheme->type_of_lining; ?></td>
                                         <td><?php echo $scheme->nacca_pannel; ?></td>

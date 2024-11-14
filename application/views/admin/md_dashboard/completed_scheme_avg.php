@@ -5,7 +5,7 @@ $fys = $this->db->query($query)->result();
 
 ?>
 <div class="jumbotron" style="padding: 2px;">
-    <div id="completed_scheme_avg_div" style="width:100%; height:400px;"></div>
+    <div id="completed_scheme_avg_div" style="width:100%; height:400px; text-align:right"></div>
 
     <script>
         // Define custom series type for displaying low/med/high values using
@@ -15,7 +15,7 @@ $fys = $this->db->query($query)->result();
             tooltip: {
                 pointFormat: '<span style="color:{point.color}">\u25CF</span> ' +
                     '{series.name}: ' +
-                    'Cost (M): Min <b>{point.low} </b> - AVG <b>{point.median} </b> - ' +
+                    'Cost (m): Min <b>{point.low} </b> - AVG <b>{point.median} </b> - ' +
                     'High <b>{point.high} </b><br/>'
             }
         }, {
@@ -176,9 +176,12 @@ $fys = $this->db->query($query)->result();
     </script>
 
 
+    <p style="text-align: center; margin-top:5px">
+        <small style="font-size:9px !important">Execution Time: <?php
+                                                                $end_time = microtime(true);
+                                                                $execution_time = $end_time - $start_time;
+                                                                echo $execution_time; ?> seconds</small>
 
-    <small style="font-size:9px !important">Execution Time: <?php
-                                                            $end_time = microtime(true);
-                                                            $execution_time = $end_time - $start_time;
-                                                            echo $execution_time; ?> seconds</small>
+        <button class="btn btn-link btn-sm" style="border: 1px solid #999999; padding:2px; border-radius:5px" onclick="makeFullScreen('completed_scheme_avg_div')"><i class="fa fa-expand fullscreen-icon" aria-hidden="true"></i> Full Screen</button>
+    </p>
 </div>

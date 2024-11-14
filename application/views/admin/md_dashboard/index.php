@@ -254,7 +254,26 @@
         filter_data();
     </script>
 
+    <script>
+        function makeFullScreen(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                } else if (element.mozRequestFullScreen) { // Firefox
+                    element.mozRequestFullScreen();
+                } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
+                    element.webkitRequestFullscreen();
+                } else if (element.msRequestFullscreen) { // IE/Edge
+                    element.msRequestFullscreen();
+                }
+            } else {
+                console.warn(`Element with id "${elementId}" not found.`);
+            }
+        }
 
+        
+    </script>
 
 </body>
 
