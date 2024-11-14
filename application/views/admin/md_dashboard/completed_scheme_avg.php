@@ -74,8 +74,13 @@ $fys = $this->db->query($query)->result();
             chart: {
                 type: 'lowmedhigh'
             },
-            title: {
-                text: 'Comparative Scheme Costs by Financial Year and Category (Avg, Min, Max)',
+            <?php
+            // Calculate the total number of schemes
+            $totalQuery = "SELECT COUNT(*) as grand_total FROM schemes as s
+            WHERE s.scheme_status IN('Completed')";
+            $totalSchemes = $this->db->query($totalQuery)->row()->grand_total;
+            ?>title: {
+                text: 'Comparative Completed <span style="color:red"><?php echo $totalSchemes; ?></span> Scheme Costs by Financial Year and Category (Avg, Min, Max)',
                 align: 'left'
             },
             subtitle: {
