@@ -15,8 +15,8 @@ $fys = $this->db->query($query)->result();
             tooltip: {
                 pointFormat: '<span style="color:{point.color}">\u25CF</span> ' +
                     '{series.name}: ' +
-                    'Low <b>{point.low} NOK</b> - Median <b>{point.median} NOK</b> - ' +
-                    'High <b>{point.high} NOK</b><br/>'
+                    'Cost (M): Min <b>{point.low} </b> - AVG <b>{point.median} </b> - ' +
+                    'High <b>{point.high} </b><br/>'
             }
         }, {
             // Change point shape to a line with three crossing lines for
@@ -75,12 +75,11 @@ $fys = $this->db->query($query)->result();
                 type: 'lowmedhigh'
             },
             title: {
-                text: 'Monthly earnings, by level of education in Norway',
+                text: 'Comparative Scheme Costs by Financial Year and Category (Avg, Min, Max)',
                 align: 'left'
             },
             subtitle: {
-                text: 'Source: ' +
-                    '<a href="https://www.ssb.no/en/statbank/table/11420/" target="_blank">SSB</a>',
+                text: 'An Analysis of Scheme Cost Trends Highlighting Average, Minimum, and Maximum Values Across Financial Years and Categories',
                 align: 'left'
             },
             accessibility: {
@@ -109,7 +108,7 @@ $fys = $this->db->query($query)->result();
             }],
             yAxis: {
                 title: {
-                    text: 'Monthly earnings (NOK)'
+                    text: 'Scheme Cost (M) MIN, MAX and AVG'
                 },
                 min: 0
             },
@@ -143,15 +142,15 @@ $fys = $this->db->query($query)->result();
                                 $cat_schemes = $this->db->query($query)->row();
                                 $min = 0;
                                 if ($cat_schemes->min) {
-                                    $min = $cat_schemes->min;
+                                    $min = round($cat_schemes->min / 1000000, 3);
                                 }
                                 $max = 0;
                                 if ($cat_schemes->min) {
-                                    $max = $cat_schemes->max;
+                                    $max = round($cat_schemes->max / 1000000, 3);
                                 }
                                 $avg = 0;
                                 if ($cat_schemes->avg) {
-                                    $avg = $cat_schemes->avg;
+                                    $avg = round($cat_schemes->avg / 1000000, 3);
                                 }
 
                             ?>[<?php echo $min; ?>, <?php echo $avg; ?>, <?php echo $max; ?>],
