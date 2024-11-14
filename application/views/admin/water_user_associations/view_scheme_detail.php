@@ -34,7 +34,7 @@
                     <a
                         href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/"); ?>"><?php echo $this->lang->line('Water User Associations'); ?></a>
                 </li>
-                <li>
+                <!-- <li>
                     <i class="fa fa-table"></i>
                     <a
                         href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/Par-Completed"); ?>">
@@ -42,8 +42,8 @@
                         Schemes List
 
                     </a>
-                </li>
-                <!-- <li>
+                </li> -->
+                <li>
                     <i class="fa fa-table"></i>
                     <a
                         href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/$scheme->scheme_status"); ?>">
@@ -51,7 +51,7 @@
                         Schemes List ( <?php echo $scheme->scheme_status ?> )
 
                     </a>
-                </li> -->
+                </li>
                 <li><?php echo $scheme->scheme_code; ?></li>
             </ul>
             <!-- /BREADCRUMBS -->
