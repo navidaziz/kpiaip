@@ -34,19 +34,19 @@
                             value="<?php echo $input->design_date; ?>" class="form-control">
                     </div>
                 </div>
-
-
                 <div class="form-group row">
                     <label for="estimated_cost" class="col-sm-6 col-form-label">Estimated Cost</label>
                     <div class="col-sm-6">
                         <input min="1" onkeyup="convertNumberToWords('estimated_cost')" type="number" required id="estimated_cost"
                             name="estimated_cost" value="<?php if ($input->estimated_cost > 0) {
                                                                 echo $input->estimated_cost;
-                                                            } ?>" class="form-control">
+                                                            } ?>" class="form-control" />
 
                     </div>
                 </div>
+
                 <div style="border-bottom: 1px solid lightgray; min-height:25px; margin-bottom:8px" id="resultWords"></div>
+
                 <div class="form-group row">
                     <label for="estimated_cost_date" class="col-sm-6 col-form-label">Estimated Cost Date</label>
                     <div class="col-sm-6">
@@ -177,15 +177,11 @@
                     </div>
                 </div>
             </div>
+
             <div class="box border blue" id="messenger" style="padding: 5px; ">
 
-                <div class="form-group row" style="display: none;">
-                    <label for="pre_additional" class="col-sm-6 col-form-label">Pre Additional</label>
-                    <div class="col-sm-6">
-                        <input type="number" id="pre_additional" name="pre_additional"
-                            value="<?php echo $input->pre_additional; ?>" class="form-control">
-                    </div>
-                </div>
+            <input type="hidden" id="pre_additional" name="pre_additional"
+            value="0" class="form-control">
 
                 <div class="form-group row">
                     <label for="pre" class="col-sm-6 col-form-label">Pre Water Losses
