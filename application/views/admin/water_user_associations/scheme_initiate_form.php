@@ -37,7 +37,7 @@
                 <div class="form-group row">
                     <label for="estimated_cost" class="col-sm-6 col-form-label">Estimated Cost</label>
                     <div class="col-sm-6">
-                        <input min="1" onkeyup="convertNumberToWords('estimated_cost')" type="number" required id="estimated_cost"
+                        <input min="1" onkeyup="convertNumberToWords('estimated_cost')" type="number" step="any" required id="estimated_cost"
                             name="estimated_cost" value="<?php if ($input->estimated_cost > 0) {
                                                                 echo $input->estimated_cost;
                                                             } ?>" class="form-control" />
@@ -152,7 +152,7 @@
                         <small>(Culturable Command Area)</small>
                     </label>
                     <div class="col-sm-4">
-                        <input min="2" type="number" required id="cca" name="cca" value="<?php echo $input->cca; ?>"
+                        <input  min="2" type="number" step="any" required id="cca" name="cca" value="<?php echo $input->cca; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -162,7 +162,7 @@
                         <small>(Additional Culturable Command Area)</small>
                     </label>
                     <div class="col-sm-4">
-                        <input min="2" type="number" required id="acca" name="acca" value="<?php echo $input->acca; ?>"
+                        <input min="0" type="number" step="any" required id="acca" name="acca" value="<?php echo $input->acca; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -172,7 +172,7 @@
                         <small>(Gross Command Area)</small>
                     </label>
                     <div class="col-sm-4">
-                        <input min="2" type="number" required id="gca" name="gca" value="<?php echo $input->gca; ?>"
+                        <input min="2" type="number" step="any" required id="gca" name="gca" value="<?php echo $input->gca; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -240,7 +240,7 @@
         </div>
 
     </div>
-    <?php if ($input->component_category_id == 11 or 1 == 1) { ?>
+    <?php if ($input->component_category_id == 11) { ?>
         <div class="row">
             <div class="col-md-12">
                 <div class="box border blue" id="messenger" style="padding: 5px;">
@@ -248,21 +248,21 @@
                         <div class="col-md-3">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
                                 <label for="length" class="col-form-label">Length <strong style="color: green;">(ft.)</strong></label>
-                                <input type="number" required id="length" name="length" value="<?php echo $input->length; ?>"
+                                <input type="number" step="any" required id="length" name="length" value="<?php echo $input->length; ?>"
                                     class="form-control" onkeyup="updateLWH()">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
                                 <label for="width" class="col-form-label">Width <strong style="color: green;">(ft.)</strong></label>
-                                <input type="number" required id="width" name="width" value="<?php echo $input->width; ?>"
+                                <input type="number" step="any" required id="width" name="width" value="<?php echo $input->width; ?>"
                                     class="form-control" onkeyup="updateLWH()">
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
                                 <label for="height" class="col-form-label">Height <strong style="color: green;">(ft.)</strong></label>
-                                <input type="number" required id="height" name="height" value="<?php echo $input->height; ?>"
+                                <input type="number" step="any" required id="height" name="height" value="<?php echo $input->height; ?>"
                                     class="form-control" onkeyup="updateLWH()">
                             </div>
                         </div>
@@ -295,14 +295,14 @@
         </script>
 
     <?php } ?>
-    <?php if ($input->component_category_id <= 9 or 1 == 1) { ?>
+    <?php if ($input->component_category_id <= 9) { ?>
         <div class="row">
             <div class="col-md-6">
                 <div class="box border blue" id="messenger" style="padding: 5px; min-height:258px">
                     <div class="form-group row">
                         <label for="total" class="col-sm-6 col-form-label">Total Lenght <strong style="color:green">(m)</strong></label>
                         <div class="col-sm-6">
-                            <input type="number" required id="total_lenght" name="total_lenght" value="<?php echo $input->total_lenght; ?>"
+                            <input type="number" step="any" required id="total_lenght" name="total_lenght" value="<?php echo $input->total_lenght; ?>"
                                 class="form-control">
                         </div>
                     </div>
@@ -365,7 +365,7 @@
                     <div class="form-group row">
                         <label for="lining" class="col-sm-6 col-form-label">Design Discharge <strong style="color:green">(cusec)</strong></label>
                         <div class="col-sm-6">
-                            <input step="any" placeholder="0.000" type="number" required id="design_discharge" name="design_discharge" value="<?php echo $input->design_discharge; ?>"
+                            <input step="any" placeholder="0.000" type="number" step="any" required id="design_discharge" name="design_discharge" value="<?php echo $input->design_discharge; ?>"
                                 class="form-control">
                         </div>
                     </div>
