@@ -333,19 +333,29 @@
                 <?php } else { ?>
                     <h4>District Wise Data Reconciliation</h4>
                     <table class="table table-bordered table_small">
+                        
+                        
+
+                        <?php 
+                        $query="SELECT region FROM districts WHERE is_district=1 GROUP BY region";
+                        $regions = $this->db->query($query)->result();
+                        foreach($regions as $region){
+                            echo $region->region;
+                        ?>
                         <tr>
                             <th></th>
                             <th></th>
-
+                            <th></th>
                             <th style="text-align: center;" colspan="3">Finance Cheque Counts</th>
                             <th></th>
-                            <th style="text-align: center;" colspan="6">Ongoing Scheme</th>
+                            <th style="text-align: center;" colspan="7">Ongoing Scheme</th>
                             <th style="text-align: center;" colspan="2">Completed Status</th>
                             <th></th>
                             <th style="text-align: center;" colspan="3">Scheme Reconciliation</th>
                         </tr>
                         <tr>
                             <th>#</th>
+                            <th>Region</th>
                             <th>District</th>
                             <th>Total</th>
                             <th>Corrected</th>
@@ -355,6 +365,7 @@
                             foreach ($schemes_status as $scheme_status) { ?>
                                 <th style="text-align: center;"><?php echo $scheme_status; ?></th>
                             <?php } ?>
+                            <th>%</th>
                             <th></th>
                             <th>SFT Completed</th>
                             <th>Finance Completed</th>
@@ -365,12 +376,15 @@
                         $count = 1;
                         $query = "SELECT *, COUNT(e.expense_id) as total FROM districts as d  
                         INNER JOIN expenses as e ON(e.district_id = d.district_id )
-                        WHERE d.is_district = 1 GROUP BY e.district_id ORDER BY total DESC";
+                        WHERE d.is_district = 1 
+                        AND region = '".$region->region."'
+                        GROUP BY e.district_id ORDER BY total DESC";
                         $districts = $this->db->query($query)->result();
                         foreach ($districts as $district) { ?>
                             <tr>
 
                                 <th><?php echo $count++; ?></th>
+                                <th><?php echo $district->region; ?></th>
                                 <th><?php echo $district->district_name; ?></th>
                                 <th>
                                     <?php $query = "SELECT COUNT(*) as total FROM expenses as e
@@ -394,36 +408,62 @@
                                 <th></th>
                                 <?php
                                 // Total for each scheme status across all component categories
+                                $par_completed = 0;
+                                $completed = 0;
                                 foreach ($schemes_status as $scheme_status) { ?>
                                     <td style="text-align: center;"><?php
                                                                     $query = "SELECT COUNT(*) as total FROM schemes as s 
                                 WHERE s.scheme_status = '" . $scheme_status . "'
                                 AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
                                                                     $query .= " AND s.district_id = $district->district_id";
-                                                                    echo $this->db->query($query)->row()->total;
+                                                                    echo $ss_total = $this->db->query($query)->row()->total;
+                                if($scheme_status=='Par-Completed'){
+                                $par_completed = $ss_total;
+                                }
+                                if($scheme_status=='Completed'){
+                                $completed = $ss_total;
+                                }
                                                                     ?></td>
                                 <?php } ?>
+                                <th><?php 
+                                $percentage=0;
+                                if($completed){
+                                $percentage =  round(($completed*100)/ ($par_completed+$completed)); 
+                                }
+                                if($percentage==100){
+                                    echo 'Done';
+                                }else{
+                                    echo $percentage."%";   
+                                }
+                                ?></th>
                                 <th></th>
                                 <th style="text-align: center;"><?php
                                                                 // Grand total for all categories and statuses
                                                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
-                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                      AND scheme_status IN ('Completed', 'Par-Completed')  ";
+                                                                WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                                AND scheme_status IN ('Completed', 'Par-Completed')  ";
                                                                 $query .= " AND s.district_id = $district->district_id";
                                                                 echo $sft_completed_total = $this->db->query($query)->row()->total;
                                                                 ?></th>
+                                                                
                                 <th style="text-align: center;"><?php
                                                                 // Grand total for all categories and statuses
                                                                 $query = "SELECT COUNT(*) as total FROM expenses as e 
-                      WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                      AND installment = 'Final'";
+                                                                WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                                AND installment = 'Final'";
                                                                 $query .= " AND e.district_id = $district->district_id";
                                                                 echo $finance_completed_total = $this->db->query($query)->row()->total;
                                                                 ?></th>
+                                                                
                                 <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
                             </tr>
                         <?php } ?>
+
+                        <?php }
+                        ?>
+
                         <tr>
+                            <th></th>
                             <th></th>
                             <th></th>
                             <th>
@@ -463,11 +503,12 @@
                                                                 ?></td>
                             <?php } ?>
                             <th></th>
+                            <th></th>
                             <th style="text-align: center;"><?php
                                                             // Grand total for all categories and statuses
                                                             $query = "SELECT COUNT(*) as total FROM schemes as s 
-                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                      AND scheme_status IN ('Completed', 'Par-Completed')  ";
+                                                                      WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                                      AND scheme_status IN ('Completed', 'Par-Completed')  ";
                                                             if ($district_id) {
                                                                 $query .= " AND district_id = $district_id";
                                                             }
@@ -476,8 +517,8 @@
                             <th style="text-align: center;"><?php
                                                             // Grand total for all categories and statuses
                                                             $query = "SELECT COUNT(*) as total FROM expenses as e 
-                      WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                      AND installment = 'Final'";
+                                                                     WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                            AND installment = 'Final'";
                                                             if ($district_id) {
                                                                 $query .= " AND e.district_id = $district_id";
                                                             }
