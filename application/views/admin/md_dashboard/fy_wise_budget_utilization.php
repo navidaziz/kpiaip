@@ -98,6 +98,14 @@ foreach ($fys as $fy) {
                     color: '#00E272'
                 },
                 {
+                    name: 'Cumulative Budget',
+                    type: 'spline',
+                    data: [<?php foreach ($fys as $fy) {
+                                echo $fy->budget_released_cumulative / 1000000 . ",";
+                            } ?>],
+                    color: '#ffa500'
+                },
+                {
                     name: 'Cumulative World Bank',
                     type: 'spline',
                     data: [<?php foreach ($fys as $fy) {
@@ -123,6 +131,7 @@ foreach ($fys as $fy) {
                             } ?>],
                     color: '#00E272'
                 },
+                
                 // Pie Chart for total distribution of Expenses for the latest year (example)
                 {
                     name: 'Expense for Purpose',

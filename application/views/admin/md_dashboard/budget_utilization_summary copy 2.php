@@ -119,27 +119,27 @@ $world_bank = $this->db->query($query)->row();
             <thead>
                 <tr>
                     <th></th>
-                    <th style="background-color: #FF645A;">Disbursement From (WB)</th>
-                    <th style="background-color: #FFBE18;">Releases in RFA</th>
+                    <th style="background-color: #FF645A;">World Bank</th>
+                    <th style="background-color: #FFBE18;">Budget Released</th>
 
                 </tr>
             </thead>
             <tbody>
 
                 <tr>
-                    <th>Receipts</th>
-                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format(max($world_bank->total/1000000, 0)); ?> (m)</td>
-                    <td style="background-color: #FFBE18;"><?php echo number_format(max($budget_released->total/1000000, 0)); ?> (m)</td>
+                    <th>Reciepts</th>
+                    <td style="background-color: #FF645A;"><?php echo number_format(max($world_bank->total, 0)); ?></td>
+                    <td style="background-color: #FFBE18;"><?php echo number_format(max($budget_released->total, 0)); ?></td>
                 </tr>
                 <tr>
                     <th style="background-color: #19F98B"></th>
                     <th style="background-color: #19F98B;">Expenses</th>
-                    <td  style="text-align: center; background-color: #19F98B"><?php echo number_format(max($expenses->total/1000000, 0)); ?> (m)</td>
+                    <td  style="text-align: center; background-color: #19F98B"><?php echo number_format(max($expenses->total, 0)); ?></td>
                 </tr>
                 <tr>
                     <th>Balance</th>
-                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format(max(($world_bank->total - $expenses->total)/1000000, 0)); ?> (m)</td>
-                    <td style="background-color: #FFBE18; text-align:center"><?php echo number_format(max(($budget_released->total - $expenses->total)/1000000, 0)); ?> (m)</td>
+                    <td style="background-color: #FF645A;"><?php echo number_format(max($world_bank->total - $expenses->total, 0)); ?></td>
+                    <td style="background-color: #FFBE18;"><?php echo number_format(max($budget_released->total - $expenses->total, 0)); ?></td>
                 </tr>
 
             </tbody>
