@@ -227,6 +227,10 @@
                 <div id="scheme_category_total"></div>
             </div>
 
+             <div class="col-md-12">
+                <div id="district_scheme_heat_map"></div>
+            </div>
+
             <div class="col-md-3">
                 <div id="region_schemes"></div>
             </div>
@@ -329,6 +333,7 @@
             get_report("region_expenses");
             get_report("scheme_category_total");
             get_report("scheme_category_heat_map");
+             get_report("district_scheme_heat_map");
 
             get_report("region_schemes");
             get_report("district_schemes");

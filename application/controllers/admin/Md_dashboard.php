@@ -85,6 +85,16 @@ class Md_dashboard extends Admin_Controller
    }
 
 
+   public function district_scheme_heat_map()
+   {
+      
+      $this->data['title'] = 'KPIAIP Dashboard';
+      $this->data['description'] = 'Monitoring and evaluation dashboard';
+      $this->load->view('admin/md_dashboard/district_scheme_heat_map', $this->data);
+   }
+   
+
+
 
 
 
