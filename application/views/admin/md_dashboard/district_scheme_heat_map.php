@@ -8,9 +8,13 @@ $fys = $this->db->query("SELECT * FROM financial_years")->result();
 $districts = $this->db->query("SELECT *, (SELECT COUNT(*) FROM schemes WHERE schemes.district_id = districts.district_id) as total FROM districts WHERE is_district=1")->result();
 
 // Scheme statuses for y-axis
+// $schemes = [
+//     "Not Approved", "Disputed", "Par-Completed", "Registered", "Initiated", 
+//     "Ongoing", "ICR-I", "ICR-II", "Final", "Completed"
+// ];
+
 $schemes = [
-    "Not Approved", "Disputed", "Par-Completed", "Registered", "Initiated", 
-    "Ongoing", "ICR-I", "ICR-II", "Final", "Completed"
+    "Ongoing", "ICR-I", "ICR-II", "Final"
 ];
 
 // Heatmap data preparation
@@ -41,7 +45,7 @@ foreach ($schemes as $y_index => $scheme_status) {
                 plotBorderWidth: 1
             },
             title: {
-                text: 'Schemes District-Wise Status Wise Heatmap',
+                text: 'District-Wise Ongoing Schemes',
                 style: { fontSize: '1em' }
             },
             xAxis: {
