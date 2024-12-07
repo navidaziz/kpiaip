@@ -5,7 +5,7 @@ $start_time = microtime(true);
 $fys = $this->db->query("SELECT * FROM financial_years")->result();
 
 // Fetch distinct districts for x-axis
-$districts = $this->db->query("SELECT *, (SELECT COUNT(*) FROM schemes WHERE schemes.district_id = districts.district_id) as total FROM districts WHERE is_district=1")->result();
+$districts = $this->db->query("SELECT *  FROM districts WHERE is_district=1")->result();
 
 // Scheme statuses for y-axis
 // $schemes = [
@@ -51,7 +51,7 @@ foreach ($schemes as $y_index => $scheme_status) {
             xAxis: {
                 categories: [
                     <?php foreach ($districts as $district): ?>
-                        '<?php echo addslashes($district->district_name."-".$district->total); ?>',
+                        '<?php echo addslashes($district->district_name); ?>',
                     <?php endforeach; ?>
                 ],
                 title: { text: 'Districts' }
@@ -102,7 +102,7 @@ foreach ($schemes as $y_index => $scheme_status) {
             }],
             responsive: {
                 rules: [{
-                    condition: { maxWidth: 500 },
+                    condition: { maxWidth: 100 },
                     chartOptions: {
                         yAxis: {
                             labels: {
