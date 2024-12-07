@@ -52,6 +52,23 @@
         color: black !important;
     }
 
+    .table_medium2>tbody>tr>td,
+    .table_medium2>tbody>tr>th,
+    .table_medium2>tfoot>tr>td,
+    .table_medium2>tfoot>tr>th,
+    .table_medium2>thead>tr>td,
+    .table_medium2>thead>tr>th {
+        padding: 2px;
+        line-height: 1.42857143;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 16px;
+        text-align: center;
+        border: 0.1px solid gray !important;
+        font-weight: bold !important;
+        color: black !important;
+
+    }
     .table_medium>tbody>tr>td,
     .table_medium>tbody>tr>th,
     .table_medium>tfoot>tr>td,
@@ -188,10 +205,7 @@
                     <p class="count"><?php echo $scheme->total ?></p>
                 </div>
             </div>
-            <?php } ?>
-
-
-
+     <?php } ?>
             <div class="col-md-4">
                 <div id="budget_utilization_summary"></div>
             </div>

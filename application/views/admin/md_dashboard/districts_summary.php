@@ -128,8 +128,8 @@
     </table>
 </div>
 <style>
-    th:first-child,
-    td:first-child {
+    #db_table th:first-child,
+    #db_table td:first-child {
         position: -webkit-sticky;
         /* For Safari */
         position: sticky;

@@ -45,7 +45,7 @@ foreach ($fys as $fy) {
 ?>
 
 <div class="jumbotron" style="padding: 2px;">
-    <div id="cumulative" style="height: 400px !important;"></div>
+    <div id="cumulative"></div>
     <script>
         Highcharts.chart('cumulative', {
             title: {
@@ -70,11 +70,11 @@ foreach ($fys as $fy) {
                                 } ?>]
             },
 
-            // legend: {
-            //     layout: 'vertical',
-            //     align: 'bottom',
-            //     verticalAlign: 'middle'
-            // },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle'
+            },
 
             plotOptions: {
                 series: {
@@ -142,7 +142,24 @@ foreach ($fys as $fy) {
                     color: '#00E272'
                 },
                 
-                
+                // Pie Chart for total distribution of Expenses for the latest year (example)
+                {
+                    name: 'Expense for Purpose',
+                    type: 'pie',
+                    data: [
+                        <?php
+                        $query = "SELECT purpose, SUM(net_pay) as total FROM expenses GROUP BY purpose ORDER BY total DESC;";
+                        $expense_purposes = $this->db->query($query)->result_array();
+                        foreach ($expense_purposes as $e_purpose) { ?> {
+                                name: '<?php echo $e_purpose['purpose'] ?>',
+                                y: <?php echo ($e_purpose['total']) ?>
+                            },
+                        <?php } ?>
+                    ],
+                    size: '20%', // Adjust the size as needed
+                    center: ['10%', '30%'], // Position the pie chart on the left
+                    showInLegend: true
+                },
                 {
                     name: '(WB) Balance',
                     type: 'line',
@@ -250,181 +267,126 @@ foreach ($fys as $fy) {
 
             ],
 
-            
+            responsive: {
+                rules: [{
+                    condition: {
+                        maxWidth: 500
+                    },
+                    chartOptions: {
+                        legend: {
+                            layout: 'horizontal',
+                            align: 'center',
+                            verticalAlign: 'bottom'
+                        }
+                    }
+                }]
+            }
         });
     </script>
 
 
-    <div style="background-color: wh ite; margin-top:10px">
-        <div class="row">
-            <div class="col-md-8">
-                <div style="background-color: white; padding:5px; margin:2px; border-radius:5px">
-                <div class="table-responsive">
-                    <table class="table table-bordered table_small">
-                        <thead>
+    <div style="background-color: white; margin-top:10px">
+        <div class="table-responsive">
+            <table>
+                <tr>
+                    <td>
+                        <table class="table table-bordered table_small">
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Type</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <th><?php echo $fy->financial_year; ?></th>
+                                    <?php } ?>
+                                    <!-- <th>Current Account Balance</th> -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- World Bank Receipts -->
+                                <tr style="background-color: #FF645A;">
+                                    <th rowspan="3">World Bank</th>
+                                    <th>Receipts</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->world_bank, 2); ?></td>
+                                    <?php } ?>
+                                    <!-- <th rowspan="3" style="vertical-align: middle; font-size:12px">
+                                    <?php echo number_format($world_bank_cumulative - $expense_cumulative, 2); ?>
+                                </th> -->
+                                </tr>
+                                <tr style="background-color: #FF645A;">
+                                    <th>Cumulative</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->world_bank_cumulative, 2); ?></td>
+                                    <?php } ?>
+                                </tr>
+                                <tr style="background-color: #FF645A;">
+                                    <th>Yearly Balance</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->world_bank_cumulative - $fy->cumulative_expense, 2); ?></td>
+                                    <?php } ?>
+
+                                </tr>
+
+                                <!-- Finance Budget Receipts -->
+                                <tr style="background-color: #FFA500;">
+                                    <th rowspan="3">Finance Budget</th>
+                                    <th>Receipts</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->budget_released, 2); ?></td>
+                                    <?php } ?>
+                                    <!-- <th rowspan="3" style="vertical-align: middle; font-size:12px">
+                                    <?php echo number_format($budget_released_cumulative - $expense_cumulative, 2); ?>
+                                </th> -->
+                                </tr>
+                                <tr style="background-color: #FFA500;">
+                                    <th>Cumulative</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->budget_released_cumulative, 2); ?></td>
+                                    <?php } ?>
+                                </tr>
+                                <tr style="background-color: #FFA500;">
+                                    <th>Yearly Balance</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->budget_released_cumulative - $fy->cumulative_expense, 2); ?></td>
+                                    <?php } ?>
+                                </tr>
+
+                                <!-- Expenses -->
+                                <tr style="background-color: #16FA8B;">
+                                    <th rowspan="2">Expenses</th>
+                                    <th>Yearly Expense</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->expense, 2); ?></td>
+                                    <?php } ?>
+                                </tr>
+                                <tr style="background-color: #16FA8B;">
+                                    <th>Cumulative Expenses</th>
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <td><?php echo number_format($fy->cumulative_expense, 2); ?></td>
+                                    <?php } ?>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </td>
+                    <td>
+
+                        <table class="table table-bordered table_small">
                             <tr>
-                                <th>Category</th>
-                                <th>Type</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <th><?php echo $fy->financial_year; ?></th>
-                                <?php } ?>
-                                <!-- <th>Current Account Balance</th> -->
+                                <th>Expense Purpose</th>
+                                <td>Total</td>
+                                <td>%</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <!-- World Bank Receipts -->
-                            <tr style="background-color: #FF645A;">
-                                <th rowspan="3">World Bank</th>
-                                <th>Receipts</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        if ($fy->world_bank == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($fy->world_bank / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-                            <tr style="background-color: #FF645A;">
-                                <th>Cumulative</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        if ($fy->world_bank_cumulative == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($fy->world_bank_cumulative / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-                            <tr style="background-color: #FF645A;">
-                                <th>Yearly Balance</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        $yearly_balance = $fy->world_bank_cumulative - $fy->cumulative_expense;
-                                        if ($yearly_balance == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($yearly_balance / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-
-                            <!-- Similar checks for Finance Budget and Expenses -->
-                            <tr style="background-color: #FFA500;">
-                                <th rowspan="3">Finance Budget</th>
-                                <th>Receipts</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        if ($fy->budget_released == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($fy->budget_released / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-                            <tr style="background-color: #FFA500;">
-                                <th>Cumulative</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        if ($fy->budget_released_cumulative == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($fy->budget_released_cumulative / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-                            <tr style="background-color: #FFA500;">
-                                <th>Yearly Balance</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        $yearly_balance = $fy->budget_released_cumulative - $fy->cumulative_expense;
-                                        if ($yearly_balance == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($yearly_balance / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-
-                            <!-- Expenses Section -->
-                            <tr style="background-color: #16FA8B;">
-                                <th rowspan="2">Expenses</th>
-                                <th>Yearly Expense</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        if ($fy->expense == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($fy->expense / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-                            <tr style="background-color: #16FA8B;">
-                                <th>Cumulative Expenses</th>
-                                <?php foreach ($fys as $fy) { ?>
-                                    <td>
-                                        <?php 
-                                        if ($fy->cumulative_expense == 0) {
-                                            echo '0.00';
-                                        } else {
-                                            echo number_format($fy->cumulative_expense / 1000000, 2);
-                                        }
-                                        ?>
-                                    </td>
-                                <?php } ?>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                </div>
-            </div>
-           
-            <div class="col-md-4"> 
-                <div style="background-color: white; padding:5px; margin:2px; border-radius:5px">   
-                    <div class="table-responsive">               
-                        <h5>Expense Purpose</h5>
-
-                                    <table class="table table-bordered table_medium">
-                                        <tr>
-                                            <th></th>
-                                            <td>Total</td>
-                                            <td>%</td>
-                                        </tr>
-                                        <?php 
-                                        $query = "SELECT purpose, SUM(net_pay) as total FROM expenses GROUP BY purpose ORDER BY total DESC;";
-                                        $expense_purposes = $this->db->query($query)->result_array();
-                                        foreach ($expense_purposes as $e_purpose) { ?>
-                                            <tr>
-                                                <th><?php echo $e_purpose['purpose'] ?> </th>
-                                                <td> <?php echo number_format($e_purpose['total']/1000000, 2) ?></td>
-                                                <td> <?php echo number_format(($e_purpose['total'] * 100) / $expense_cumulative, 2) ?> %</td>
-                                            </tr>
-                                        <?php } ?>
-                                    </table>
-                    </div>
-                </div>
-        </div>        
+                            <?php foreach ($expense_purposes as $e_purpose) { ?>
+                                <tr>
+                                    <th><?php echo $e_purpose['purpose'] ?> </th>
+                                    <td> <?php echo number_format($e_purpose['total'], 2) ?></td>
+                                    <td> <?php echo number_format(($e_purpose['total'] * 100) / $expense_cumulative, 2) ?> %</td>
+                                </tr>
+                            <?php } ?>
+                        </table>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
     <small style="font-size:9px !important">Execution Time: <?php

@@ -115,7 +115,7 @@ $world_bank = $this->db->query($query)->row();
     $execution_time = $end_time - $start_time;
     ?>
     <div style="background-color: white; margin-top:10px">
-        <table class="table  table_medium table-bordered">
+        <table class="table  table_medium2 table-bordered">
             <thead>
                 <tr>
                     <th></th>
