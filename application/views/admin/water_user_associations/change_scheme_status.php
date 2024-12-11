@@ -14,7 +14,11 @@ $scheme_detail = $this->db->query($query)->row();
 $query="SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '".$scheme_id."'";
 $cheques = $this->db->query($query)->row();
 if($cheques->total>0 and $cheques->total <=3){
+    $query="SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '".$scheme_id."' and installment='Final'";
+    $final = $this->db->query($query)->row();
+    if($final->total>0){
         $schemestatus[] = "Completed";
+    }
         $schemestatus[] = "Final";
         $schemestatus[] = "ICR-II";
         $schemestatus[] = "ICR-I";
