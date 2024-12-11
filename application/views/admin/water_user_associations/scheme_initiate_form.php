@@ -156,16 +156,7 @@
                             class="form-control">
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="cca" class="col-sm-8 col-form-label">ACCA
-                        <strong style="color:green"> (acre)</strong><br />
-                        <small>(Additional Culturable Command Area)</small>
-                    </label>
-                    <div class="col-sm-4">
-                        <input min="0" type="number" step="any" required id="acca" name="acca" value="<?php echo $input->acca; ?>"
-                            class="form-control">
-                    </div>
-                </div>
+
                 <div class="form-group row">
                     <label for="gca" class="col-sm-8 col-form-label">GCA
                         <strong style="color:green"> (acre)</strong><br />
@@ -176,6 +167,18 @@
                             class="form-control">
                     </div>
                 </div>
+                
+                <div class="form-group row">
+                    <label for="cca" class="col-sm-8 col-form-label">ACCA
+                        <strong style="color:green"> (acre)</strong><br />
+                        <small>(Additional Culturable Command Area)</small>
+                    </label>
+                    <div class="col-sm-4">
+                        <input min="0" type="number" step="any" required id="acca" name="acca" value="<?php echo $input->acca; ?>"
+                            class="form-control">
+                    </div>
+                </div>
+                
             </div>
 
             <div class="box border blue" id="messenger" style="padding: 5px; ">
@@ -245,28 +248,28 @@
             <div class="col-md-12">
                 <div class="box border blue" id="messenger" style="padding: 5px;">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
-                                <label for="length" class="col-form-label">Length <strong style="color: green;">(ft.)</strong></label>
+                                <label for="length" class="col-form-label">Length <strong style="color: green;">(m)</strong></label>
                                 <input type="number" step="any" required id="length" name="length" value="<?php echo $input->length; ?>"
                                     class="form-control" onkeyup="updateLWH()">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
-                                <label for="width" class="col-form-label">Width <strong style="color: green;">(ft.)</strong></label>
+                                <label for="width" class="col-form-label">Width <strong style="color: green;">(m)</strong></label>
                                 <input type="number" step="any" required id="width" name="width" value="<?php echo $input->width; ?>"
                                     class="form-control" onkeyup="updateLWH()">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-4">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
-                                <label for="height" class="col-form-label">Height <strong style="color: green;">(ft.)</strong></label>
+                                <label for="height" class="col-form-label">Height <strong style="color: green;">(m)</strong></label>
                                 <input type="number" step="any" required id="height" name="height" value="<?php echo $input->height; ?>"
                                     class="form-control" onkeyup="updateLWH()">
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3" style="display: none;">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
                                 <label for="lwh" class="col-form-label">LWH</label>
                                 <input readonly type="text" required id="lwh" name="lwh" value="<?php echo $input->lwh; ?>"

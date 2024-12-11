@@ -100,7 +100,7 @@ if ($this->router->fetch_method() == 'add_order_new') { ?>
             words += ones[Math.floor(num / 100)] + ' hundred';
             num %= 100;
             if (num > 0) {
-                words += ' and ';
+                words += ', ';
             }
         }
 
