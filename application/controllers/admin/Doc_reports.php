@@ -91,16 +91,24 @@ public function get_doc_report_form(){
         
             // Load the upload library
             $this->load->library("upload", $config);
-            
-           
-            
-                
-               
-        
-                // Get the ID from POST (0 for new, existing ID for update)
+            // Get the ID from POST (0 for new, existing ID for update)
                 $id = (int) $this->input->post("id");
         
                 if ($id == 0) {
+                    if(!empty($_FILES['attachment']['name'])){
+                        if (!$this->upload->do_upload('attachment')) {
+                            // If upload fails, show errors
+                            echo $this->upload->display_errors();
+                            exit();
+                        } else {
+                            $upload_data = $this->upload->data();
+                            $inputs->attachment = $dir . $upload_data['file_name']; 
+                            
+                        }
+                    }else{
+                        echo "PDF File Required";
+                        exit();
+                    }
                     // Insert new record if ID is 0
                     $this->db->insert("doc_reports", $inputs);
                 } else {
