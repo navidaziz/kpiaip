@@ -424,9 +424,7 @@ class Water_user_associations extends Admin_Controller
         $_POST['sanctioned_cost'] = 0;
         $_POST['estimated_cost'] = 0;
         $_POST['scheme_status'] = 'Registered';
-
-
-
+       
         if ($this->scheme_model->validate_form_data() === TRUE) {
             $scheme_id = (int) $this->input->post('scheme_id');
 
