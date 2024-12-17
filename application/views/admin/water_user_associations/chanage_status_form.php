@@ -13,15 +13,16 @@
         </div>
 
         <div class="col-md-12" style="margin-bottom: 20px;">
-            <strong>Would you like to change its status to completed?</strong>
+            <strong style="color:green">Would you like to mark this as a physically completed scheme? <br />
+                <span style="color:red">Once the scheme is marked as physically completed, the 'Social and Physical Data' cannot be modified.</span></strong>
             <input required type="radio" name="ongoing" value="yes" /> <span style="margin-left: 5xp;"> Yes</span>
         </div>
         <div class="form-group">
-            <label for="completion_date" class="col-md-4 control-label" style="">Completion Date</label>
+            <label for="completion_date" class="col-md-4 control-label" style="">Physical Completion Date</label>
             <div class="col-md-8">
-                <input type="date" name="completion_date" value="<?php echo $scheme->completion_date; ?>"
-                    id="completion_date" class="form-control" style="" required="required" title="Completion Date"
-                    placeholder="Completion Date">
+                <input type="date" name="phy_completion_date" value="<?php echo $scheme->completion_date; ?>"
+                    id="phy_completion_date" class="form-control" style="" required="required" title="Physical Completion Date"
+                    placeholder="Physical Completion Date">
             </div>
 
 

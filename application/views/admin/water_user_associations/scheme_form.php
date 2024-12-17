@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label for="villege" class="col-sm-4 control-label">Villege</label>
+            <label for="villege" class="col-sm-4 control-label">Village</label>
             <div class="col-sm-8">
                 <input type="text" required id="villege" name="villege" value="<?php echo $scheme->villege; ?>"
                     class="form-control">

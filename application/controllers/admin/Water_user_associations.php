@@ -728,13 +728,13 @@ class Water_user_associations extends Admin_Controller
 
         if ($status_form == 'Complete') {
             $inputs["remarks"] = $remarks = '';
-            $inputs["scheme_status"]  =  'Completed';
-            $inputs["completion_date"] = $this->input->post('completion_date');
+            $inputs["phy_completion"]  =  'Yes';
+            $inputs["phy_completion_date"] = $this->input->post('phy_completion_date');
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             if ($this->scheme_model->save($inputs, $scheme_id)) {
-                $log_inputs['operation'] = 'insert';
+                $log_inputs['operation'] = 'Update';
                 $log_inputs['scheme_id'] = $scheme_id;
-                $log_inputs['scheme_status'] = 'Completed';
+                $log_inputs['scheme_status'] = 'Physical Completed';
                 $log_inputs['remarks'] = $remarks;
                 $log_inputs["created_by"] = $this->session->userdata("userId");
                 $log_inputs["last_updated"] = date('Y-m-d H:i:s');
@@ -1134,6 +1134,17 @@ class Water_user_associations extends Admin_Controller
         }
     }
 
+    public function update_st_data_form()
+    {
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $query = "SELECT * FROM 
+            schemes 
+            WHERE scheme_id = $scheme_id";
+        $input = $this->db->query($query)->row();
+        $this->data["input"] = $input;
+        $this->load->view(ADMIN_DIR . "water_user_associations/update_st_data_form", $this->data);
+    }
+
     public function scheme_initiate_form()
     {
         $scheme_id = (int) $this->input->post('scheme_id');
@@ -1277,6 +1288,151 @@ class Water_user_associations extends Admin_Controller
         }
         echo "success";
     }
+
+    public function update_st_data()
+    {
+
+        $this->form_validation->set_rules("top_date", "Top Date", "required");
+        $this->form_validation->set_rules("survey_date", "Survey Date", "required");
+        $this->form_validation->set_rules("design_date", "Design Date", "required");
+        $this->form_validation->set_rules("feasibility_date", "Feasibility Date", "required");
+        $this->form_validation->set_rules("estimated_cost", "Estimated Cost", "required");
+        $this->form_validation->set_rules("estimated_cost_date", "Estimated Cost Date", "required");
+        $this->form_validation->set_rules("verified_by_tpv", "Verified By Tpv", "required");
+        if ($this->input->post("verified_by_tpv") == 'Yes') {
+            $this->form_validation->set_rules("verification_by_tpv_date", "Verification By Tpv Date", "required");
+        }
+        $this->form_validation->set_rules("funding_source", "Funding Source", "required");
+        $this->form_validation->set_rules("water_source", "Water Source", "required");
+        $this->form_validation->set_rules("cca", "CCA", "required");
+        $this->form_validation->set_rules("acca", "ACCA", "required");
+        $this->form_validation->set_rules("gca", "GCA", "required");
+        $this->form_validation->set_rules("pre_water_losses", "Pre Water Losses", "required");
+        //$this->form_validation->set_rules("pre_additional", "Pre Additional", "required");
+        $this->form_validation->set_rules("post_water_losses", "Post Water Losses", "required");
+        $this->form_validation->set_rules("saving_water_losses", "Saving Water Losses", "required");
+        // $this->form_validation->set_rules("saving_utilisation_to_intensity", "Saving Utilisation To Intensity", "required");
+        // $this->form_validation->set_rules("saving_utilization_to_change_in_cropping_pattern", "Saving Utilization To Change In Cropping Pattern", "required");
+        // $this->form_validation->set_rules("water_productivity_for_wheat_and_maize", "Water Productivity For Wheat And Maize", "required");
+        // $this->form_validation->set_rules("any_increase_in_productivity_after_the_list_crop_cycle", "Any Increase In Productivity After The List Crop Cycle", "required");
+        $scheme_id = (int) $this->input->post("scheme_id");
+        $query="SELECT * FROM schemes WHERE scheme_id = ?";
+        $scheme_detail = $this->db->query($query, $scheme_id)->row();
+        //var_dump($scheme_detail);
+        if($scheme_detail->component_category_id==11){
+            $this->form_validation->set_rules("lwh", "Lwh", "required");
+            $this->form_validation->set_rules("length", "Length", "required");
+            $this->form_validation->set_rules("width", "Width", "required");
+            $this->form_validation->set_rules("height", "Height", "required");  
+        }
+
+        if($scheme_detail->component_category_id<=9){
+        $this->form_validation->set_rules("total_lenght", "Total Lenght", "required");
+        $this->form_validation->set_rules("lining_length", "Lining Length", "required");
+        $this->form_validation->set_rules("design_discharge", "Design Discharge", "required");
+        
+        $this->form_validation->set_rules("type_of_lining", "Type Of Lining", "required");
+        $this->form_validation->set_rules("nacca_pannel", "Nacca Pannel", "required");
+        $this->form_validation->set_rules("culvert", "Culvert", "required");
+        $this->form_validation->set_rules("risers_pipe", "Risers Pipe", "required");
+        $this->form_validation->set_rules("risers_pond", "Risers Pond", "required");
+        }
+         $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+         $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+         $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+       
+
+        if ($this->form_validation->run() == FALSE) {
+            echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+            exit();
+        } else {
+
+            $input["top_date"] = $this->input->post("top_date");
+            $input["survey_date"] = $this->input->post("survey_date");
+            $input["design_date"] = $this->input->post("design_date");
+            $input["feasibility_date"] = $this->input->post("feasibility_date");
+            $input["estimated_cost"] = $this->input->post("estimated_cost");
+            $input["estimated_cost_date"] = $this->input->post("estimated_cost_date");
+
+
+            $input["verified_by_tpv"] = $this->input->post("verified_by_tpv");
+            if ($this->input->post("verified_by_tpv") == 'Yes') {
+                $input["verification_by_tpv_date"] = $this->input->post("verification_by_tpv_date");
+            } else {
+                $input["verification_by_tpv_date"] = NULL;
+            }
+
+            $input["funding_source"] = $this->input->post("funding_source");
+            $input["water_source"] = $this->input->post("water_source");
+            $input["cca"] = $this->input->post("cca");
+            $input["acca"] = $this->input->post("acca");
+            $input["gca"] = $this->input->post("gca");
+            $input["pre_water_losses"] = $this->input->post("pre_water_losses");
+            $input["pre_additional"] = $this->input->post("pre_additional");
+            $input["post_water_losses"] = $this->input->post("post_water_losses");
+            $input["saving_water_losses"] = $this->input->post("saving_water_losses");
+            // $input["saving_utilisation_to_intensity"] = $this->input->post("saving_utilisation_to_intensity");
+            // $input["saving_utilization_to_change_in_cropping_pattern"] = $this->input->post("saving_utilization_to_change_in_cropping_pattern");
+            // $input["water_productivity_for_wheat_and_maize"] = $this->input->post("water_productivity_for_wheat_and_maize");
+            // $input["any_increase_in_productivity_after_the_list_crop_cycle"] = $this->input->post("any_increase_in_productivity_after_the_list_crop_cycle");
+           
+            if($scheme_detail->component_category_id==11){
+                $input["lwh"] = $this->input->post("lwh");
+                $input["length"] = $this->input->post("length");
+                $input["width"] = $this->input->post("width");
+                $input["height"] = $this->input->post("height");
+            }else{
+                $input["lwh"] = NULL;
+                $input["length"] =NULL;
+                $input["width"] = NULL;
+                $input["height"] = NULL;
+            }
+            if($scheme_detail->component_category_id<=9){
+                $input["total_lenght"] = $this->input->post("total_lenght");
+                $input["lining_length"] = $this->input->post("lining_length");
+                $input["design_discharge"] = $this->input->post("design_discharge");
+                $input["type_of_lining"] = $this->input->post("type_of_lining");
+                $input["nacca_pannel"] = $this->input->post("nacca_pannel");
+                $input["culvert"] = $this->input->post("culvert");
+                $input["risers_pipe"] = $this->input->post("risers_pipe");
+                $input["risers_pond"] = $this->input->post("risers_pond");
+            }else{
+                $input["total_lenght"] = NULL;
+                $input["lining_length"] = NULL;
+                $input["design_discharge"] = NULL;
+                $input["type_of_lining"] = NULL;
+                $input["nacca_pannel"] = NULL;
+                $input["culvert"] = NULL;
+                $input["risers_pipe"] = NULL;
+                $input["risers_pond"] = NULL;
+
+            }
+            $input["others"] = $this->input->post("others");
+            $input["updated_by"] = $this->session->userdata("userId");
+            $input["last_updated"] = date('Y-m-d H:i:s');
+            
+            $input["approved_cost"] = $this->input->post("approved_cost");
+            $input["approval_date"] = $this->input->post("technical_sanction_date");
+            $input["sanctioned_cost"] = $this->input->post("approved_cost");
+            $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
+            $input["work_order_date"] = $this->input->post("work_order_date");
+            $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
+
+            $scheme_id = (int) $this->input->post("scheme_id");
+            $this->db->where("scheme_id", $scheme_id);
+            $this->db->update("schemes", $input);
+            $log_inputs['operation'] = 'Update';
+            $log_inputs['scheme_id'] = $scheme_id;
+            $log_inputs['remarks'] = 'Record Update';
+            $log_inputs['detail'] = 'Scheme Technical Detail Updated';
+            $log_inputs["created_by"] = $this->session->userdata("userId");
+            $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+            $this->db->insert('scheme_logs', $log_inputs);
+        }
+        echo "success";
+    }
+
+    
 
     public function scheme_lists()
     {

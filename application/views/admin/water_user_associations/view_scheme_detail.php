@@ -13,6 +13,21 @@
         color: black;
         margin: 0px !important;
     }
+    .table_medium>thead>tr>th,
+    .table_medium>tbody>tr>th,
+    .table_medium>tfoot>tr>th,
+    .table_medium>thead>tr>td,
+    .table_medium>tbody>tr>td,
+    .table_medium>tfoot>tr>td {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 12px !important;
+        color: black;
+        margin: 2px !important;
+    }
+    
 </style>
 
 <!-- PAGE HEADER-->
@@ -61,7 +76,13 @@
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $description; ?></div>
+                    <div class="description"><?php echo $description; ?> <br />
+                    <?php if( $scheme->phy_completion==='Yes'){ ?>
+                   <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
+                    <?php }else{ ?>
+                        <strong>Physically Completed: No</strong>
+                        <?php } ?>
+                </div>
                 </div>
 
                 <div class="col-md-6">
@@ -416,13 +437,13 @@
             <div class="box-body">
                 <div class="box-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered table_small">
+                        <table class="table table-bordered table_medium">
                             <thead>
                                 <tr>
                                     <th>District</th>
                                     <th>Tehsil</th>
                                     <th>Uc</th>
-                                    <th>Villege</th>
+                                    <th>Village</th>
                                     <th>NA</th>
                                     <th>PK</th>
 
@@ -430,10 +451,10 @@
                                     <th><?php echo $this->lang->line('water_source'); ?></th>
                                     <th>Coordiantes</th>
                                     <th>Beneficiaries</th>
-                                    <th><?php echo $this->lang->line('estimated_cost'); ?></th>
+                                    <!-- <th><?php echo $this->lang->line('estimated_cost'); ?></th>
                                     <th><?php echo $this->lang->line('approved_cost'); ?></th>
                                     <th><?php echo $this->lang->line('sanctioned_cost'); ?></th>
-                                    <th><?php echo $this->lang->line('revised_cost'); ?></th>
+                                    <th><?php echo $this->lang->line('revised_cost'); ?></th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -538,10 +559,10 @@
                                         Males: <?php echo $scheme->male_beneficiaries; ?><br />
                                         Females: <?php echo $scheme->female_beneficiaries; ?><br />
                                         Total: <?php echo $scheme->beneficiaries; ?> </td>
-                                    <td>
+                                   <!-- <td>
                                         <?php echo $scheme->estimated_cost; ?>
                                     </td>
-                                    <td>
+                                     <td>
                                         <?php
                                         if ($scheme->approved_cost) {
                                             echo $scheme->approved_cost;
@@ -563,7 +584,7 @@
                                         } else {
                                             echo 'Not Revised';
                                         } ?>
-                                    </td>
+                                    </td> -->
 
                                 </tr>
                         </table>
@@ -623,10 +644,10 @@
                                         <th>Pre Additional</th>
                                         <th>Post</th>
                                         <th>Saving</th>
-                                        <th>Saving Utilisation To Intensity</th>
+                                        <!-- <th>Saving Utilisation To Intensity</th>
                                         <th>Saving Utilization To Change In Cropping Pattern</th>
                                         <th>Water Productivity For Wheat And Maize</th>
-                                        <th>Any Increase In Productivity After The List Crop Cycle</th>
+                                        <th>Any Increase In Productivity After The List Crop Cycle</th> -->
                                         <th>Total</th>
                                         <th>Lining</th>
                                         <th>Lwh</th>
@@ -652,12 +673,12 @@
                                         <td><?php echo $scheme->pre_additional; ?></td>
                                         <td><?php echo $scheme->post_water_losses; ?></td>
                                         <td><?php echo $scheme->saving_water_losses; ?></td>
-                                        <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
+                                        <!-- <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
                                         <td><?php echo $scheme->saving_utilization_to_change_in_cropping_pattern; ?>
                                         </td>
                                         <td><?php echo $scheme->water_productivity_for_wheat_and_maize; ?></td>
                                         <td><?php echo $scheme->any_increase_in_productivity_after_the_list_crop_cycle; ?>
-                                        </td>
+                                        </td> -->
                                         <td><?php echo $scheme->total_lenght; ?></td>
                                         <td><?php echo $scheme->lining_length; ?></td>
                                         <td><?php echo $scheme->lwh; ?></td>
@@ -679,9 +700,87 @@
                                 Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
                             </h4>
                             <hr />
+                           <?php if (($scheme->scheme_status != 'Complete' ) and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
+                               
+                            <button onclick="update_st_data(<?php echo $scheme->scheme_id ?>)"
+                                        class="btn btn-success btn-sm"><i class="fa fa-edit"></i>
+                                         Update Technical Data
+                                    </button>
+                                <script>
+                                    function update_st_data(scheme_id) {
+                                        $.ajax({
+                                                method: "POST",
+                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/update_st_data_form'); ?>",
+                                                data: {
+                                                    scheme_id: scheme_id
+                                                },
+                                            })
+                                            .done(function(respose) {
+                                                $('#modal').modal('show');
+                                                $('#modal_title').html('Update Scheme Technical Data ');
+                                                $('#modal_body').html(respose);
+                                            });
+                                    }
+                                    </script>
+                               
+                              <button onclick="chanage_status_form('Complete')" class="btn btn-danger btn-sm"> <i
+                                   class="fa fa-check-circle"></i> Marked as Physical Complete</button>
+                                  
+                                <?php } ?>
+                                  
 
+                            
+                            <?php
+                            if (($scheme->scheme_status == 'Registered' or $scheme->scheme_status == 'Initiated') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
+                                
+                                    <?php if ($scheme->scheme_status == 'Registered' and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
+                                        <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
+                                        class="btn btn-danger btn-sm"><i class="fa fa-forward"></i>
+                                         Initiate Scheme
+                                        </button>
+                                        <script>
+                                    function initiate_scheme(scheme_id) {
+                                        $.ajax({
+                                                method: "POST",
+                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_initiate_form'); ?>",
+                                                data: {
+                                                    scheme_id: scheme_id
+                                                },
+                                            })
+                                            .done(function(respose) {
+                                                $('#modal').modal('show');
+                                                $('#modal_title').html('Initiate Scheme');
+                                                $('#modal_body').html(respose);
+                                            });
+                                    }
+                                </script>
+                                    <?php } else { ?>
+                                       
+                                    <?php } ?>
+                                    
+                            <?php } ?>
 
-                            <?php if ($scheme->scheme_status == 'Ongoing') { ?>
+                            <?php if (($this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
+                                
+                                <?php if($scheme->scheme_status == 'Initiated' ){ ?>
+                                    <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm"><i
+                                            class="fa fa-check-circle"></i> Approve</button>
+                                    <button onclick="chanage_status_form('Not Approve')" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-times-circle"></i> Not Approve</button>
+                                <?php } ?>
+
+                            
+                                <?php if ($scheme->scheme_status == 'Not Approved') { ?>
+                                    <button onclick="chanage_status_form('Approval')"
+                                        class="btn btn-danger">Approve Again</button>
+                                <?php } ?>
+
+                                <?php if ($scheme->scheme_status == 'Disputed') { ?>
+                                    <button onclick="chanage_status_form('Ongoing')" class="btn btn-warning btn-sm">
+                                        <i class="fa fa-undo"></i> Mark Again as Ongoing Scheme</button>
+                                <?php } ?>
+                            <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
+                                
                                 <button onclick="revise_cost(0)" class="btn btn-danger btn-sm">
                                     <i class="fa fa-pencil-square"></i>
                                     Revise Cost</button>
@@ -702,62 +801,20 @@
                                             });
                                     }
                                 </script>
-                            <?php } ?>
-                            <?php
-                            if (($scheme->scheme_status == 'Registered' or $scheme->scheme_status == 'Initiated') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
-                                <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
-                                    class="btn btn-danger btn-sm"><i class="fa fa-forward"></i>
-                                    <?php if ($scheme->scheme_status == 'Registered' and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
-                                        Initiate Scheme
-                                    <?php } else { ?>
-                                        Update Scheme Techical Detail
-                                    <?php } ?>
-                                </button>
-                                <script>
-                                    function initiate_scheme(scheme_id) {
-                                        $.ajax({
-                                                method: "POST",
-                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_initiate_form'); ?>",
-                                                data: {
-                                                    scheme_id: scheme_id
-                                                },
-                                            })
-                                            .done(function(respose) {
-                                                $('#modal').modal('show');
-                                                $('#modal_title').html('Initiate Scheme');
-                                                $('#modal_body').html(respose);
-                                            });
-                                    }
-                                </script>
-                            <?php } ?>
 
-                            <?php if ($scheme->scheme_status == 'Initiated' and ($this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
-                                <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm"><i
-                                        class="fa fa-check-circle"></i> Approve</button>
-                                <button onclick="chanage_status_form('Not Approve')" class="btn btn-danger btn-sm">
-                                    <i class="fa fa-times-circle"></i> Not Approve</button>
-
-                            <?php } ?>
-                            <?php if ($scheme->scheme_status == 'Not Approved') { ?>
-                                <button onclick="chanage_status_form('Approval')"
-                                    class="btn btn-primary btn-sm">Approve</button>
-                            <?php } ?>
-
-                            <?php if ($scheme->scheme_status == 'Disputed') { ?>
-                                <button onclick="chanage_status_form('Ongoing')" class="btn btn-warning btn-sm">
-                                    <i class="fa fa-undo"></i> Mark Again as Ongoing Scheme</button>
-                            <?php } ?>
-                            <?php if ($scheme->scheme_status == 'Ongoing') { ?>
                                 <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm"> <i
                                         class="fa fa-times-circle"></i> Dispute</button>
-                                <button onclick="chanage_status_form('Complete')" class="btn btn-success btn-sm"> <i
-                                        class="fa fa-check-circle"></i> Complete</button>
-
+                                
                             <?php } ?>
                             <?php if ($scheme->scheme_status == 'Completed') { ?>
                                 <div class="alert alert-success">Scheme Status:
                                     <?php echo  $scheme->scheme_status; ?>
                                 </div>
+                            <?php } ?>
+
+                           
+
+
                             <?php } ?>
                             <script>
                                 function chanage_status_form(status_form) {
