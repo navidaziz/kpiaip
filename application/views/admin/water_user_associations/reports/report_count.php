@@ -171,7 +171,7 @@
         $percentage = $district->completed_percentage;
 
         // Define percentage ranges based on specified categories
-        if ($percentage >= 1 && $percentage <= 10) {
+        if ($percentage >= 0 && $percentage <= 10) {
             $range_label = '1-10%';
         } elseif ($percentage >= 11 && $percentage <= 20) {
             $range_label = '11-20%';
