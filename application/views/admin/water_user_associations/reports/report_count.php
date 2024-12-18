@@ -101,7 +101,7 @@
             <div class="progress" style="height:20px!important">
                 <style>.bg-danger {
                         background-color: #dc3545 !important;
-                        color:black;
+                        color:white;
                         font-weight:bold;
                     }</style>
             <div class="progress-bar bg-danger" role="progressbar" 
