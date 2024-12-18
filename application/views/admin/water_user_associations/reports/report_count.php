@@ -202,7 +202,9 @@
         $percentages[$range_label][] = $district;
     }
 ?>
-
+</h4>
+<h3>Districts Categorized by Schemes Completed Percentage</h3>
+<h4>
 <table class="table table-bordered">
     <tr>
         <?php foreach ($percentages as $range => $districts) { ?>
@@ -221,9 +223,6 @@
         <?php } ?>
     </tr>
 </table>
-
-
-
 </h4>
             <h4>District Wise Data Reconciliation</h4>
             <table class="table table-bordered" id="table_db">
@@ -232,12 +231,14 @@
         <th>#</th>
         <th>Region</th>
         <th>District</th>
+        <th>Ongoing Schemes</th>
         <th>Total Schemes</th>
         <th>Schemes Completed</th>
         <th>Completed Percentage</th>
         <th>Total Cheques</th>
         <th>Cheques Completed</th>
         <th>Completed Percentage</th>
+        <th>Last Activity</th>
     </tr>
     </thead>
     <tbody>
@@ -258,6 +259,15 @@
 
             foreach ($districts as $district) {
                 // Get total and completed schemes
+
+                $ongoing_scheme = $this->db->query("
+                    SELECT COUNT(*) AS total
+                    FROM schemes
+                    WHERE scheme_status IN ('Ongoing', 'ICR-I', 'ICR-II', 'Final')
+                    AND component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
+                    AND district_id = '{$district->district_id}'
+                ")->row()->total;
+
                 $scheme_total = $this->db->query("
                     SELECT COUNT(*) AS total
                     FROM schemes
@@ -290,6 +300,11 @@
                     AND district_id = '{$district->district_id}'
                 ")->row()->total;
 
+                $last_updated = $this->db->query("
+                    SELECT MAX(`last_updated`) as last_updated
+                    FROM schemes
+                    WHERE district_id = '{$district->district_id}'
+                ")->row()->last_updated;
                 // Calculate percentages
                 $completed_scheme_percentage = ($scheme_total > 0) ? round(($completed_schemes * 100) / $scheme_total, 2) : 0;
                 $completed_cheque_percentage = ($total_cheques > 0) ? round(($completed_cheques * 100) / $total_cheques, 2) : 0;
@@ -298,12 +313,14 @@
                     <th><?php echo $count++; ?></th>
                     <td><?php echo $district->region; ?></td>
                     <td><?php echo $district->district_name; ?></td>
+                    <th><?php echo $ongoing_scheme; ?></th>
                     <td><?php echo $scheme_total; ?></td>
                     <td><?php echo $completed_schemes; ?></td>
                     <td><?php echo $completed_scheme_percentage . "%"; ?></td>
                     <td><?php echo $total_cheques; ?></td>
                     <td><?php echo $completed_cheques; ?></td>
                     <td><?php echo $completed_cheque_percentage . "%"; ?></td>
+                    <th><?php echo date('d M, Y h:m:s', strtotime($last_updated)); ?></th>
                 </tr>
         <?php 
             } 
