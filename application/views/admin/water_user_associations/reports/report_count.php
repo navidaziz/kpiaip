@@ -57,15 +57,97 @@
             <!-- /BREADCRUMBS -->
             <div class="row">
 
-                <div class="col-md-3">
-                    <div class="clearfix">
-                        <h3 class="content-title pull-left"><?php echo $title; ?></h3>
+                <div class="col-md-5">
+                    <div class="clearfix" >
+                        <h3 class="content-title pull-left">Schemes SFT Data Reconciliation Progress Dashboard Summary</h3>
                     </div>
-                    <div class="description"><?php echo $description; ?></div>
+                    <div class="description">Real Time Tracking auto refresh set for 5 minutes </div>
                 </div>
 
-                <div class="col-md-9">
-                  
+                <div class="col-md-7">
+                    <h4>
+                <table class="table table_medium">
+        <tr>
+            <th>Description</th>
+            <th>Total</th>
+            <th>Work Done</th>
+            <th>Percentage</th>
+        </tr>
+        <tr>
+            <th>Schemes</th>
+            <th><?php 
+            $query = "SELECT COUNT(*) as total FROM schemes as s 
+            WHERE s.scheme_status IN ('Completed', 'Par-Completed')
+            AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+            
+            echo $scheme_total = $this->db->query($query)->row()->total;
+            ?><br />
+        <small>Par-Completed</small>    
+        </th>
+            <th><?php 
+            $query = "SELECT COUNT(*) as total FROM schemes as s 
+            WHERE s.scheme_status IN ('Completed')
+            AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+            
+            echo $completed = $this->db->query($query)->row()->total;
+            ?>
+        <br />
+        <small>Completed</small>    
+        </th>
+            <th><?php 
+            $precentage = round((($completed*100)/$scheme_total),2); 
+            //echo $precentage."%";
+            ?>
+            <div class="progress" style="height:20px!important">
+                <style>.bg-danger {
+                        background-color: #dc3545 !important;
+                        color:black;
+                        font-weight:bold;
+                    }</style>
+            <div class="progress-bar bg-danger" role="progressbar" 
+            style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
+            </div>
+        </th>
+            
+        </tr>
+        <tr>
+            <th>Cheques</th>
+            <th><?php 
+            $query = "SELECT COUNT(*) as total FROM expenses as e
+            WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+            $total_cheques = $this->db->query($query)->row()->total;
+            echo $total_cheques;
+            ?>  
+        </th>
+            <th><?php 
+            $query = "SELECT COUNT(*) as total FROM expenses as e
+            WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+            AND e.scheme_id IS NOT NULL";
+            $completed_cheques = $this->db->query($query)->row()->total;
+            
+            echo $completed_cheques;
+            ?>
+     
+        </th>
+            <th><?php 
+            $precentage = round((($completed_cheques*100)/$total_cheques),2); 
+            //echo $precentage."%";
+            ?>
+            <div class="progress" style="height:20px!important">
+                <style>.bg-warning {
+                        background-color: #ffc107 !important;
+                        color:black;
+                        font-weight:bold;
+                    }</style>
+            <div class="progress-bar bg-warning" role="progressbar" 
+            style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
+            </div>
+            
+        </th>
+            
+        </tr>
+    </table>
+    </h4>
                 </div>
 
             </div>
@@ -88,66 +170,7 @@
             <div class="box-body">
 
 <h4>
-    <table class="table table-bordered">
-        <tr>
-            <th>Description</th>
-            <th>Total</th>
-            <th>Work Done</th>
-            <th>Percentage</th>
-        </tr>
-        <tr>
-            <th>Schemes</th>
-            <td><?php 
-            $query = "SELECT COUNT(*) as total FROM schemes as s 
-            WHERE s.scheme_status IN ('Completed', 'Par-Completed')
-            AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
-            
-            echo $scheme_total = $this->db->query($query)->row()->total;
-            ?><br />
-        <small>Par-Completed</small>    
-        </td>
-            <td><?php 
-            $query = "SELECT COUNT(*) as total FROM schemes as s 
-            WHERE s.scheme_status IN ('Completed')
-            AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
-            
-            echo $completed = $this->db->query($query)->row()->total;
-            ?>
-        <br />
-        <small>Completed</small>    
-        </td>
-            <td><?php 
-            echo round((($completed*100)/$scheme_total),2)."%"; 
-            ?>
-        </td>
-            
-        </tr>
-        <tr>
-            <th>Cheques</th>
-            <td><?php 
-            $query = "SELECT COUNT(*) as total FROM expenses as e
-            WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
-            $total_cheques = $this->db->query($query)->row()->total;
-            echo $total_cheques;
-            ?>  
-        </td>
-            <td><?php 
-            $query = "SELECT COUNT(*) as total FROM expenses as e
-            WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-            AND e.scheme_id IS NOT NULL";
-            $completed_cheques = $this->db->query($query)->row()->total;
-            
-            echo $completed_cheques;
-            ?>
-     
-        </td>
-            <td><?php 
-            echo round((($completed_cheques*100)/$total_cheques),2)."%"; 
-            ?>
-        </td>
-            
-        </tr>
-    </table>
+    
 
     <?php 
     // Fetch data from the database
@@ -381,7 +404,11 @@
     } );
     } ).draw();
     });
+    setInterval(function() {
+    location.reload();
+}, 300000);  // 300000 milliseconds = 5 minutes
 </script>
+
 
 
 
