@@ -1556,4 +1556,17 @@ class Water_user_associations extends Admin_Controller
         $this->data["view"] = ADMIN_DIR . "water_user_associations/reports/report";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+
+    public function report_count()
+    {
+        
+
+        
+        $this->data["title"] = 'Schemes Dashboard';
+        $this->data["description"] = 'List of Schemes';
+
+
+        $this->data["view"] = ADMIN_DIR . "water_user_associations/reports/report_count";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
 }
