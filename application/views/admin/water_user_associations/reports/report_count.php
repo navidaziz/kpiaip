@@ -203,16 +203,16 @@
     }
 ?>
 
-<table class="table table-bordered table_small">
+<table class="table table-bordered">
     <tr>
         <?php foreach ($percentages as $range => $districts) { ?>
-            <th><?php echo $range; ?></th>
+            <th style="text-align:center"><?php echo $range; ?></th>
         <?php } ?>
     </tr>
     <tr>
         <?php foreach ($percentages as $range => $districts) { ?>
-            <th>
-                <ol>
+            <th style="text-align:center; color:black">
+                <ol style="font-size:12px; color:black">
                     <?php foreach ($districts as $district) { ?>
                         <li><?php echo $district->district_name; ?></li>
                     <?php } ?>
