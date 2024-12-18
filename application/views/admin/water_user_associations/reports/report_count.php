@@ -148,6 +148,82 @@
             
         </tr>
     </table>
+
+    <?php 
+    // Fetch data from the database
+    $districts = $this->db->query("SELECT 
+        d.district_name,
+        COUNT(*) AS total,
+        SUM(CASE WHEN s.scheme_status = 'Completed' THEN 1 ELSE 0 END) AS completed_schemes,
+        (SUM(CASE WHEN s.scheme_status = 'Completed' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS completed_percentage
+        FROM schemes s
+        INNER JOIN districts d ON d.district_id = s.district_id
+        WHERE s.scheme_status IN ('Completed', 'Par-Completed')
+        AND s.component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
+        GROUP BY d.district_name
+        ORDER BY completed_percentage ASC;")->result();
+
+    // Array to hold categorized data
+    $percentages = array();
+
+    // Categorize districts into ranges (e.g., 10-20%, 21-30%, etc.)
+    foreach ($districts as $district) {
+        $percentage = $district->completed_percentage;
+
+        // Define percentage ranges based on specified categories
+        if ($percentage >= 1 && $percentage <= 10) {
+            $range_label = '1-10%';
+        } elseif ($percentage >= 11 && $percentage <= 20) {
+            $range_label = '11-20%';
+        } elseif ($percentage >= 21 && $percentage <= 30) {
+            $range_label = '21-30%';
+        } elseif ($percentage >= 31 && $percentage <= 40) {
+            $range_label = '31-40%';
+        } elseif ($percentage >= 41 && $percentage <= 50) {
+            $range_label = '41-50%';
+        } elseif ($percentage >= 61 && $percentage <= 70) {
+            $range_label = '61-70%';
+        } elseif ($percentage >= 71 && $percentage <= 80) {
+            $range_label = '71-80%';
+        } elseif ($percentage >= 81 && $percentage <= 90) {
+            $range_label = '81-90%';
+        } elseif ($percentage >= 91 && $percentage <= 95) {
+            $range_label = '91-95%';
+        } elseif ($percentage >= 96 && $percentage <= 99) {
+            $range_label = '96-99%';
+        } elseif ($percentage == 100) {
+            $range_label = '100%';
+        } else {
+            // This handles any edge cases, e.g., 0% or invalid values.
+            continue;
+        }
+
+        // Add district to the corresponding percentage range
+        $percentages[$range_label][] = $district;
+    }
+?>
+
+<table class="table table-bordered table_small">
+    <tr>
+        <?php foreach ($percentages as $range => $districts) { ?>
+            <th><?php echo $range; ?></th>
+        <?php } ?>
+    </tr>
+    <tr>
+        <?php foreach ($percentages as $range => $districts) { ?>
+            <th>
+                <ol>
+                    <?php foreach ($districts as $district) { ?>
+                        <li><?php echo $district->district_name; ?></li>
+                    <?php } ?>
+                </ol>
+            </th>
+        <?php } ?>
+    </tr>
+</table>
+
+
+
 </h4>
             <h4>District Wise Data Reconciliation</h4>
             <table class="table table-bordered" id="table_db">
@@ -168,8 +244,9 @@
 
         <?php 
         // Get regions
-        $regions = $this->db->query("SELECT DISTINCT region FROM districts WHERE is_district = 1")->result();
-$count=1;
+        $regions = $this->db->query("SELECT DISTINCT region 
+        FROM districts WHERE is_district = 1")->result();
+        $count=1;
         foreach($regions as $index => $region) {
             // Get districts for each region
             $districts = $this->db->query("
@@ -288,3 +365,7 @@ $count=1;
     } ).draw();
     });
 </script>
+
+
+
+
