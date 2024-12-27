@@ -424,7 +424,7 @@ class Water_user_associations extends Admin_Controller
         $_POST['sanctioned_cost'] = 0;
         $_POST['estimated_cost'] = 0;
         $_POST['scheme_status'] = 'Registered';
-       
+
         if ($this->scheme_model->validate_form_data() === TRUE) {
             $scheme_id = (int) $this->input->post('scheme_id');
 
@@ -1183,26 +1183,26 @@ class Water_user_associations extends Admin_Controller
         // $this->form_validation->set_rules("water_productivity_for_wheat_and_maize", "Water Productivity For Wheat And Maize", "required");
         // $this->form_validation->set_rules("any_increase_in_productivity_after_the_list_crop_cycle", "Any Increase In Productivity After The List Crop Cycle", "required");
         $scheme_id = (int) $this->input->post("scheme_id");
-        $query="SELECT * FROM schemes WHERE scheme_id = ?";
+        $query = "SELECT * FROM schemes WHERE scheme_id = ?";
         $scheme_detail = $this->db->query($query, $scheme_id)->row();
         //var_dump($scheme_detail);
-        if($scheme_detail->component_category_id==11){
+        if ($scheme_detail->component_category_id == 11) {
             $this->form_validation->set_rules("lwh", "Lwh", "required");
             $this->form_validation->set_rules("length", "Length", "required");
             $this->form_validation->set_rules("width", "Width", "required");
-            $this->form_validation->set_rules("height", "Height", "required");  
+            $this->form_validation->set_rules("height", "Height", "required");
         }
 
-        if($scheme_detail->component_category_id<=9){
-        $this->form_validation->set_rules("total_lenght", "Total Lenght", "required");
-        $this->form_validation->set_rules("lining_length", "Lining Length", "required");
-        $this->form_validation->set_rules("design_discharge", "Design Discharge", "required");
-        
-        $this->form_validation->set_rules("type_of_lining", "Type Of Lining", "required");
-        $this->form_validation->set_rules("nacca_pannel", "Nacca Pannel", "required");
-        $this->form_validation->set_rules("culvert", "Culvert", "required");
-        $this->form_validation->set_rules("risers_pipe", "Risers Pipe", "required");
-        $this->form_validation->set_rules("risers_pond", "Risers Pond", "required");
+        if ($scheme_detail->component_category_id <= 9) {
+            $this->form_validation->set_rules("total_lenght", "Total Lenght", "required");
+            $this->form_validation->set_rules("lining_length", "Lining Length", "required");
+            $this->form_validation->set_rules("design_discharge", "Design Discharge", "required");
+
+            $this->form_validation->set_rules("type_of_lining", "Type Of Lining", "required");
+            $this->form_validation->set_rules("nacca_pannel", "Nacca Pannel", "required");
+            $this->form_validation->set_rules("culvert", "Culvert", "required");
+            $this->form_validation->set_rules("risers_pipe", "Risers Pipe", "required");
+            $this->form_validation->set_rules("risers_pond", "Risers Pond", "required");
         }
         //$this->form_validation->set_rules("others", "Others", "required");
         $this->form_validation->set_rules("scheme_status", "Scheme Status", "required");
@@ -1316,31 +1316,31 @@ class Water_user_associations extends Admin_Controller
         // $this->form_validation->set_rules("water_productivity_for_wheat_and_maize", "Water Productivity For Wheat And Maize", "required");
         // $this->form_validation->set_rules("any_increase_in_productivity_after_the_list_crop_cycle", "Any Increase In Productivity After The List Crop Cycle", "required");
         $scheme_id = (int) $this->input->post("scheme_id");
-        $query="SELECT * FROM schemes WHERE scheme_id = ?";
+        $query = "SELECT * FROM schemes WHERE scheme_id = ?";
         $scheme_detail = $this->db->query($query, $scheme_id)->row();
         //var_dump($scheme_detail);
-        if($scheme_detail->component_category_id==11){
+        if ($scheme_detail->component_category_id == 11) {
             $this->form_validation->set_rules("lwh", "Lwh", "required");
             $this->form_validation->set_rules("length", "Length", "required");
             $this->form_validation->set_rules("width", "Width", "required");
-            $this->form_validation->set_rules("height", "Height", "required");  
+            $this->form_validation->set_rules("height", "Height", "required");
         }
 
-        if($scheme_detail->component_category_id<=9){
-        $this->form_validation->set_rules("total_lenght", "Total Lenght", "required");
-        $this->form_validation->set_rules("lining_length", "Lining Length", "required");
-        $this->form_validation->set_rules("design_discharge", "Design Discharge", "required");
-        
-        $this->form_validation->set_rules("type_of_lining", "Type Of Lining", "required");
-        $this->form_validation->set_rules("nacca_pannel", "Nacca Pannel", "required");
-        $this->form_validation->set_rules("culvert", "Culvert", "required");
-        $this->form_validation->set_rules("risers_pipe", "Risers Pipe", "required");
-        $this->form_validation->set_rules("risers_pond", "Risers Pond", "required");
+        if ($scheme_detail->component_category_id <= 9) {
+            $this->form_validation->set_rules("total_lenght", "Total Lenght", "required");
+            $this->form_validation->set_rules("lining_length", "Lining Length", "required");
+            $this->form_validation->set_rules("design_discharge", "Design Discharge", "required");
+
+            $this->form_validation->set_rules("type_of_lining", "Type Of Lining", "required");
+            $this->form_validation->set_rules("nacca_pannel", "Nacca Pannel", "required");
+            $this->form_validation->set_rules("culvert", "Culvert", "required");
+            $this->form_validation->set_rules("risers_pipe", "Risers Pipe", "required");
+            $this->form_validation->set_rules("risers_pond", "Risers Pond", "required");
         }
-         $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
-         $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
-         $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
-       
+        $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+        $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+        $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+
 
         if ($this->form_validation->run() == FALSE) {
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
@@ -1375,19 +1375,19 @@ class Water_user_associations extends Admin_Controller
             // $input["saving_utilization_to_change_in_cropping_pattern"] = $this->input->post("saving_utilization_to_change_in_cropping_pattern");
             // $input["water_productivity_for_wheat_and_maize"] = $this->input->post("water_productivity_for_wheat_and_maize");
             // $input["any_increase_in_productivity_after_the_list_crop_cycle"] = $this->input->post("any_increase_in_productivity_after_the_list_crop_cycle");
-           
-            if($scheme_detail->component_category_id==11){
+
+            if ($scheme_detail->component_category_id == 11) {
                 $input["lwh"] = $this->input->post("lwh");
                 $input["length"] = $this->input->post("length");
                 $input["width"] = $this->input->post("width");
                 $input["height"] = $this->input->post("height");
-            }else{
+            } else {
                 $input["lwh"] = NULL;
-                $input["length"] =NULL;
+                $input["length"] = NULL;
                 $input["width"] = NULL;
                 $input["height"] = NULL;
             }
-            if($scheme_detail->component_category_id<=9){
+            if ($scheme_detail->component_category_id <= 9) {
                 $input["total_lenght"] = $this->input->post("total_lenght");
                 $input["lining_length"] = $this->input->post("lining_length");
                 $input["design_discharge"] = $this->input->post("design_discharge");
@@ -1396,7 +1396,7 @@ class Water_user_associations extends Admin_Controller
                 $input["culvert"] = $this->input->post("culvert");
                 $input["risers_pipe"] = $this->input->post("risers_pipe");
                 $input["risers_pond"] = $this->input->post("risers_pond");
-            }else{
+            } else {
                 $input["total_lenght"] = NULL;
                 $input["lining_length"] = NULL;
                 $input["design_discharge"] = NULL;
@@ -1405,12 +1405,11 @@ class Water_user_associations extends Admin_Controller
                 $input["culvert"] = NULL;
                 $input["risers_pipe"] = NULL;
                 $input["risers_pond"] = NULL;
-
             }
             $input["others"] = $this->input->post("others");
             $input["updated_by"] = $this->session->userdata("userId");
             $input["last_updated"] = date('Y-m-d H:i:s');
-            
+
             $input["approved_cost"] = $this->input->post("approved_cost");
             $input["approval_date"] = $this->input->post("technical_sanction_date");
             $input["sanctioned_cost"] = $this->input->post("approved_cost");
@@ -1432,7 +1431,7 @@ class Water_user_associations extends Admin_Controller
         echo "success";
     }
 
-    
+
 
     public function scheme_lists()
     {
@@ -1559,9 +1558,9 @@ class Water_user_associations extends Admin_Controller
 
     public function report_count()
     {
-        
 
-        
+
+
         $this->data["title"] = 'Schemes Dashboard';
         $this->data["description"] = 'List of Schemes';
 

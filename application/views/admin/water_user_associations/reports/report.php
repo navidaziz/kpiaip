@@ -333,75 +333,157 @@
                 <?php } else { ?>
                     <h4>District Wise Data Reconciliation</h4>
                     <table class="table table-bordered table_small">
-                        
-                        
 
-                        <?php 
-                        $query="SELECT region FROM districts WHERE is_district=1 GROUP BY region";
-                        $regions = $this->db->query($query)->result();
-                        foreach($regions as $region){
-                            
-                        ?>
-                        <tr><th colspan="20" style="text-align: center;">
-                        <?php echo $region->region; ?> Region
-                        </th></tr>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th></th>
-                            <th style="text-align: center;" colspan="3">Finance Cheque Counts</th>
-                            <th></th>
-                            <th style="text-align: center;" colspan="7">Ongoing Scheme</th>
-                            <th style="text-align: center;" colspan="2">Completed Status</th>
-                            <th></th>
-                            <th style="text-align: center;" colspan="3">Scheme Reconciliation</th>
-                        </tr>
-                        <tr>
-                            <th>#</th>
-                            <th>Region</th>
-                            <th>District</th>
-                            <th>Total</th>
-                            <th>Corrected</th>
-                            <th>Remaining</th>
-                            <th></th>
-                            <?php
-                            foreach ($schemes_status as $scheme_status) { ?>
-                                <th style="text-align: center;"><?php echo $scheme_status; ?></th>
-                            <?php } ?>
-                            <th>%</th>
-                            <th></th>
-                            <th>SFT Completed</th>
-                            <th>Finance Completed</th>
-                            <th>Difference</th>
-                        </tr>
+
+
                         <?php
-                        // Query all component categories
-                        $count = 1;
-                        $query = "SELECT *, COUNT(e.expense_id) as total FROM districts as d  
+                        $query = "SELECT region FROM districts WHERE is_district=1 GROUP BY region";
+                        $regions = $this->db->query($query)->result();
+                        foreach ($regions as $region) {
+
+                        ?>
+                            <tr>
+                                <th colspan="20" style="text-align: center;">
+                                    <?php echo $region->region; ?> Region
+                                </th>
+                            </tr>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                                <th></th>
+                                <th style="text-align: center;" colspan="3">Finance Cheque Counts</th>
+                                <th></th>
+                                <th style="text-align: center;" colspan="7">Ongoing Scheme</th>
+                                <th style="text-align: center;" colspan="2">Completed Status</th>
+                                <th></th>
+                                <th style="text-align: center;" colspan="3">Scheme Reconciliation</th>
+                            </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>Region</th>
+                                <th>District</th>
+                                <th>Total</th>
+                                <th>Corrected</th>
+                                <th>Remaining</th>
+                                <th></th>
+                                <?php
+                                foreach ($schemes_status as $scheme_status) { ?>
+                                    <th style="text-align: center;"><?php echo $scheme_status; ?></th>
+                                <?php } ?>
+                                <th>%</th>
+                                <th></th>
+                                <th>SFT Completed</th>
+                                <th>Finance Completed</th>
+                                <th>Difference</th>
+                            </tr>
+                            <?php
+                            // Query all component categories
+                            $count = 1;
+                            $query = "SELECT *, COUNT(e.expense_id) as total FROM districts as d  
                         INNER JOIN expenses as e ON(e.district_id = d.district_id )
                         WHERE d.is_district = 1 
-                        AND region = '".$region->region."'
+                        AND region = '" . $region->region . "'
                         GROUP BY d.district_name ORDER BY total ASC";
-                        $districts = $this->db->query($query)->result();
-                        foreach ($districts as $district) { ?>
+                            $districts = $this->db->query($query)->result();
+                            foreach ($districts as $district) { ?>
+                                <tr>
+
+                                    <th><?php echo $count++; ?></th>
+                                    <th><?php echo $district->region; ?></th>
+                                    <th><?php echo $district->district_name; ?></th>
+                                    <th>
+                                        <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                                 WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                                        $query .= " AND e.district_id = $district->district_id";
+
+                                        $cat_cheques = $this->db->query($query)->row();
+                                        echo $cat_cheques->total;
+                                        ?>
+                                    </th>
+                                    <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                                                WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                 AND e.scheme_id IS NULL";
+                                    $query .= " AND e.district_id = $district->district_id";
+                                    $cat_not_user_cheques = $this->db->query($query)->row();
+
+                                    ?>
+
+                                    <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
+                                    <th><?php echo $cat_not_user_cheques->total; ?></th>
+                                    <th></th>
+                                    <?php
+                                    // Total for each scheme status across all component categories
+                                    $par_completed = 0;
+                                    $completed = 0;
+                                    foreach ($schemes_status as $scheme_status) { ?>
+                                        <td style="text-align: center;"><?php
+                                                                        $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                WHERE s.scheme_status = '" . $scheme_status . "'
+                                AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
+                                                                        $query .= " AND s.district_id = $district->district_id";
+                                                                        echo $ss_total = $this->db->query($query)->row()->total;
+                                                                        if ($scheme_status == 'Par-Completed') {
+                                                                            $par_completed = $ss_total;
+                                                                        }
+                                                                        if ($scheme_status == 'Completed') {
+                                                                            $completed = $ss_total;
+                                                                        }
+                                                                        ?></td>
+                                    <?php } ?>
+                                    <th><?php
+                                        $percentage = 0;
+                                        if ($completed) {
+                                            $percentage =  round(($completed * 100) / ($par_completed + $completed));
+                                        }
+                                        if ($percentage == 100) {
+                                            echo 'Done';
+                                        } else {
+                                            echo $percentage . "%";
+                                        }
+                                        ?></th>
+                                    <th></th>
+                                    <th style="text-align: center;"><?php
+                                                                    // Grand total for all categories and statuses
+                                                                    $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                                                WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                                AND scheme_status IN ('Completed', 'Par-Completed')  ";
+                                                                    $query .= " AND s.district_id = $district->district_id";
+                                                                    echo $sft_completed_total = $this->db->query($query)->row()->total;
+                                                                    ?></th>
+
+                                    <th style="text-align: center;"><?php
+                                                                    // Grand total for all categories and statuses
+                                                                    $query = "SELECT COUNT(*) as total FROM expenses as e 
+                                                                WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                                AND installment = 'Final'";
+                                                                    $query .= " AND e.district_id = $district->district_id";
+                                                                    echo $finance_completed_total = $this->db->query($query)->row()->total;
+                                                                    ?></th>
+
+                                    <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
+                                </tr>
+                            <?php } ?>
+
                             <tr>
 
                                 <th><?php echo $count++; ?></th>
                                 <th><?php echo $district->region; ?></th>
-                                <th><?php echo $district->district_name; ?></th>
+                                <th>Total</th>
                                 <th>
                                     <?php $query = "SELECT COUNT(*) as total FROM expenses as e
-                                 WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
-                                    $query .= " AND e.district_id = $district->district_id";
+                                                    INNER JOIN districts as d ON(d.district_id = e.district_id)
+                                                    WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
+                                                    AND d.region = '" . $region->region . "'";
 
                                     $cat_cheques = $this->db->query($query)->row();
                                     echo $cat_cheques->total;
                                     ?>
                                 </th>
                                 <?php $query = "SELECT COUNT(*) as total FROM expenses as e
+                                INNER JOIN districts as d ON(d.district_id = e.district_id)
                                                 WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                                                 AND e.scheme_id IS NULL";
-                                $query .= " AND e.district_id = $district->district_id";
+                                                AND e.scheme_id IS NULL
+                                                AND d.region = '" . $region->region . "'";
                                 $cat_not_user_cheques = $this->db->query($query)->row();
 
                                 ?>
@@ -416,110 +498,30 @@
                                 foreach ($schemes_status as $scheme_status) { ?>
                                     <td style="text-align: center;"><?php
                                                                     $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                WHERE s.scheme_status = '" . $scheme_status . "'
-                                AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
-                                                                    $query .= " AND s.district_id = $district->district_id";
-                                                                    echo $ss_total = $this->db->query($query)->row()->total;
-                                if($scheme_status=='Par-Completed'){
-                                $par_completed = $ss_total;
-                                }
-                                if($scheme_status=='Completed'){
-                                $completed = $ss_total;
-                                }
-                                                                    ?></td>
-                                <?php } ?>
-                                <th><?php 
-                                $percentage=0;
-                                if($completed){
-                                $percentage =  round(($completed*100)/ ($par_completed+$completed)); 
-                                }
-                                if($percentage==100){
-                                    echo 'Done';
-                                }else{
-                                    echo $percentage."%";   
-                                }
-                                ?></th>
-                                <th></th>
-                                <th style="text-align: center;"><?php
-                                                                // Grand total for all categories and statuses
-                                                                $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                                                WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                                                                AND scheme_status IN ('Completed', 'Par-Completed')  ";
-                                                                $query .= " AND s.district_id = $district->district_id";
-                                                                echo $sft_completed_total = $this->db->query($query)->row()->total;
-                                                                ?></th>
-                                                                
-                                <th style="text-align: center;"><?php
-                                                                // Grand total for all categories and statuses
-                                                                $query = "SELECT COUNT(*) as total FROM expenses as e 
-                                                                WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                                                                AND installment = 'Final'";
-                                                                $query .= " AND e.district_id = $district->district_id";
-                                                                echo $finance_completed_total = $this->db->query($query)->row()->total;
-                                                                ?></th>
-                                                                
-                                <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
-                            </tr>
-                        <?php } ?>
-
-                        <tr>
-
-                                <th><?php echo $count++; ?></th>
-                                <th><?php echo $district->region; ?></th>
-                                <th>Total</th>
-                                <th>
-                                    <?php $query = "SELECT COUNT(*) as total FROM expenses as e
-                                                    INNER JOIN districts as d ON(d.district_id = e.district_id)
-                                                    WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                                                    AND d.region = '".$region->region."'";
-
-                                    $cat_cheques = $this->db->query($query)->row();
-                                    echo $cat_cheques->total;
-                                    ?>
-                                </th>
-                                <?php $query = "SELECT COUNT(*) as total FROM expenses as e
-                                INNER JOIN districts as d ON(d.district_id = e.district_id)
-                                                WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                                                AND e.scheme_id IS NULL
-                                                AND d.region = '".$region->region."'";
-                                $cat_not_user_cheques = $this->db->query($query)->row();
-
-                                ?>
-
-                                <th><?php echo $cat_cheques->total - $cat_not_user_cheques->total; ?></th>
-                                <th><?php echo $cat_not_user_cheques->total; ?></th>
-                                <th></th>
-                                <?php
-                                // Total for each scheme status across all component categories
-                                $par_completed = 0;
-                                $completed = 0;
-                                foreach ($schemes_status as $scheme_status) { ?>
-                                    <td style="text-align: center;"><?php
-                                $query = "SELECT COUNT(*) as total FROM schemes as s 
                                 INNER JOIN districts as d ON(d.district_id = s.district_id)
                                 WHERE s.scheme_status = '" . $scheme_status . "'
                                 AND s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
-                                AND d.region = '".$region->region."'";
+                                AND d.region = '" . $region->region . "'";
                                                                     echo $ss_total = $this->db->query($query)->row()->total;
-                                if($scheme_status=='Par-Completed'){
-                                $par_completed = $ss_total;
-                                }
-                                if($scheme_status=='Completed'){
-                                $completed = $ss_total;
-                                }
+                                                                    if ($scheme_status == 'Par-Completed') {
+                                                                        $par_completed = $ss_total;
+                                                                    }
+                                                                    if ($scheme_status == 'Completed') {
+                                                                        $completed = $ss_total;
+                                                                    }
                                                                     ?></td>
                                 <?php } ?>
-                                <th><?php 
-                                $percentage=0;
-                                if($completed){
-                                $percentage =  round(($completed*100)/ ($par_completed+$completed)); 
-                                }
-                                if($percentage==100){
-                                    echo 'Done';
-                                }else{
-                                    echo $percentage."%";   
-                                }
-                                ?></th>
+                                <th><?php
+                                    $percentage = 0;
+                                    if ($completed) {
+                                        $percentage =  round(($completed * 100) / ($par_completed + $completed));
+                                    }
+                                    if ($percentage == 100) {
+                                        echo 'Done';
+                                    } else {
+                                        echo $percentage . "%";
+                                    }
+                                    ?></th>
                                 <th></th>
                                 <th style="text-align: center;"><?php
                                                                 // Grand total for all categories and statuses
@@ -527,29 +529,31 @@
                                                                 INNER JOIN districts as d ON(d.district_id = s.district_id)
                                                                 WHERE s.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
                                                                 AND scheme_status IN ('Completed', 'Par-Completed') 
-                                                                AND d.region = '".$region->region."'";
+                                                                AND d.region = '" . $region->region . "'";
                                                                 echo $sft_completed_total = $this->db->query($query)->row()->total;
                                                                 ?></th>
-                                                                
+
                                 <th style="text-align: center;"><?php
                                                                 // Grand total for all categories and statuses
                                                                 $query = "SELECT COUNT(*) as total FROM expenses as e 
                                                                 INNER JOIN districts as d ON(d.district_id = e.district_id)
                                                                 WHERE e.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)
                                                                 AND installment = 'Final'
-                                                                AND d.region = '".$region->region."'";
-                                                                
+                                                                AND d.region = '" . $region->region . "'";
+
                                                                 echo $finance_completed_total = $this->db->query($query)->row()->total;
                                                                 ?></th>
-                                                                
+
                                 <th style="text-align:center"><?php echo  $sft_completed_total - $finance_completed_total; ?></th>
-                        </tr>
-                        
+                            </tr>
+
                         <?php }
                         ?>
-                         <tr><th colspan="20" style="text-align: center;">
-                        Over All Total
-                        </th></tr>
+                        <tr>
+                            <th colspan="20" style="text-align: center;">
+                                Over All Total
+                            </th>
+                        </tr>
 
                         <tr>
                             <th></th>
@@ -580,8 +584,8 @@
                             <th></th>
                             <?php
                             // Total for each scheme status across all component categories
-                            $par_completed=0;
-                            $completed=0;
+                            $par_completed = 0;
+                            $completed = 0;
                             foreach ($schemes_status as $scheme_status) { ?>
                                 <td style="text-align: center;"><?php
                                                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
@@ -591,23 +595,23 @@
                                                                     $query .= " AND district_id = $district_id";
                                                                 }
                                                                 echo $ss_total = $this->db->query($query)->row()->total;
-                                                                if($scheme_status=='Par-Completed'){
+                                                                if ($scheme_status == 'Par-Completed') {
                                                                     $par_completed = $ss_total;
-                                                                    }
-                                                                    if($scheme_status=='Completed'){
+                                                                }
+                                                                if ($scheme_status == 'Completed') {
                                                                     $completed = $ss_total;
-                                                                    }
+                                                                }
                                                                 ?></td>
                             <?php } ?>
-                            <th><?php 
-                                $percentage=0;
-                                if($completed){
-                                $percentage =  round(($completed*100)/ ($par_completed+$completed)); 
+                            <th><?php
+                                $percentage = 0;
+                                if ($completed) {
+                                    $percentage =  round(($completed * 100) / ($par_completed + $completed));
                                 }
-                                if($percentage==100){
+                                if ($percentage == 100) {
                                     echo 'Done';
-                                }else{
-                                    echo $percentage."%";   
+                                } else {
+                                    echo $percentage . "%";
                                 }
                                 ?></th>
                             <th></th>
