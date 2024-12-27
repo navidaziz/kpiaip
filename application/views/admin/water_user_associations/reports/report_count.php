@@ -228,7 +228,7 @@
                         }
 
                         // Add district to the corresponding percentage range
-                        $percentages[$range_label][] = $district;
+                        $percentages[$range_label][] = $district . '-' . $percentage . "%";
                     }
                     ?>
                 </h4>
