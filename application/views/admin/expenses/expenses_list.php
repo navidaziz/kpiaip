@@ -331,6 +331,9 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div style="text-align: right; margin-top:-30px; margin-bottom:5px">
+
+
+
                                     Search By Cheque No. of Payee Name: <input type="text" value="" id="search"
                                         name="search" />
                                     <button onclick="search()">Search</button>

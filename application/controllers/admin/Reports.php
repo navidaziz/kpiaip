@@ -23,6 +23,15 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+    public function export_filter_expenses()
+    {
+
+        $this->data["title"] = 'Custom Financial Report';
+        $this->data["description"] = 'Custom Financial With Different Filter Option';
+        $this->data["view"] = ADMIN_DIR . "reports/export_filter_expenses";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
     public function ledger($fy_id)
     {
 

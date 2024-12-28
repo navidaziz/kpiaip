@@ -183,9 +183,15 @@
                     <li><small>
                             <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_expenses') ?>">Export Financial Data</a>
                         </small></li>
+
                     <li><small>
-                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_data') ?>">Export Scheme Data</a>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_filter_expenses') ?>">Custom Financial Report</a>
                         </small></li>
+                    <li>
+                        <small>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_data') ?>">Export Scheme Data</a>
+                        </small>
+                    </li>
                     <li><small>
                             <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_wua_data') ?>">Export Water User Association Data</a>
                         </small></li>
