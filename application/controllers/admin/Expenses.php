@@ -1321,7 +1321,7 @@ WHERE
         }
 
         // Add a LIMIT clause for pagination or performance optimization
-        $query .= " LIMIT 100";
+        //$query .= " LIMIT 100";
 
         try {
             // Execute the query with parameters to avoid SQL injection
