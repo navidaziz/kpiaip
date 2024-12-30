@@ -1342,4 +1342,103 @@ WHERE
         }
         exit();
     }
+
+    public function filter_scheme_search()
+    {
+        $search = trim($this->input->post('search', true)); // Trim and XSS filtering for input
+        $search_param = "%{$search}%";
+
+        // Start buffering output
+        ob_start();
+
+
+
+        $query = "
+        SELECT 
+            schemes.scheme_id,
+            schemes.scheme_name,
+            schemes.scheme_code,
+            schemes.scheme_status,
+            wua.wua_name,
+            wua.wua_registration_no,
+            fy.financial_year,
+            d.district_name,
+            sc.category
+        FROM schemes
+        INNER JOIN districts AS d ON d.district_id = schemes.district_id
+        INNER JOIN water_user_associations AS wua ON wua.water_user_association_id = schemes.water_user_association_id
+        INNER JOIN financial_years AS fy ON fy.financial_year_id = schemes.financial_year_id
+        INNER JOIN component_categories AS sc ON sc.component_category_id = schemes.component_category_id
+        WHERE (schemes.scheme_name LIKE ? 
+        OR schemes.scheme_code LIKE ? 
+        OR wua.wua_name LIKE ? 
+        OR wua.wua_registration_no LIKE ? )";
+
+        $params = [$search_param, $search_param, $search_param, $search_param];
+
+        // Helper function for dynamic filtering
+        $addFilter = function ($field, $inputKey, &$query, &$params) {
+            $values = $this->input->post($inputKey);
+            if ($values) {
+                if (!is_array($values)) {
+                    $values = [$values];
+                }
+                $placeholders = implode(',', array_fill(0, count($values), '?'));
+                $query .= " AND $field IN ($placeholders)";
+                $params = array_merge($params, $values);
+            }
+        };
+
+        $addFilter('schemes.district_id', 'district_ids', $query, $params);
+        $addFilter('schemes.component_category_id', 'component_category_ids', $query, $params);
+
+        $query .= " LIMIT 20"; // Limiting to top 20 records for performance
+
+        $schemes = $this->db->query($query, $params)->result();
+
+        echo '<small>Search Result (Top ' . count($schemes) . ' Records)</small>
+            <table class="table table-bordered table-striped table_small">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Scheme Name</th>
+                <th>Scheme Code</th>
+                <th>WUA Name</th>
+                <th>WUA Code</th>
+                <th>FY</th>
+                <th>District</th>
+                <th>Category</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>';
+
+        if ($schemes) {
+            $count = 1;
+            foreach ($schemes as $scheme) {
+                echo '<tr>
+                <td>' . $count++ . '</td>
+                <td>' . htmlspecialchars($scheme->scheme_name, ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($scheme->scheme_code, ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($scheme->wua_name, ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($scheme->wua_registration_no, ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($scheme->financial_year, ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($scheme->district_name, ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($scheme->category, ENT_QUOTES, 'UTF-8') . '</td>
+                <td>' . htmlspecialchars($scheme->scheme_status, ENT_QUOTES, 'UTF-8') . '</td>
+                <td><a target="_blank" href="' . site_url(ADMIN_DIR . "expenses/view_scheme_detail/" . $scheme->scheme_id) . '">View Detail</a></td>
+            </tr>';
+            }
+        } else {
+            echo '<tr><td colspan="10">No records found</td></tr>';
+        }
+
+        echo '</tbody>
+         </table>';
+
+        // End buffering and output the content
+        $output = ob_get_clean();
+        echo $output;
+    }
 }

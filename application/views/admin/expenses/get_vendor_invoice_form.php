@@ -12,7 +12,8 @@
                 if ($vendors) {
                     foreach ($vendors as $vendor) { ?>
                         <option <?php if ($vendor->vendor_id == $input->vendor_id) { ?> selected <?php } ?> value="<?php echo $vendor->vendor_id ?>">
-                            <?php echo $vendor->TaxPayer_Name ?>/<?php echo $vendor->TaxPayer_City ?>/<?php echo $vendor->TaxPayer_Address ?>
+                            <?php echo $vendor->TaxPayer_Name ?> - <?php echo $vendor->TaxPayer_NTN ?>
+
                         </option>
                     <?php } ?>
                 <?php } ?>

@@ -3,7 +3,6 @@
     <div class="box-body">
 
 
-
         <?php echo form_hidden("expense_id", $expense->expense_id); ?>
         <?php echo form_hidden("purpose", $expense->purpose); ?>
         <?php echo form_hidden("scheme_id", $expense->scheme_id); ?>

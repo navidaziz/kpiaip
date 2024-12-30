@@ -1,7 +1,24 @@
 <form id="data_form" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 
     <div class="box-body">
+        <?php if ($expense->scheme_id) {
+            $query = "SELECT * FROM schemes WHERE scheme_id = " . $expense->scheme_id;
+            $scheme = $this->db->query($query)->row();
+        ?>
+            <table class="table" style="margin-top: -25px;">
+                <tr>
+                    <td>
+                        <strong>Scheme: <?php echo $scheme->scheme_name; ?></strong>
+                    </td>
+                    <td>
+                        <strong style="text-align: right;">Scheme Code: <?php echo $scheme->scheme_code; ?></strong>
+                    </td>
 
+
+                </tr>
+            </table>
+
+        <?php } ?>
 
 
         <?php echo form_hidden("expense_id", $expense->expense_id); ?>
@@ -15,52 +32,65 @@
                     id="voucher_number" class="form-control" style="" required="required" placeholder="Voucher Number">
             </div>
         </div>
-        <div class="form-group">
-            <label for="Purpose" class="col-md-4 control-label" style="">Purpose</label>
-            <div class="col-md-8">
-                <?php $purposes = array("Flood Mgt. Plan", "Operational Cost", "Programme Cost", "Rehabilitation"); ?>
-                <?php foreach ($purposes as $purpose) { ?>
-                    <input required <?php if ($expense->purpose == $purpose) { ?> checked <?php } ?> type="radio" name="purpose" id="purpose" value="<?php echo $purpose; ?>" />
-                    <?php echo $purpose; ?><span style="margin-left: 10px;"></span>
-                <?php } ?>
+        <?php if ($expense->scheme_id) { ?>
+            <input type="hidden" name="purpose" value="<?php echo $expense->purpose; ?>" id="purpose" required="required" />
 
-            </div>
-        </div>
-        <div class="form-group">
-            <label for="District" class="col-md-4 control-label" style="">District</label>
-            <div class="col-md-8">
-                <select name="district_id" class="form-control searchable" required="">
-                    <option value="">Select District</option>
-                    <?php foreach ($districts as $district) { ?>
-                        <option <?php if ($district->district_id == $expense->district_id) { ?> selected <?php } ?>
-                            value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
-                            (<?php echo $district->region ?>)</option>
+        <?php } else { ?>
+            <div class="form-group">
+                <label for="Purpose" class="col-md-4 control-label" style="">Purpose</label>
+                <div class="col-md-8">
+                    <?php $purposes = array("Flood Mgt. Plan", "Operational Cost", "Programme Cost", "Rehabilitation"); ?>
+                    <?php foreach ($purposes as $purpose) { ?>
+                        <input required <?php if ($expense->purpose == $purpose) { ?> checked <?php } ?> type="radio" name="purpose" id="purpose" value="<?php echo $purpose; ?>" />
+                        <?php echo $purpose; ?><span style="margin-left: 10px;"></span>
                     <?php } ?>
-                </select>
+
+                </div>
             </div>
-        </div>
+        <?php } ?>
+        <?php if ($expense->scheme_id) { ?>
+            <input type="hidden" name="district_id" value="<?php echo $expense->district_id; ?>" id="district_id" required="required" />
 
-        <div class="form-group">
-            <label for="Category" class="col-md-4 control-label" style="">Component Category</label>
-            <div class="col-md-8">
-
-                <select name="component_category_id" class="form-control searchable" required="">
-                    <option value="">Select Component Category</option>
-                    <?php foreach ($component_catagories as $component_catagory) { ?>
-                        <option
-                            <?php if ($component_catagory->component_category_id == $expense->component_category_id) { ?>
-                            selected <?php } ?> value="<?php echo $component_catagory->component_category_id ?>">
-
-                            <?php echo $component_catagory->category ?>
-                            <?php echo $component_catagory->category_detail ?>
-                            <?php echo $component_catagory->main_heading ?>
-
-                            (<?php echo @$component_catagory->sub_component_name ?> -
-                            <?php echo @$component_catagory->component_name ?>)</option>
-                    <?php } ?>
-                </select>
+        <?php } else { ?>
+            <div class="form-group">
+                <label for="District" class="col-md-4 control-label" style="">District</label>
+                <div class="col-md-8">
+                    <select name="district_id" class="form-control searchable" required="">
+                        <option value="">Select District</option>
+                        <?php foreach ($districts as $district) { ?>
+                            <option <?php if ($district->district_id == $expense->district_id) { ?> selected <?php } ?>
+                                value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
+                                (<?php echo $district->region ?>)</option>
+                        <?php } ?>
+                    </select>
+                </div>
             </div>
-        </div>
+        <?php } ?>
+        <?php if ($expense->scheme_id) { ?>
+            <input type="hidden" name="component_category_id" value="<?php echo $expense->component_category_id; ?>" id="component_category_id" required="required" />
+        <?php } else { ?>
+            <div class="form-group">
+                <label for="Category" class="col-md-4 control-label" style="">Component Category</label>
+                <div class="col-md-8">
+
+                    <select name="component_category_id" class="form-control searchable" required="">
+                        <option value="">Select Component Category</option>
+                        <?php foreach ($component_catagories as $component_catagory) { ?>
+                            <option
+                                <?php if ($component_catagory->component_category_id == $expense->component_category_id) { ?>
+                                selected <?php } ?> value="<?php echo $component_catagory->component_category_id ?>">
+
+                                <?php echo $component_catagory->category ?>
+                                <?php echo $component_catagory->category_detail ?>
+                                <?php echo $component_catagory->main_heading ?>
+
+                                (<?php echo @$component_catagory->sub_component_name ?> -
+                                <?php echo @$component_catagory->component_name ?>)</option>
+                        <?php } ?>
+                    </select>
+                </div>
+            </div>
+        <?php } ?>
 
         <div class="form-group" style="display: none;">
             <label for="Category" class="col-md-4 control-label" style="">Category</label>
@@ -74,7 +104,25 @@
         <div class="form-group">
             <label for="Payee Name" class="col-md-4 control-label" style="">Payee Name</label>
             <div class="col-md-8">
-                <input type="text" s name="payee_name" value="<?php echo $expense->payee_name; ?>" id="payee_name"
+
+                <?php if ($expense->scheme_id) {
+                    $query = "SELECT payee_name FROM expenses
+                    WHERE scheme_id = " . $expense->scheme_id . " 
+                    Order By expense_id DESC LIMIT 1";
+                    $paid = $this->db->query($query)->row();
+                    if ($paid) {
+                        $expense->payee_name = $paid->payee_name;
+                    } else {
+                        $query = "SELECT wua.bank_account_title 
+                                FROM schemes
+                                INNER JOIN water_user_associations as wua ON schemes.water_user_association_id = wua.water_user_association_id
+                                WHERE schemes.scheme_id = " . $expense->scheme_id;
+                        $payee = $this->db->query($query)->row();
+                        $expense->payee_name = $payee->bank_account_title;
+                    }
+                ?>
+                <?php } ?>
+                <input type="text" name="payee_name" value="<?php echo $expense->payee_name; ?>" id="payee_name"
                     class="form-control" style="" required="required" placeholder="Payee Name">
             </div>
         </div>
