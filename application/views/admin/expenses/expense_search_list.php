@@ -58,23 +58,23 @@
                     <td class="date"><?php echo date('d-m-Y', strtotime($expense->date)); ?>
                     </td>
                     <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
-                    <td><?php echo $expense->gross_pay > 0 ? number_format($expense->gross_pay, 2) : 0; ?>
+                    <td><?php echo $expense->gross_pay != 0 ? number_format($expense->gross_pay, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->whit_tax > 0 ? number_format($expense->whit_tax, 2) : 0; ?>
+                    <td><?php echo $expense->whit_tax != 0 ? number_format($expense->whit_tax, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->whst_tax > 0 ? number_format($expense->whst_tax, 2) : 0; ?>
+                    <td><?php echo $expense->whst_tax != 0 ? number_format($expense->whst_tax, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->st_duty_tax > 0 ? number_format($expense->st_duty_tax, 2) : 0; ?>
+                    <td><?php echo $expense->st_duty_tax != 0 ? number_format($expense->st_duty_tax, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->rdp_tax > 0 ? number_format($expense->rdp_tax, 2) : 0; ?>
+                    <td><?php echo $expense->rdp_tax != 0 ? number_format($expense->rdp_tax, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->kpra_tax > 0 ? number_format($expense->kpra_tax, 2) : 0; ?>
+                    <td><?php echo $expense->kpra_tax != 0 ? number_format($expense->kpra_tax, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->gur_ret > 0 ? number_format($expense->gur_ret, 2) : 0; ?>
+                    <td><?php echo $expense->gur_ret != 0 ? number_format($expense->gur_ret, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->misc_deduction > 0 ? number_format($expense->misc_deduction, 2) : 0; ?>
+                    <td><?php echo $expense->misc_deduction != 0 ? number_format($expense->misc_deduction, 2) : 0; ?>
                     </td>
-                    <td><?php echo $expense->net_pay > 0 ? number_format($expense->net_pay, 2) : 0; ?>
+                    <td><?php echo $expense->net_pay != 0 ? number_format($expense->net_pay, 2) : 0; ?>
                     </td>
                     <td><?php echo $expense->installment; ?>
                     </td>
