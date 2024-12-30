@@ -243,9 +243,9 @@
                         <tr>
                             <?php foreach ($percentages as $range => $districts) { ?>
                                 <th style="text-align:center; color:black">
-                                    <ol style="font-size:12px; color:black">
+                                    <ol style="font-size:10px; color:black">
                                         <?php foreach ($districts as $district) { ?>
-                                            <li><?php echo $district->district_name; ?></li>
+                                            <li><?php echo $district->district_name . " - <small>" . round($district->completed_percentage) . "%</small>"; ?></li>
                                         <?php } ?>
                                     </ol>
                                 </th>
