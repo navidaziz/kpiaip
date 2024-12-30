@@ -245,7 +245,7 @@
                                 <th style="text-align:center; color:black">
                                     <ol style="font-size:10px; color:black">
                                         <?php foreach ($districts as $district) { ?>
-                                            <li><?php echo $district->district_name . " - <small>" . round($district->completed_percentage) . "%</small>"; ?></li>
+                                            <li><?php echo $district->district_name . " - <small>" . round($district->total - $district->completed_schemes) . "</small>"; ?></li>
                                         <?php } ?>
                                     </ol>
                                 </th>
