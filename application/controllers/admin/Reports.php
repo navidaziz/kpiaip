@@ -702,7 +702,7 @@ class Reports extends Admin_Controller
             e.kpra_tax as KPRA_TAX,
             e.gur_ret as GUR_RET,
             e.misc_deduction as MISC_DEDUCTION,
-            e.net_pay as NET_PAY 
+            e.net_pay as NET_PAY
             FROM 
                 expenses AS e
             INNER JOIN 

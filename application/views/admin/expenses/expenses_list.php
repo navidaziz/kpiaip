@@ -515,6 +515,7 @@
                                             <th>GUR.RET.</th>
                                             <th>Misc.Dedu.</th>
                                             <th>Net Paid</th>
+                                            <th>Installment</th>
                                             <th></th>
                                         </thead>
                                         <tbody>
@@ -559,6 +560,8 @@
                                                     <td><?php echo $expense->misc_deduction > 0 ? number_format($expense->misc_deduction, 2) : 0; ?>
                                                     </td>
                                                     <td><?php echo $expense->net_pay > 0 ? number_format($expense->net_pay, 2) : 0; ?>
+                                                    </td>
+                                                    <td><?php echo $expense->installment; ?>
                                                     </td>
                                                     <td>
                                                         <?php if (in_array($expense->component_category_id, $taxes_ids)) { ?>
