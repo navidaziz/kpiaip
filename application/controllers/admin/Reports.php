@@ -32,6 +32,14 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+    public function district_wise_taxes()
+    {
+        $this->data["title"] = 'District Wise Taxes';
+        $this->data["description"] = 'District Wise Taxes';
+        $this->data["view"] = ADMIN_DIR . "reports/district_wise_taxes";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
     public function ledger($fy_id)
     {
 

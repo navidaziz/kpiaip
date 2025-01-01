@@ -16,11 +16,11 @@
         <?php echo form_hidden("st_duty_tax", $expense->st_duty_tax); ?>
         <?php echo form_hidden("misc_deduction", $expense->misc_deduction); ?>
         <?php echo form_hidden("component_category_id", $expense->component_category_id); ?>
-        <div class="form-group">
-            <label for="Voucher Number" class="col-md-4 control-label" style="">Voucher Number</label>
+        <div class="form-group" style="display:none">
+            <label for="Voucher Number" class="col-md-4 control-label">Voucher Number</label>
             <div class="col-md-8">
-                <input type="text" name="voucher_number" value="<?php echo $expense->voucher_number; ?>"
-                    id="voucher_number" class="form-control" style="" required="required" placeholder="Voucher Number">
+                <input type="text" name="voucher_number" value="0"
+                    id="voucher_number" class="form-control" style="" requ ired="required" placeholder="Voucher Number">
             </div>
         </div>
         <div class="form-group">
@@ -29,9 +29,9 @@
                 <select name="district_id" class="form-control" required="">
                     <option value="">Select District</option>
                     <?php foreach ($districts as $district) { ?>
-                    <option <?php if ($district->district_id == $expense->district_id) { ?> selected <?php } ?>
-                        value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
-                        (<?php echo $district->region ?>)</option>
+                        <option <?php if ($district->district_id == $expense->district_id) { ?> selected <?php } ?>
+                            value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
+                            (<?php echo $district->region ?>)</option>
                     <?php } ?>
                 </select>
             </div>
@@ -42,17 +42,17 @@
 
 
         <div class="form-group">
-            <label for="District" class="col-md-3 control-label" style="">Category</label>
+            <label for="District" class="col-md-3 control-label" style="">Tax category</label>
             <div class="col-md-9">
-                <?php 
-                $query="SELECT component_category_id, category FROM `component_categories` where sub_component_id=22;";
+                <?php
+                $query = "SELECT component_category_id, category FROM `component_categories` where sub_component_id=22;";
                 $tax_heads = $this->db->query($query)->result();
-                foreach($tax_heads as $tax_head){ ?>
-                <input required <?php if ($expense->component_category_id == $tax_head->component_category_id) { ?>
-                    checked <?php } ?> type="radio" name="component_category_id"
-                    value="<?php echo $tax_head->component_category_id ?>" />
-                <?php echo $tax_head->category ?>
-                <span style="margin-left: 3px;"></span>
+                foreach ($tax_heads as $tax_head) { ?>
+                    <input required <?php if ($expense->component_category_id == $tax_head->component_category_id) { ?>
+                        checked <?php } ?> type="radio" name="component_category_id"
+                        value="<?php echo $tax_head->component_category_id ?>" />
+                    <?php echo $tax_head->category ?>
+                    <span style="margin-left: 3px;"></span>
                 <?php } ?>
             </div>
         </div>
@@ -82,7 +82,7 @@
         </div>
 
         <div class="form-group">
-            <label for="Gross Paid" class="col-md-3 control-label" style="">Gross Paid</label>
+            <label for="Gross Paid" class="col-md-3 control-label" style="">PKR:</label>
             <div class="col-md-9">
                 <input type="number" min="1" onkeyup="calculate_net_pay()" step="any" name="gross_pay"
                     value="<?php echo $expense->gross_pay; ?>" id="gross_pay" class="form-control" style=""
@@ -90,14 +90,14 @@
             </div>
         </div>
         <script>
-        function calculate_net_pay() {
-            var gross_pay = parseFloat($('#gross_pay').val()) || 0;
-            $('#net_pay').val(gross_pay);
+            function calculate_net_pay() {
+                var gross_pay = parseFloat($('#gross_pay').val()) || 0;
+                $('#net_pay').val(gross_pay);
 
-        }
+            }
         </script>
 
-        <div class="form-group">
+        <div class="form-group" style="display: none;">
             <label for="Net Paid" class="col-md-3 control-label" style="">Net Paid</label>
             <div class="col-md-9">
                 <input readonly min="1" type="number" step="any" name="net_pay" value="<?php echo $expense->net_pay; ?>"
@@ -139,26 +139,26 @@
     </div>
 </form>
 <script>
-$('#data_form').submit(function(e) {
-    e.preventDefault(); // Prevent default form submission
+    $('#data_form').submit(function(e) {
+        e.preventDefault(); // Prevent default form submission
 
-    // Serialize form data
-    var formData = $(this).serialize();
+        // Serialize form data
+        var formData = $(this).serialize();
 
-    // Send AJAX request
-    $.ajax({
-        type: 'POST',
-        url: '<?php echo site_url(ADMIN_DIR . "expenses/add_expense") ?>', // URL to submit form data
-        data: formData,
-        success: function(response) {
-            // Display response
-            if (response == 'success') {
-                location.reload();
-            } else {
-                $('#result_response').html(response);
+        // Send AJAX request
+        $.ajax({
+            type: 'POST',
+            url: '<?php echo site_url(ADMIN_DIR . "expenses/add_expense") ?>', // URL to submit form data
+            data: formData,
+            success: function(response) {
+                // Display response
+                if (response == 'success') {
+                    location.reload();
+                } else {
+                    $('#result_response').html(response);
+                }
+
             }
-
-        }
+        });
     });
-});
 </script>

@@ -509,9 +509,9 @@
                                             <th>Gross Paid</th>
                                             <th>WHIT</th>
                                             <th>WHST</th>
+                                            <th>KPRA</th>
                                             <th>St.Duty</th>
                                             <th>RDP</th>
-                                            <th>KPRA</th>
                                             <th>GUR.RET.</th>
                                             <th>Misc.Dedu.</th>
                                             <th>Net Paid</th>
@@ -549,11 +549,11 @@
                                                     </td>
                                                     <td><?php echo $expense->whst_tax != 0 ? number_format($expense->whst_tax, 2) : 0; ?>
                                                     </td>
+                                                    <td><?php echo $expense->kpra_tax != 0 ? number_format($expense->kpra_tax, 2) : 0; ?>
+                                                    </td>
                                                     <td><?php echo $expense->st_duty_tax != 0 ? number_format($expense->st_duty_tax, 2) : 0; ?>
                                                     </td>
                                                     <td><?php echo $expense->rdp_tax != 0 ? number_format($expense->rdp_tax, 2) : 0; ?>
-                                                    </td>
-                                                    <td><?php echo $expense->kpra_tax != 0 ? number_format($expense->kpra_tax, 2) : 0; ?>
                                                     </td>
                                                     <td><?php echo $expense->gur_ret != 0 ? number_format($expense->gur_ret, 2) : 0; ?>
                                                     </td>

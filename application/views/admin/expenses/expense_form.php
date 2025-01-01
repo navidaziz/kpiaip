@@ -170,6 +170,14 @@
             </div>
         </div>
         <div class="form-group">
+            <label for="KPRA Tax" class="col-md-4 control-label" style="">KPRA Tax</label>
+            <div class="col-md-8">
+                <input type="number" onkeyup="calculate_net_pay()" step="any" name="kpra_tax"
+                    value="<?php echo $expense->kpra_tax; ?>" id="kpra_tax" class="form-control" style=""
+                    required="required" placeholder="KPRA Tax">
+            </div>
+        </div>
+        <div class="form-group">
             <label for="St.Duty Tax" class="col-md-4 control-label" style="">St.Duty Tax</label>
             <div class="col-md-8">
                 <input type="number" onkeyup="calculate_net_pay()" step="any" name="st_duty_tax"
@@ -185,14 +193,7 @@
                     required="required" placeholder="RDP Tax">
             </div>
         </div>
-        <div class="form-group">
-            <label for="KPRA Tax" class="col-md-4 control-label" style="">KPRA Tax</label>
-            <div class="col-md-8">
-                <input type="number" onkeyup="calculate_net_pay()" step="any" name="kpra_tax"
-                    value="<?php echo $expense->kpra_tax; ?>" id="kpra_tax" class="form-control" style=""
-                    required="required" placeholder="KPRA Tax">
-            </div>
-        </div>
+
 
         <div class="form-group">
             <label for="gur_ret" class="col-md-4 control-label" style="">Retention Money Guarantee</label>

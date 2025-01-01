@@ -447,6 +447,10 @@
                                                         title: 'WHST'
                                                     },
                                                     {
+                                                        data: 'kpra_tax',
+                                                        title: 'KPRA'
+                                                    },
+                                                    {
                                                         data: 'st_duty_tax',
                                                         title: 'St.Duty'
                                                     },
@@ -454,10 +458,7 @@
                                                         data: 'rdp_tax',
                                                         title: 'RDP'
                                                     },
-                                                    {
-                                                        data: 'kpra_tax',
-                                                        title: 'KPRA'
-                                                    },
+
                                                     {
                                                         data: 'gur_ret',
                                                         title: 'GUR.RET.'
@@ -530,9 +531,9 @@
                                 <th>Gross Paid</th>
                                 <th>WHIT</th>
                                 <th>WHST</th>
+                                <th>KPRA</th>
                                 <th>St.Duty</th>
                                 <th>RDP</th>
-                                <th>KPRA</th>
                                 <th>GUR.RET.</th>
                                 <th>Misc.Dedu.</th>
                                 <th>Net Paid</th>

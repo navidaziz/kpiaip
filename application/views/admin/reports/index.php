@@ -165,7 +165,14 @@
                                 Component / Sub Components / Cetrgories Wise (COAs)</a>
                         </small></li>
                 </ol>
+                <h4>Taxes</h4>
+                <ol>
+                    <li><small>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_wise_taxes') ?>">
+                                District Wise Taxes </a>
+                        </small></li>
 
+                </ol>
             </div>
         </div>
     </div>
