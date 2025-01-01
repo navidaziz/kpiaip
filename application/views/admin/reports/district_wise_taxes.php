@@ -156,7 +156,7 @@ $districts = $this->db->query($query)->result();
 
                             <tr>
                                 <th></th>
-                                <th>FY</th>
+                                <th>District</th>
                                 <th>Net Paid</th>
                                 <th>WHST
                                 </th>
