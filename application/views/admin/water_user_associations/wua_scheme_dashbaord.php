@@ -269,6 +269,22 @@
                 <div class="header-tabs">
 
                     <ul class="nav nav-tabs">
+                        <li>
+                            <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/r_cheques/") . $district_id; ?>"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                <?php
+                                $query = "SELECT COUNT(*) as total FROM expenses WHERE scheme_id IS NULL ";
+
+                                if ($district_id) {
+                                    $query .= " AND district_id = $district_id";
+                                }
+                                $remaining_cheques = $this->db->query($query)->row();
+
+                                ?>
+                                Remaining Cheques (<?php echo $remaining_cheques->total; ?>)
+                            </a>
+                        </li>
+
                         <?php
                         // Define the schemes statuses array
                         $schemes = array(
@@ -326,11 +342,14 @@
                     </ul>
 
                     <div class="tab-content" style="margin-top: -35px;">
-                        <?php if ('wua' == $tab) { ?>
+                        <?php if ($tab == 'wua') { ?>
                             <?php $this->load->view(ADMIN_DIR . "water_user_associations/wua_list"); ?>
+                        <?php } elseif ($tab == 'r_cheques') { ?>
+                            <?php $this->load->view(ADMIN_DIR . "water_user_associations/r_cheques_list"); ?>
                         <?php } else { ?>
                             <?php $this->load->view(ADMIN_DIR . "water_user_associations/schemes_list"); ?>
                         <?php } ?>
+
                     </div>
                 </div>
 

@@ -8,206 +8,206 @@
                         <td style="text-align:center">
                             <strong>Change Scheme Status</strong><br />
                             <button class="bt btn-danger" onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change Status</button>
+                            <script>
+                                function change_scheme_status(scheme_id) {
+                                    $.ajax({
+                                            method: "POST",
+                                            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
+                                            data: {
+                                                scheme_id: scheme_id,
+                                                water_user_association_id: <?php echo $scheme->water_user_association_id; ?>,
+                                            },
+                                        })
+                                        .done(function(respose) {
+                                            $('#modal').modal('show');
+                                            $('#modal_title').html('Change Scheme Status');
+                                            $('#modal_body').html(respose);
+                                        });
+                                }
+                            </script>
                         </td>
-                        <td> 
+                        <td>
 
 
 
-                       
-    <style>
-        /* Basic styles for the suggestions box */
-        .autocomplete-suggestions {
-            border: 1px solid #ccc;
-            max-height: 150px;
-            overflow-y: auto;
-            position: absolute;
-            background: white;
-            z-index: 1000;
-            width: calc(100% - 2px);
-        }
 
-        .suggestion {
-            padding: 8px;
-            cursor: pointer;
-        }
+                            <style>
+                                /* Basic styles for the suggestions box */
+                                .autocomplete-suggestions {
+                                    border: 1px solid #ccc;
+                                    max-height: 150px;
+                                    overflow-y: auto;
+                                    position: absolute;
+                                    background: white;
+                                    z-index: 1000;
+                                    width: calc(100% - 2px);
+                                }
 
-        .suggestion:hover {
-            background-color: #f0f0f0;
-        }
-    </style>
+                                .suggestion {
+                                    padding: 8px;
+                                    cursor: pointer;
+                                }
 
-    <div style="position: relative;">
-        Scheme note here
-        <input 
-            class="form-control" 
-            type="text" 
-            onkeyup="showSuggestions(this.value, '<?php echo $scheme->scheme_id; ?>')" 
-            value="<?php echo $scheme->scheme_note; ?>" 
-            name="scheme_note" 
-            id="scheme_note" 
-            autocomplete="off" />
-        <div id="suggestions" class="autocomplete-suggestions"></div>
-    </div>
-    <small id="note_save_response"></small>
+                                .suggestion:hover {
+                                    background-color: #f0f0f0;
+                                }
+                            </style>
 
-    <script>
-       
-    const availableTags = [
-        <?php 
-            $query = "SELECT scheme_note FROM schemes WHERE scheme_note IS NOT NULL GROUP BY scheme_note";
-            $schemeNotes = $this->db->query($query)->result();
+                            <div style="position: relative;">
+                                Scheme note here
+                                <input
+                                    class="form-control"
+                                    type="text"
+                                    onkeyup="showSuggestions(this.value, '<?php echo $scheme->scheme_id; ?>')"
+                                    value="<?php echo $scheme->scheme_note; ?>"
+                                    name="scheme_note"
+                                    id="scheme_note"
+                                    autocomplete="off" />
+                                <div id="suggestions" class="autocomplete-suggestions"></div>
+                            </div>
+                            <small id="note_save_response"></small>
 
-            // Prepare an array to hold the notes
-            $notesArray = [];
+                            <script>
+                                const availableTags = [
+                                    <?php
+                                    $query = "SELECT scheme_note FROM schemes WHERE scheme_note IS NOT NULL GROUP BY scheme_note";
+                                    $schemeNotes = $this->db->query($query)->result();
 
-            foreach ($schemeNotes as $schemeNote) {
-                if ($schemeNote->scheme_note != "") {
-                    // Add each scheme note to the array
-                    $notesArray[] = $schemeNote->scheme_note;
-                }
-            }
+                                    // Prepare an array to hold the notes
+                                    $notesArray = [];
 
-            // Convert the PHP array to a JSON array and output it
-            echo implode(", ", array_map(function($note) {
-                return json_encode($note);
-            }, $notesArray));
-        ?>
-    ];
+                                    foreach ($schemeNotes as $schemeNote) {
+                                        if ($schemeNote->scheme_note != "") {
+                                            // Add each scheme note to the array
+                                            $notesArray[] = $schemeNote->scheme_note;
+                                        }
+                                    }
 
+                                    // Convert the PHP array to a JSON array and output it
+                                    echo implode(", ", array_map(function ($note) {
+                                        return json_encode($note);
+                                    }, $notesArray));
+                                    ?>
+                                ];
 
 
-        function showSuggestions(value, schemeId) {
-            add_scheme_note(schemeId);
-            const suggestionsBox = document.getElementById('suggestions');
-            suggestionsBox.innerHTML = ''; // Clear previous suggestions
 
-            if (!value) return; // Return if input is empty
+                                function showSuggestions(value, schemeId) {
+                                    add_scheme_note(schemeId);
+                                    const suggestionsBox = document.getElementById('suggestions');
+                                    suggestionsBox.innerHTML = ''; // Clear previous suggestions
 
-            const filteredTags = availableTags.filter(tag => 
-                tag.toLowerCase().includes(value.toLowerCase())
-            );
+                                    if (!value) return; // Return if input is empty
 
-            filteredTags.forEach(tag => {
-                const suggestionItem = document.createElement('div');
-                suggestionItem.textContent = tag;
-                suggestionItem.classList.add('suggestion');
-                
-                // Add click event for suggestion selection
-                suggestionItem.onclick = () => {
-                    document.getElementById('scheme_note').value = tag;
-                    suggestionsBox.innerHTML = ''; // Clear suggestions after selection
-                     // Call the function with schemeId
-                };
+                                    const filteredTags = availableTags.filter(tag =>
+                                        tag.toLowerCase().includes(value.toLowerCase())
+                                    );
 
-                suggestionsBox.appendChild(suggestionItem);
-                
-            });
-        }
+                                    filteredTags.forEach(tag => {
+                                        const suggestionItem = document.createElement('div');
+                                        suggestionItem.textContent = tag;
+                                        suggestionItem.classList.add('suggestion');
 
-        function add_scheme_note(schemeId) {
-            // Your implementation to handle the scheme note update
-            console.log("Scheme ID: " + schemeId);
-            // Optionally handle saving the note here
-        }
+                                        // Add click event for suggestion selection
+                                        suggestionItem.onclick = () => {
+                                            document.getElementById('scheme_note').value = tag;
+                                            suggestionsBox.innerHTML = ''; // Clear suggestions after selection
+                                            // Call the function with schemeId
+                                        };
 
-        // Hide suggestions when clicking outside
-        document.addEventListener('click', function(event) {
-            if (!event.target.closest('#scheme_note')) {
-                document.getElementById('suggestions').innerHTML = '';
-            }
-        });
-    </script>
+                                        suggestionsBox.appendChild(suggestionItem);
+
+                                    });
+                                }
+
+                                function add_scheme_note(schemeId) {
+                                    // Your implementation to handle the scheme note update
+                                    console.log("Scheme ID: " + schemeId);
+                                    // Optionally handle saving the note here
+                                }
+
+                                // Hide suggestions when clicking outside
+                                document.addEventListener('click', function(event) {
+                                    if (!event.target.closest('#scheme_note')) {
+                                        document.getElementById('suggestions').innerHTML = '';
+                                    }
+                                });
+                            </script>
 
 
 
 
 
                             <script>
-                               
                                 function add_scheme_note(scheme_id) {
-                                var scheme_note = $('#scheme_note').val(); // Corrected jQuery method to get the value
+                                    var scheme_note = $('#scheme_note').val(); // Corrected jQuery method to get the value
                                     $.ajax({
-                                        method: "POST",
-                                        url: "<?php echo site_url(ADMIN_DIR . 'temp/add_scheme_note'); ?>",
-                                        data: {
-                                            scheme_note: scheme_note,
-                                            scheme_id: scheme_id
-                                        },
-                                    })
-                                    .done(function(response) {
-                                        $('#note_save_response').css('visibility', 'hidden').html(response).css('visibility',
-                                            'visible').hide().fadeIn('fast');
+                                            method: "POST",
+                                            url: "<?php echo site_url(ADMIN_DIR . 'temp/add_scheme_note'); ?>",
+                                            data: {
+                                                scheme_note: scheme_note,
+                                                scheme_id: scheme_id
+                                            },
+                                        })
+                                        .done(function(response) {
+                                            $('#note_save_response').css('visibility', 'hidden').html(response).css('visibility',
+                                                'visible').hide().fadeIn('fast');
 
-                                    });
+                                        });
                                 }
                             </script>
                         </td>
-                        <td>    
+                        <td>
                             <div style="">
-                    Search By Cheque No. of Payee Name or Scheme Name: (<?php echo $scheme->scheme_name ?>)  <br />
-                    <input  type="text" value="<?php echo $scheme->scheme_name ?>" id="search" name="search"
-                        style="width:500px" onkeyup="search()"  />
-                    <button onclick="search()">Search</button>
-
-                    
-
-                    <script>
-                    function search() {
-                        var search = $('#search').val();
-                        if (search !== '' && search.length > 3) {
-                        $.ajax({
-                                method: "POST",
-                                url: "<?php echo site_url(ADMIN_DIR . 'temp/search_cheques'); ?>",
-                                data: {
-                                    search: search,
-                                    scheme_id: <?php echo $scheme->scheme_id ?>
-                                },
-                            })
-                            .done(function(response) {
-                                $('#search_result').css('visibility', 'hidden').html(response).css('visibility',
-                                    'visible').hide().fadeIn('fast');
-
-                            });
-                        }
+                                Search By Cheque No. of Payee Name or Scheme Name: (<?php echo $scheme->scheme_name ?>) <br />
+                                <input type="text" value="<?php echo $scheme->scheme_name ?>" id="search" name="search"
+                                    style="width:500px" onkeyup="search()" />
+                                <button onclick="search()">Search</button>
 
 
-                    }
-                    </script>
-                </div>
-                </td>
-                </tr>
-                <tr>
-                    <td colspan="3">
-                        <div id="search_result"></div>
-                    </td>
-                </tr>
+
+                                <script>
+                                    function search() {
+                                        var search = $('#search').val();
+                                        if (search !== '' && search.length > 3) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'temp/search_cheques'); ?>",
+                                                    data: {
+                                                        search: search,
+                                                        scheme_id: <?php echo $scheme->scheme_id ?>
+                                                    },
+                                                })
+                                                .done(function(response) {
+                                                    $('#search_result').css('visibility', 'hidden').html(response).css('visibility',
+                                                        'visible').hide().fadeIn('fast');
+
+                                                });
+                                        }
+
+
+                                    }
+                                </script>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3">
+                            <div id="search_result"></div>
+                        </td>
+                    </tr>
                 </table>
 
-                
-                
+
+
             </div>
         </div>
     </div>
-    
+
 </div>
 
 
 
 <script>
-function change_scheme_status(scheme_id) {
-    $.ajax({
-            method: "POST",
-            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
-            data: {
-                scheme_id: scheme_id,
-                water_user_association_id: <?php echo $scheme->water_user_association_id; ?>,
-            },
-        })
-        .done(function(respose) {
-            $('#modal').modal('show');
-            $('#modal_title').html('Change Scheme Status');
-            $('#modal_body').html(respose);
-        });
-}
-search();
+    search();
 </script>

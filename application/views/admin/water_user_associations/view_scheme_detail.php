@@ -13,6 +13,7 @@
         color: black;
         margin: 0px !important;
     }
+
     .table_medium>thead>tr>th,
     .table_medium>tbody>tr>th,
     .table_medium>tfoot>tr>th,
@@ -27,7 +28,6 @@
         color: black;
         margin: 2px !important;
     }
-    
 </style>
 
 <!-- PAGE HEADER-->
@@ -77,12 +77,12 @@
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
                     <div class="description"><?php echo $description; ?> <br />
-                    <?php if( $scheme->phy_completion==='Yes'){ ?>
-                   <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
-                    <?php }else{ ?>
-                        <strong>Physically Completed: No</strong>
+                        <?php if ($scheme->phy_completion === 'Yes') { ?>
+                            <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
+                        <?php } else { ?>
+                            <strong>Physically Completed: No</strong>
                         <?php } ?>
-                </div>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -559,7 +559,7 @@
                                         Males: <?php echo $scheme->male_beneficiaries; ?><br />
                                         Females: <?php echo $scheme->female_beneficiaries; ?><br />
                                         Total: <?php echo $scheme->beneficiaries; ?> </td>
-                                   <!-- <td>
+                                    <!-- <td>
                                         <?php echo $scheme->estimated_cost; ?>
                                     </td>
                                      <td>
@@ -698,14 +698,33 @@
                         <div style="text-align: center;">
                             <h4 style="text-align: center;">
                                 Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
+
+                                <button class="bt btn-danger" onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change Status</button>
+                                <script>
+                                    function change_scheme_status(scheme_id) {
+                                        $.ajax({
+                                                method: "POST",
+                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
+                                                data: {
+                                                    scheme_id: scheme_id,
+                                                    water_user_association_id: <?php echo $scheme->water_user_association_id; ?>,
+                                                },
+                                            })
+                                            .done(function(respose) {
+                                                $('#modal').modal('show');
+                                                $('#modal_title').html('Change Scheme Status');
+                                                $('#modal_body').html(respose);
+                                            });
+                                    }
+                                </script>
                             </h4>
                             <hr />
-                           <?php if (($scheme->scheme_status != 'Complete' ) and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
-                               
-                            <button onclick="update_st_data(<?php echo $scheme->scheme_id ?>)"
-                                        class="btn btn-success btn-sm"><i class="fa fa-edit"></i>
-                                         Update Technical Data
-                                    </button>
+                            <?php if (($scheme->scheme_status != 'Complete') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
+
+                                <button onclick="update_st_data(<?php echo $scheme->scheme_id ?>)"
+                                    class="btn btn-success btn-sm"><i class="fa fa-edit"></i>
+                                    Update Technical Data
+                                </button>
                                 <script>
                                     function update_st_data(scheme_id) {
                                         $.ajax({
@@ -721,55 +740,55 @@
                                                 $('#modal_body').html(respose);
                                             });
                                     }
-                                    </script>
-                               
-                              <button onclick="chanage_status_form('Complete')" class="btn btn-danger btn-sm"> <i
-                                   class="fa fa-check-circle"></i> Marked as Physical Complete</button>
-                                  
-                                <?php } ?>
-                                  
+                                </script>
 
-                            
+                                <button onclick="chanage_status_form('Complete')" class="btn btn-danger btn-sm"> <i
+                                        class="fa fa-check-circle"></i> Marked as Physical Complete</button>
+
+                            <?php } ?>
+
+
+
                             <?php
                             if (($scheme->scheme_status == 'Registered' or $scheme->scheme_status == 'Initiated') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
-                                
-                                    <?php if ($scheme->scheme_status == 'Registered' and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
-                                        <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
+
+                                <?php if ($scheme->scheme_status == 'Registered' and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
+                                    <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
                                         class="btn btn-danger btn-sm"><i class="fa fa-forward"></i>
-                                         Initiate Scheme
-                                        </button>
-                                        <script>
-                                    function initiate_scheme(scheme_id) {
-                                        $.ajax({
-                                                method: "POST",
-                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_initiate_form'); ?>",
-                                                data: {
-                                                    scheme_id: scheme_id
-                                                },
-                                            })
-                                            .done(function(respose) {
-                                                $('#modal').modal('show');
-                                                $('#modal_title').html('Initiate Scheme');
-                                                $('#modal_body').html(respose);
-                                            });
-                                    }
-                                </script>
-                                    <?php } else { ?>
-                                       
-                                    <?php } ?>
-                                    
+                                        Initiate Scheme
+                                    </button>
+                                    <script>
+                                        function initiate_scheme(scheme_id) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_initiate_form'); ?>",
+                                                    data: {
+                                                        scheme_id: scheme_id
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Initiate Scheme');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                    </script>
+                                <?php } else { ?>
+
+                                <?php } ?>
+
                             <?php } ?>
 
                             <?php if (($this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
-                                
-                                <?php if($scheme->scheme_status == 'Initiated' ){ ?>
+
+                                <?php if ($scheme->scheme_status == 'Initiated') { ?>
                                     <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm"><i
                                             class="fa fa-check-circle"></i> Approve</button>
                                     <button onclick="chanage_status_form('Not Approve')" class="btn btn-danger btn-sm">
                                         <i class="fa fa-times-circle"></i> Not Approve</button>
                                 <?php } ?>
 
-                            
+
                                 <?php if ($scheme->scheme_status == 'Not Approved') { ?>
                                     <button onclick="chanage_status_form('Approval')"
                                         class="btn btn-danger">Approve Again</button>
@@ -779,40 +798,41 @@
                                     <button onclick="chanage_status_form('Ongoing')" class="btn btn-warning btn-sm">
                                         <i class="fa fa-undo"></i> Mark Again as Ongoing Scheme</button>
                                 <?php } ?>
-                            <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
-                                
-                                <button onclick="revise_cost(0)" class="btn btn-danger btn-sm">
-                                    <i class="fa fa-pencil-square"></i>
-                                    Revise Cost</button>
-                                <script>
-                                    function revise_cost(revise_cost_id) {
-                                        $.ajax({
-                                                method: "POST",
-                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/revise_cost'); ?>",
-                                                data: {
-                                                    scheme_id: '<?php echo $scheme->scheme_id; ?>',
-                                                    revise_cost_id: revise_cost_id
-                                                },
-                                            })
-                                            .done(function(respose) {
-                                                $('#modal').modal('show');
-                                                $('#modal_title').html('Revise Cost');
-                                                $('#modal_body').html(respose);
-                                            });
-                                    }
-                                </script>
+                                <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
 
-                                <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm"> <i
-                                        class="fa fa-times-circle"></i> Dispute</button>
-                                
-                            <?php } ?>
-                            <?php if ($scheme->scheme_status == 'Completed') { ?>
-                                <div class="alert alert-success">Scheme Status:
-                                    <?php echo  $scheme->scheme_status; ?>
-                                </div>
-                            <?php } ?>
+                                    <button onclick="revise_cost(0)" class="btn btn-danger btn-sm">
+                                        <i class="fa fa-pencil-square"></i>
+                                        Revise Cost</button>
+                                    <script>
+                                        function revise_cost(revise_cost_id) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/revise_cost'); ?>",
+                                                    data: {
+                                                        scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                        revise_cost_id: revise_cost_id
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Revise Cost');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                    </script>
 
-                           
+                                    <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm"> <i
+                                            class="fa fa-times-circle"></i> Dispute</button>
+
+                                <?php } ?>
+                                <?php if ($scheme->scheme_status == 'Completed') { ?>
+                                    <div class="alert alert-success">Scheme Status:
+                                        <?php echo  $scheme->scheme_status; ?>
+                                    </div>
+
+                                <?php } ?>
+
+
 
 
                             <?php } ?>

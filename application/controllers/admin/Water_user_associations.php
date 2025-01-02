@@ -1659,7 +1659,7 @@ class Water_user_associations extends Admin_Controller
                 <td>' . htmlspecialchars($scheme->district_name, ENT_QUOTES, 'UTF-8') . '</td>
                 <td>' . htmlspecialchars($scheme->category, ENT_QUOTES, 'UTF-8') . '</td>
                 <td>' . htmlspecialchars($scheme->scheme_status, ENT_QUOTES, 'UTF-8') . '</td>
-                <td><a target="_blank" href="' . site_url(ADMIN_DIR . "water_user_associations/view_scheme_detail/" . $scheme->scheme_id) . '">View Detail</a></td>
+                <td><a target="_blank" href="' . site_url(ADMIN_DIR . "water_user_associations/view_scheme_detail/" . $scheme->water_user_association_id . "/" . $scheme->scheme_id) . '">View Detail</a></td>
             </tr>';
             }
         } else {
