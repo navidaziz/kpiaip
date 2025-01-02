@@ -50,7 +50,7 @@
             component_categories AS cc ON cc.component_category_id = e.component_category_id
             LEFT JOIN schemes AS s ON(s.scheme_id = e.scheme_id)
             LEFT JOIN water_user_associations as wua on(wua.water_user_association_id = s.water_user_association_id)
-            WHERE e.scheme_id IS NULL AND component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)";
+            WHERE e.scheme_id IS NULL AND e.component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12) ";
 
             if ($district_id) {
                 $query .= " AND e.district_id = $district_id";
