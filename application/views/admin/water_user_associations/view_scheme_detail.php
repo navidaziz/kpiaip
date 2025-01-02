@@ -698,25 +698,26 @@
                         <div style="text-align: center;">
                             <h4 style="text-align: center;">
                                 Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
-
-                                <button class="bt btn-danger" onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change Status</button>
-                                <script>
-                                    function change_scheme_status(scheme_id) {
-                                        $.ajax({
-                                                method: "POST",
-                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
-                                                data: {
-                                                    scheme_id: scheme_id,
-                                                    water_user_association_id: <?php echo $scheme->water_user_association_id; ?>,
-                                                },
-                                            })
-                                            .done(function(respose) {
-                                                $('#modal').modal('show');
-                                                $('#modal_title').html('Change Scheme Status');
-                                                $('#modal_body').html(respose);
-                                            });
-                                    }
-                                </script>
+                                <?php if ($scheme->scheme_status == 'Completed') { ?>
+                                    <button class="bt btn-danger" onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change Status</button>
+                                    <script>
+                                        function change_scheme_status(scheme_id) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
+                                                    data: {
+                                                        scheme_id: scheme_id,
+                                                        water_user_association_id: <?php echo $scheme->water_user_association_id; ?>,
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Change Scheme Status');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                    </script>
+                                <?php } ?>
                             </h4>
                             <hr />
                             <?php if (($scheme->scheme_status != 'Complete') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
