@@ -273,7 +273,7 @@
                             <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/r_cheques/") . $district_id; ?>"
                                 contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
                                 <?php
-                                $query = "SELECT COUNT(*) as total FROM expenses WHERE scheme_id IS NULL ";
+                                $query = "SELECT COUNT(*) as total FROM expenses WHERE scheme_id IS NULL AND component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)  ";
 
                                 if ($district_id) {
                                     $query .= " AND district_id = $district_id";
