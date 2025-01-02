@@ -268,8 +268,8 @@
             <div class="box-body">
                 <div class="header-tabs">
 
-                    <ul class="nav nav-tabs">
-                        <li>
+                    <ul class="nav nav-tabs" s>
+                        <li style="font-size: 11px;">
                             <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/r_cheques/") . $district_id; ?>"
                                 contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
                                 <?php
@@ -281,7 +281,7 @@
                                 $remaining_cheques = $this->db->query($query)->row();
 
                                 ?>
-                                Remaining Cheques (<?php echo $remaining_cheques->total; ?>)
+                                Re. Cheques (<?php echo $remaining_cheques->total; ?>)
                             </a>
                         </li>
 
@@ -316,7 +316,7 @@
 
                             // Display the tab for each scheme status
                         ?>
-                            <li <?php if ($scheme_status == $tab) { ?> class="active" <?php } ?>>
+                            <li style="font-size: 11px;" <?php if ($scheme_status == $tab) { ?> class="active" <?php } ?>>
                                 <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view"); ?>/<?php echo $scheme_status; ?>"
                                     contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
                                     <?php echo $scheme_status; ?> (<?php echo $s_status->total; ?>)
@@ -325,7 +325,7 @@
                         <?php } ?>
 
                         <!-- WUA List Tab -->
-                        <li <?php if ('wua' == $tab) { ?> class="active" <?php } ?>>
+                        <li style="font-size: 11px;" <?php if ('wua' == $tab) { ?> class="active" <?php } ?>>
                             <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/wua"); ?>"
                                 contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
                                 <?php
