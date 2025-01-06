@@ -108,8 +108,9 @@
                                         </style>
                                         <div class="progress-bar bg-danger" role="progressbar"
                                             style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
-                                        <strong style="color: #dc3545 ;"><?php echo $scheme_total - $completed ?></strong>
                                     </div>
+                                    <strong style="color: #dc3545 ;"><?php echo $scheme_total - $completed ?></strong>
+
                                 </th>
 
                             </tr>
@@ -146,8 +147,8 @@
                                         </style>
                                         <div class="progress-bar bg-warning" role="progressbar"
                                             style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
-                                        <strong style="color: #ffc107 ;"><?php echo $total_cheques - $completed_cheques ?></strong>
                                     </div>
+                                    <strong style="color: #ffc107 ;"><?php echo $total_cheques - $completed_cheques ?></strong>
 
                                 </th>
 
