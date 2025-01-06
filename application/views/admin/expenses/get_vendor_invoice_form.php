@@ -1,6 +1,7 @@
 <form id="vendors_taxes" class="form-horizontal" enctype="multipart/form-data" method="post">
     <input type="hidden" name="id" value="<?php echo $input->id; ?>" />
     <input type="hidden" name="scheme_id" value="<?php echo $input->scheme_id; ?>" />
+    <input type="hidden" name="voucher_id" value="<?php echo $input->voucher_id; ?>" />
     <div class="form-group row">
         <label for="vendor_id" class="col-sm-4 col-form-label">Vendors</label>
         <div class="col-sm-8">

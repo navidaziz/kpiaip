@@ -593,75 +593,121 @@
                 <div class="table-responsive">
 
 
-                    <h4 style="margin-bottom: 20px;">Vendor Invoices
-                        <span class="pull-right">
-                            <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
-
-                                <button onclick="get_vendor_taxe_form('0')" class="btn btn-warning btn-sm">Add Vendor
-                                    Invoice</button>
-                            <?php } ?>
+                    <h4 style="margin-bottom: 20px;">Vouchers
+                        <span class="pull-right"><button onclick="get_voucher_form('0')" class="btn btn-primary btn-sm">Create Voucher</button>
+                            <script>
+                                function get_voucher_form(voucher_id) {
+                                    $.ajax({
+                                            method: "POST",
+                                            url: "<?php echo site_url(ADMIN_DIR . 'vouchers/get_voucher_form'); ?>",
+                                            data: {
+                                                voucher_id: voucher_id,
+                                                scheme_id: '<?php echo $scheme->scheme_id; ?>'
+                                            },
+                                        })
+                                        .done(function(respose) {
+                                            $('#modal').modal('show');
+                                            $('#modal_title').html('Vouchers');
+                                            $('#modal_body').html(respose);
+                                        });
+                                }
+                            </script>
                         </span>
                     </h4>
-                    <table class="table table-bordered table_small" id="vendors_taxes">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>#</th>
-                                <th>Vendor</th>
-                                <th>Invoice Id</th>
-                                <th>Invoice Date</th>
-                                <th>Nature Of Payment</th>
-                                <th>Payment Section Code</th>
-                                <th>Invoice Gross Total</th>
-                                <th>WHIT</th>
-                                <th>ST Charged</th>
-                                <th>WHST</th>
-                                <th>St.Duty</th>
-                                <th>RDP</th>
-                                <th>KPRA</th>
 
-                                <th>Misc.Dedu.</th>
-                                <th>Total Deduction</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $count = 1;
-                            $query = "SELECT vendors_taxes.*, vendors.TaxPayer_Name, vendors.Vendor_Type  
-                            FROM vendors_taxes 
-                            INNER JOIN vendors  ON(vendors.vendor_id = vendors_taxes.vendor_id)
-                            WHERE scheme_id = '" . $scheme->scheme_id . "'";
-                            $rows = $this->db->query($query)->result();
-                            foreach ($rows as $row) { ?>
-                                <tr>
-                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_vendors_invoice/' . $row->id); ?>"
-                                            onclick="return confirm('Are you sure? you want to delete the record.')"><i
-                                                class="fa fa-trash-o"></i></a> </td>
-                                    <td><?php echo $count++ ?></td>
-                                    <td><?php echo $row->TaxPayer_Name; ?><br />
-                                        <?php echo $row->Vendor_Type; ?>
-                                    </td>
-                                    <td><?php echo $row->invoice_id; ?></td>
-                                    <td><?php echo $row->invoice_date; ?></td>
-                                    <td><?php echo $row->nature_of_payment; ?></td>
-                                    <td><?php echo $row->payment_section_code; ?></td>
-                                    <td><?php echo $row->invoice_gross_total; ?></td>
-                                    <td><?php echo $row->whit_tax; ?></td>
-                                    <td><?php echo $row->st_charged; ?></td>
-                                    <td><?php echo $row->whst_tax; ?></td>
-                                    <td><?php echo $row->st_duty_tax; ?></td>
-                                    <td><?php echo $row->rdp_tax; ?></td>
-                                    <td><?php echo $row->kpra_tax; ?></td>
+                    <?php
 
-                                    <td><?php echo $row->misc_deduction; ?></td>
-                                    <td><?php echo $row->total_deduction; ?></td>
-                                    <td><button onclick="get_vendor_taxe_form('<?php echo $row->id; ?>')">Edit<botton>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-                    </table>
+                    $query = "SELECT * FROM vouchers WHERE scheme_id = ?";
+                    $vouchers = $this->db->query($query, [$scheme->scheme_id])->result();
+                    foreach ($vouchers as $voucher) { ?>
+                        <div style="border: 1px solid #54789B; border-radius:5px; padding:5px; margin-bottom:5px">
+                            <table id="datatable" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Voucher No</th>
+                                        <th>Voucher Type</th>
+                                        <th>Voucher Detail</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <th><?php echo $voucher->voucher_no; ?></th>
+                                        <th><?php echo $voucher->voucher_type; ?></th>
+                                        <th><?php echo $voucher->voucher_detail; ?></th>
+                                        <th rowspan="2">
+                                            <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
+
+                                                <button onclick="get_vendor_taxe_form('0', '<?php echo $voucher->voucher_id ?>')" class="btn btn-warning btn-sm">Add Vendor
+                                                    Invoice</button>
+                                            <?php } ?>
+                                        </th>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table class="table table-bordered table_small" id="vendors_taxes">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>#</th>
+                                        <th>Vendor</th>
+                                        <th>Invoice Id</th>
+                                        <th>Invoice Date</th>
+                                        <th>Nature Of Payment</th>
+                                        <th>Payment Section Code</th>
+                                        <th>Invoice Gross Total</th>
+                                        <th>WHIT</th>
+                                        <th>ST Charged</th>
+                                        <th>WHST</th>
+                                        <th>St.Duty</th>
+                                        <th>RDP</th>
+                                        <th>KPRA</th>
+
+                                        <th>Misc.Dedu.</th>
+                                        <th>Total Deduction</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $count = 1;
+                                    $query = "SELECT vendors_taxes.*, vendors.TaxPayer_Name, vendors.Vendor_Type  
+                                    FROM vendors_taxes 
+                                    INNER JOIN vendors  ON(vendors.vendor_id = vendors_taxes.vendor_id)
+                                    WHERE scheme_id = '" . $scheme->scheme_id . "'";
+                                    $rows = $this->db->query($query)->result();
+                                    foreach ($rows as $row) { ?>
+                                        <tr>
+                                            <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_vendors_invoice/' . $row->id); ?>"
+                                                    onclick="return confirm('Are you sure? you want to delete the record.')"><i
+                                                        class="fa fa-trash-o"></i></a> </td>
+                                            <td><?php echo $count++ ?></td>
+                                            <td><?php echo $row->TaxPayer_Name; ?><br />
+                                                <?php echo $row->Vendor_Type; ?>
+                                            </td>
+                                            <td><?php echo $row->invoice_id; ?></td>
+                                            <td><?php echo $row->invoice_date; ?></td>
+                                            <td><?php echo $row->nature_of_payment; ?></td>
+                                            <td><?php echo $row->payment_section_code; ?></td>
+                                            <td><?php echo $row->invoice_gross_total; ?></td>
+                                            <td><?php echo $row->whit_tax; ?></td>
+                                            <td><?php echo $row->st_charged; ?></td>
+                                            <td><?php echo $row->whst_tax; ?></td>
+                                            <td><?php echo $row->st_duty_tax; ?></td>
+                                            <td><?php echo $row->rdp_tax; ?></td>
+                                            <td><?php echo $row->kpra_tax; ?></td>
+
+                                            <td><?php echo $row->misc_deduction; ?></td>
+                                            <td><?php echo $row->total_deduction; ?></td>
+                                            <td><button onclick="get_vendor_taxe_form('<?php echo $row->id; ?>', '<?php echo $row->voucher_id; ?>')">Edit<botton>
+                                            </td>
+                                        </tr>
+                                    <?php } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    <?php } ?>
+
 
                     <h4 style="margin-bottom: 20px;">Payments
 
@@ -832,13 +878,14 @@
 
             </div>
             <script>
-                function get_vendor_taxe_form(id) {
+                function get_vendor_taxe_form(id, voucher_id) {
                     $.ajax({
                             method: "POST",
                             url: "<?php echo site_url(ADMIN_DIR . 'expenses/get_vendor_taxe_form'); ?>",
                             data: {
                                 id: id,
-                                scheme_id: '<?php echo $scheme->scheme_id; ?>'
+                                scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                voucher_id: voucher_id
                             },
                         })
                         .done(function(respose) {

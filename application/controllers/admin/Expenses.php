@@ -943,6 +943,7 @@ LEFT JOIN
         $input["id"] = $this->input->post("id");
         $input["scheme_id"] = $this->input->post("scheme_id");
         $input["vendor_id"] = $this->input->post("vendor_id");
+        $input["voucher_id"] = $this->input->post("voucher_id");
         $input["invoice_id"] = $this->input->post("invoice_id");
         $input["invoice_date"] = $this->input->post("invoice_date");
         $input["nature_of_payment"] = $this->input->post("nature_of_payment");
@@ -1011,8 +1012,9 @@ LEFT JOIN
 
     public function add_vendor_invoice()
     {
-        $this->form_validation->set_rules("scheme_id", "Scheme Id", "required");
+        //$this->form_validation->set_rules("scheme_id", "Scheme Id", "required");
         $this->form_validation->set_rules("vendor_id", "Vendor Id", "required");
+        $this->form_validation->set_rules("voucher_id", "Voucher Id", "required");
         $this->form_validation->set_rules("invoice_id", "Invoice Id", "required");
         $this->form_validation->set_rules("invoice_date", "Invoice Date", "required");
         $this->form_validation->set_rules("nature_of_payment", "Nature Of Payment", "required");

@@ -267,6 +267,7 @@
                             <th>Total Cheques</th>
                             <th>Cheques Completed</th>
                             <th>Completed Percentage</th>
+                            <th>Remaining Cheques</th>
                             <th>Last Activity</th>
                         </tr>
                     </thead>
@@ -328,6 +329,13 @@
                     AND scheme_id IS NOT NULL
                     AND district_id = '{$district->district_id}'
                 ")->row()->total;
+                                $remaining_cheques = $this->db->query("
+                    SELECT COUNT(*) AS total
+                    FROM expenses
+                    WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
+                    AND scheme_id IS  NULL
+                    AND district_id = '{$district->district_id}'
+                ")->row()->total;
 
                                 $last_updated = $this->db->query("
                     SELECT MAX(`last_updated`) as last_updated
@@ -349,6 +357,7 @@
                                     <td><?php echo $total_cheques; ?></td>
                                     <td><?php echo $completed_cheques; ?></td>
                                     <td><?php echo $completed_cheque_percentage . "%"; ?></td>
+                                    <td><?php echo $remaining_cheques; ?></td>
                                     <th><?php echo date('d M, Y h:m:s', strtotime($last_updated)); ?></th>
                                 </tr>
                         <?php
