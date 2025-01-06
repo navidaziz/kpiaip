@@ -253,6 +253,35 @@
                         </tr>
                     </table>
                 </h4>
+                FY Wise Cheques Remaining
+                <table class="table table-bordered">
+                    <tr>
+                        <th>FY</th>
+                        <?php
+                        $query = "SELECT * FROM financial_years";
+                        $financial_years = $this->db->query($query)->result();
+                        foreach ($financial_years as $fy) {
+                        ?>
+                            <th><?php echo $fy->financial_year ?></th>
+                        <?php } ?>
+                    </tr>
+                    <tr>
+                        <th>Remaining Cheques</th>
+                        <?php
+                        $query = "SELECT * FROM financial_years";
+                        $financial_years = $this->db->query($query)->result();
+                        foreach ($financial_years as $fy) {
+                            $remaining_cheques = $this->db->query("
+                        SELECT COUNT(*) AS total
+                        FROM expenses
+                        WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
+                        AND scheme_id IS NULL
+                        ")->row()->total;
+                        ?>
+                            <td><?php echo $remaining_cheques; ?></td>
+                        <?php } ?>
+                    </tr>
+                </table>
                 <h4>District Wise Data Reconciliation</h4>
                 <table class="table table-bordered" id="table_db">
                     <thead>
