@@ -108,6 +108,7 @@
                                         </style>
                                         <div class="progress-bar bg-danger" role="progressbar"
                                             style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
+                                        <strong style="color: #dc3545 ;"><?php echo $scheme_total - $completed ?></strong>
                                     </div>
                                 </th>
 
@@ -145,6 +146,7 @@
                                         </style>
                                         <div class="progress-bar bg-warning" role="progressbar"
                                             style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
+                                        <strong style="color: #ffc107 ;"><?php echo $total_cheques - $completed_cheques ?></strong>
                                     </div>
 
                                 </th>
@@ -264,6 +266,7 @@
                         ?>
                             <th><?php echo $fy->financial_year ?></th>
                         <?php } ?>
+                        <th>Total</th>
                     </tr>
                     <tr>
                         <th>Remaining Cheques</th>
@@ -281,62 +284,74 @@
                         ?>
                             <td><?php echo $remaining_cheques; ?></td>
                         <?php } ?>
+                        <td>
+                            <?php
+                            echo $remaining_cheques_total = $this->db->query("
+                        SELECT COUNT(*) AS total
+                        FROM expenses
+                        WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
+                        AND scheme_id IS NULL
+                        AND financial_year_id = '{$fy->financial_year_id}'
+                        ")->row()->total;
+                            ?>
+                        </td>
                     </tr>
                 </table>
                 <h4>District Wise Data Reconciliation</h4>
-                <table class="table table-bordered" id="table_db">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Region</th>
-                            <th>District</th>
-                            <th>Ongoing Schemes</th>
-                            <th>Total Schemes</th>
-                            <th>Schemes Completed</th>
-                            <th>Completed Percentage</th>
-                            <th>Total Cheques</th>
-                            <th>Cheques Completed</th>
-                            <th>Completed Percentage</th>
-                            <th>Remaining Cheques</th>
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="table_db">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Region</th>
+                                <th>District</th>
+                                <th>Ongoing Schemes</th>
+                                <th>Total Schemes</th>
+                                <th>Schemes Completed</th>
+                                <th>Completed Percentage</th>
+                                <th>Total Cheques</th>
+                                <th>Cheques Completed</th>
+                                <th>Completed Percentage</th>
+                                <th>Remaining Cheques</th>
+
+                                <?php
+                                $query = "SELECT * FROM financial_years";
+                                $financial_years = $this->db->query($query)->result();
+                                foreach ($financial_years as $fy) {
+                                ?>
+                                    <th><?php echo $fy->financial_year ?></th>
+                                <?php } ?>
+                                <th>Last Activity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
 
                             <?php
-                            $query = "SELECT * FROM financial_years";
-                            $financial_years = $this->db->query($query)->result();
-                            foreach ($financial_years as $fy) {
-                            ?>
-                                <th><?php echo $fy->financial_year ?></th>
-                            <?php } ?>
-                            <th>Last Activity</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-
-                        <?php
-                        // Get regions
-                        $regions = $this->db->query("SELECT DISTINCT region 
+                            // Get regions
+                            $regions = $this->db->query("SELECT DISTINCT region 
                         FROM districts WHERE is_district = 1")->result();
-                        $count = 1;
-                        foreach ($regions as $index => $region) {
-                            // Get districts for each region
-                            $districts = $this->db->query("
+                            $count = 1;
+                            foreach ($regions as $index => $region) {
+                                // Get districts for each region
+                                $districts = $this->db->query("
                         SELECT d.district_name, d.district_id, d.region
                         FROM districts AS d
                         WHERE d.is_district = 1 AND d.region = '{$region->region}'
                         ORDER BY d.district_name
                     ")->result();
 
-                            foreach ($districts as $district) {
-                                // Get total and completed schemes
+                                foreach ($districts as $district) {
+                                    // Get total and completed schemes
 
-                                $ongoing_scheme = $this->db->query("
+                                    $ongoing_scheme = $this->db->query("
                     SELECT COUNT(*) AS total
                     FROM schemes
                     WHERE scheme_status IN ('Ongoing', 'ICR-I', 'ICR-II', 'Final')
                     AND component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
                     AND district_id = '{$district->district_id}'
-                ")->row()->total;
+                     ")->row()->total;
 
-                                $scheme_total = $this->db->query("
+                                    $scheme_total = $this->db->query("
                     SELECT COUNT(*) AS total
                     FROM schemes
                     WHERE scheme_status IN ('Completed', 'Par-Completed')
@@ -344,7 +359,7 @@
                     AND district_id = '{$district->district_id}'
                 ")->row()->total;
 
-                                $completed_schemes = $this->db->query("
+                                    $completed_schemes = $this->db->query("
                     SELECT COUNT(*) AS total
                     FROM schemes
                     WHERE scheme_status = 'Completed'
@@ -352,22 +367,22 @@
                     AND district_id = '{$district->district_id}'
                 ")->row()->total;
 
-                                // Get total and completed cheques
-                                $total_cheques = $this->db->query("
+                                    // Get total and completed cheques
+                                    $total_cheques = $this->db->query("
                     SELECT COUNT(*) AS total
                     FROM expenses
                     WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
                     AND district_id = '{$district->district_id}'
                 ")->row()->total;
 
-                                $completed_cheques = $this->db->query("
+                                    $completed_cheques = $this->db->query("
                     SELECT COUNT(*) AS total
                     FROM expenses
                     WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
                     AND scheme_id IS NOT NULL
                     AND district_id = '{$district->district_id}'
                 ")->row()->total;
-                                $remaining_cheques = $this->db->query("
+                                    $remaining_cheques = $this->db->query("
                     SELECT COUNT(*) AS total
                     FROM expenses
                     WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
@@ -375,32 +390,32 @@
                     AND district_id = '{$district->district_id}'
                 ")->row()->total;
 
-                                $last_updated = $this->db->query("
+                                    $last_updated = $this->db->query("
                     SELECT MAX(`last_updated`) as last_updated
                     FROM schemes
                     WHERE district_id = '{$district->district_id}'
                 ")->row()->last_updated;
-                                // Calculate percentages
-                                $completed_scheme_percentage = ($scheme_total > 0) ? round(($completed_schemes * 100) / $scheme_total, 2) : 0;
-                                $completed_cheque_percentage = ($total_cheques > 0) ? round(($completed_cheques * 100) / $total_cheques, 2) : 0;
-                        ?>
-                                <tr>
-                                    <th><?php echo $count++; ?></th>
-                                    <td><?php echo $district->region; ?></td>
-                                    <td><?php echo $district->district_name; ?></td>
-                                    <th><?php echo $ongoing_scheme; ?></th>
-                                    <td><?php echo $scheme_total; ?></td>
-                                    <td><?php echo $completed_schemes; ?></td>
-                                    <td><?php echo $completed_scheme_percentage . "%"; ?></td>
-                                    <td><?php echo $total_cheques; ?></td>
-                                    <td><?php echo $completed_cheques; ?></td>
-                                    <td><?php echo $completed_cheque_percentage . "%"; ?></td>
-                                    <td><?php echo $remaining_cheques; ?></td>
-                                    <?php
-                                    $query = "SELECT * FROM financial_years";
-                                    $financial_years = $this->db->query($query)->result();
-                                    foreach ($financial_years as $fy) {
-                                        $remaining_cheques = $this->db->query("
+                                    // Calculate percentages
+                                    $completed_scheme_percentage = ($scheme_total > 0) ? round(($completed_schemes * 100) / $scheme_total, 2) : 0;
+                                    $completed_cheque_percentage = ($total_cheques > 0) ? round(($completed_cheques * 100) / $total_cheques, 2) : 0;
+                            ?>
+                                    <tr>
+                                        <th><?php echo $count++; ?></th>
+                                        <td><?php echo $district->region; ?></td>
+                                        <td><?php echo $district->district_name; ?></td>
+                                        <th><?php echo $ongoing_scheme; ?></th>
+                                        <td><?php echo $scheme_total; ?></td>
+                                        <td><?php echo $completed_schemes; ?></td>
+                                        <td><?php echo $completed_scheme_percentage . "%"; ?></td>
+                                        <td><?php echo $total_cheques; ?></td>
+                                        <td><?php echo $completed_cheques; ?></td>
+                                        <td><?php echo $completed_cheque_percentage . "%"; ?></td>
+                                        <td><?php echo $remaining_cheques; ?></td>
+                                        <?php
+                                        $query = "SELECT * FROM financial_years";
+                                        $financial_years = $this->db->query($query)->result();
+                                        foreach ($financial_years as $fy) {
+                                            $remaining_cheques = $this->db->query("
                                         SELECT COUNT(*) AS total
                                         FROM expenses
                                         WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
@@ -408,17 +423,18 @@
                                         AND financial_year_id = '{$fy->financial_year_id}'
                                         AND district_id = '{$district->district_id}'
                                         ")->row()->total;
-                                    ?>
-                                        <td><?php echo $remaining_cheques; ?></td>
-                                    <?php } ?>
-                                    <th><?php echo date('d M, Y h:m:s', strtotime($last_updated)); ?></th>
-                                </tr>
-                        <?php
+                                        ?>
+                                            <td><?php echo $remaining_cheques; ?></td>
+                                        <?php } ?>
+                                        <th><?php echo date('d M, Y h:m:s', strtotime($last_updated)); ?></th>
+                                    </tr>
+                            <?php
+                                }
                             }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
 
             </div>
 
