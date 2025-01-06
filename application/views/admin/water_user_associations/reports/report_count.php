@@ -298,7 +298,7 @@
                             <th>Cheques Completed</th>
                             <th>Completed Percentage</th>
                             <th>Remaining Cheques</th>
-                            <th>FY</th>
+
                             <?php
                             $query = "SELECT * FROM financial_years";
                             $financial_years = $this->db->query($query)->result();
