@@ -298,6 +298,14 @@
                             <th>Cheques Completed</th>
                             <th>Completed Percentage</th>
                             <th>Remaining Cheques</th>
+                            <th>FY</th>
+                            <?php
+                            $query = "SELECT * FROM financial_years";
+                            $financial_years = $this->db->query($query)->result();
+                            foreach ($financial_years as $fy) {
+                            ?>
+                                <th><?php echo $fy->financial_year ?></th>
+                            <?php } ?>
                             <th>Last Activity</th>
                         </tr>
                     </thead>
@@ -388,6 +396,21 @@
                                     <td><?php echo $completed_cheques; ?></td>
                                     <td><?php echo $completed_cheque_percentage . "%"; ?></td>
                                     <td><?php echo $remaining_cheques; ?></td>
+                                    <?php
+                                    $query = "SELECT * FROM financial_years";
+                                    $financial_years = $this->db->query($query)->result();
+                                    foreach ($financial_years as $fy) {
+                                        $remaining_cheques = $this->db->query("
+                                        SELECT COUNT(*) AS total
+                                        FROM expenses
+                                        WHERE component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
+                                        AND scheme_id IS NULL
+                                        AND financial_year_id = '{$fy->financial_year_id}'
+                                        AND district_id = '{$district->district_id}'
+                                        ")->row()->total;
+                                    ?>
+                                        <td><?php echo $remaining_cheques; ?></td>
+                                    <?php } ?>
                                     <th><?php echo date('d M, Y h:m:s', strtotime($last_updated)); ?></th>
                                 </tr>
                         <?php
