@@ -530,6 +530,103 @@
         </div>
 
     </div>
+
+    <div class="col-md-12">
+        <div class="box border blue" id="messenger">
+            <div class="box-title">
+                <h4><i class="fa fa-money"></i>Direct Payments</h4>
+
+            </div>
+            <div class="box-body">
+
+                <div class="table-responsive">
+                    <div class="table-responsive">
+                        <table class="table table-bordered" id="direct_payments">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Payee Name</th>
+                                    <th>Iban No</th>
+                                    <th>Bank Name</th>
+                                    <th>Branch Code</th>
+                                    <th>Address</th>
+                                    <th>Country State</th>
+                                    <th>Mode Of Payment</th>
+                                    <th>Wa Ref No</th>
+                                    <th>Purpose Of Payment</th>
+                                    <th>Component Category</th>
+                                    <th>Currency</th>
+                                    <th>Forex</th>
+                                    <th>Amount Usd</th>
+                                    <th>Amount Pkr</th>
+                                    <th>Amount Other</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $count = 1;
+                                $query = "SELECT *, component_categories.category  FROM direct_payments 
+                                INNER JOIN component_categories ON(component_categories.component_category_id = direct_payments.component_category_id)";
+                                $rows = $this->db->query($query)->result();
+                                foreach ($rows as $row) { ?>
+                                    <tr>
+                                        <td><a href="<?php echo site_url(ADMIN_DIR . 'direct_payments/delete_direct_payments/' . $row->id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')">Delete</a> </td>
+                                        <td><?php echo $count++ ?></td>
+                                        <td><?php echo $row->payee_name; ?></td>
+                                        <td><?php echo $row->iban_no; ?></td>
+                                        <td><?php echo $row->bank_name; ?></td>
+                                        <td><?php echo $row->branch_code; ?></td>
+                                        <td><?php echo $row->address; ?></td>
+                                        <td><?php echo $row->country_state; ?></td>
+                                        <td><?php echo $row->mode_of_payment; ?></td>
+                                        <td><?php echo $row->wa_ref_no; ?></td>
+                                        <td><?php echo $row->purpose_of_payment; ?></td>
+                                        <td><?php echo $row->category; ?></td>
+                                        <td><?php echo $row->currency; ?></td>
+                                        <td><?php echo $row->forex; ?></td>
+                                        <td><?php echo $row->amount_usd; ?></td>
+                                        <td><?php echo $row->amount_pkr; ?></td>
+                                        <td><?php echo $row->amount_other; ?></td>
+                                        <td><button onclick="get_direct_payment_form('<?php echo $row->id; ?>')">Edit<botton>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+                        </table>
+                        <div style="text-align: center;">
+                            <button onclick="get_direct_payment_form('0')" class="btn btn-primary">Add Direct Payment</button>
+                        </div>
+                    </div>
+                    <script>
+                        function get_direct_payment_form(id) {
+                            $.ajax({
+                                    method: "POST",
+                                    url: "<?php echo site_url(ADMIN_DIR . 'direct_payments/get_direct_payment_form'); ?>",
+                                    data: {
+                                        id: id
+                                    },
+                                })
+                                .done(function(respose) {
+                                    $('#modal').modal('show');
+                                    $('#modal_title').html('Direct Payments');
+                                    $('#modal_body').html(respose);
+                                });
+                        }
+                    </script>
+
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+
+    </div>
 </div>
 <!-- /MESSENGER -->
 </div>
