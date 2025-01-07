@@ -34,6 +34,7 @@ class Direct_payments extends Admin_Controller
         $input["amount_usd"] = $this->input->post("amount_usd");
         $input["amount_pkr"] = $this->input->post("amount_pkr");
         $input["amount_other"] = $this->input->post("amount_other");
+        $input["payment_date"] = $this->input->post("payment_date");
         $inputs =  (object) $input;
         return $inputs;
     }
@@ -69,12 +70,26 @@ class Direct_payments extends Admin_Controller
         $this->form_validation->set_rules("amount_usd", "Amount Usd", "required");
         $this->form_validation->set_rules("amount_pkr", "Amount Pkr", "required");
         $this->form_validation->set_rules("amount_other", "Amount Other", "required");
+        $this->form_validation->set_rules("payment_date", "Payment Date", "required");
+
 
         if ($this->form_validation->run() == FALSE) {
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
             exit();
         } else {
+            // Validation passed, insert data into database
+            $date = $this->db->escape($this->input->post('payment_date'));
+            $query = "SELECT financial_year_id
+            FROM financial_years
+            WHERE " . $date . " BETWEEN start_date AND end_date;";
+            $finacial_year = $this->db->query($query)->row();
+            if ($finacial_year) {
+                $financial_year_id = $finacial_year->financial_year_id;
+            } else {
+                $financial_year_id  = 0;
+            }
             $inputs = $this->get_inputs();
+            $inputs->financial_year_id = $financial_year_id;
             $inputs->created_by = $this->session->userdata("userId");
             $id = (int) $this->input->post("id");
             if ($id == 0) {

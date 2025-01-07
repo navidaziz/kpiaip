@@ -123,10 +123,16 @@
     <div class="form-group row">
         <label for="amount_other" class="col-sm-4 col-form-label">Amount OTHER</label>
         <div class="col-sm-8">
-            <input type="number" step="any" required id=" amount_other" name="amount_other" value="<?php echo $input->amount_other; ?>" class="form-control">
+            <input type="number" step="any" required id="amount_other" name="amount_other" value="<?php echo $input->amount_other; ?>" class="form-control">
         </div>
     </div>
 
+    <div class="form-group row">
+        <label for="amount_other" class="col-sm-4 col-form-label">Payment Date</label>
+        <div class="col-sm-8">
+            <input type="date" required id="payment_date" name="payment_date" value="<?php echo $input->payment_date; ?>" class="form-control">
+        </div>
+    </div>
     <div class="form-group row" style="text-align:center">
         <div id="result_response"></div>
         <?php if ($input->id == 0) { ?>

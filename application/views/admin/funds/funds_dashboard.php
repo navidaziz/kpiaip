@@ -541,7 +541,7 @@
 
                 <div class="table-responsive">
                     <div class="table-responsive">
-                        <table class="table table-bordered" id="direct_payments">
+                        <table class="table table-bordered table_small" id="direct_payments">
                             <thead>
                                 <tr>
                                     <th></th>
@@ -561,18 +561,22 @@
                                     <th>Amount Usd</th>
                                     <th>Amount Pkr</th>
                                     <th>Amount Other</th>
+                                    <th>Date</th>
+                                    <th>FY</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <?php
                                 $count = 1;
-                                $query = "SELECT *, component_categories.category  FROM direct_payments 
-                                INNER JOIN component_categories ON(component_categories.component_category_id = direct_payments.component_category_id)";
+                                $query = "SELECT *, component_categories.category, financial_years.financial_year  FROM direct_payments 
+                                INNER JOIN component_categories ON(component_categories.component_category_id = direct_payments.component_category_id)
+                                INNER JOIN financial_years ON(financial_years.financial_year_id = direct_payments.financial_year_id)";
                                 $rows = $this->db->query($query)->result();
+
                                 foreach ($rows as $row) { ?>
                                     <tr>
-                                        <td><a href="<?php echo site_url(ADMIN_DIR . 'direct_payments/delete_direct_payments/' . $row->id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')">Delete</a> </td>
+                                        <td><a href="<?php echo site_url(ADMIN_DIR . 'direct_payments/delete_direct_payment/' . $row->id); ?>" onclick="return confirm('Are you sure? you want to delete the record.')">Delete</a> </td>
                                         <td><?php echo $count++ ?></td>
                                         <td><?php echo $row->payee_name; ?></td>
                                         <td><?php echo $row->iban_no; ?></td>
@@ -589,6 +593,8 @@
                                         <td><?php echo $row->amount_usd; ?></td>
                                         <td><?php echo $row->amount_pkr; ?></td>
                                         <td><?php echo $row->amount_other; ?></td>
+                                        <td><?php echo date("d M, Y", strtotime($row->payment_date)); ?></td>
+                                        <td><?php echo $row->financial_year; ?></td>
                                         <td><button onclick="get_direct_payment_form('<?php echo $row->id; ?>')">Edit<botton>
                                         </td>
                                     </tr>
