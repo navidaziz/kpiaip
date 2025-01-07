@@ -236,7 +236,17 @@
 
             }
         </script>
-        <?php if ($installments) {  ?>
+        <?php
+        $installments = array();
+        $installments['N/A'] = 'N/A';
+        $installments['1st'] = '1st';
+        $installments['2nd'] = '2nd';
+        $installments['1st_2nd'] = '1st_2nd';
+        $installments['Final'] = 'Final';
+        $installments = $installments;
+
+
+        if ($installments) {  ?>
             <div class="form-group">
                 <label for="Net Paid" class="col-md-4 control-label" style="">Installments</label>
                 <div class="col-md-8"><?php

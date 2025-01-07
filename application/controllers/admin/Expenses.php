@@ -170,6 +170,7 @@ LEFT JOIN
             $expense['st_duty_tax'] = 0.00;
             $expense['misc_deduction'] = 0.00;
             $expense['net_pay'] = 0.00;
+            $expense['installment'] = 'N/A';
             //scheme fields are required
             $expense =  (object) $expense;
             $this->data['installments'] = NULL;
