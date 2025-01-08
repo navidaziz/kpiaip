@@ -23,6 +23,44 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+
+
+    public function category_fy_avg_cost()
+    {
+
+        $this->data["title"] = 'AVG Cost';
+        $this->data["description"] = 'Category and Financial Year Wise AVG Cost';
+        $this->data["view"] = ADMIN_DIR . "reports/schemes/category_fy_avg_cost";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+    public function district_components_avg_cost()
+    {
+
+        $this->data["title"] = 'AVG Cost';
+        $this->data["description"] = 'District Wise Components AVG Cost';
+        $this->data["view"] = ADMIN_DIR . "reports/schemes/district_components_avg_cost";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+    public function district_sub_components_avg_cost()
+    {
+
+        $this->data["title"] = 'AVG Cost';
+        $this->data["description"] = 'District Wise Sub Components AVG Cost';
+        $this->data["view"] = ADMIN_DIR . "reports/schemes/district_sub_components_avg_cost";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+    public function district_categories_avg_cost()
+    {
+
+        $this->data["title"] = 'AVG Cost';
+        $this->data["description"] = 'District Wise Categories AVG Cost';
+        $this->data["view"] = ADMIN_DIR . "reports/schemes/district_categories_avg_cost";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+
     public function export_filter_expenses()
     {
 

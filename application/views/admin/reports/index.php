@@ -125,10 +125,23 @@
 
                 <h4>Basic Schemes Summary Reports</h4>
                 <ol>
-                    <li><small>
-                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/budget_u_summary') ?>">Budget Utilization Summary</a>
-                        </small></li>
+
                     <ol>
+                        <li><small>
+                                <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_components_avg_cost') ?>">District Wise Components AVG Cost</a>
+                            </small></li>
+                        <li><small>
+                                <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_sub_components_avg_cost') ?>">District Wise Sub Components AVG Cost</a>
+                            </small></li>
+                        <li><small>
+                                <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_categories_avg_cost') ?>">District Wise Categories AVG Cost</a>
+                            </small></li>
+                        <ol>
+
+                            <li><small>
+                                    <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/category_fy_avg_cost') ?>">Category and Financial Year Wise AVG Cost</a>
+                                </small></li>
+                            <li><small>
 
             </div>
 
