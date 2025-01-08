@@ -109,7 +109,7 @@
                 paging: false,
                 title: title,
                 "order": [],
-                "ordering": false,
+                "ordering": true,
                 searching: true,
                 buttons: [
 

@@ -23,7 +23,15 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+    public function get_district_categories_fy_avg()
+    {
+        $this->data['district_id'] = $this->input->get('district_id');
+        echo $this->data['district_id'];
 
+        $this->data["title"] = 'AVG Cost';
+        $this->data["description"] = 'District Categories and Financial Year Wise AVG Cost';
+        $this->load->view(ADMIN_DIR . "reports/schemes/get_district_categories_fy_avg", $this->data);
+    }
 
     public function category_fy_avg_cost()
     {

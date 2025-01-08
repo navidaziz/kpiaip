@@ -146,7 +146,7 @@
                             foreach ($districts as $district) {  ?>
                                 <tr>
                                     <th><?php echo $count++; ?></th>
-                                    <th><?php echo $district->district_name ?></th>
+                                    <th><span onclick="get_district_categories_fy_avg('<?php echo $district->district_id; ?>')"><?php echo $district->district_name ?></span></th>
                                     <?php foreach ($categories as $category) { ?>
 
                                         <?php
@@ -207,6 +207,51 @@
 </div>
 
 <script>
+    function get_district_categories_fy_avg(districtId) {
+        // Validate districtId
+        if (!districtId || isNaN(districtId)) {
+            alert('Invalid District ID');
+            return;
+        }
+        alert(districtId)
+        // Show the modal and initialize with loading content
+        $('#modal').modal('show');
+        $('#modal_title').html('Loading...');
+        $('#modal_body').html('<div class="text-center"><i class="fa fa-spinner fa-spin"></i> Loading data, please wait...</div>');
+
+        // Increase the modal width dynamically
+        $('#modal .modal-dialog').css({
+            width: '95%', // Adjust the width as needed (e.g., 80%, 90%, etc.)
+            maxWidth: 'none' // Ensures the modal doesn't limit the width
+        });
+
+        // Perform AJAX request
+        $.ajax({
+            method: "POST",
+            url: "<?php echo site_url(ADMIN_DIR . 'reports/get_district_categories_fy_avg'); ?>",
+            data: {
+                district_id: districtId
+            },
+            success: function(response) {
+                // Populate the modal with response data
+                $('#modal_title').html('District, Categories, and FY-wise AVG Cost');
+                $('#modal_body').html(response);
+            },
+            error: function(xhr, status, error) {
+                // Handle errors gracefully
+                $('#modal_title').html('Error');
+                $('#modal_body').html('<div class="text-danger">An error occurred while fetching the data. Please try again later.</div>');
+                console.error("AJAX Error:", status, error);
+            },
+            complete: function() {
+                // Optional: Any cleanup or final actions after request completion
+                console.log('Request completed');
+            }
+        });
+    }
+
+
+
     title = '<?php echo $description . ' ' . date('d-m-Y m:h:s'); ?>';
     $(document).ready(function() {
         $('#taxes').DataTable({
