@@ -832,7 +832,112 @@ class Reports extends Admin_Controller
         $result = $this->db->query($query)->result_array();
 
         // Set CSV filename
-        $filename = "WUA-date-" . time() . '.csv';
+        $filename = "WUA-data-" . time() . '.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
+    }
+
+    public function export_scheme_data()
+    {
+        // Define your query
+        $query = "
+        SELECT 
+        s.scheme_id AS `SCHEME_ID`, 
+        s.scheme_code AS `SCHEME_CODE`, 
+        s.scheme_name AS `SCHEME_NAME`, 
+        s.scheme_status AS `SCHEME_STATUS`,
+        fy.financial_year AS `FINANCIAL_YEAR`, 
+        wua.wua_name AS `WUA_NAME`, 
+        wua.wua_registration_no AS `WUA_REGISTRATION_NO`,
+        cc.category AS `CATEGORY`, 
+        cc.category_detail AS `CATEGORY_DETAIL`, 
+        sc.sub_component_name AS `SUB_COMPONENT_NAME`, 
+        sc.sub_component_detail AS `SUB_COMPONENT_DETAIL`, 
+        c.component_name AS `COMPONENT_NAME`, 
+        c.component_detail AS `COMPONENT_DETAIL`, 
+        d.district_name AS `DISTRICT_NAME`, 
+        d.region AS `REGION`, 
+        s.tehsil AS `TEHSIL`, 
+        s.uc AS `UC`, 
+        s.villege AS `VILLAGE`, 
+        s.na AS `NA`, 
+        s.pk AS `PK`, 
+        s.latitude AS `LATITUDE`, 
+        s.longitude AS `LONGITUDE`, 
+        s.beneficiaries AS `BENEFICIARIES`, 
+        s.male_beneficiaries AS `MALE_BENEFICIARIES`, 
+        s.female_beneficiaries AS `FEMALE_BENEFICIARIES`, 
+        s.registration_date AS `REGISTRATION_DATE`, 
+        s.top_date AS `TOP_DATE`, 
+        s.survey_date AS `SURVEY_DATE`, 
+        s.design_date AS `DESIGN_DATE`, 
+        s.feasibility_date AS `FEASIBILITY_DATE`, 
+        s.work_order_date AS `WORK_ORDER_DATE`, 
+        s.scheme_initiation_date AS `SCHEME_INITIATION_DATE`, 
+        s.estimated_cost AS `ESTIMATED_COST`, 
+        s.estimated_cost_date AS `ESTIMATED_COST_DATE`, 
+        s.approved_cost AS `APPROVED_COST`, 
+        s.approval_date AS `APPROVAL_DATE`, 
+        s.revised_cost AS `REVISED_COST`, 
+        s.revised_cost_date AS `REVISED_COST_DATE`, 
+        s.sanctioned_cost AS `SANCTIONED_COST`, 
+        s.technical_sanction_date AS `TECHNICAL_SANCTION_DATE`, 
+        s.completion_date AS `COMPLETION_DATE`, 
+        s.verified_by_tpv AS `VERIFIED_BY_TPV`, 
+        s.verification_by_tpv_date AS `VERIFICATION_BY_TPV_DATE`, 
+        s.funding_source AS `FUNDING_SOURCE`, 
+        s.water_source AS `WATER_SOURCE`, 
+        s.cca AS `CCA`, 
+        s.acca AS `ACCA`, 
+        s.gca AS `GCA`, 
+        s.pre_water_losses AS `PRE_WATER_LOSSES`, 
+        s.pre_additional AS `PRE_ADDITIONAL`, 
+        s.post_water_losses AS `POST_WATER_LOSSES`, 
+        s.saving_water_losses AS `SAVING_WATER_LOSSES`, 
+        s.total_lenght AS `TOTAL_LENGTH`, 
+        s.lining_length AS `LINING_LENGTH`, 
+        s.lwh AS `LWH`, 
+        s.length AS `LENGTH`, 
+        s.width AS `WIDTH`, 
+        s.height AS `HEIGHT`, 
+        s.type_of_lining AS `TYPE_OF_LINING`, 
+        s.nacca_pannel AS `NACCA_PANEL`, 
+        s.culvert AS `CULVERT`, 
+        s.risers_pipe AS `RISERS_PIPE`, 
+        s.risers_pond AS `RISERS_POND`, 
+        s.design_discharge AS `DESIGN_DISCHARGE`, 
+        s.others AS `OTHERS`
+        FROM schemes AS s
+        INNER JOIN districts AS d ON(d.district_id = s.district_id)
+        INNER JOIN financial_years AS fy ON(fy.financial_year_id = s.financial_year_id)
+        INNER JOIN component_categories AS cc ON(cc.component_category_id = s.component_category_id)
+        INNER JOIN sub_components AS sc ON(sc.sub_component_id = cc.sub_component_id)
+        INNER JOIN components AS c ON(c.component_id = sc.component_id)
+        INNER JOIN water_user_associations AS wua ON(wua.water_user_association_id = s.water_user_association_id)  
+        ORDER BY `SCHEME_ID` DESC";
+
+        // Execute the query
+        $result = $this->db->query($query)->result_array();
+
+        // Set CSV filename
+        $filename = "Schemes-data-" . time() . '.csv';
 
         // Set headers to download the file
         header('Content-Type: text/csv');
