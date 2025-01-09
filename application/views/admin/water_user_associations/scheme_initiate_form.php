@@ -152,7 +152,7 @@
                         <small>(Culturable Command Area)</small>
                     </label>
                     <div class="col-sm-4">
-                        <input  min="2" type="number" step="any" required id="cca" name="cca" value="<?php echo $input->cca; ?>"
+                        <input min="2" type="number" step="any" required id="cca" name="cca" value="<?php echo $input->cca; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                             class="form-control">
                     </div>
                 </div>
-                
+
                 <div class="form-group row">
                     <label for="cca" class="col-sm-8 col-form-label">ACCA
                         <strong style="color:green"> (acre)</strong><br />
@@ -178,13 +178,13 @@
                             class="form-control">
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="box border blue" id="messenger" style="padding: 5px; ">
 
-            <input type="hidden" id="pre_additional" name="pre_additional"
-            value="0" class="form-control">
+                <input type="hidden" id="pre_additional" name="pre_additional"
+                    value="0" class="form-control">
 
                 <div class="form-group row">
                     <label for="pre" class="col-sm-6 col-form-label">Pre Water Losses
@@ -192,7 +192,7 @@
                         <strong style="color: green;">(%)</strong>
                     </label>
                     <div class="col-sm-6">
-                        <input onkeyup="calculate_water_losses_saving()" min="1" max="100" type="text" required id="pre_water_losses" name="pre_water_losses" value="<?php echo $input->pre_water_losses; ?>"
+                        <input onkeyup="calculate_water_losses_saving()" min="0" max="100" type="text" required id="pre_water_losses" name="pre_water_losses" value="<?php echo $input->pre_water_losses; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -205,7 +205,7 @@
 
                         <strong style="color: green;">(%)</strong></label>
                     <div class="col-sm-6">
-                        <input onkeyup="calculate_water_losses_saving()" min="1" max="100" type="text" required id="post_water_losses" name="post_water_losses" value="<?php echo $input->post_water_losses; ?>"
+                        <input onkeyup="calculate_water_losses_saving()" min="0" max="100" type="text" required id="post_water_losses" name="post_water_losses" value="<?php echo $input->post_water_losses; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -217,7 +217,8 @@
                         let post_water_losses = parseFloat($('#post_water_losses').val());
                         if (post_water_losses) {
                             // Check if values are valid numbers to avoid NaN issues
-                            if (isNaN(pre_water_losses) || isNaN(post_water_losses) || pre_water_losses === 0) {
+                            if (isNaN(pre_water_losses) || isNaN(post_water_losses)) {
+                                $('#saving_water_losses').val('0');
                                 $('#saving_water_losses').val("Invalid input");
                                 return;
                             }

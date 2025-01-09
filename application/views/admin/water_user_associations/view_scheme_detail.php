@@ -721,33 +721,7 @@
                                 <?php } ?>
                             </h4>
                             <hr />
-                            <?php if (($scheme->scheme_status != 'Complete') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
 
-                                <button onclick="update_st_data(<?php echo $scheme->scheme_id ?>)"
-                                    class="btn btn-success btn-sm"><i class="fa fa-edit"></i>
-                                    Update Technical Data
-                                </button>
-                                <script>
-                                    function update_st_data(scheme_id) {
-                                        $.ajax({
-                                                method: "POST",
-                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/update_st_data_form'); ?>",
-                                                data: {
-                                                    scheme_id: scheme_id
-                                                },
-                                            })
-                                            .done(function(respose) {
-                                                $('#modal').modal('show');
-                                                $('#modal_title').html('Update Scheme Technical Data ');
-                                                $('#modal_body').html(respose);
-                                            });
-                                    }
-                                </script>
-
-                                <button onclick="chanage_status_form('Complete')" class="btn btn-danger btn-sm"> <i
-                                        class="fa fa-check-circle"></i> Marked as Physical Complete</button>
-
-                            <?php } ?>
 
 
 
@@ -876,6 +850,35 @@
                                         });
                                 }
                             </script>
+
+                            <?php if (($scheme->scheme_status != 'Complete') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
+                                <?php if ($scheme->scheme_status != 'Registered') { ?>
+                                    <button onclick="update_st_data(<?php echo $scheme->scheme_id ?>)"
+                                        class="btn btn-success btn-sm"><i class="fa fa-edit"></i>
+                                        Update Technical Data
+                                    </button>
+                                    <script>
+                                        function update_st_data(scheme_id) {
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/update_st_data_form'); ?>",
+                                                    data: {
+                                                        scheme_id: scheme_id
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Update Scheme Technical Data ');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                    </script>
+                                <?php } ?>
+
+                                <button style="display: none;" onclick="chanage_status_form('Complete')" class="btn btn-danger btn-sm"> <i
+                                        class="fa fa-check-circle"></i> Marked as Physical Complete</button>
+
+                            <?php } ?>
                         </div>
                     </div>
                 </div>

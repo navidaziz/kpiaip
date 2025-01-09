@@ -152,7 +152,7 @@
                         <small>(Culturable Command Area)</small>
                     </label>
                     <div class="col-sm-4">
-                        <input  min="2" type="number" step="any" required id="cca" name="cca" value="<?php echo $input->cca; ?>"
+                        <input min="2" type="number" step="any" required id="cca" name="cca" value="<?php echo $input->cca; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -167,7 +167,7 @@
                             class="form-control">
                     </div>
                 </div>
-                
+
                 <div class="form-group row">
                     <label for="cca" class="col-sm-8 col-form-label">ACCA
                         <strong style="color:green"> (acre)</strong><br />
@@ -178,13 +178,13 @@
                             class="form-control">
                     </div>
                 </div>
-                
+
             </div>
 
             <div class="box border blue" id="messenger" style="padding: 5px; ">
 
-            <input type="hidden" id="pre_additional" name="pre_additional"
-            value="0" class="form-control">
+                <input type="hidden" id="pre_additional" name="pre_additional"
+                    value="0" class="form-control">
 
                 <div class="form-group row">
                     <label for="pre" class="col-sm-6 col-form-label">Pre Water Losses
@@ -192,7 +192,7 @@
                         <strong style="color: green;">(%)</strong>
                     </label>
                     <div class="col-sm-6">
-                        <input onkeyup="calculate_water_losses_saving()" min="1" max="100" type="text" required id="pre_water_losses" name="pre_water_losses" value="<?php echo $input->pre_water_losses; ?>"
+                        <input onkeyup="calculate_water_losses_saving()" min="0" max="100" type="text" required id="pre_water_losses" name="pre_water_losses" value="<?php echo $input->pre_water_losses; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -205,7 +205,7 @@
 
                         <strong style="color: green;">(%)</strong></label>
                     <div class="col-sm-6">
-                        <input onkeyup="calculate_water_losses_saving()" min="1" max="100" type="text" required id="post_water_losses" name="post_water_losses" value="<?php echo $input->post_water_losses; ?>"
+                        <input onkeyup="calculate_water_losses_saving()" min="0" max="100" type="text" required id="post_water_losses" name="post_water_losses" value="<?php echo $input->post_water_losses; ?>"
                             class="form-control">
                     </div>
                 </div>
@@ -217,7 +217,8 @@
                         let post_water_losses = parseFloat($('#post_water_losses').val());
                         if (post_water_losses) {
                             // Check if values are valid numbers to avoid NaN issues
-                            if (isNaN(pre_water_losses) || isNaN(post_water_losses) || pre_water_losses === 0) {
+                            if (isNaN(pre_water_losses) || isNaN(post_water_losses)) {
+                                $('#saving_water_losses').val('0');
                                 $('#saving_water_losses').val("Invalid input");
                                 return;
                             }
@@ -417,50 +418,50 @@
         </div>
     <?php } ?>
     <div class="row">
-            <div class="col-md-12">
-                <div class="box border blue" id="messenger" style="padding: 15px;">
-                    <div class="form-group row">
-                        <!-- Approved Cost -->
-                        <div class="col-md-3">
-                            <label for="approved_cost" class="col-form-label">Approved / Saction Cost</label>
-                            <input required type="text" id="approved_cost" name="approved_cost"
-                                value="<?php if ($input->approved_cost) {
-                                            echo $input->approved_cost;
-                                        } ?>" class="form-control ongoing" placeholder="Enter approved cost">
-                        </div>
+        <div class="col-md-12">
+            <div class="box border blue" id="messenger" style="padding: 15px;">
+                <div class="form-group row">
+                    <!-- Approved Cost -->
+                    <div class="col-md-3">
+                        <label for="approved_cost" class="col-form-label">Approved / Saction Cost</label>
+                        <input required type="text" id="approved_cost" name="approved_cost"
+                            value="<?php if ($input->approved_cost) {
+                                        echo $input->approved_cost;
+                                    } ?>" class="form-control ongoing" placeholder="Enter approved cost">
+                    </div>
 
-                        <!-- Technical Sanction Date -->
-                        <div class="col-md-3">
-                            <label for="technical_sanction_date" class="col-form-label">Technical Sanction Date</label>
-                            <input required type="date" id="technical_sanction_date" name="technical_sanction_date"
-                                value="<?php echo $input->technical_sanction_date; ?>" class="form-control ongoing">
-                        </div>
+                    <!-- Technical Sanction Date -->
+                    <div class="col-md-3">
+                        <label for="technical_sanction_date" class="col-form-label">Technical Sanction Date</label>
+                        <input required type="date" id="technical_sanction_date" name="technical_sanction_date"
+                            value="<?php echo $input->technical_sanction_date; ?>" class="form-control ongoing">
+                    </div>
 
-                        <!-- Work Order Date -->
-                        <div class="col-md-3">
-                            <label for="work_order_date" class="col-form-label">Work Order Date</label>
-                            <input required type="date" id="work_order_date" name="work_order_date"
-                                value="<?php echo $input->work_order_date; ?>" class="form-control ongoing">
-                        </div>
+                    <!-- Work Order Date -->
+                    <div class="col-md-3">
+                        <label for="work_order_date" class="col-form-label">Work Order Date</label>
+                        <input required type="date" id="work_order_date" name="work_order_date"
+                            value="<?php echo $input->work_order_date; ?>" class="form-control ongoing">
+                    </div>
 
-                        <!-- Scheme Initiation Date -->
-                        <div class="col-md-3">
-                            <label for="scheme_initiation_date" class="col-form-label">Scheme Initiation Date</label>
-                            <input required type="date" required id="scheme_initiation_date" name="scheme_initiation_date"
-                                value="<?php echo $input->scheme_initiation_date; ?>" class="form-control ongoing">
-                        </div>
+                    <!-- Scheme Initiation Date -->
+                    <div class="col-md-3">
+                        <label for="scheme_initiation_date" class="col-form-label">Scheme Initiation Date</label>
+                        <input required type="date" required id="scheme_initiation_date" name="scheme_initiation_date"
+                            value="<?php echo $input->scheme_initiation_date; ?>" class="form-control ongoing">
                     </div>
                 </div>
-
-
             </div>
-        </div>
 
-    
+
+        </div>
+    </div>
+
+
     <div class="form-group row text-center mt-3">
         <div id="result_response"></div>
-            <button type="submit" class="btn btn-success">Update Technical Data</button>
-      
+        <button type="submit" class="btn btn-success">Update Technical Data</button>
+
     </div>
 </form>
 </div>
