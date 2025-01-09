@@ -281,7 +281,7 @@
                                 $remaining_cheques = $this->db->query($query)->row();
 
                                 ?>
-                                Re. Cheques (<?php echo $remaining_cheques->total; ?>)
+                                Remaining cheques (<?php echo $remaining_cheques->total; ?>)
                             </a>
                         </li>
 
