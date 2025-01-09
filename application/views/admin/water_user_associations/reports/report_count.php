@@ -221,7 +221,7 @@
                             $range_label = '81-90%';
                         } elseif ($percentage >= 91 && $percentage <= 95) {
                             $range_label = '91-95%';
-                        } elseif ($percentage >= 96 && $percentage <= 100) {
+                        } elseif ($percentage >= 96 && $percentage < 100) {
                             $range_label = '96-99%';
                         } elseif ($percentage == 100) {
                             $range_label = '100%';
