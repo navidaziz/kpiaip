@@ -729,6 +729,8 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+
+
     public function export_expenses()
     {
         // Define your query
@@ -775,6 +777,61 @@ class Reports extends Admin_Controller
 
         // Set CSV filename
         $filename = time() . 'exported_data.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
+    }
+
+    public function export_wua_data()
+    {
+        // Define your query
+        $query = "SELECT 
+        `wua_name` AS `WUA_NAME`, 
+        `wua_registration_no` AS `WUA_REGISTRATION_NO`, 
+        `wua_registration_date` AS `WUA_REGISTRATION_DATE`, 
+        `file_number` AS `FILE_NUMBER`,
+        d.district_name AS `DISTRICT_NAME`, 
+        `tehsil_name` AS `TEHSIL_NAME`, 
+        `union_council` AS `UNION_COUNCIL`, 
+        `address` AS `ADDRESS`,
+        `cm_name` AS `CM_NAME`, 
+        `cm_father_name` AS `CM_FATHER_NAME`, 
+        `cm_gender` AS `CM_GENDER`, 
+        `cm_cnic` AS `CM_CNIC`, 
+        `cm_contact_no` AS `CM_CONTACT_NO`, 
+        `bank_account_title` AS `BANK_ACCOUNT_TITLE`, 
+        `bank_account_number` AS `BANK_ACCOUNT_NUMBER`, 
+        `bank_name` AS `BANK_NAME`, 
+        `bank_branch_code` AS `BANK_BRANCH_CODE` 
+        FROM 
+        `water_user_associations` 
+        INNER JOIN 
+        districts AS d 
+        ON 
+        (d.district_id = water_user_associations.district_id);
+        ";
+
+        // Execute the query
+        $result = $this->db->query($query)->result_array();
+
+        // Set CSV filename
+        $filename = "WUA-date-" . time() . '.csv';
 
         // Set headers to download the file
         header('Content-Type: text/csv');
