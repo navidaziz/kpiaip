@@ -182,16 +182,16 @@
                     <?php
                     // Fetch data from the database
                     $districts = $this->db->query("SELECT 
-        d.district_name,
-        COUNT(*) AS total,
-        SUM(CASE WHEN s.scheme_status = 'Completed' THEN 1 ELSE 0 END) AS completed_schemes,
-        (SUM(CASE WHEN s.scheme_status = 'Completed' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS completed_percentage
-        FROM schemes s
-        INNER JOIN districts d ON d.district_id = s.district_id
-        WHERE s.scheme_status IN ('Completed', 'Par-Completed')
-        AND s.component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
-        GROUP BY d.district_name
-        ORDER BY completed_percentage ASC;")->result();
+                        d.district_name,
+                        COUNT(*) AS total,
+                        SUM(CASE WHEN s.scheme_status = 'Completed' THEN 1 ELSE 0 END) AS completed_schemes,
+                        (SUM(CASE WHEN s.scheme_status = 'Completed' THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS completed_percentage
+                        FROM schemes s
+                        INNER JOIN districts d ON d.district_id = s.district_id
+                        WHERE s.scheme_status IN ('Completed', 'Par-Completed')
+                        AND s.component_category_id IN (1,2,3,4,5,6,7,8,9,10,11,12)
+                        GROUP BY d.district_name
+                        ORDER BY completed_percentage ASC;")->result();
 
                     // Array to hold categorized data
                     $percentages = array();
@@ -256,6 +256,95 @@
                         </tr>
                     </table>
                 </h4>
+
+
+
+
+                <h4>
+
+
+                    <?php
+                    // Fetch data from the database
+                    $districts = $this->db->query("SELECT 
+                d.district_name,
+                COUNT(*) AS total,
+                SUM(CASE WHEN e.scheme_id IS NOT NULL THEN 1 ELSE 0 END) AS completed_chq,
+                (SUM(CASE WHEN e.scheme_id IS NOT NULL THEN 1 ELSE 0 END) / COUNT(*)) * 100 AS completed_percentage
+                FROM 
+                expenses AS e 
+                INNER JOIN 
+                districts d ON d.district_id = e.district_id
+                WHERE 
+                e.component_category_id IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+                GROUP BY 
+                d.district_name ORDER BY completed_percentage ASC;")->result();
+
+                    // Array to hold categorized data
+                    $percentages = array();
+
+                    // Categorize districts into ranges (e.g., 10-20%, 21-30%, etc.)
+                    foreach ($districts as $district) {
+                        $percentage = round($district->completed_percentage, 2);
+
+                        // Define percentage ranges based on specified categories
+                        if ($percentage >= 0 && $percentage <= 10) {
+                            $range_label = '1-10%';
+                        } elseif ($percentage >= 11 && $percentage <= 20) {
+                            $range_label = '11-20%';
+                        } elseif ($percentage >= 21 && $percentage <= 30) {
+                            $range_label = '21-30%';
+                        } elseif ($percentage >= 31 && $percentage <= 40) {
+                            $range_label = '31-40%';
+                        } elseif ($percentage >= 41 && $percentage <= 50) {
+                            $range_label = '41-50%';
+                        } elseif ($percentage >= 51 && $percentage <= 60) {
+                            $range_label = '51-60%';
+                        } elseif ($percentage >= 61 && $percentage <= 70) {
+                            $range_label = '61-70%';
+                        } elseif ($percentage >= 71 && $percentage <= 80) {
+                            $range_label = '71-80%';
+                        } elseif ($percentage >= 81 && $percentage <= 90) {
+                            $range_label = '81-90%';
+                        } elseif ($percentage >= 91 && $percentage <= 95) {
+                            $range_label = '91-95%';
+                        } elseif ($percentage >= 96 && $percentage < 100) {
+                            $range_label = '96-99%';
+                        } elseif ($percentage == 100) {
+                            $range_label = '100%';
+                        } else {
+                            // This handles any edge cases, e.g., 0% or invalid values.
+                            continue;
+                        }
+
+                        // Add district to the corresponding percentage range
+                        $percentages[$range_label][] = $district;
+                    }
+                    ?>
+                </h4>
+                <h3>Districts Categorized by Cheques Completed Percentage</h3>
+                <h4>
+                    <table class="table table-bordered">
+                        <tr>
+                            <?php foreach ($percentages as $range => $districts) { ?>
+                                <th style="text-align:center"><?php echo $range; ?></th>
+                            <?php } ?>
+                        </tr>
+                        <tr>
+                            <?php foreach ($percentages as $range => $districts) { ?>
+                                <th style="text-align:center; color:black">
+                                    <ol style="font-size:10px; color:black">
+                                        <?php foreach ($districts as $district) { ?>
+                                            <li><?php echo $district->district_name . " - <small>" . round($district->total - $district->completed_chq) . "</small>"; ?></li>
+                                        <?php } ?>
+                                    </ol>
+                                </th>
+                            <?php } ?>
+                        </tr>
+                    </table>
+                </h4>
+
+
+
                 FY Wise Cheques Remaining
                 <table class="table table-bordered">
                     <tr>
