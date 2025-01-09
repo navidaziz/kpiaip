@@ -802,9 +802,10 @@ class Reports extends Admin_Controller
     {
         // Define your query
         $query = "SELECT 
+        `water_user_association_id` AS `WUA_ID`,
         `wua_name` AS `WUA_NAME`, 
-        `wua_registration_no` AS `WUA_REGISTRATION_NO`, 
-        `wua_registration_date` AS `WUA_REGISTRATION_DATE`, 
+        `wua_registration_no` AS `WUA_REG_NO`, 
+        `wua_registration_date` AS `WUA_REG_DATE`, 
         `file_number` AS `FILE_NUMBER`,
         d.district_name AS `DISTRICT_NAME`, 
         `tehsil_name` AS `TEHSIL_NAME`, 
