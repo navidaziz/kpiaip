@@ -53,7 +53,27 @@
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $description; ?></div>
+                    <div class="description">Scheme Code: <strong><?php echo $scheme->scheme_code; ?></strong> <br />
+                        <?php if ($scheme->phy_completion === 'Yes') { ?>
+                            <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
+                        <?php } else { ?>
+                            <strong>Physically Completed: No</strong>
+                        <?php } ?>
+                        <br />
+                        <strong>Category:
+                            <?php
+                            $query = "SELECT * FROM `component_categories` 
+                                WHERE component_category_id=$scheme->component_category_id";
+                            $category = $this->db->query($query)->row();
+                            if ($category) {
+                                echo $category->category . " <small>(" . $category->category_detail . ")</small>";
+                            } else {
+                                echo "Undefine";
+                            }
+                            ?>
+
+                        </strong>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -74,9 +94,11 @@
                         WHERE scheme_id = $scheme->scheme_id";
                         $expense_summary = $this->db->query($query)->row();
                         ?>
-                        <table class="table">
+                        <table class="table table-bordered table-striped ">
                             <tr>
-
+                                <td rowspan="2" style="vertical-align: middle;">
+                                    <a class="btn btn-danger" target="_blank" href="<?php echo site_url(ADMIN_DIR . "expenses/print_scheme_detail/" . $scheme->scheme_id); ?>"><i class="fa fa-print" aria-hidden="true"></i> Print Scheme Detail</a>
+                                </td>
 
                                 <th>Total Sanctioned Cost</th>
                                 <th>Total Paid</th>
@@ -308,6 +330,9 @@
             <div class="box-body">
                 <div class="box-body">
                     <div class="table-responsive">
+
+
+
                         <table class="table table-bordered table_small">
                             <thead>
                                 <tr>
@@ -318,7 +343,6 @@
                                     <th>NA</th>
                                     <th>PK</th>
 
-                                    <th>Component Category</th>
                                     <th><?php echo $this->lang->line('water_source'); ?></th>
                                     <th>Coordiantes</th>
                                     <th>Beneficiaries</th>
@@ -347,18 +371,7 @@
                                     <td><?php echo $scheme->villege; ?></td>
                                     <td><?php echo $scheme->na; ?></td>
                                     <td><?php echo $scheme->pk; ?></td>
-                                    <td>
-                                        <?php
-                                        $query = "SELECT * FROM `component_categories` 
-                                WHERE component_category_id=$scheme->component_category_id";
-                                        $category = $this->db->query($query)->row();
-                                        if ($category) {
-                                            echo $category->category . " <small>(" . $category->category_detail . ")</small>";
-                                        } else {
-                                            echo "Undefine";
-                                        }
-                                        ?>
-                                    </td>
+
                                     <td>
                                         <?php echo $scheme->water_source; ?>
                                     </td>

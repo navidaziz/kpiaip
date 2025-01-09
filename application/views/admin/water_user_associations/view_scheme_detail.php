@@ -76,12 +76,26 @@
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $description; ?> <br />
+                    <div class="description"><?php echo $scheme->scheme_code; ?> <br />
                         <?php if ($scheme->phy_completion === 'Yes') { ?>
                             <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
                         <?php } else { ?>
                             <strong>Physically Completed: No</strong>
                         <?php } ?>
+                        <br />>
+                        <strong>Category:
+                            <?php
+                            $query = "SELECT * FROM `component_categories` 
+                                WHERE component_category_id=$scheme->component_category_id";
+                            $category = $this->db->query($query)->row();
+                            if ($category) {
+                                echo $category->category . " <small>(" . $category->category_detail . ")</small>";
+                            } else {
+                                echo "Undefine";
+                            }
+                            ?>
+
+                        </strong>
                     </div>
                 </div>
 
@@ -446,8 +460,6 @@
                                     <th>Village</th>
                                     <th>NA</th>
                                     <th>PK</th>
-
-                                    <th>Component Category</th>
                                     <th><?php echo $this->lang->line('water_source'); ?></th>
                                     <th>Coordiantes</th>
                                     <th>Beneficiaries</th>
@@ -476,18 +488,7 @@
                                     <td><?php echo $scheme->villege; ?></td>
                                     <td><?php echo $scheme->na; ?></td>
                                     <td><?php echo $scheme->pk; ?></td>
-                                    <td>
-                                        <?php
-                                        $query = "SELECT * FROM `component_categories` 
-                                WHERE component_category_id=$scheme->component_category_id";
-                                        $category = $this->db->query($query)->row();
-                                        if ($category) {
-                                            echo $category->category . " <small>(" . $category->category_detail . ")</small>";
-                                        } else {
-                                            echo "Undefine";
-                                        }
-                                        ?>
-                                    </td>
+
                                     <td>
                                         <?php echo $scheme->water_source; ?>
                                     </td>

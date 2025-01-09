@@ -172,14 +172,14 @@
     function calculate_st_charged_tax() {
         var tax_value = parseFloat($('#st_charged_per').val());
         var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / (100 + tax_value));
+        var tax = invoice_gross_total * (tax_value / 100);
         $('#st_charged').val(tax.toFixed(2));
         calculate_total_deduction();
     }
 
     function calculate_whst_tax() {
         var tax_value = parseFloat($('#whst_tax_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+        var invoice_gross_total = parseFloat($('#st_charged').val());
         var tax = invoice_gross_total * (tax_value / 100);
         $('#whst_tax').val(tax.toFixed(2));
         calculate_total_deduction();
@@ -196,7 +196,7 @@
     function calculate_kpra_tax() {
         var tax_value = parseFloat($('#kpra_tax_per').val());
         var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / (100 + tax_value));
+        var tax = invoice_gross_total * (tax_value / tax_value);
         $('#kpra_tax').val(tax.toFixed(2));
         calculate_total_deduction();
     }
