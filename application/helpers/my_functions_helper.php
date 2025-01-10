@@ -28,7 +28,11 @@ function getOrdinal($number)
 	$suffixes = ['th', 'st', 'nd', 'rd'];
 	$value = $number % 100;
 
-	return $number . ($suffixes[($value - 20) % 10] ?? $suffixes[$value] ?? $suffixes[0]);
+	$suffix = isset($suffixes[($value - 20) % 10])
+		? $suffixes[($value - 20) % 10]
+		: (isset($suffixes[$value]) ? $suffixes[$value] : $suffixes[0]);
+
+	return $number . $suffix;
 }
 
 
