@@ -265,7 +265,7 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
 
 
 
-        <div style="padding-left: 40px; padding-right: 40px; padding-top:0px !important;" contenteditable="true">
+        <div style="padding-left: 40px; padding-right: 40px; padding-top:0px !important;">
             <table style="width:100%">
                 <tr>
 
@@ -277,7 +277,7 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                     <td>
                         <h3 style="margin: 2px; padding:2px">Scheme Code: <strong><?php echo $scheme->scheme_code; ?></strong> </h3>
                         <h5 style="margin: 2px; padding:2px">Scheme Status: <strong><?php echo $scheme->scheme_status; ?></strong></h5>
-                        <h5 style="margin: 2px; padding:2px">Final Year: <strong><?php echo $scheme->financial_year; ?></strong></h5>
+                        <h5 style="margin: 2px; padding:2px">Financial Year: <strong><?php echo $scheme->financial_year; ?></strong></h5>
 
                     </td>
 

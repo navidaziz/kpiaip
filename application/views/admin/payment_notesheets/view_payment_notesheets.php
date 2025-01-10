@@ -11,6 +11,10 @@
                     <i class="fa fa-home"></i>
                     <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
                 </li>
+                <li>
+                    <i class="fa fa-list"></i>
+                    <a href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/index"); ?>">Payment Notsheets</a>
+                </li>
                 <li><?php echo $title; ?></li>
             </ul>
             <!-- /BREADCRUMBS -->
@@ -18,15 +22,33 @@
 
                 <div class="col-md-6">
                     <div class="clearfix">
-                        <h3 class="content-title pull-left"><?php echo $title; ?></h3>
+                        <h3 class="content-title pull-left">Payment Notesheet <?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $title; ?></div>
+                    <div class="description"><?php echo $title; ?> - <?php echo $payment_notesheet->district_name ?></div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="pull-right">
 
+                        <button onclick="get_payment_notesheet_form('<?php echo $payment_notesheet->id ?>')" class="btn btn-warning">Edit Payment Note Sheet</button>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/print_payment_notesheet/" . $payment_notesheet->id); ?>" class="btn btn-danger">Print Payment Note Sheet</a>
 
+                        <script>
+                            function get_payment_notesheet_form(id) {
+                                $.ajax({
+                                        method: "POST",
+                                        url: "<?php echo site_url(ADMIN_DIR . 'payment_notesheets/get_payment_notesheet_form'); ?>",
+                                        data: {
+                                            id: id
+                                        },
+                                    })
+                                    .done(function(respose) {
+                                        $('#modal').modal('show');
+                                        $('#modal_title').html('Payment Notesheets');
+                                        $('#modal_body').html(respose);
+                                    });
+                            }
+                        </script>
                     </div>
                 </div>
 
@@ -51,14 +73,11 @@
                 <div class="table-responsive">
 
 
-                    <table id="datatable" class="table  table_small table-bordered">
+                    <table id="datatable" class="table  table-bordered">
                         <thead>
                             <tr>
-                                <th>Payment Notesheet Code</th>
                                 <th>PUC Tracking ID</th>
                                 <th>District</th>
-                                <th>PUC Title</th>
-                                <th>PUC Detail</th>
                                 <th>PUC Date</th>
                             </tr>
                         </thead>
@@ -66,12 +85,12 @@
                             <tr>
                                 <td><?php echo $payment_notesheet->payment_notesheet_code; ?></td>
                                 <td><?php echo $payment_notesheet->district_name; ?></td>
-                                <td><?php echo $payment_notesheet->puc_title; ?></td>
-                                <td><?php echo $payment_notesheet->puc_detail; ?></td>
+
                                 <td><?php echo $payment_notesheet->puc_date; ?></td>
                             </tr>
                         </tbody>
                     </table>
+                    <p><?php echo nl2br($payment_notesheet->puc_title); ?></p>
                     <div id="errorDiv" class="box border blue" id="messenger" style="background-color:white; padding:4px; text-align:right ">
                         Search Scheme ID:
                         <input class="form-control" style="width: 200px; display:inline" type="text" id="scheme_id" placeholder="Scan barcode here" autofocus />
@@ -147,7 +166,7 @@
 
                     get_payment_notesheet_list();
                 </script>
-
+                <p><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
 
 
             </div>

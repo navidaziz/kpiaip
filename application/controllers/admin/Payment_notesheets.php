@@ -16,8 +16,8 @@ class Payment_notesheets extends Admin_Controller
 
     public function index()
     {
-        $this->data["title"] = "Payment Note Sheet";
-        $this->data["description"] = "Payment Note Sheet List";
+        $this->data["title"] = "Payment Note Sheets";
+        $this->data["description"] = "Payment Note Sheets List";
         $this->data["view"] = ADMIN_DIR . "payment_notesheets/index";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
@@ -95,63 +95,63 @@ class Payment_notesheets extends Admin_Controller
 
 
 
-    public function fetch_data()
-    {
-        $columns[] = "payment_notesheet_code";
-        $columns[] = "puc_tracking_id";
-        $columns[] = "district_id";
-        $columns[] = "puc_title";
-        $columns[] = "puc_detail";
-        $columns[] = "puc_date";
+    // public function fetch_data()
+    // {
+    //     $columns[] = "payment_notesheet_code";
+    //     $columns[] = "puc_tracking_id";
+    //     $columns[] = "district_id";
+    //     $columns[] = "puc_title";
+    //     $columns[] = "puc_detail";
+    //     $columns[] = "puc_date";
 
 
-        $limit = $this->input->post("length");
-        $start = $this->input->post("start");
-        $order = $columns[$this->input->post("order")[0]["column"]];
-        $dir = $this->input->post("order")[0]["dir"];
+    //     $limit = $this->input->post("length");
+    //     $start = $this->input->post("start");
+    //     $order = $columns[$this->input->post("order")[0]["column"]];
+    //     $dir = $this->input->post("order")[0]["dir"];
 
-        $this->db->select("*");
-        $this->db->from("payment_notesheets");
+    //     $this->db->select("*");
+    //     $this->db->from("payment_notesheets");
 
-        $search = $this->db->escape("%" . $this->input->post("search")["value"] . "%");
-        if (!empty($this->input->post("search")["value"])) {
-            $this->db->group_start();
-            foreach ($columns as $column) {
-                $this->db->or_like($column, $search);
-            }
-            $this->db->group_end();
-        }
+    //     $search = $this->db->escape("%" . $this->input->post("search")["value"] . "%");
+    //     if (!empty($this->input->post("search")["value"])) {
+    //         $this->db->group_start();
+    //         foreach ($columns as $column) {
+    //             $this->db->or_like($column, $search);
+    //         }
+    //         $this->db->group_end();
+    //     }
 
-        // Ordering
-        $this->db->order_by($order, $dir);
+    //     // Ordering
+    //     $this->db->order_by($order, $dir);
 
-        // Pagination
-        if ($limit != -1) {
-            $sql .= " LIMIT $limit OFFSET $start";
-        }
-        $query = $this->db->get();
-        $data = $query->result();
+    //     // Pagination
+    //     if ($limit != -1) {
+    //         $sql .= " LIMIT $limit OFFSET $start";
+    //     }
+    //     $query = $this->db->get();
+    //     $data = $query->result();
 
-        // Total records count
-        $total_records = $this->db->count_all_results("payment_notesheets");
+    //     // Total records count
+    //     $total_records = $this->db->count_all_results("payment_notesheets");
 
-        $output = array(
-            "draw" => intval($this->input->post("draw")),
-            "recordsTotal" => $total_records,
-            "recordsFiltered" => $total_records,
-            "data" => $data
-        );
+    //     $output = array(
+    //         "draw" => intval($this->input->post("draw")),
+    //         "recordsTotal" => $total_records,
+    //         "recordsFiltered" => $total_records,
+    //         "data" => $data
+    //     );
 
-        echo json_encode($output);
-    }
+    //     echo json_encode($output);
+    // }
 
     public function payment_notesheets()
     {
         $columns[] = "payment_notesheet_code";
         $columns[] = "puc_tracking_id";
-        $columns[] = "district_id";
-        $columns[] = "puc_title";
-        $columns[] = "puc_detail";
+        $columns[] = "district_name";
+        //$columns[] = "puc_title";
+        //$columns[] = "puc_detail";
         $columns[] = "puc_date";
 
 
@@ -162,7 +162,9 @@ class Payment_notesheets extends Admin_Controller
 
         $search = $this->db->escape("%" . $this->input->post("search")["value"] . "%");
         // Manual SQL query building
-        $sql = "SELECT * FROM payment_notesheets";
+        $sql = "SELECT *, d.district_name FROM payment_notesheets
+        INNER JOIN districts as d ON(d.district_id = payment_notesheets.district_id)
+        ";
 
         // Searching
         if (!empty($this->input->post("search")["value"])) {
@@ -174,7 +176,7 @@ class Payment_notesheets extends Admin_Controller
         }
 
         // Ordering
-        $sql .= " ORDER BY $order $dir";
+        $sql .= " ORDER BY id DESC";
 
         // Pagination
         if ($limit != -1) {
@@ -267,5 +269,70 @@ class Payment_notesheets extends Admin_Controller
         $this->db->query($query);
 
         redirect(ADMIN_DIR . "payment_notesheets/view_payment_notesheets/" . $payment_notesheet_id);
+    }
+
+    public function trash($payment_notesheet_id)
+    {
+
+        $payment_notesheet_id =  (int) $payment_notesheet_id;
+        $query = "DELETE FROM `payment_notesheet_schemes` WHERE id = $payment_notesheet_id";
+        $this->db->query($query);
+        $payment_notesheet_id =  (int) $payment_notesheet_id;
+        $query = "DELETE FROM `payment_notesheets` WHERE id = $payment_notesheet_id";
+        $this->db->query($query);
+
+        redirect(ADMIN_DIR . "payment_notesheets/index/");
+    }
+
+
+
+    public function get_payment_update_form()
+    {
+        $id = (int) $this->input->post("id");
+        $query = "SELECT * FROM 
+            payment_notesheet_schemes 
+            WHERE id = $id";
+        $this->data["input"] = $this->db->query($query)->row();
+        $this->load->view(ADMIN_DIR . "payment_notesheets/get_payment_update_form", $this->data);
+    }
+
+
+
+    public function add_payment_amount()
+    {
+        $this->form_validation->set_rules("payment_amount", "Payment Amount", "required");
+        $this->form_validation->set_rules("whit", "Whit", "required");
+        $this->form_validation->set_rules("whst", "Whst", "required");
+        $this->form_validation->set_rules("net_pay", "Net Pay", "required");
+
+        if ($this->form_validation->run() == FALSE) {
+            echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+            exit();
+        } else {
+
+            $inputs["payment_amount"] = $this->input->post("payment_amount");
+            $inputs["whit"] = $this->input->post("whit");
+            $inputs["whst"] = $this->input->post("whst");
+            $inputs["net_pay"] = $this->input->post("net_pay");
+            $inputs["last_updated"] = date('Y-m-d H:i:s');
+            $id = $this->input->post("id");
+            $this->db->where("id", $id);
+            $this->db->update("payment_notesheet_schemes", $inputs);
+            echo "success";
+        }
+    }
+
+    public function print_payment_notesheet($payment_notesheet_id)
+    {
+
+        $payment_notesheet_id = (int) $payment_notesheet_id;
+        $this->data["payment_notesheet_id"] = $payment_notesheet_id;
+        $query = "SELECT payment_notesheets.*, districts.district_name FROM payment_notesheets 
+        INNER JOIN districts ON payment_notesheets.district_id = districts.district_id
+        WHERE id = $payment_notesheet_id";
+        $payment_notesheet = $this->db->query($query)->row();
+        $this->data["payment_notesheet"] = $payment_notesheet;
+
+        $this->load->view(ADMIN_DIR . "payment_notesheets/print_payment_notesheet", $this->data);
     }
 }

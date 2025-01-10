@@ -20,12 +20,12 @@
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $title; ?></div>
+                    <!-- <div class="description"><?php echo $title; ?></div> -->
                 </div>
 
                 <div class="col-md-6">
                     <div class="pull-right">
-                        <button onclick="get_payment_notesheet_form('0')" class="btn btn-primary">Add Record</button>
+                        <button onclick="get_payment_notesheet_form('0')" class="btn btn-primary">Add New Payment Note Sheet</button>
 
                         <script>
                             function get_payment_notesheet_form(id) {
@@ -61,7 +61,7 @@
     <div class="col-md-12">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
+                <h4><i class="fa fa-bell"></i> <?php echo $title; ?> List</h4>
                 <!--<div class="tools">
             
 				<a href="#box-config" data-toggle="modal" class="config">
@@ -88,12 +88,13 @@
                     <table id="datatable" class="table  table_small table-bordered">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>#</th>
                                 <th>Payment Notesheet Code</th>
                                 <th>PUC Tracking ID</th>
                                 <th>District</th>
-                                <th>PUC Title</th>
-                                <th>PUC Detail</th>
+                                <!-- <th>PUC Title</th> -->
+                                <!-- <th>PUC Detail</th>-->
                                 <th>PUC Date</th>
                                 <th>Actions</th>
                             </tr>
@@ -113,6 +114,13 @@
                                 },
                                 "columns": [{
                                         "data": null,
+                                        "render": function(data, type, row) {
+                                            return '<a  onclick="return confirm(\'Are you sure you want to remove this? \');" class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/trash/"); ?>' + row.id + '/' + '" onclick="return confirm(' +
+                                                'Are you sure ? you want to delete the record.' +
+                                                ')"><i class="fa fa-trash-o"></i></a>';
+                                        }
+                                    }, {
+                                        "data": null,
                                         "render": function(data, type, row, meta) {
                                             return meta.row + meta.settings._iDisplayStart + 1; // Start index from 1
                                         }
@@ -127,16 +135,16 @@
                                     },
 
                                     {
-                                        "data": "district_id"
+                                        "data": "district_name"
                                     },
 
-                                    {
-                                        "data": "puc_title"
-                                    },
+                                    // {
+                                    //     "data": "puc_title"
+                                    // },
 
-                                    {
-                                        "data": "puc_detail"
-                                    },
+                                    // {
+                                    //     "data": "puc_detail"
+                                    // },
 
                                     {
                                         "data": "puc_date"
@@ -146,13 +154,15 @@
                                     {
                                         "data": null,
                                         "render": function(data, type, row) {
-                                            return '<a class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/trash/"); ?>' + row.id + '/' + '" onclick="return confirm(' +
-                                                'Are you sure ? you want to delete the record.' +
-                                                ')"><i class="fa fa-trash-o"></i></a><span style="margin-left: 10px;"></span>' +
-                                                '<a class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/view_payment_notesheets/"); ?>' + row.id + '/' + '"><i class="fa fa-eye"></i></a><span style="margin-left: 10px;"></span>' +
-                                                '<a class="llink llink-edit" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/edit/"); ?>' + row.id + '/' + '"><i class="fa fa-pencil-square-o"></i></a>';
+                                            return '<a class="btn btn-success" href="' +
+                                                '<?php echo site_url(ADMIN_DIR . "payment_notesheets/view_payment_notesheets/"); ?>' +
+                                                row.id +
+                                                '/">View</a>' +
+                                                '<span style="margin-left: 10px;"></span>' +
+                                                '<button onclick="get_payment_notesheet_form(\'' + row.id + '\')" class="btn btn-primary">Edit</button>';
                                         }
                                     }
+
 
                                 ],
                                 "lengthMenu": [
