@@ -54,7 +54,7 @@
                                 pns.id as pns_id,
                                 s.lining_length,
                                 SUM(e.gross_pay) as `Pre. Payment`,
-                                (SUM(e.gross_pay) - s.sanctioned_cost) as `Payable Rs`,
+                                (s.sanctioned_cost- SUM(e.gross_pay)) as `Payable Rs`,
                                 (s.sanctioned_cost) as `Sanctioned Cost`,
                                 MAX(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
                                 MAX(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
