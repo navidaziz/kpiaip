@@ -64,12 +64,12 @@
                                 s.lining_length,
                                 SUM(e.gross_pay) as `total_paid`,
                                 COUNT(e.expense_id) as `payment_count`,
-                                (s.sanctioned_cost- SUM(e.gross_pay)) as `payable_rs`,
-                                (s.sanctioned_cost) as `sanctioned_cost`,
-                                SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `first`,
-                                SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `second`,
-                                SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `first_second`,
-                                SUM(CASE WHEN e.installment = 'final' THEN e.gross_pay END) AS `final_amount`,
+                                (s.sanctioned_cost- SUM(e.gross_pay)) as `Payable Rs`,
+                                (s.sanctioned_cost) as `Sanctioned Cost`,
+                                SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
+                                SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
+                                SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
+                                SUM(CASE WHEN e.installment = 'final' THEN e.gross_pay END) AS `final`,
                                 SUM(CASE WHEN e.installment IS NULL THEN e.gross_pay END) AS `other`,
                                 GROUP_CONCAT(e.cheque ORDER BY e.installment SEPARATOR ', ') AS `cheques`
                             FROM 
@@ -86,56 +86,66 @@
                                 ";
                 $schemes = $this->db->query($query)->result();
 
-                if (!empty($schemes)) { ?>
+                if (!empty($schemes)): ?>
                  <?php
                     $count = 1;
-                    foreach ($schemes as $scheme) { ?>
+                    foreach ($schemes as $scheme): ?>
                      <tr>
                          <td>
-                             <a onclick="return confirm('Are you sure you want to remove this Scheme?');"
+                             <a
+                                 onclick="return confirm('Are you sure you want to remove this Scheme?');"
                                  href="<?php echo site_url(ADMIN_DIR . 'payment_notesheets/remove/' . $scheme->pns_id . '/' . $payment_notesheet_id); ?>">
                                  X
                              </a>
+
                          </td>
-                         <td><?php echo $count++; ?></td>
-                         <td><?php echo htmlspecialchars($scheme->scheme_code); ?></td>
-                         <td><?php echo htmlspecialchars($scheme->scheme_name); ?></td>
-                         <td>
-                             <?php echo htmlspecialchars($scheme->payee_name ?: $scheme->bank_account_title); ?>
-                         </td>
-                         <td><?php echo htmlspecialchars($scheme->category); ?></td>
-                         <td><?php echo htmlspecialchars($scheme->financial_year); ?></td>
-                         <td><?php echo $scheme->sanctioned_cost; ?></td>
-                         <td><?php echo $scheme->payment_count; ?></td>
-                         <td><?php echo $scheme->first; ?></td>
-                         <td><?php echo $scheme->second; ?></td>
-                         <td><?php echo $scheme->first_second; ?></td>
-                         <td><?php echo $scheme->final_amount; ?></td>
-                         <td><?php echo $scheme->other; ?></td>
-                         <td><?php echo $scheme->total_paid; ?></td>
-                         <td><?php echo $scheme->payable_rs; ?></td>
-                         <td><?php echo getOrdinal($scheme->payment_count + 1); ?></td>
+                         <td><?php echo $count++ ?></td>
+                         <td><?php echo $scheme->scheme_code; ?></td>
+                         <td><?php echo $scheme->scheme_name; ?></td>
+                         <td><?php
+                                if ($scheme->payee_name) {
+                                    echo $scheme->payee_name;
+                                } else {
+                                    echo $scheme->bank_account_title;
+                                }
+                                ?></td>
+                         <td><?php echo $scheme->category; ?></td>
+                         <td><?php echo $scheme->financial_year; ?></td>
+                         <td><?php echo number_format($scheme->{'Sanctioned Cost'}, 2); ?></td>
+                         <td><?php echo $scheme->payment_count ?></td>
+                         <td><?php echo number_format($scheme->{'1st'}, 2); ?></td>
+                         <td><?php echo number_format($scheme->{'2nd'}, 2); ?></td>
+                         <td><?php echo number_format($scheme->{'1st_2nd'}, 2); ?></td>
+                         <td><?php echo number_format($scheme->{'final'}, 2); ?></td>
+                         <td><?php echo number_format($scheme->{'other'}, 2); ?></td>
+                         <td><?php echo number_format($scheme->{'total_paid'}, 2); ?></td>
+
+                         <td><?php echo number_format($scheme->{'Payable Rs'}, 2); ?></td>
+
+                         <td><?php echo getOrdinal($scheme->payment_count + 1) ?></td>
+
                          <td>
                              <?php if ($scheme->payment_amount) { ?>
                                  <?php echo $scheme->payment_amount; ?>
                              <?php } else { ?>
-                                 <button onclick="update_payment('<?php echo $scheme->pns_id; ?>')">Add Payment</button>
-                             <?php } ?>
+                                 <button onclick="update_payment('<?php echo $scheme->pns_id; ?>')">Add Payment<botton>
+                                     <?php } ?>
                          </td>
-                         <td><?php echo htmlspecialchars($scheme->whit); ?></td>
-                         <td><?php echo htmlspecialchars($scheme->whst); ?></td>
+                         <td><?php echo $scheme->whit; ?></td>
+                         <td><?php echo $scheme->whst; ?></td>
                          <td><?php echo $scheme->net_pay; ?></td>
-                         <td><?php echo htmlspecialchars($scheme->cheques); ?></td>
+                         <td><?php echo $scheme->cheques; ?></td>
                          <td>
                              <?php if ($scheme->payment_amount) { ?>
-                                 <button onclick="update_payment('<?php echo $scheme->pns_id; ?>')">Update Payment</button>
-                             <?php } ?>
+                                 <button onclick="update_payment('<?php echo $scheme->pns_id; ?>')">Update Payment<botton>
+                                     <?php }  ?>
                          </td>
+
                      </tr>
+                 <?php endforeach; ?>
+             <?php else: ?>
 
-                 <?php } ?>
-             <?php } ?>
-
+             <?php endif; ?>
          </tbody>
      </table>
  </div>
