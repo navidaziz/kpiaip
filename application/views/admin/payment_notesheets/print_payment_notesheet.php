@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <title>
-        SC: <?php echo $payment_notesheet->payment_notesheet_code; ?>
+        FRC-<?php echo $payment_notesheet->district_name; ?>-<?php echo $payment_notesheet->payment_notesheet_code . "-" . time(); ?>
     </title>
     <link rel="stylesheet" href="style.css">
     <link rel="license" href="http://www.opensource.org/licenses/mit-license/">
@@ -430,8 +430,53 @@
 
                     <?php endif; ?>
                 </tbody>
+                <tfoot>
+                    <?php
+
+                    $query = "
+                            SELECT 
+                                pns.id as pns_id,
+                                SUM(pns.payment_amount) as payment_amount,
+                                SUM(pns.whit) as whit,
+                                SUM(pns.whst) as whst,
+                                SUM(pns.net_pay) as net_pay
+                                
+                            FROM payment_notesheet_schemes as pns 
+                                WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "' ";
+                    $scheme = $this->db->query($query)->row();
+
+                    if (!empty($scheme)): ?>
+
+                        <tr>
+                            <td>
+
+
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <th>Total</th>
+                            <th><?php echo $scheme->payment_amount; ?></th>
+                            <th><?php echo $scheme->whit; ?></th>
+                            <th><?php echo $scheme->whst; ?></th>
+                            <th><?php echo $scheme->net_pay; ?></th>
+
+
+                        </tr>
+                    <?php else: ?>
+
+                    <?php endif; ?>
+
+                </tfoot>
             </table>
-            <br />
             <br />
             <p style="font-size: 12;"><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
 

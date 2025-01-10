@@ -147,6 +147,57 @@
 
              <?php endif; ?>
          </tbody>
+         <tfoot>
+             <?php
+
+                $query = "
+                            SELECT 
+                                pns.id as pns_id,
+                                SUM(pns.payment_amount) as payment_amount,
+                                SUM(pns.whit) as whit,
+                                SUM(pns.whst) as whst,
+                                SUM(pns.net_pay) as net_pay
+                                
+                            FROM payment_notesheet_schemes as pns 
+                                WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "' ";
+                $scheme = $this->db->query($query)->row();
+
+                if (!empty($scheme)): ?>
+
+                 <tr>
+                     <td>
+
+
+                     </td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <th>Total</th>
+                     <th><?php echo $scheme->payment_amount; ?></th>
+                     <th><?php echo $scheme->whit; ?></th>
+                     <th><?php echo $scheme->whst; ?></th>
+                     <th><?php echo $scheme->net_pay; ?></th>
+                     <th></th>
+                     <th></th>
+
+                 </tr>
+             <?php else: ?>
+
+             <?php endif; ?>
+
+         </tfoot>
      </table>
  </div>
  <script>
