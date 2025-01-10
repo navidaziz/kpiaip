@@ -120,6 +120,9 @@
                         <table class="table">
                             <tr>
 
+                                <td rowspan="2" style="vertical-align: middle;">
+                                    <a class="btn btn-danger" target="_blank" href="<?php echo site_url(ADMIN_DIR . "water_user_associations/print_scheme_detail/" . $scheme->scheme_id); ?>"><i class="fa fa-print" aria-hidden="true"></i> Print Scheme Detail</a>
+                                </td>
 
                                 <th>Total Sanctioned Cost</th>
                                 <th>Total Paid</th>

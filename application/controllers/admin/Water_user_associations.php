@@ -1673,4 +1673,12 @@ class Water_user_associations extends Admin_Controller
         $output = ob_get_clean();
         echo $output;
     }
+
+    public function print_scheme_detail($scheme_id)
+    {
+
+        $scheme_id = (int) $scheme_id;
+        $this->data["scheme_id"] = $scheme_id;
+        $this->load->view(ADMIN_DIR . "expenses/print_scheme_detail", $this->data);
+    }
 }

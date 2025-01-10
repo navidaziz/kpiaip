@@ -1450,33 +1450,8 @@ WHERE
     {
 
         $scheme_id = (int) $scheme_id;
+        $this->data["scheme_id"] = $scheme_id;
 
-
-        $query = "SELECT s.*, d.district_name, d.region,
-        fy.financial_year, 
-        cc.category, 
-        cc.category_detail, 
-        sc.sub_component_name, 
-        sc.sub_component_detail,
-        c.component_name, 
-        c.component_detail, 
-        wua.wua_name, 
-        wua.wua_registration_no 
-        FROM schemes as s
-        INNER JOIN districts AS d ON(d.district_id = s.district_id)
-        INNER JOIN financial_years AS fy ON(fy.financial_year_id = s.financial_year_id)
-        INNER JOIN component_categories AS cc ON(cc.component_category_id = s.component_category_id)
-        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
-        INNER JOIN components as c ON(c.component_id = sc.component_id)
-        INNER JOIN water_user_associations as wua ON(wua.water_user_association_id = s.water_user_association_id)
-        WHERE scheme_id = $scheme_id";
-        //$scheme = $this->scheme_model->get_scheme($scheme_id)[0];
-        $scheme = $this->db->query($query)->row();
-        $this->data["scheme"] = $scheme;
-
-        $this->data["water_user_association"] = $this->water_user_association_model->get_water_user_association($scheme->water_user_association_id)[0];
-        $this->data["title"] = $scheme->scheme_name . " (" . $scheme->scheme_code . ")";
-        $this->data["description"] = $this->data["water_user_association"]->wua_registration_no . " - " . $this->data["water_user_association"]->wua_name;
         $this->load->view(ADMIN_DIR . "expenses/print_scheme_detail", $this->data);
     }
 }
