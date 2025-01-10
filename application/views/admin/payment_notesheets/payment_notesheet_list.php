@@ -124,7 +124,7 @@
          paging: false,
          title: title,
          "order": [],
-         "ordering": true,
+         "ordering": false,
          searching: true,
          buttons: [
 
