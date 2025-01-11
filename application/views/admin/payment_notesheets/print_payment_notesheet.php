@@ -332,7 +332,7 @@
                         <th rowspan="2">Scheme's Name</th>
                         <th rowspan="2">Title of A/C</th>
                         <th rowspan="2">Cat:</th>
-                        <th rowspan="2">STS/FCR Cost (RS)</th>
+                        <th rowspan="2">TS/FCR Cost (RS)</th>
                         <th colspan="6" style="text-align: center;">Previous Payments</th>
                         <th rowspan="2">Remaining Amount</th>
                         <th colspan="5" style="text-align: center;">Request for Payment</th>
@@ -417,8 +417,8 @@
                                 <td><?php echo number_format($scheme->{'1st'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'2nd'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'1st_2nd'}, 0); ?></td>
-                                <td><?php echo number_format($scheme->{'final'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'other'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'final'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'total_paid'}, 0); ?></td>
 
                                 <td><?php
@@ -492,7 +492,7 @@
                 <tr>
                     <td>
                         <p><br />
-                            2. This is system generated note sheet submitted for further processing of payment plz <br />
+                            2. This is system generated note sheet submitted for further processing of payment Please <br />
                         </p>
                     </td>
                     <td style=" text-align: center; width:100px; vertical-align: bottom" ;>
@@ -506,7 +506,7 @@
                     <td>
                         <p><br />
                             3-The above scheme files have been checked / verified by the Field Engineer PISC (KPIAIP).<br />
-                            4-Complete File/bills along with required documents & ICR-I/ICR-II/FCR dully verfied by the PISC is/are is attached with the bills & funds to meet the expenditure are available under relevant head of account. <br />
+                            4-Complete File/bills alongwith required documents & ICR-I/ICR-II/FCR dully verfied by the PISC is/are is attached with the bills & funds to meet the expenditure are available under relevant head of account. <br />
                             5- Submitted for further processing of required payment to the WUA’s as per laid down procedure, if agreed please.<br />
                         </p>
                     </td>
