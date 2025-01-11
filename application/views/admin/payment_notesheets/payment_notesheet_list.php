@@ -34,7 +34,7 @@
                  <th>Other</th>
                  <th>Total Paid</th>
                  <th>Remaining Amount</th>
-                 <th>Payment Request</th>
+                 <th>Payment Type</th>
                  <th>Payment Amount</th>
                  <th>WHIT</th>
                  <th>WHST</th>
