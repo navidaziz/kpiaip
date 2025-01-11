@@ -492,7 +492,7 @@
                 <tr>
                     <td>
                         <p><br />
-                            2. This is system generated note sheet submitted for further processing of payment Please <br />
+                            2. This is system generated note sheet submitted for further processing of payment please. <br />
                         </p>
                     </td>
                     <td style=" text-align: center; width:100px; vertical-align: bottom" ;>
