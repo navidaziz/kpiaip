@@ -2,6 +2,29 @@
     <input type="hidden" name="id" value="<?php echo $input->id; ?>" />
 
     <div class="form-group row">
+        <label for="payment_type" class="col-sm-4 col-form-label">Payment Type</label>
+        <div class="col-sm-8">
+            <?php
+            $payment_type = array(
+                "ICT-I" => "ICR-I",
+                "ICT_II" => "ICR-II",
+                "ICR-I&II" => "ICR-I&II",
+                "FINAL" => "FINAL"
+            );
+            foreach ($payment_type as $key => $value): ?>
+                <div class="form-check">
+                    <input <?php if ($input->payment_type == $key) { ?> checked <?php } ?> class="form-check-input" type="radio" name="payment_type" id="payment_type_<?php echo $key; ?>" value="<?php echo $key; ?>">
+                    <label class="form-check-label" for="payment_type_<?php echo $key; ?>">
+                        <?php echo $value; ?>
+                    </label>
+                </div>
+            <?php endforeach; ?>
+        </div>
+    </div>
+
+
+
+    <div class="form-group row">
         <label for="payment_amount" class="col-sm-4 col-form-label">Payment Amount</label>
         <div class="col-sm-8">
             <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="payment_amount" name="payment_amount" value="<?php echo $input->payment_amount; ?>" class="form-control">

@@ -48,7 +48,7 @@
 
 
             page[size="A4"] {
-                width: 24cm;
+                width: 25cm;
                 /* height: 29.7cm; */
                 height: auto;
                 padding: 5px;
@@ -340,6 +340,7 @@
                         <th>Other</th>
                         <th>Total Paid</th>
                         <th>Remaining Amount</th>
+                        <th>Payment Type</th>
                         <th>Payment Amount</th>
                         <th>WHIT</th>
                         <th>WHST</th>
@@ -364,6 +365,7 @@
                                 pns.whit,
                                 pns.whst,
                                 pns.net_pay,
+                                pns.payment_type,
                                 s.lining_length,
                                 SUM(e.gross_pay) as `total_paid`,
                                 COUNT(e.expense_id) as `payment_count`,
@@ -417,10 +419,8 @@
                                     $remaining = ($scheme->sctionned_cost - $scheme->total_paid);
                                     echo number_format($remaining, 0);
                                     ?></td>
-
-                                <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?>
-
-                                </td>
+                                <td> <?php echo $scheme->payment_type; ?></td>
+                                <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'whit'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'whst'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'net_pay'}, 0); ?></td>
@@ -454,6 +454,7 @@
 
 
                             </td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>

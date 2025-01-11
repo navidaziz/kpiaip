@@ -61,6 +61,7 @@
                                 pns.whit,
                                 pns.whst,
                                 pns.net_pay,
+                                pns.payment_type,
                                 s.lining_length,
                                 SUM(e.gross_pay) as `total_paid`,
                                 COUNT(e.expense_id) as `payment_count`,
@@ -122,7 +123,10 @@
                                 $remaining = ($scheme->sanctioned_cost - $scheme->total_paid);
                                 echo number_format($remaining, 0);
                                 ?></td>
-                         <td><?php echo getOrdinal($scheme->payment_count + 1) ?></td>
+                         <td><?php
+                                echo $scheme->payment_type;
+                                //echo getOrdinal($scheme->payment_count + 1) 
+                                ?></td>
 
                          <td>
                              <?php if ($scheme->payment_amount) { ?>

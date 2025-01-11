@@ -314,6 +314,8 @@ class Payment_notesheets extends Admin_Controller
             $inputs["whit"] = $this->input->post("whit");
             $inputs["whst"] = $this->input->post("whst");
             $inputs["net_pay"] = $this->input->post("net_pay");
+            $inputs["payment_type"] = $this->input->post("payment_type");
+
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             $id = $this->input->post("id");
             $this->db->where("id", $id);
