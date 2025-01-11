@@ -327,27 +327,21 @@
             <table class="table table-bordered table_small">
                 <thead style="margin-top: 30px;">
                     <tr>
-                        <th rowspan="2">#</th>
-                        <th rowspan="2">Scheme ID</th>
-                        <th rowspan="2">Scheme's Name</th>
-                        <th rowspan="2">Title of A/C</th>
-                        <th rowspan="2">Cat:</th>
-                        <th rowspan="2">STS/FCR Cost (RS)</th>
-                        <th colspan="6" style="text-align: center;">Previous Payments</th>
-                        <th rowspan="2">Remaining Amount</th>
-                        <th colspan="5" style="text-align: center;">Request for Payment</th>
-
-                    </tr>
-                    <tr>
+                        <th>#</th>
+                        <th>Scheme ID</th>
+                        <th>Scheme Name</th>
+                        <th>Title of A/C (as per record)</th>
+                        <th>Cat:</th>
+                        <th>Sanctioned Cost</th>
                         <th>1st</th>
                         <th>2nd</th>
                         <th>1st_2nd</th>
                         <th>Final</th>
                         <th>Other</th>
                         <th>Total Paid</th>
-
+                        <th>Remaining Amount</th>
                         <th>Payment Type</th>
-                        <th>Amount PKR</th>
+                        <th>Payment Amount</th>
                         <th>WHIT</th>
                         <th>WHST</th>
                         <th>Net Rs.</th>

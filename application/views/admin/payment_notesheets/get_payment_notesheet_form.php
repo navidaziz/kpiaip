@@ -44,7 +44,7 @@
     <div class="form-group row">
         <label for="puc_detail" class="col-sm-12 col-form-label">PUC Detail</label>
         <div class="col-sm-12">
-            <textarea rows="5" class="form-control" required id="puc_detail" name="puc_detail"><?php echo $input->puc_detail; ?></textarea>
+            <textarea rows="5" class="form-control" id="puc_detail" name="puc_detail"><?php echo $input->puc_detail; ?></textarea>
         </div>
     </div>
     <div class="form-group row">
