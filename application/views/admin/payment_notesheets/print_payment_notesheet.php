@@ -342,8 +342,8 @@
                         <th>1st</th>
                         <th>2nd</th>
                         <th>1st_2nd</th>
-                        <th>Final</th>
                         <th>Other</th>
+                        <th>Final</th>
                         <th>Total Paid</th>
 
                         <th>Payment Type</th>
