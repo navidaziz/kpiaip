@@ -227,6 +227,17 @@ class Payment_notesheets extends Admin_Controller
 
         if ($scheme && $scheme->total > 0) {
             // Check if the scheme is already linked to the payment notesheet
+            $query = "SELECT scheme_status FROM schemes WHERE scheme_id = ?";
+            $scheme = $this->db->query($query, [$scheme_id])->row();
+
+            if ($scheme->scheme_status == 'Completed') {
+                echo '<span class="alert alert-danger">Scheme is Completed</span>';
+                exit();
+            }
+
+
+
+
             $query = "SELECT COUNT(*) as total FROM payment_notesheet_schemes 
                   WHERE scheme_id = ? AND payment_notesheet_id = ?";
             $scheme_exists = $this->db->query($query, [$scheme_id, $payment_notesheet_id])->row();

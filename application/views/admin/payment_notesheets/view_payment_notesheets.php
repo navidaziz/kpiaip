@@ -92,9 +92,9 @@
                     </table>
                     <p><?php echo nl2br($payment_notesheet->puc_title); ?></p>
                     <div id="errorDiv" class="box border blue" id="messenger" style="background-color:white; padding:4px; text-align:right ">
-                        Search Scheme ID:
+                        Search Scheme By Scheme ID:
                         <input class="form-control" style="width: 200px; display:inline" type="text" id="scheme_id" placeholder="Scan barcode here" autofocus />
-                        <div style="margin-top: 5px;" id="scheme_id_response"></div>
+                        <div style="margin-top: 20px; display:block" id="scheme_id_response"></div>
 
                     </div>
 
