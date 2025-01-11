@@ -322,7 +322,7 @@
 
             </p>
 
-            <p style="font-size: 12;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo nl2br($payment_notesheet->puc_title); ?></p>
+            <p style="font-size: 10;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo nl2br($payment_notesheet->puc_title); ?></p>
             <br />
             <table class="table table-bordered table_small">
                 <thead style="margin-top: 30px;">
@@ -478,7 +478,7 @@
                 </tfoot>
             </table>
             <br />
-            <p style="font-size: 12;"><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
+            <p style="font-size: 10;"><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
 
         </div>
 
