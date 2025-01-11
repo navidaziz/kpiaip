@@ -367,8 +367,7 @@
                                 s.lining_length,
                                 SUM(e.gross_pay) as `total_paid`,
                                 COUNT(e.expense_id) as `payment_count`,
-                                (s.sanctioned_cost- SUM(e.gross_pay)) as `Payable Rs`,
-                                (s.sanctioned_cost) as `Sanctioned Cost`,
+                                (s.sanctioned_cost) as `sctionned_cost`,
                                 SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
                                 SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
                                 SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
@@ -406,7 +405,7 @@
                                     }
                                     ?></td>
                                 <td><?php echo $scheme->category; ?></td>
-                                <td><?php echo number_format($scheme->{'Sanctioned Cost'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'sctionned_cost'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'1st'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'2nd'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'1st_2nd'}, 0); ?></td>
@@ -414,7 +413,10 @@
                                 <td><?php echo number_format($scheme->{'other'}, 0); ?></td>
                                 <td><?php echo number_format($scheme->{'total_paid'}, 0); ?></td>
 
-                                <td><?php echo number_format($scheme->{'Payable Rs'}, 0); ?></td>
+                                <td><?php
+                                    $remaining = ($scheme->sctionned_cost - $scheme->total_paid);
+                                    echo number_format($remaining, 0);
+                                    ?></td>
 
                                 <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?>
 

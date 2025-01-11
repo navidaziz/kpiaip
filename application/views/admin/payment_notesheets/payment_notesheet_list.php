@@ -64,8 +64,7 @@
                                 s.lining_length,
                                 SUM(e.gross_pay) as `total_paid`,
                                 COUNT(e.expense_id) as `payment_count`,
-                                (s.sanctioned_cost- SUM(e.gross_pay)) as `Payable Rs`,
-                                (s.sanctioned_cost) as `Sanctioned Cost`,
+                                (s.sanctioned_cost) as `sanctioned_cost`,
                                 SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
                                 SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
                                 SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
@@ -111,7 +110,7 @@
                                 ?></td>
                          <td><?php echo $scheme->category; ?></td>
                          <td><?php echo $scheme->financial_year; ?></td>
-                         <td><?php echo number_format($scheme->{'Sanctioned Cost'}, 2); ?></td>
+                         <td><?php echo number_format($scheme->{'sanctioned_cost'}, 2); ?></td>
                          <td><?php echo $scheme->payment_count ?></td>
                          <td><?php echo number_format($scheme->{'1st'}, 2); ?></td>
                          <td><?php echo number_format($scheme->{'2nd'}, 2); ?></td>
@@ -119,9 +118,10 @@
                          <td><?php echo number_format($scheme->{'final'}, 2); ?></td>
                          <td><?php echo number_format($scheme->{'other'}, 2); ?></td>
                          <td><?php echo number_format($scheme->{'total_paid'}, 2); ?></td>
-
-                         <td><?php echo number_format($scheme->{'Payable Rs'}, 2); ?></td>
-
+                         <td><?php
+                                $remaining = ($scheme->sanctioned_cost - $scheme->total_paid);
+                                echo number_format($remaining, 0);
+                                ?></td>
                          <td><?php echo getOrdinal($scheme->payment_count + 1) ?></td>
 
                          <td>
