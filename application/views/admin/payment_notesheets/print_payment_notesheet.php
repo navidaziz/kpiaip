@@ -303,15 +303,15 @@
             <hr />
             <table style="width: 100%;">
                 <tr>
-                    <td style="width:30%">
+                    <td style="width:40%">
                         <strong style="font-size: 10px; text-align:left">
                             Code: <?php echo htmlspecialchars($payment_notesheet->payment_notesheet_code); ?> /
                             Tracking ID: <?php echo htmlspecialchars($payment_notesheet->puc_tracking_id); ?> /
                             District: <?php echo htmlspecialchars($payment_notesheet->district_name); ?>
                         </strong>
                     </td>
-                    <td style="text-align: center;"><strong>PAYMENT MODULE-D</strong></td>
-                    <td style="width:30%; text-align:right">
+                    <td style="text-align: left;"><strong>PAYMENT MODULE</strong></td>
+                    <td style="width:20%; text-align:right">
                         <strong style="font-size: 10px;">
                             Dated: <?php echo date("d M, Y", strtotime($payment_notesheet->puc_date)); ?>
                         </strong>
@@ -466,10 +466,10 @@
                             <td></td>
                             <td></td>
                             <th>Total</th>
-                            <th><?php echo $scheme->payment_amount; ?></th>
-                            <th><?php echo $scheme->whit; ?></th>
-                            <th><?php echo $scheme->whst; ?></th>
-                            <th><?php echo $scheme->net_pay; ?></th>
+                            <th><?php echo number_format($scheme->payment_amount, 0); ?></th>
+                            <th><?php echo number_format($scheme->whit, 0); ?></th>
+                            <th><?php echo number_format($scheme->whst, 0); ?></th>
+                            <th><?php echo number_format($scheme->net_pay, 0); ?></th>
 
 
                         </tr>
