@@ -373,7 +373,7 @@
                                 GROUP BY cc.component_category_id  
                                 ";
                     $catrgories = $this->db->query($query)->result();
-
+                    $count = 1;
                     foreach ($catrgories as $catrgory) { ?>
 
 
@@ -420,7 +420,7 @@
 
                         if (!empty($schemes)): ?>
                             <?php
-                            $count = 1;
+
                             foreach ($schemes as $scheme): ?>
                                 <tr>
 
