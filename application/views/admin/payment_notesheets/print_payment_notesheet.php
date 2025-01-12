@@ -304,7 +304,7 @@
             <table style="width: 100%;">
                 <tr>
                     <td style="width:40%">
-                        <strong style="font-size: 12px; text-align:left">
+                        <strong style="font-size: 12px; width:200px; text-align:left">
                             Code: <?php echo htmlspecialchars($payment_notesheet->payment_notesheet_code); ?> /
                             Tracking ID: <?php echo htmlspecialchars($payment_notesheet->puc_tracking_id); ?> /
                             District: <?php echo htmlspecialchars($payment_notesheet->district_name); ?>
