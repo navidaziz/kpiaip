@@ -544,7 +544,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <th>Total</th>
+                            <th>Grand Total</th>
                             <th><?php echo number_format($scheme->payment_amount, 0); ?></th>
                             <th><?php echo number_format($scheme->whit, 0); ?></th>
                             <th><?php echo number_format($scheme->whst, 0); ?></th>
