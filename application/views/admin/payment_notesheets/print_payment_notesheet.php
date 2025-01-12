@@ -376,9 +376,7 @@
 
                     foreach ($catrgories as $catrgory) { ?>
 
-                        <tr>
-                            <th colspan="23"><?php echo $catrgory->category; ?>: <?php echo $catrgory->category_detail; ?></th>
-                        </tr>
+
                         <?php
                         $query = "
                             SELECT 
@@ -478,26 +476,32 @@
                             AND s.component_category_id ='" . $catrgory->component_category_id . "'";
                         $scheme_category_total = $this->db->query($query)->row();
 
+                        $query = "
+                            SELECT 
+                                SUM(e.gross_pay) as `total_paid`,
+                                SUM(s.sanctioned_cost) as `sctionned_cost`
+                            FROM 
+                                schemes s
+                                INNER JOIN component_categories as cc ON cc.component_category_id = s.component_category_id
+                                INNER JOIN payment_notesheet_schemes as pns ON(pns.scheme_id = s.scheme_id)
+                                LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
+                                 WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'
+                                AND s.component_category_id ='" . $catrgory->component_category_id . "'  
+                                ";
+                        $cat_sub_total = $this->db->query($query)->row();
+
+
                         if (!empty($scheme_category_total)): ?>
 
                             <tr>
-                                <td>
+                                <th colspan="11"><?php echo $catrgory->category; ?>: <?php echo $catrgory->category_detail; ?></th>
 
-
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <th>Total</th>
+                                <th><?php echo number_format($cat_sub_total->total_paid, 0); ?></th>
+                                <th><?php
+                                    $remaining = ($cat_sub_total->sctionned_cost - $cat_sub_total->total_paid);
+                                    echo number_format($remaining, 0);
+                                    ?></th>
+                                <th>Sub Total</th>
                                 <th><?php echo number_format($scheme_category_total->payment_amount, 0); ?></th>
                                 <th><?php echo number_format($scheme_category_total->whit, 0); ?></th>
                                 <th><?php echo number_format($scheme_category_total->whst, 0); ?></th>
