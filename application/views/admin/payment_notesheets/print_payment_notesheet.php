@@ -478,7 +478,7 @@
                             AND s.component_category_id ='" . $catrgory->component_category_id . "'";
                         $scheme_category_total = $this->db->query($query)->row();
 
-                        if (!empty($scheme)): ?>
+                        if (!empty($scheme_category_total)): ?>
 
                             <tr>
                                 <td>
@@ -498,10 +498,10 @@
                                 <td></td>
                                 <td></td>
                                 <th>Total</th>
-                                <th><?php echo number_format($scheme->payment_amount, 0); ?></th>
-                                <th><?php echo number_format($scheme->whit, 0); ?></th>
-                                <th><?php echo number_format($scheme->whst, 0); ?></th>
-                                <th><?php echo number_format($scheme->net_pay, 0); ?></th>
+                                <th><?php echo number_format($scheme_category_total->payment_amount, 0); ?></th>
+                                <th><?php echo number_format($scheme_category_total->whit, 0); ?></th>
+                                <th><?php echo number_format($scheme_category_total->whst, 0); ?></th>
+                                <th><?php echo number_format($scheme_category_total->net_pay, 0); ?></th>
 
 
                             </tr>
