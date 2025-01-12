@@ -139,6 +139,9 @@
                         <li><small>
                                 <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/category_fy_avg_cost') ?>">Category and Financial Year Wise AVG Cost</a>
                             </small></li>
+                        <li><small>
+                                <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_fy_wise_completed_schemes') ?>">District and FY Wise Completed Report</a>
+                            </small></li>
                         <ol>
 
 

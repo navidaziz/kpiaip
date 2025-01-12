@@ -1,0 +1,219 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="page-header">
+            <!-- STYLER -->
+
+            <!-- /STYLER -->
+            <!-- BREADCRUMBS -->
+
+            <!-- /BREADCRUMBS -->
+            <div class="row">
+
+                <div class="col-md-12">
+                    <ul class="breadcrumb">
+                        <li>
+                            <i class="fa fa-home"></i>
+                            <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+                        </li>
+                        <li>
+                            <i class="fa fa-file"></i>
+                            <a href="<?php echo site_url(ADMIN_DIR . 'reports'); ?>">Reports List</a>
+                        </li>
+                        <li><?php echo $title; ?></li>
+                    </ul>
+                    <div class="clearfix">
+                        <h4 class="content-title pull-left" style="font-size: 20px;"><?php echo $title; ?></h3>
+                    </div>
+                    <div class="description"><?php echo $description; ?></div>
+                </div>
+
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box border blue" id="messenger">
+            <div class="box-body">
+
+                <div class="table-responsive">
+
+                    <?php
+                    // Fetch the number of completed schemes
+                    $query = "SELECT COUNT(*) AS completed_schemes FROM scheme_lists WHERE scheme_status = 'Completed'";
+                    $completed_schemes = $this->db->query($query)->row()->completed_schemes;
+                    ?>
+                    <h5><?php echo htmlspecialchars($description); ?> of Completed Schemes: <?php echo $completed_schemes; ?></h5>
+
+                    <?php
+                    // Fetch financial years
+                    $pre_fys_query = "SELECT * FROM financial_years WHERE status != 1";
+                    $pre_fys = $this->db->query($pre_fys_query)->result();
+
+                    $current_fy_query = "SELECT * FROM financial_years WHERE status = 1";
+                    $current_fy = $this->db->query($current_fy_query)->row();
+                    ?>
+                    <table class="" id="schemesTable">
+                        <thead>
+                            <tr>
+
+                                <th colspan="<?php echo count($pre_fys) + 5; ?>">Water Courses</th>
+                                <th></th>
+                                <th colspan="<?php echo count($pre_fys) + 3; ?>">Water Storage Tank</th>
+                            </tr>
+                            <tr>
+                                <th>#</th>
+                                <th>District</th>
+                                <?php foreach ($pre_fys as $pre_fy) { ?>
+                                    <th><?php echo htmlspecialchars($pre_fy->financial_year); ?></th>
+                                <?php } ?>
+                                <th>Total</th>
+                                <th><?php echo htmlspecialchars($current_fy->financial_year); ?></th>
+                                <th>G. Total</th>
+                                <th></th>
+                                <?php foreach ($pre_fys as $pre_fy) { ?>
+                                    <th><?php echo htmlspecialchars($pre_fy->financial_year); ?></th>
+                                <?php } ?>
+                                <th>Total</th>
+                                <th><?php echo htmlspecialchars($current_fy->financial_year); ?></th>
+                                <th>G. Total</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+
+
+
+
+                            <?php
+                            // Fetch all districts
+                            $districts_query = "SELECT * FROM districts WHERE is_district = 1 ORDER BY district_name";
+                            $districts = $this->db->query($districts_query)->result();
+
+                            $count = 1;
+                            foreach ($districts as $district) { ?>
+                                <tr>
+                                    <td><?php echo $count++; ?></td>
+                                    <td><?php echo htmlspecialchars($district->district_name); ?></td>
+
+                                    <?php
+                                    $grand_total = 0;
+
+                                    // Fetch completed schemes per previous financial year
+                                    foreach ($pre_fys as $pre_fy) {
+                                        $query = "SELECT COUNT(*) AS total FROM schemes 
+                                  WHERE scheme_status = 'Completed' 
+                                  AND financial_year_id = ? 
+                                  AND district_id = ? 
+                                  AND component_category_id IN(1,2,3,4,5,6,7,8)";
+                                        $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id, $district->district_id])->row()->total;
+                                        $grand_total += $fy_total_schemes;
+                                    ?>
+                                        <td><?php echo $fy_total_schemes; ?></td>
+                                    <?php } ?>
+
+                                    <?php
+                                    // Total for all years
+                                    $query = "SELECT COUNT(*) AS total FROM schemes 
+                              WHERE scheme_status = 'Completed' 
+                              AND district_id = ? 
+                              AND component_category_id IN(1,2,3,4,5,6,7,8)";
+                                    $total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
+                                    $grand_total += $total_schemes;
+                                    ?>
+                                    <td><?php echo $total_schemes; ?></td>
+
+                                    <?php
+                                    // Current financial year total
+                                    $query = "SELECT COUNT(*) AS total FROM schemes 
+                              WHERE scheme_status = 'Completed' 
+                              AND financial_year_id = ? 
+                              AND district_id = ? 
+                              AND component_category_id IN(1,2,3,4,5,6,7,8)";
+                                    $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id, $district->district_id])->row()->total;
+                                    $grand_total += $current_fy_schemes;
+                                    ?>
+                                    <td><?php echo $current_fy_schemes; ?></td>
+
+                                    <td><?php echo $grand_total; ?></td>
+                                    <td></td>
+                                    <?php
+                                    $grand_total = 0;
+
+                                    // Fetch completed schemes per previous financial year
+                                    foreach ($pre_fys as $pre_fy) {
+                                        $query = "SELECT COUNT(*) AS total FROM schemes 
+                                  WHERE scheme_status = 'Completed' 
+                                  AND financial_year_id = ? 
+                                  AND district_id = ? 
+                                  AND component_category_id IN(11)";
+                                        $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id, $district->district_id])->row()->total;
+                                        $grand_total += $fy_total_schemes;
+                                    ?>
+                                        <td><?php echo $fy_total_schemes; ?></td>
+                                    <?php } ?>
+
+                                    <?php
+                                    // Total for all years
+                                    $query = "SELECT COUNT(*) AS total FROM schemes 
+                              WHERE scheme_status = 'Completed' 
+                              AND district_id = ? 
+                              AND component_category_id IN(11)";
+                                    $total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
+                                    $grand_total += $total_schemes;
+                                    ?>
+                                    <td><?php echo $total_schemes; ?></td>
+
+                                    <?php
+                                    // Current financial year total
+                                    $query = "SELECT COUNT(*) AS total FROM schemes 
+                              WHERE scheme_status = 'Completed' 
+                              AND financial_year_id = ? 
+                              AND district_id = ? 
+                              AND component_category_id IN(11)";
+                                    $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id, $district->district_id])->row()->total;
+                                    $grand_total += $current_fy_schemes;
+                                    ?>
+                                    <td><?php echo $current_fy_schemes; ?></td>
+
+                                    <td><?php echo $grand_total; ?></td>
+
+
+                                </tr>
+                            <?php } ?>
+                        </tbody>
+                    </table>
+
+                    <script>
+                        $(document).ready(function() {
+                            $('#schemesTable').DataTable({
+                                paging: false,
+                                searching: true,
+                                ordering: true,
+                                info: true,
+                                columnDefs: [{
+                                    orderable: false,
+                                    targets: [0, 1] // Disable sorting on the first two columns
+                                }],
+                                //fixedHeader: true,
+                                //scrollX: true,
+                                dom: 'Bfrtip', // Enable export buttons
+                                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'], // Optional: Export options
+                            });
+                        });
+                    </script>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

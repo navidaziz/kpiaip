@@ -441,12 +441,10 @@
                                     <td><?php echo number_format($scheme->{'1st_2nd'}, 0); ?></td>
                                     <td><?php echo number_format($scheme->{'other'}, 0); ?></td>
                                     <td><?php echo number_format($scheme->{'final'}, 0); ?></td>
-                                    <td><?php
-                                        $total_paid = ($scheme->total_paid + $scheme->payment_amount);
-                                        echo number_format($total_paid, 0); ?></td>
+                                    <td><?php echo number_format($scheme->{'total_paid'}, 0); ?></td>
 
                                     <td><?php
-                                        $remaining = ($scheme->sctionned_cost - $total_paid);
+                                        $remaining = ($scheme->sctionned_cost - $scheme->total_paid);
                                         echo number_format($remaining, 0);
                                         ?></td>
                                     <td> <?php echo $scheme->payment_type; ?></td>
@@ -496,16 +494,14 @@
                         if (!empty($scheme_category_total)): ?>
 
                             <tr>
-                                <!-- <th colspan="10"><?php echo $catrgory->category; ?>: <?php echo $catrgory->category_detail; ?></th> -->
-                                <th colspan="11" style="text-align: right;">Sub Total</th>
+                                <th colspan="11"><?php echo $catrgory->category; ?>: <?php echo $catrgory->category_detail; ?></th>
+
+                                <th><?php echo number_format($cat_sub_total->total_paid, 0); ?></th>
                                 <th><?php
-                                    $total_paid = ($cat_sub_total->total_paid + $scheme_category_total->payment_amount);
-                                    echo number_format($total_paid, 0); ?></th>
-                                <th><?php
-                                    $remaining = ($cat_sub_total->sctionned_cost - $total_paid);
+                                    $remaining = ($cat_sub_total->sctionned_cost - $cat_sub_total->total_paid);
                                     echo number_format($remaining, 0);
                                     ?></th>
-                                <th></th>
+                                <th>Sub Total</th>
                                 <th><?php echo number_format($scheme_category_total->payment_amount, 0); ?></th>
                                 <th><?php echo number_format($scheme_category_total->whit, 0); ?></th>
                                 <th><?php echo number_format($scheme_category_total->whst, 0); ?></th>

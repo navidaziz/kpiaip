@@ -23,6 +23,15 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+
+    public function district_fy_wise_completed_schemes()
+    {
+        $this->data["title"] = 'Completed Schemes';
+        $this->data["description"] = 'District and FY Wise Completed Schemes';
+        $this->data["view"] = ADMIN_DIR . "reports/schemes/district_fy_wise_completed_schemes";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
     public function get_district_categories_fy_avg()
     {
         $this->data['district_id'] = $this->input->get('district_id');
