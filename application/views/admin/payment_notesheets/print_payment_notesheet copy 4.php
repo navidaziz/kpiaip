@@ -330,7 +330,7 @@
                         <th rowspan="2">#</th>
                         <th rowspan="2">Scheme ID</th>
                         <th rowspan="2">Scheme's Name</th>
-                        <th rowspan="2">Title of Account</th>
+                        <th rowspan="2">Title of A/C</th>
                         <th rowspan="2">Cat:</th>
                         <th rowspan="2">TS/FCR</th>
                         <th colspan="6" style="text-align: center;">Payment History</th>
@@ -362,9 +362,7 @@
 
                     $query = "
                             SELECT 
-                                cc.component_category_id,
-                                cc.category,
-                                cc.category_detail
+                                cc.component_category_id
                             FROM 
                                 schemes s
                                 INNER JOIN component_categories as cc ON cc.component_category_id = s.component_category_id
@@ -372,15 +370,9 @@
                                 WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'  
                                 GROUP BY cc.component_category_id  
                                 ";
-                    $catrgories = $this->db->query($query)->result();
+                    $catrgory_id = $this->db->query($query)->result();
 
-                    foreach ($catrgories as $catrgory) { ?>
-
-                        <tr>
-                            <th colspan="23"><?php echo $catrgory->category; ?>: <?php echo $catrgory->category_detail; ?></th>
-                        </tr>
-                        <?php
-                        $query = "
+                    $query = "
                             SELECT 
                                 s.scheme_id,
                                 s.scheme_code,
@@ -413,102 +405,53 @@
                                 LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
                                 INNER JOIN water_user_associations as wua ON(wua.water_user_association_id = s.water_user_association_id)
                                 WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'
-                                AND s.component_category_id ='" . $catrgory->component_category_id . "'
                             GROUP BY 
                                 s.scheme_id, s.scheme_name
                             ORDER BY id ASC    
                                 ";
-                        $schemes = $this->db->query($query)->result();
+                    $schemes = $this->db->query($query)->result();
 
-                        if (!empty($schemes)): ?>
-                            <?php
-                            $count = 1;
-                            foreach ($schemes as $scheme): ?>
-                                <tr>
-
-                                    <td><?php echo $count++ ?></td>
-                                    <td><?php echo $scheme->scheme_code; ?></td>
-                                    <td><?php echo $scheme->scheme_name; ?></td>
-                                    <td><?php
-                                        if ($scheme->payee_name) {
-                                            echo $scheme->payee_name;
-                                        } else {
-                                            echo $scheme->bank_account_title;
-                                        }
-                                        ?></td>
-                                    <td><?php echo $scheme->category; ?></td>
-                                    <td><?php echo number_format($scheme->{'sctionned_cost'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'1st'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'2nd'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'1st_2nd'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'other'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'final'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'total_paid'}, 0); ?></td>
-
-                                    <td><?php
-                                        $remaining = ($scheme->sctionned_cost - $scheme->total_paid);
-                                        echo number_format($remaining, 0);
-                                        ?></td>
-                                    <td> <?php echo $scheme->payment_type; ?></td>
-                                    <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'whit'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'whst'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'net_pay'}, 0); ?></td>
-
-
-                                </tr>
-                            <?php endforeach; ?>
-
-                        <?php else: ?>
-
-                        <?php endif; ?>
+                    if (!empty($schemes)): ?>
                         <?php
-
-                        $query = "
-                            SELECT 
-                                pns.id as pns_id,
-                                SUM(pns.payment_amount) as payment_amount,
-                                SUM(pns.whit) as whit,
-                                SUM(pns.whst) as whst,
-                                SUM(pns.net_pay) as net_pay
-                                
-                            FROM payment_notesheet_schemes as pns
-                            INNER JOIN schemes as s ON(s.scheme_id = pns.scheme_id) 
-                            WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'
-                            AND s.component_category_id ='" . $catrgory->component_category_id . "'";
-                        $scheme_category_total = $this->db->query($query)->row();
-
-                        if (!empty($scheme)): ?>
-
+                        $count = 1;
+                        foreach ($schemes as $scheme): ?>
                             <tr>
-                                <td>
 
+                                <td><?php echo $count++ ?></td>
+                                <td><?php echo $scheme->scheme_code; ?></td>
+                                <td><?php echo $scheme->scheme_name; ?></td>
+                                <td><?php
+                                    if ($scheme->payee_name) {
+                                        echo $scheme->payee_name;
+                                    } else {
+                                        echo $scheme->bank_account_title;
+                                    }
+                                    ?></td>
+                                <td><?php echo $scheme->category; ?></td>
+                                <td><?php echo number_format($scheme->{'sctionned_cost'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'1st'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'2nd'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'1st_2nd'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'other'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'final'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'total_paid'}, 0); ?></td>
 
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <th>Total</th>
-                                <th><?php echo number_format($scheme->payment_amount, 0); ?></th>
-                                <th><?php echo number_format($scheme->whit, 0); ?></th>
-                                <th><?php echo number_format($scheme->whst, 0); ?></th>
-                                <th><?php echo number_format($scheme->net_pay, 0); ?></th>
+                                <td><?php
+                                    $remaining = ($scheme->sctionned_cost - $scheme->total_paid);
+                                    echo number_format($remaining, 0);
+                                    ?></td>
+                                <td> <?php echo $scheme->payment_type; ?></td>
+                                <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'whit'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'whst'}, 0); ?></td>
+                                <td><?php echo number_format($scheme->{'net_pay'}, 0); ?></td>
 
 
                             </tr>
-                        <?php else: ?>
+                        <?php endforeach; ?>
+                    <?php else: ?>
 
-                        <?php endif; ?>
-                    <?php } ?>
+                    <?php endif; ?>
                 </tbody>
                 <tfoot>
                     <?php
