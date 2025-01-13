@@ -497,7 +497,17 @@
 
                             <tr>
                                 <!-- <th colspan="10"><?php echo $catrgory->category; ?>: <?php echo $catrgory->category_detail; ?></th> -->
-                                <th colspan="11" style="text-align: right;">Sub Total</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <th>Sub Total</th>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <th></th>
                                 <th><?php
                                     $total_paid = ($cat_sub_total->total_paid + $scheme_category_total->payment_amount);
                                     echo number_format($total_paid, 0); ?></th>
@@ -536,23 +546,20 @@
                     if (!empty($scheme)): ?>
 
                         <tr>
-                            <td>
-
-
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
                             <th>Grand Total</th>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <th></th>
                             <th><?php echo number_format($scheme->payment_amount, 0); ?></th>
                             <th><?php echo number_format($scheme->whit, 0); ?></th>
                             <th><?php echo number_format($scheme->whst, 0); ?></th>
