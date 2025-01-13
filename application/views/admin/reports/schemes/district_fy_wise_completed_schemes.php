@@ -516,6 +516,6 @@
         var wb = XLSX.utils.table_to_book(table, {
             sheet: "Sheet1"
         }); // Convert the table to Excel
-        XLSX.writeFile(wb, "schemes_table.xlsx"); // Download the Excel file
+        XLSX.writeFile(wb, "district_fy_schemes_counts_" + Date.now() + ".xlsx"); // Download the Excel file
     });
 </script>
