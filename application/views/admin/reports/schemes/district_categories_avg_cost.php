@@ -146,7 +146,7 @@
                             foreach ($districts as $district) {  ?>
                                 <tr>
                                     <th><?php echo $count++; ?></th>
-                                    <th><span onclick="get_district_categories_fy_avg('<?php echo $district->district_id; ?>')"><?php echo $district->district_name ?></span></th>
+                                    <th style="cursor: pointer;"><span onclick="get_district_categories_fy_avg('<?php echo $district->district_id; ?>')"><?php echo $district->district_name ?></span></th>
                                     <?php foreach ($categories as $category) { ?>
 
                                         <?php
@@ -185,8 +185,7 @@
                                             FROM 
                                             scheme_lists AS s
                                             WHERE s.component_category_id = '" . intval($category->component_category_id) . "'
-                                            AND s.scheme_status = 'Completed'
-                                            AND s.district_id = $district->district_id";
+                                            AND s.scheme_status = 'Completed'";
 
                                     $category_scheme = $this->db->query($query)->row();
                                     ?>
@@ -213,7 +212,7 @@
             alert('Invalid District ID');
             return;
         }
-        alert(districtId)
+        //alert(districtId)
         // Show the modal and initialize with loading content
         $('#modal').modal('show');
         $('#modal_title').html('Loading...');

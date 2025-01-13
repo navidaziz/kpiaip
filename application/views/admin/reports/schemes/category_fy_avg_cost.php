@@ -229,7 +229,7 @@
                                         WHERE s.financial_year = '" . $fy->financial_year . "' 
                                         AND s.scheme_status = 'Completed'
                                 ";
-
+                                    $category_scheme = $this->db->query($query)->row();
                                 ?>
 
                                     <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>

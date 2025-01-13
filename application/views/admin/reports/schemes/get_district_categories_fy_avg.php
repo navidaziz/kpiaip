@@ -83,11 +83,12 @@
                 <div class="table-responsive">
                     <div style="text-align: center;">
                         <?php
-                        echo $query = "SELECT COUNT(*) AS completed_schemes FROM schemes AS s 
+                        $query = "SELECT COUNT(*) AS completed_schemes FROM schemes AS s 
                         WHERE s. scheme_status = 'Completed'";
                         if ($district_id != 0) {
                             $query .= " AND s.district_id = '" . $district_id . "'";
                         }
+
                         $completed_schemes = $this->db->query($query)->row()->completed_schemes;
                         ?>
                         <h5><?php echo $description; ?> of Completed Schemes: <?php echo $completed_schemes; ?></h5>
@@ -205,6 +206,7 @@
                                     if ($district_id != 0) {
                                         $query .= " AND s.district_id = '" . $district_id . "'";
                                     }
+                                    $category_scheme = $this->db->query($query)->row();
                                 ?>
 
                                     <th style="text-align: center;"><?php echo $category_scheme->total_schemes > 0 ? number_format($category_scheme->total_schemes) : '' ?></th>

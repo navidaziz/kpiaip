@@ -200,15 +200,14 @@
                                             scheme_lists AS s
                                             INNER JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
                                             WHERE cc.sub_component_id = '" . intval($sub_component->sub_component_id) . "'
-                                            AND s.scheme_status = 'Completed'
-                                            AND s.district_id = $district->district_id";
+                                            AND s.scheme_status = 'Completed'";
 
                                     $scheme = $this->db->query($query)->row();
                                     ?>
-                                    <td><?php echo $scheme->total_schemes > 0 ? number_format(round($scheme->total_schemes, 2)) : ''; ?></td>
-                                    <td><?php echo $scheme->total_cost > 0 ? number_format(round($scheme->total_cost, 2)) : ''; ?></td>
+                                    <th><?php echo $scheme->total_schemes > 0 ? number_format(round($scheme->total_schemes, 2)) : ''; ?></th>
+                                    <th><?php echo $scheme->total_cost > 0 ? number_format(round($scheme->total_cost, 2)) : ''; ?></th>
 
-                                    <td><?php echo $scheme->avg_cost > 0 ? number_format(round($scheme->avg_cost, 2)) : ''; ?></td>
+                                    <th><?php echo $scheme->avg_cost > 0 ? number_format(round($scheme->avg_cost, 2)) : ''; ?></th>
 
                                 <?php } ?>
                             </tr>
