@@ -578,11 +578,66 @@
                     <td style=" text-align: center; width:100px; vertical-align: bottom" ;>
                         <strong>
                             ________________<br />
-                            Financial Analyst-KPIAIP
+                            Office Assistant
                         </strong>
                     </td>
                 </tr>
-
+                <tr>
+                    <td>
+                        <p><br />
+                            3-The above scheme files have been checked / verified by the Field Engineer PISC (KPIAIP).<br />
+                            4-Complete File/bills alongwith required documents & ICR-I/ICR-II/FCR dully verfied by the PISC is/are is attached with the bills & funds to meet the expenditure are available under relevant head of account. <br />
+                            5- Submitted for further processing of required payment to the WUA’s as per laid down procedure, if agreed please.<br />
+                        </p>
+                    </td>
+                    <td style="text-align: center; width:100px; vertical-align: bottom">
+                        <strong>
+                            ________________<br />
+                            Superintendent
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><br />
+                            6- The proposal in Para-4 is re-checked & found in order and submitted for consideration, please.
+                        </p>
+                    </td>
+                    <td style="text-align: center; width:100px; vertical-align: bottom">
+                        <strong>
+                            ________________<br />
+                            FMS
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><br />
+                            <br />
+                            7- The proposal at Para-6 is endorsed for approval and return to Account section for further processsing the payment as per demand please.
+                        </p>
+                    </td>
+                    <td style="text-align: center; width:100px; vertical-align: bottom">
+                        <strong>
+                            ________________<br />
+                            Focal Person
+                        </strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p><br />
+                            <br />
+                            8- Agree with the proposal in Para-7, process the payment accordingly.
+                        </p>
+                    </td>
+                    <td style="text-align: center; width:100px; vertical-align: bottom">
+                        <strong>
+                            ________________<br />
+                            Project Director
+                        </strong>
+                    </td>
+                </tr>
             </table>
 
         </div>
