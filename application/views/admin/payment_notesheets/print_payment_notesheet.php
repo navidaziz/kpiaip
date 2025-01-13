@@ -549,7 +549,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <th>Grand Total</th>
+                            <th>Total</th>
                             <td></td>
                             <td></td>
                             <td></td>

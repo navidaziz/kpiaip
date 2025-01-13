@@ -14,6 +14,8 @@
         margin: 0px !important;
     }
 </style>
+
+
 <div class="row">
     <div class="col-sm-12">
         <div class="page-header">
@@ -41,6 +43,7 @@
 </div>
 
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
 <div class="row">
     <div class="col-md-12">
@@ -66,16 +69,15 @@
                     ?>
                     <table class="table table_small table-bordered" id="schemesTable">
                         <thead>
+
+                        </thead>
+
+                        <tbody>
+
                             <tr>
 
                                 <th colspan="<?php echo count($pre_fys) + 5; ?>">A: Watercourses</th>
-                                <th></th>
-                                <th colspan="<?php echo count($pre_fys) + 3; ?>">B-2: Water Storage Tanks and Ponds</th>
-                                <th></th>
-                                <th colspan="<?php echo count($pre_fys) + 3; ?>">B-1: Installation of HEIS Systems</th>
-                                <th></th>
-                                <th colspan="<?php echo count($pre_fys) + 3; ?>">B-3: Strengthening Precision Laser
-                                    Leveling Service in Private Sector</th>
+
                             </tr>
                             <tr>
                                 <th>#</th>
@@ -86,35 +88,8 @@
                                 <th>Total</th>
                                 <th><?php echo htmlspecialchars($current_fy->financial_year); ?></th>
                                 <th>G. Total</th>
-                                <th></th>
-                                <?php foreach ($pre_fys as $pre_fy) { ?>
-                                    <th><?php echo htmlspecialchars($pre_fy->financial_year); ?></th>
-                                <?php } ?>
-                                <th>Total</th>
-                                <th><?php echo htmlspecialchars($current_fy->financial_year); ?></th>
-                                <th>G. Total</th>
-                                <th></th>
-                                <?php foreach ($pre_fys as $pre_fy) { ?>
-                                    <th><?php echo htmlspecialchars($pre_fy->financial_year); ?></th>
-                                <?php } ?>
-                                <th>Total</th>
-                                <th><?php echo htmlspecialchars($current_fy->financial_year); ?></th>
-                                <th>G. Total</th>
-                                <th></th>
-                                <?php foreach ($pre_fys as $pre_fy) { ?>
-                                    <th><?php echo htmlspecialchars($pre_fy->financial_year); ?></th>
-                                <?php } ?>
-                                <th>Total</th>
-                                <th><?php echo htmlspecialchars($current_fy->financial_year); ?></th>
-                                <th>G. Total</th>
-                                <th></th>
 
                             </tr>
-                        </thead>
-
-                        <tbody>
-
-
 
 
 
@@ -170,136 +145,12 @@
                                     <td><?php echo $pre_total_schemes; ?></td>
                                     <td><?php echo $current_fy_schemes; ?></td>
                                     <td><?php echo $total_schemes; ?></td>
-                                    <td></td>
-
-
-                                    <?php
-
-                                    // Fetch completed schemes per previous financial year
-                                    foreach ($pre_fys as $pre_fy) {
-                                        $query = "SELECT COUNT(*) AS total FROM schemes 
-                                        WHERE scheme_status = 'Completed' 
-                                        AND financial_year_id = ? 
-                                        AND district_id = ? 
-                                        AND component_category_id IN(11)";
-                                        $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id, $district->district_id])->row()->total;
-                                    ?>
-                                        <td><?php echo $fy_total_schemes; ?></td>
-                                    <?php } ?>
-
-                                    <?php
-                                    // Total for all years
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND district_id = ? 
-                                     AND financial_year_id IN (SELECT fy.financial_year_id FROM financial_years as fy WHERE status!=1) 
-                                    AND component_category_id IN(11)";
-                                    $pre_total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
-                                    // Current financial year total
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND financial_year_id = ? 
-                                    AND district_id = ? 
-                                    AND component_category_id IN(11)";
-                                    $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id, $district->district_id])->row()->total;
-
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND district_id = ? 
-                                    AND component_category_id IN(11)";
-                                    $total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
-
-                                    ?>
-                                    <td><?php echo $pre_total_schemes; ?></td>
-                                    <td><?php echo $current_fy_schemes; ?></td>
-                                    <td><?php echo $total_schemes; ?></td>
-                                    <td></td>
-                                    <?php
-
-                                    // Fetch completed schemes per previous financial year
-                                    foreach ($pre_fys as $pre_fy) {
-                                        $query = "SELECT COUNT(*) AS total FROM schemes 
-                                        WHERE scheme_status = 'Completed' 
-                                        AND financial_year_id = ? 
-                                        AND district_id = ? 
-                                        AND component_category_id IN(10)";
-                                        $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id, $district->district_id])->row()->total;
-                                    ?>
-                                        <td><?php echo $fy_total_schemes; ?></td>
-                                    <?php } ?>
-
-                                    <?php
-                                    // Total for all years
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND district_id = ? 
-                                     AND financial_year_id IN (SELECT fy.financial_year_id FROM financial_years as fy WHERE status!=1) 
-                                    AND component_category_id IN(10)";
-                                    $pre_total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
-                                    // Current financial year total
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND financial_year_id = ? 
-                                    AND district_id = ? 
-                                    AND component_category_id IN(10)";
-                                    $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id, $district->district_id])->row()->total;
-
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND district_id = ? 
-                                    AND component_category_id IN(10)";
-                                    $total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
-
-                                    ?>
-                                    <td><?php echo $pre_total_schemes; ?></td>
-                                    <td><?php echo $current_fy_schemes; ?></td>
-                                    <td><?php echo $total_schemes; ?></td>
-                                    <td></td>
-                                    <?php
-
-                                    // Fetch completed schemes per previous financial year
-                                    foreach ($pre_fys as $pre_fy) {
-                                        $query = "SELECT COUNT(*) AS total FROM schemes 
-                                        WHERE scheme_status = 'Completed' 
-                                        AND financial_year_id = ? 
-                                        AND district_id = ? 
-                                        AND component_category_id IN(12)";
-                                        $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id, $district->district_id])->row()->total;
-                                    ?>
-                                        <td><?php echo $fy_total_schemes; ?></td>
-                                    <?php } ?>
-
-                                    <?php
-                                    // Total for all years
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND district_id = ? 
-                                     AND financial_year_id IN (SELECT fy.financial_year_id FROM financial_years as fy WHERE status!=1) 
-                                    AND component_category_id IN(12)";
-                                    $pre_total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
-                                    // Current financial year total
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND financial_year_id = ? 
-                                    AND district_id = ? 
-                                    AND component_category_id IN(12)";
-                                    $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id, $district->district_id])->row()->total;
-
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND district_id = ? 
-                                    AND component_category_id IN(12)";
-                                    $total_schemes = $this->db->query($query, [$district->district_id])->row()->total;
-
-                                    ?>
-                                    <td><?php echo $pre_total_schemes; ?></td>
-                                    <td><?php echo $current_fy_schemes; ?></td>
-                                    <td><?php echo $total_schemes; ?></td>
-                                    <td></td>
 
                                 </tr>
                             <?php } ?>
+
                         </tbody>
+
                         <tfoot>
                             <tr>
                                 <th></th>
@@ -341,128 +192,34 @@
                                 <th><?php echo $pre_total_schemes; ?></th>
                                 <th><?php echo $current_fy_schemes; ?></th>
                                 <th><?php echo $total_schemes; ?></th>
-                                <th></th>
-
-
-                                <?php
-
-                                // Fetch completed schemes per previous financial year
-                                foreach ($pre_fys as $pre_fy) {
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                        WHERE scheme_status = 'Completed' 
-                                        AND financial_year_id = ? 
-                                        AND component_category_id IN(11)";
-                                    $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id])->row()->total;
-                                ?>
-                                    <th><?php echo $fy_total_schemes; ?></th>
-                                <?php } ?>
-
-                                <?php
-                                // Total for all years
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                     AND financial_year_id IN (SELECT fy.financial_year_id FROM financial_years as fy WHERE status!=1) 
-                                    AND component_category_id IN(11)";
-                                $pre_total_schemes = $this->db->query($query)->row()->total;
-                                // Current financial year total
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND financial_year_id = ? 
-                                    AND component_category_id IN(11)";
-                                $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id])->row()->total;
-
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND component_category_id IN(11)";
-                                $total_schemes = $this->db->query($query)->row()->total;
-
-                                ?>
-                                <th><?php echo $pre_total_schemes; ?></th>
-                                <th><?php echo $current_fy_schemes; ?></th>
-                                <th><?php echo $total_schemes; ?></th>
-                                <th></th>
-                                <?php
-
-                                // Fetch completed schemes per previous financial year
-                                foreach ($pre_fys as $pre_fy) {
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                        WHERE scheme_status = 'Completed' 
-                                        AND financial_year_id = ? 
-                                        AND component_category_id IN(10)";
-                                    $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id])->row()->total;
-                                ?>
-                                    <th><?php echo $fy_total_schemes; ?></th>
-                                <?php } ?>
-
-                                <?php
-                                // Total for all years
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                     AND financial_year_id IN (SELECT fy.financial_year_id FROM financial_years as fy WHERE status!=1) 
-                                    AND component_category_id IN(10)";
-                                $pre_total_schemes = $this->db->query($query)->row()->total;
-                                // Current financial year total
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND financial_year_id = ? 
-                                    AND component_category_id IN(10)";
-                                $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id])->row()->total;
-
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND component_category_id IN(10)";
-                                $total_schemes = $this->db->query($query)->row()->total;
-
-                                ?>
-                                <th><?php echo $pre_total_schemes; ?></th>
-                                <th><?php echo $current_fy_schemes; ?></th>
-                                <th><?php echo $total_schemes; ?></th>
-                                <th></th>
-                                <?php
-
-                                // Fetch completed schemes per previous financial year
-                                foreach ($pre_fys as $pre_fy) {
-                                    $query = "SELECT COUNT(*) AS total FROM schemes 
-                                        WHERE scheme_status = 'Completed' 
-                                        AND financial_year_id = ? 
-                                        AND component_category_id IN(12)";
-                                    $fy_total_schemes = $this->db->query($query, [$pre_fy->financial_year_id])->row()->total;
-                                ?>
-                                    <th><?php echo $fy_total_schemes; ?></th>
-                                <?php } ?>
-
-                                <?php
-                                // Total for all years
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                     AND financial_year_id IN (SELECT fy.financial_year_id FROM financial_years as fy WHERE status!=1) 
-                                    AND component_category_id IN(12)";
-                                $pre_total_schemes = $this->db->query($query)->row()->total;
-                                // Current financial year total
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND financial_year_id = ? 
-                                    AND component_category_id IN(12)";
-                                $current_fy_schemes = $this->db->query($query, [$current_fy->financial_year_id])->row()->total;
-
-                                $query = "SELECT COUNT(*) AS total FROM schemes 
-                                    WHERE scheme_status = 'Completed' 
-                                    AND component_category_id IN(12)";
-                                $total_schemes = $this->db->query($query)->row()->total;
-
-                                ?>
-                                <th><?php echo $pre_total_schemes; ?></th>
-                                <th><?php echo $current_fy_schemes; ?></th>
-                                <th><?php echo $total_schemes; ?></th>
-                                <th></th>
 
                             </tr>
                         </tfoot>
                     </table>
 
                     <script>
+                        // $(document).ready(function() {
+                        //     $('#schemesTable').DataTable({
+                        //         paging: false,
+                        //         searching: true,
+                        //         ordering: true,
+                        //         info: true,
+                        //         columnDefs: [{
+                        //             orderable: false,
+                        //             targets: [0, 1] // Disable sorting on the first two columns
+                        //         }],
+                        //         dom: 'Bfrtip', // Enable export buttons
+                        //         buttons: [{
+                        //             extend: 'excelHtml5',
+                        //             text: 'Export to Excel',
+                        //             footer: true, // Exclude footer in the export
+                        //             header: true,
+                        //         }]
+                        //     });
+                        // });
+
                         $(document).ready(function() {
-                            $('#schemesTable').DataTable({
+                            $('#schemes Table').DataTable({
                                 paging: false,
                                 searching: true,
                                 ordering: true,
@@ -471,13 +228,37 @@
                                     orderable: false,
                                     targets: [0, 1] // Disable sorting on the first two columns
                                 }],
-                                //fixedHeader: true,
-                                //scrollX: true,
                                 dom: 'Bfrtip', // Enable export buttons
-                                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'], // Optional: Export options
+                                buttons: [{
+                                    extend: 'excelHtml5',
+                                    text: 'Export to Excel',
+                                    footer: true, // Include footer in the export
+                                    exportOptions: {
+                                        columns: ':visible', // Export all visible columns
+                                        format: {
+                                            header: function(data, columnIdx) {
+                                                // Clean up HTML from header text if needed
+                                                return data.replace(/<[^>]+>/g, '').trim();
+                                            }
+                                        }
+                                    }
+                                }]
                             });
                         });
                     </script>
+
+                    <button id="exportButton">Export to Excel</button>
+
+                    <script>
+                        document.getElementById('exportButton').addEventListener('click', function() {
+                            var table = document.getElementById("schemesTable"); // Get the table element
+                            var wb = XLSX.utils.table_to_book(table, {
+                                sheet: "Sheet1"
+                            }); // Convert the table to Excel
+                            XLSX.writeFile(wb, "schemes_table.xlsx"); // Download the Excel file
+                        });
+                    </script>
+
                 </div>
 
             </div>
