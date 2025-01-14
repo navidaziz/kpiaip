@@ -197,7 +197,7 @@
         </div>
 
 
-        <div class="form-group row" style="display: none;" id="completion_cost_div">
+        <div class="form-group row" <?php if ($input->payment_type != 'FINAL') { ?> style="display: none;" <?php } ?> id="completion_cost_div">
             <label for="completion_cost" class="col-sm-4 col-form-label">Final Completion Cost <span style="color: red;">*</span></label>
             <div class="col-sm-8">
                 <input min="0" max="<?php echo $scheme->sanctioned_cost; ?>" type="number" step="any" required id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="form-control">
