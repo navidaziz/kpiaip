@@ -578,6 +578,10 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                                     <td><?php echo $scheme->revised_cost_date; ?></td>
                                 </tr>
                                 <tr>
+                                    <td><strong>Completion Cost</strong></td>
+                                    <td><?php echo $scheme->completion_cost; ?></td>
+                                </tr>
+                                <tr>
                                     <td><strong>Sanctioned Cost</strong></td>
                                     <td><?php echo $scheme->sanctioned_cost; ?></td>
                                 </tr>

@@ -315,11 +315,35 @@ class Payment_notesheets extends Admin_Controller
         $this->form_validation->set_rules("whit", "Whit", "required");
         $this->form_validation->set_rules("whst", "Whst", "required");
         $this->form_validation->set_rules("net_pay", "Net Pay", "required");
+        $this->form_validation->set_rules("payment_type", "Payment Type", "required");
+        if ($this->input->post("payment_type") == 'FINAL') {
+            $this->form_validation->set_rules("completion_cost", "Completaion Cost", "required");
+        }
+
+        $completion_cost = $this->input->post("completion_cost");
 
         if ($this->form_validation->run() == FALSE) {
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
             exit();
         } else {
+            if ($this->input->post("payment_type") == 'FINAL') {
+
+                $id = $this->input->post("id");
+                $query = "SELECT scheme_id FROM `payment_notesheet_schemes` WHERE id = ?";
+                $payment_scheme_id = $this->db->query($query, [$id])->row()->scheme_id;
+                $query = "SELECT * FROM schemes WHERE scheme_id = ?";
+                $scheme = $this->db->query($query, [$payment_scheme_id])->row();
+                if ($completion_cost == '' or $completion_cost == NULL or $completion_cost == 0 or $completion_cost > $scheme->sanctioned_cost) {
+                    echo '<div class="alert alert-danger">Scheme Completion Cost must be less than or equal to Scheme Sanctioned Cost.</div>';
+                    exit();
+                }
+            }
+
+
+            $s_inputs["sanctioned_cost"] = $completion_cost;
+            $s_inputs["completion_cost"] = $completion_cost;
+            $this->db->where("scheme_id", $payment_scheme_id);
+            $this->db->update("schemes", $s_inputs);
 
             $inputs["payment_amount"] = $this->input->post("payment_amount");
             $inputs["whit"] = $this->input->post("whit");

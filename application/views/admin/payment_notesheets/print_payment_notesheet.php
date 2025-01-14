@@ -567,7 +567,7 @@
                             echo number_format($remaining, 0);
                             ?></th>
                         <th></th>
-                        <th> <?php echo number_format($schemes_sub_total->{'payment_amount'}, 0); ?></th>
+                        <th><?php echo number_format($schemes_sub_total->{'payment_amount'}, 0); ?></th>
                         <th><?php echo number_format($schemes_sub_total->{'whit'}, 0); ?></th>
                         <th><?php echo number_format($schemes_sub_total->{'whst'}, 0); ?></th>
                         <th><?php echo number_format($schemes_sub_total->{'net_pay'}, 0); ?></th>
