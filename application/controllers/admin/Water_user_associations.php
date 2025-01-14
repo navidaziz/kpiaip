@@ -730,6 +730,8 @@ class Water_user_associations extends Admin_Controller
             $inputs["remarks"] = $remarks = '';
             $inputs["phy_completion"]  =  'Yes';
             $inputs["phy_completion_date"] = $this->input->post('phy_completion_date');
+            $inputs["completion_cost"] = $this->input->post('completion_cost');
+            $inputs["completion_date"] = $this->input->post('phy_completion_date');
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             if ($this->scheme_model->save($inputs, $scheme_id)) {
                 $log_inputs['operation'] = 'Update';

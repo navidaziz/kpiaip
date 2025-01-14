@@ -82,7 +82,7 @@
                         <?php } else { ?>
                             <strong>Physically Completed: No</strong>
                         <?php } ?>
-                        <br />>
+                        <br />
                         <strong>Category:
                             <?php
                             $query = "SELECT * FROM `component_categories` 
@@ -610,6 +610,7 @@
                                         <th>Approval Date</th>
                                         <th>Revised Cost</th>
                                         <th>Revised Cost Date</th>
+                                        <th>Completion Cost</th>
                                         <th>Sanctioned Cost</th>
                                         <th>Technical Sanction Date</th>
                                         <th>Completion Date</th>
@@ -627,6 +628,7 @@
                                         <td><?php echo $scheme->approval_date; ?></td>
                                         <td><?php echo $scheme->revised_cost; ?></td>
                                         <td><?php echo $scheme->revised_cost_date; ?></td>
+                                        <td><?php echo $scheme->completion_cost; ?></td>
                                         <td><?php echo $scheme->sanctioned_cost; ?></td>
                                         <td><?php echo $scheme->technical_sanction_date; ?></td>
                                         <td><?php echo $scheme->completion_date; ?></td>
@@ -878,7 +880,7 @@
                                     </script>
                                 <?php } ?>
 
-                                <button style="display: none;" onclick="chanage_status_form('Complete')" class="btn btn-danger btn-sm"> <i
+                                <button onclick="chanage_status_form('Complete')" class="btn btn-danger btn-sm"> <i
                                         class="fa fa-check-circle"></i> Marked as Physical Complete</button>
 
                             <?php } ?>

@@ -284,7 +284,7 @@
 
                     // Categorize districts into ranges (e.g., 10-20%, 21-30%, etc.)
                     foreach ($districts as $district) {
-                        $percentage = round($district->completed_percentage, 2);
+                        $percentage = round($district->completed_percentage);
 
                         // Define percentage ranges based on specified categories
                         if ($percentage >= 0 && $percentage <= 10) {
