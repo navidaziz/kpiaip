@@ -198,40 +198,39 @@
 
                     // Categorize districts into ranges (e.g., 10-20%, 21-30%, etc.)
                     foreach ($districts as $district) {
-                        $percentage = round($district->completed_percentage, 2) . " %";
-                        $percentages[$percentage][] = $district;
-                        // Define percentage ranges based on specified categories
-                        // if ($percentage >= 0 && $percentage <= 10) {
-                        //     $range_label = '1-10%';
-                        // } elseif ($percentage >= 11 && $percentage <= 20) {
-                        //     $range_label = '11-20%';
-                        // } elseif ($percentage >= 21 && $percentage <= 30) {
-                        //     $range_label = '21-30%';
-                        // } elseif ($percentage >= 31 && $percentage <= 40) {
-                        //     $range_label = '31-40%';
-                        // } elseif ($percentage >= 41 && $percentage <= 50) {
-                        //     $range_label = '41-50%';
-                        // } elseif ($percentage >= 51 && $percentage <= 60) {
-                        //     $range_label = '51-60%';
-                        // } elseif ($percentage >= 61 && $percentage <= 70) {
-                        //     $range_label = '61-70%';
-                        // } elseif ($percentage >= 71 && $percentage <= 80) {
-                        //     $range_label = '71-80%';
-                        // } elseif ($percentage >= 81 && $percentage <= 90) {
-                        //     $range_label = '81-90%';
-                        // } elseif ($percentage >= 91 && $percentage <= 95) {
-                        //     $range_label = '91-95%';
-                        // } elseif ($percentage >= 96 && $percentage < 100) {
-                        //     $range_label = '96-99%';
-                        // } elseif ($percentage == 100) {
-                        //     $range_label = '100%';
-                        // } else {
-                        //     // This handles any edge cases, e.g., 0% or invalid values.
-                        //     continue;
-                        // }
+                        $percentage = round($district->completed_percentage, 2);
+
+                        if ($percentage >= 0 && $percentage <= 10) {
+                            $range_label = '1-10%';
+                        } elseif ($percentage > 10 && $percentage <= 20) {
+                            $range_label = '11-20%';
+                        } elseif ($percentage > 20 && $percentage <= 30) {
+                            $range_label = '21-30%';
+                        } elseif ($percentage > 30 && $percentage <= 40) {
+                            $range_label = '31-40%';
+                        } elseif ($percentage > 40 && $percentage <= 50) {
+                            $range_label = '41-50%';
+                        } elseif ($percentage >= 51 && $percentage <= 60) {
+                            $range_label = '51-60%';
+                        } elseif ($percentage > 60 && $percentage <= 70) {
+                            $range_label = '61-70%';
+                        } elseif ($percentage > 70 && $percentage <= 80) {
+                            $range_label = '71-80%';
+                        } elseif ($percentage > 80 && $percentage <= 90) {
+                            $range_label = '81-90%';
+                        } elseif ($percentage > 90 && $percentage <= 95) {
+                            $range_label = '91-95%';
+                        } elseif ($percentage > 95 && $percentage < 100) {
+                            $range_label = '96-99%';
+                        } elseif ($percentage == 100) {
+                            $range_label = '100%';
+                        } else {
+                            // This handles any edge cases, e.g., 0% or invalid values.
+                            continue;
+                        }
 
                         // Add district to the corresponding percentage range
-                        //$percentages[$range_label][] = $district;
+                        $percentages[$range_label][] = $district;
                     }
                     ?>
                 </h4>
@@ -284,40 +283,40 @@
 
                     // Categorize districts into ranges (e.g., 10-20%, 21-30%, etc.)
                     foreach ($districts as $district) {
-                        $percentage = round($district->completed_percentage, 1) . " %";
-                        $percentages[$percentage][] = $district;
+                        $percentage = round($district->completed_percentage);
+
                         // Define percentage ranges based on specified categories
-                        // if ($percentage >= 0 && $percentage <= 10) {
-                        //     $range_label = '1-10%';
-                        // } elseif ($percentage >= 11 && $percentage <= 20) {
-                        //     $range_label = '11-20%';
-                        // } elseif ($percentage >= 21 && $percentage <= 30) {
-                        //     $range_label = '21-30%';
-                        // } elseif ($percentage >= 31 && $percentage <= 40) {
-                        //     $range_label = '31-40%';
-                        // } elseif ($percentage >= 41 && $percentage <= 50) {
-                        //     $range_label = '41-50%';
-                        // } elseif ($percentage >= 51 && $percentage <= 60) {
-                        //     $range_label = '51-60%';
-                        // } elseif ($percentage >= 61 && $percentage <= 70) {
-                        //     $range_label = '61-70%';
-                        // } elseif ($percentage >= 71 && $percentage <= 80) {
-                        //     $range_label = '71-80%';
-                        // } elseif ($percentage >= 81 && $percentage <= 90) {
-                        //     $range_label = '81-90%';
-                        // } elseif ($percentage >= 91 && $percentage <= 95) {
-                        //     $range_label = '91-95%';
-                        // } elseif ($percentage >= 96 && $percentage < 100) {
-                        //     $range_label = '96-99%';
-                        // } elseif ($percentage == 100) {
-                        //     $range_label = '100%';
-                        // } else {
-                        //     // This handles any edge cases, e.g., 0% or invalid values.
-                        //     continue;
-                        // }
+                        if ($percentage >= 0 && $percentage <= 10) {
+                            $range_label = '1-10%';
+                        } elseif ($percentage > 10 && $percentage <= 20) {
+                            $range_label = '11-20%';
+                        } elseif ($percentage > 20 && $percentage <= 30) {
+                            $range_label = '21-30%';
+                        } elseif ($percentage > 30 && $percentage <= 40) {
+                            $range_label = '31-40%';
+                        } elseif ($percentage > 40 && $percentage <= 50) {
+                            $range_label = '41-50%';
+                        } elseif ($percentage >= 51 && $percentage <= 60) {
+                            $range_label = '51-60%';
+                        } elseif ($percentage > 60 && $percentage <= 70) {
+                            $range_label = '61-70%';
+                        } elseif ($percentage > 70 && $percentage <= 80) {
+                            $range_label = '71-80%';
+                        } elseif ($percentage > 80 && $percentage <= 90) {
+                            $range_label = '81-90%';
+                        } elseif ($percentage > 90 && $percentage <= 95) {
+                            $range_label = '91-95%';
+                        } elseif ($percentage > 95 && $percentage < 100) {
+                            $range_label = '96-99%';
+                        } elseif ($percentage == 100) {
+                            $range_label = '100%';
+                        } else {
+                            // This handles any edge cases, e.g., 0% or invalid values.
+                            continue;
+                        }
 
                         // Add district to the corresponding percentage range
-                        //$percentages[$range_label][] = $district;
+                        $percentages[$range_label][] = $district;
                     }
                     ?>
                 </h4>
