@@ -545,32 +545,32 @@
                                 INNER JOIN water_user_associations as wua ON(wua.water_user_association_id = s.water_user_association_id)
                                 WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'  
                                 ";
-                        $schemes_sub_total = $this->db->query($query)->row();
+                        $scheme_g_total = $this->db->query($query)->row();
                         ?>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th>Total</th>
                         <th></th>
-                        <th><?php echo number_format($schemes_sub_total->{'sctionned_cost'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'1st'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'2nd'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'1st_2nd'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'other'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'final'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'sctionned_cost'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'1st'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'2nd'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'1st_2nd'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'other'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'final'}, 0); ?></th>
                         <th><?php
-                            $total_paid = ($schemes_sub_total->total_paid + $schemes_sub_total->payment_amount);
+                            $total_paid = ($scheme_g_total->total_paid + $scheme_g_total->payment_amount);
                             echo number_format($total_paid, 0); ?></th>
 
                         <th><?php
-                            $remaining = ($schemes_sub_total->sctionned_cost - $total_paid);
+                            $remaining = ($scheme_g_total->sctionned_cost - $total_paid);
                             echo number_format($remaining, 0);
                             ?></th>
                         <th></th>
-                        <th><?php echo number_format($schemes_sub_total->{'payment_amount'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'whit'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'whst'}, 0); ?></th>
-                        <th><?php echo number_format($schemes_sub_total->{'net_pay'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'payment_amount'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'whit'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'whst'}, 0); ?></th>
+                        <th><?php echo number_format($scheme_g_total->{'net_pay'}, 0); ?></th>
 
 
                     </tr>
