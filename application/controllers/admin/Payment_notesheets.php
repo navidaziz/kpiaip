@@ -221,15 +221,23 @@ class Payment_notesheets extends Admin_Controller
         $scheme_id = (int) $this->input->post('scheme_id');
         $payment_notesheet_id = (int) $this->input->post('payment_notesheet_id');
 
+        $query = "SELECT district_id FROM `payment_notesheets` WHERE id= ?";
+        $payment_notesheet = $this->db->query($query, [$payment_notesheet_id])->row();
+
         // Check if the scheme exists
         $query = "SELECT COUNT(*) as total FROM schemes WHERE scheme_id = ?";
         $scheme = $this->db->query($query, [$scheme_id])->row();
 
+
+
         if ($scheme && $scheme->total > 0) {
             // Check if the scheme is already linked to the payment notesheet
-            $query = "SELECT scheme_status FROM schemes WHERE scheme_id = ?";
+            $query = "SELECT scheme_status, district_id FROM schemes WHERE scheme_id = ?";
             $scheme = $this->db->query($query, [$scheme_id])->row();
-
+            if ($scheme->district_id != $payment_notesheet->district_id) {
+                echo '<span class="alert alert-danger">The scheme belongs to a different district. Please try again with a Valid Scheme Code.</span>';
+                exit();
+            }
             if ($scheme->scheme_status == 'Completed') {
                 echo '<span class="alert alert-danger">Scheme is Completed</span>';
                 exit();

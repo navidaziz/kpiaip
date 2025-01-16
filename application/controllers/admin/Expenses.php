@@ -1454,4 +1454,9 @@ WHERE
 
         $this->load->view(ADMIN_DIR . "expenses/print_scheme_detail", $this->data);
     }
+
+    public function print_cheque()
+    {
+        $this->load->view(ADMIN_DIR . "expenses/print_cheque", $this->data);
+    }
 }
