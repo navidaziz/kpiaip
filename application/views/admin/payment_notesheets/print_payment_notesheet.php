@@ -374,6 +374,20 @@
                                 ";
                     $catrgories = $this->db->query($query)->result();
                     $count = 1;
+                    $gtotal = [
+                        'sanctioned_cost' => 0,
+                        '1st' => 0,
+                        '2nd' => 0,
+                        '1st_2nd' => 0,
+                        'other' => 0,
+                        'final' => 0,
+                        'total_paid' => 0,
+                        'remaining' => 0,
+                        'payment_amount' => 0,
+                        'whit' => 0,
+                        'whst' => 0,
+                        'net_pay' => 0,
+                    ];
                     foreach ($catrgories as $catrgory) { ?>
 
 
@@ -417,6 +431,20 @@
                             ORDER BY id ASC    
                                 ";
                         $schemes = $this->db->query($query)->result();
+                        $subtotal = [
+                            'sanctioned_cost' => 0,
+                            '1st' => 0,
+                            '2nd' => 0,
+                            '1st_2nd' => 0,
+                            'other' => 0,
+                            'final' => 0,
+                            'total_paid' => 0,
+                            'remaining' => 0,
+                            'payment_amount' => 0,
+                            'whit' => 0,
+                            'whst' => 0,
+                            'net_pay' => 0,
+                        ];
 
                         if (!empty($schemes)) { ?>
                             <?php
@@ -457,61 +485,53 @@
 
 
                                 </tr>
-                            <?php } ?>
+                            <?php
+                                $subtotal['sanctioned_cost'] += $scheme->sanctioned_cost;
+                                $subtotal['1st'] += $scheme->{'1st'};
+                                $subtotal['2nd'] += $scheme->{'2nd'};
+                                $subtotal['1st_2nd'] += $scheme->{'1st_2nd'};
+                                $subtotal['other'] += $scheme->{'other'};
+                                $subtotal['final'] += $scheme->{'final'};
+                                $subtotal['total_paid'] += $total_paid;
+                                $subtotal['remaining'] += $remaining;
+                                $subtotal['payment_amount'] += $scheme->payment_amount;
+                                $subtotal['whit'] += $scheme->whit;
+                                $subtotal['whst'] += $scheme->whst;
+                                $subtotal['net_pay'] += $scheme->net_pay;
+
+                                $gtotal['sanctioned_cost'] += $scheme->sanctioned_cost;
+                                $gtotal['1st'] += $scheme->{'1st'};
+                                $gtotal['2nd'] += $scheme->{'2nd'};
+                                $gtotal['1st_2nd'] += $scheme->{'1st_2nd'};
+                                $gtotal['other'] += $scheme->{'other'};
+                                $gtotal['final'] += $scheme->{'final'};
+                                $gtotal['total_paid'] += $total_paid;
+                                $gtotal['remaining'] += $remaining;
+                                $gtotal['payment_amount'] += $scheme->payment_amount;
+                                $gtotal['whit'] += $scheme->whit;
+                                $gtotal['whst'] += $scheme->whst;
+                                $gtotal['net_pay'] += $scheme->net_pay;
+                            } ?>
 
                             <tr>
-                                <?php
-                                $query = "
-                                SELECT
-    SUM(pns.payment_amount) AS payment_amount,
-    SUM(pns.whit) AS whit,
-    SUM(pns.whst) AS whst,
-    SUM(pns.net_pay) AS net_pay, 
-    SUM(COALESCE(e.gross_pay, 0)) AS total_paid,
-    COUNT(DISTINCT e.expense_id) AS payment_count,
-    SUM(COALESCE(s.sanctioned_cost, 0)) AS sanctioned_cost,
-    SUM(CASE WHEN e.installment = '1st' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `1st`,
-    SUM(CASE WHEN e.installment = '2nd' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `2nd`,
-    SUM(CASE WHEN e.installment = '1st_2nd' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `1st_2nd`,
-    SUM(CASE WHEN e.installment = 'final' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `final`,
-    SUM(CASE WHEN e.installment IS NULL THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `other`
-FROM 
-    schemes s
-    INNER JOIN component_categories cc ON cc.component_category_id = s.component_category_id
-    INNER JOIN payment_notesheet_schemes pns ON pns.scheme_id = s.scheme_id
-    INNER JOIN financial_years fy ON fy.financial_year_id = s.financial_year_id
-    LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
-    INNER JOIN water_user_associations wua ON wua.water_user_association_id = s.water_user_association_id
-WHERE 
-    pns.payment_notesheet_id = '" . $payment_notesheet_id . "' 
-    AND s.component_category_id = '" . $catrgory->component_category_id . "';
-                                ";
-                                $schemes_sub_total = $this->db->query($query)->row();
-                                ?>
                                 <th></th>
                                 <th></th>
                                 <th></th>
                                 <th>Sub Total</th>
                                 <th></th>
-                                <th><?php echo number_format($schemes_sub_total->{'sanctioned_cost'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'1st'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'2nd'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'1st_2nd'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'other'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'final'}, 0); ?></th>
-                                <th><?php
-                                    $total_paid = ($schemes_sub_total->total_paid + $schemes_sub_total->payment_amount);
-                                    echo number_format($total_paid, 0); ?></th>
-
-                                <th><?php
-                                    $remaining = ($schemes_sub_total->sanctioned_cost - $total_paid);
-                                    echo number_format($remaining, 0);
-                                    ?></th>
+                                <th><?php echo number_format($subtotal['sanctioned_cost'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['1st'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['2nd'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['1st_2nd'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['other'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['final'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['total_paid'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['remaining'], 0); ?></th>
                                 <th></th>
-                                <th> <?php echo number_format($schemes_sub_total->{'payment_amount'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'whit'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'whst'}, 0); ?></th>
-                                <th><?php echo number_format($schemes_sub_total->{'net_pay'}, 0); ?></th>
+                                <th> <?php echo number_format($subtotal['payment_amount'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['whit'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['whst'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['net_pay'], 0); ?></th>
 
 
                             </tr>
@@ -522,56 +542,24 @@ WHERE
                 </tbody>
                 <tfoot>
                     <tr>
-                        <?php
-                        $query = "
-                                SELECT
-                                SUM(pns.payment_amount) as payment_amount,
-                                SUM(pns.whit) as whit,
-                                SUM(pns.whst) as whst,
-                                SUM(pns.net_pay) as net_pay, 
-                                SUM(e.gross_pay) as `total_paid`,
-                                COUNT(e.expense_id) as `payment_count`,
-                                SUM(DISTINCT s.sanctioned_cost) as `sanctioned_cost`,
-                                SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
-                                SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
-                                SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
-                                SUM(CASE WHEN e.installment = 'final' THEN e.gross_pay END) AS `final`,
-                                SUM(CASE WHEN e.installment IS NULL THEN e.gross_pay END) AS `other`
-                                FROM 
-                                schemes s
-                                INNER JOIN component_categories as cc ON cc.component_category_id = s.component_category_id
-                                INNER JOIN payment_notesheet_schemes as pns ON(pns.scheme_id = s.scheme_id)
-                                INNER JOIN financial_years as fy ON(fy.financial_year_id = s.financial_year_id)
-                                LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
-                                INNER JOIN water_user_associations as wua ON(wua.water_user_association_id = s.water_user_association_id)
-                                WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'  
-                                ";
-                        $scheme_g_total = $this->db->query($query)->row();
-                        ?>
                         <th></th>
                         <th></th>
                         <th></th>
                         <th>Total</th>
                         <th></th>
-                        <th><?php echo number_format($scheme_g_total->{'sanctioned_cost'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'1st'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'2nd'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'1st_2nd'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'other'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'final'}, 0); ?></th>
-                        <th><?php
-                            $total_paid = ($scheme_g_total->total_paid + $scheme_g_total->payment_amount);
-                            echo number_format($total_paid, 0); ?></th>
-
-                        <th><?php
-                            $remaining = ($scheme_g_total->sanctioned_cost - $total_paid);
-                            echo number_format($remaining, 0);
-                            ?></th>
+                        <th><?php echo number_format($gtotal['sanctioned_cost'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['1st'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['2nd'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['1st_2nd'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['other'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['final'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['total_paid'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['remaining'], 0); ?></th>
                         <th></th>
-                        <th><?php echo number_format($scheme_g_total->{'payment_amount'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'whit'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'whst'}, 0); ?></th>
-                        <th><?php echo number_format($scheme_g_total->{'net_pay'}, 0); ?></th>
+                        <th> <?php echo number_format($gtotal['payment_amount'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['whit'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['whst'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['net_pay'], 0); ?></th>
 
 
                     </tr>
