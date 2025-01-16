@@ -760,6 +760,34 @@
 
                             <?php } ?>
 
+                            <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
+
+                                <button onclick="revise_cost(0)" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-pencil-square"></i>
+                                    Revise Cost</button>
+                                <script>
+                                    function revise_cost(revise_cost_id) {
+                                        $.ajax({
+                                                method: "POST",
+                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/revise_cost'); ?>",
+                                                data: {
+                                                    scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                    revise_cost_id: revise_cost_id
+                                                },
+                                            })
+                                            .done(function(respose) {
+                                                $('#modal').modal('show');
+                                                $('#modal_title').html('Revise Cost');
+                                                $('#modal_body').html(respose);
+                                            });
+                                    }
+                                </script>
+
+                                <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm"> <i
+                                        class="fa fa-times-circle"></i> Dispute</button>
+
+                            <?php } ?>
+
                             <?php if (($this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
 
                                 <?php if ($scheme->scheme_status == 'Initiated') { ?>
@@ -779,33 +807,7 @@
                                     <button onclick="chanage_status_form('Ongoing')" class="btn btn-warning btn-sm">
                                         <i class="fa fa-undo"></i> Mark Again as Ongoing Scheme</button>
                                 <?php } ?>
-                                <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
 
-                                    <button onclick="revise_cost(0)" class="btn btn-danger btn-sm">
-                                        <i class="fa fa-pencil-square"></i>
-                                        Revise Cost</button>
-                                    <script>
-                                        function revise_cost(revise_cost_id) {
-                                            $.ajax({
-                                                    method: "POST",
-                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/revise_cost'); ?>",
-                                                    data: {
-                                                        scheme_id: '<?php echo $scheme->scheme_id; ?>',
-                                                        revise_cost_id: revise_cost_id
-                                                    },
-                                                })
-                                                .done(function(respose) {
-                                                    $('#modal').modal('show');
-                                                    $('#modal_title').html('Revise Cost');
-                                                    $('#modal_body').html(respose);
-                                                });
-                                        }
-                                    </script>
-
-                                    <button onclick="chanage_status_form('Dispute')" class="btn btn-warning btn-sm"> <i
-                                            class="fa fa-times-circle"></i> Dispute</button>
-
-                                <?php } ?>
                                 <?php if ($scheme->scheme_status == 'Completed') { ?>
                                     <div class="alert alert-success">Scheme Status:
                                         <?php echo  $scheme->scheme_status; ?>
