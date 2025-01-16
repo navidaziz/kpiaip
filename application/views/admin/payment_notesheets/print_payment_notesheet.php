@@ -461,32 +461,31 @@
 
                             <tr>
                                 <?php
-                                $schemes_sub_total = "";
-                                echo $query = "
+                                $query = "
                                 SELECT
-                                    SUM(pns.payment_amount) AS payment_amount,
-                                    SUM(pns.whit) AS whit,
-                                    SUM(pns.whst) AS whst,
-                                    SUM(pns.net_pay) AS net_pay, 
-                                    SUM(COALESCE(e.gross_pay, 0)) AS total_paid,
-                                    COUNT(DISTINCT e.expense_id) AS payment_count,
-                                    SUM(COALESCE(s.sanctioned_cost, 0)) AS sanctioned_cost,
-                                    SUM(CASE WHEN e.installment = '1st' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `1st`,
-                                    SUM(CASE WHEN e.installment = '2nd' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `2nd`,
-                                    SUM(CASE WHEN e.installment = '1st_2nd' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `1st_2nd`,
-                                    SUM(CASE WHEN e.installment = 'final' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `final`,
-                                    SUM(CASE WHEN e.installment IS NULL THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `other`
-                                FROM 
-                                    schemes s
-                                    INNER JOIN component_categories cc ON cc.component_category_id = s.component_category_id
-                                    INNER JOIN payment_notesheet_schemes pns ON pns.scheme_id = s.scheme_id
-                                    INNER JOIN financial_years fy ON fy.financial_year_id = s.financial_year_id
-                                    LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
-                                    INNER JOIN water_user_associations wua ON wua.water_user_association_id = s.water_user_association_id
-                                WHERE 
-                                    pns.payment_notesheet_id = '" . $payment_notesheet_id . "' 
-                                    AND s.component_category_id = '" . $catrgory->component_category_id . "';
-                                                                ";
+    SUM(pns.payment_amount) AS payment_amount,
+    SUM(pns.whit) AS whit,
+    SUM(pns.whst) AS whst,
+    SUM(pns.net_pay) AS net_pay, 
+    SUM(COALESCE(e.gross_pay, 0)) AS total_paid,
+    COUNT(DISTINCT e.expense_id) AS payment_count,
+    SUM(COALESCE(s.sanctioned_cost, 0)) AS sanctioned_cost,
+    SUM(CASE WHEN e.installment = '1st' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `1st`,
+    SUM(CASE WHEN e.installment = '2nd' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `2nd`,
+    SUM(CASE WHEN e.installment = '1st_2nd' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `1st_2nd`,
+    SUM(CASE WHEN e.installment = 'final' THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `final`,
+    SUM(CASE WHEN e.installment IS NULL THEN COALESCE(e.gross_pay, 0) ELSE 0 END) AS `other`
+FROM 
+    schemes s
+    INNER JOIN component_categories cc ON cc.component_category_id = s.component_category_id
+    INNER JOIN payment_notesheet_schemes pns ON pns.scheme_id = s.scheme_id
+    INNER JOIN financial_years fy ON fy.financial_year_id = s.financial_year_id
+    LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
+    INNER JOIN water_user_associations wua ON wua.water_user_association_id = s.water_user_association_id
+WHERE 
+    pns.payment_notesheet_id = '" . $payment_notesheet_id . "' 
+    AND s.component_category_id = '" . $catrgory->component_category_id . "';
+                                ";
                                 $schemes_sub_total = $this->db->query($query)->row();
                                 ?>
                                 <th></th>
@@ -532,7 +531,7 @@
                                 SUM(pns.net_pay) as net_pay, 
                                 SUM(e.gross_pay) as `total_paid`,
                                 COUNT(e.expense_id) as `payment_count`,
-                                SUM(s.sanctioned_cost) as `sanctioned_cost`,
+                                SUM(DISTINCT s.sanctioned_cost) as `sanctioned_cost`,
                                 SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
                                 SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
                                 SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
