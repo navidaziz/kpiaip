@@ -16,6 +16,7 @@
             <th>Cheque</th>
             <th class="date">Date</th>
             <th>Payee Name</th>
+            <th>Scheme Name</th>
             <th>Gross Paid</th>
             <th>WHIT</th>
             <th>WHST</th>
@@ -75,6 +76,7 @@
                     <td class="date"><?php echo date('d-m-Y', strtotime($expense->date)); ?>
                     </td>
                     <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
+                    <td><small><i><?php echo $expense->scheme_name; ?></i></small></td>
                     <td><?php echo $expense->gross_pay != 0 ? number_format($expense->gross_pay, 2) : 0; ?>
                     </td>
                     <td><?php echo $expense->whit_tax != 0 ? number_format($expense->whit_tax, 2) : 0; ?>
