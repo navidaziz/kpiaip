@@ -32,7 +32,7 @@ $fys = $this->db->query($query)->result();
                 align: 'left'
             },
             subtitle: {
-                text: 'Overview of Schemes Across Different Statuses (Not Approved, Disputed, Registered, etc.)',
+                text: 'Overview of Schemes Across Different Statuses (Not-Approved, Disputed, Registered, etc.)',
                 align: 'left'
             },
             plotOptions: {
@@ -70,7 +70,7 @@ $fys = $this->db->query($query)->result();
             series: [
                 <?php
                 $schemes = array(
-                    "Not Approved",
+                    "Not-Approved",
                     "Disputed",
                     "Par-Completed",
                     "Registered",

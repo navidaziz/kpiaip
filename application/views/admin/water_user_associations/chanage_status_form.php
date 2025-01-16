@@ -69,7 +69,7 @@
         <?php } ?>
         <?php if ($status_form == 'Not Approve') { ?>
             <div class="col-md-12">
-                <h4>Please provide the reason why the scheme was not approved.<br />
+                <h4>Please provide the reason why the scheme was Not-Approved.<br />
                     Scheme Name: <?php echo $scheme->scheme_name ?><br />
                     Scheme Code: <?php echo $scheme->scheme_code; ?><br /></h4>
             </div>

@@ -788,11 +788,11 @@ class Water_user_associations extends Admin_Controller
             $inputs["approval_date"]  =  NULL;
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             $inputs["remarks"] = $remarks = $this->input->post('remarks');
-            $inputs["scheme_status"]  =  'Not Approved';
+            $inputs["scheme_status"]  =  'Not-Approved';
             if ($this->scheme_model->save($inputs, $scheme_id)) {
                 $log_inputs['operation'] = 'insert';
                 $log_inputs['scheme_id'] = $scheme_id;
-                $log_inputs['scheme_status'] = 'Not Approved';
+                $log_inputs['scheme_status'] = 'Not-Approved';
                 $log_inputs['remarks'] = $remarks;
                 $log_inputs["created_by"] = $this->session->userdata("userId");
                 $log_inputs["last_updated"] = date('Y-m-d H:i:s');

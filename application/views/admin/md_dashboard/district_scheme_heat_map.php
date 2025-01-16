@@ -9,12 +9,15 @@ $districts = $this->db->query("SELECT *  FROM districts WHERE is_district=1")->r
 
 // Scheme statuses for y-axis
 // $schemes = [
-//     "Not Approved", "Disputed", "Par-Completed", "Registered", "Initiated", 
+//     "Not-Approved", "Disputed", "Par-Completed", "Registered", "Initiated", 
 //     "Ongoing", "ICR-I", "ICR-II", "Final", "Completed"
 // ];
 
 $schemes = [
-    "Ongoing", "ICR-I", "ICR-II", "Final"
+    "Ongoing",
+    "ICR-I",
+    "ICR-II",
+    "Final"
 ];
 
 // Heatmap data preparation
@@ -46,20 +49,22 @@ foreach ($schemes as $y_index => $scheme_status) {
             },
             title: {
                 text: 'District-Wise Ongoing Schemes',
-                style: { fontSize: '1em' }
+                style: {
+                    fontSize: '1em'
+                }
             },
             xAxis: {
                 categories: [
-                    <?php foreach ($districts as $district): ?>
-                        '<?php echo addslashes($district->district_name); ?>',
+                    <?php foreach ($districts as $district): ?> '<?php echo addslashes($district->district_name); ?>',
                     <?php endforeach; ?>
                 ],
-                title: { text: 'Districts' }
+                title: {
+                    text: 'Districts'
+                }
             },
             yAxis: {
                 categories: [
-                    <?php foreach ($schemes as $scheme_status): ?>
-                        '<?php echo addslashes($scheme_status); ?>',
+                    <?php foreach ($schemes as $scheme_status): ?> '<?php echo addslashes($scheme_status); ?>',
                     <?php endforeach; ?>
                 ],
                 title: null,
@@ -85,7 +90,7 @@ foreach ($schemes as $y_index => $scheme_status) {
                 symbolHeight: 280
             },
             tooltip: {
-                formatter: function () {
+                formatter: function() {
                     return `<b>${this.series.xAxis.categories[this.point.x]}</b><br>
                             <b>${this.point.value}</b> schemes with <br>
                             <b>${this.series.yAxis.categories[this.point.y]}</b>`;
@@ -102,11 +107,13 @@ foreach ($schemes as $y_index => $scheme_status) {
             }],
             responsive: {
                 rules: [{
-                    condition: { maxWidth: 100 },
+                    condition: {
+                        maxWidth: 100
+                    },
                     chartOptions: {
                         yAxis: {
                             labels: {
-                                formatter: function () {
+                                formatter: function() {
                                     return this.value[0]; // Shorten the label to the first character
                                 }
                             }

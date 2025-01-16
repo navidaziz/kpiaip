@@ -770,7 +770,7 @@
                                 <?php } ?>
 
 
-                                <?php if ($scheme->scheme_status == 'Not Approved') { ?>
+                                <?php if ($scheme->scheme_status == 'Not-Approved') { ?>
                                     <button onclick="chanage_status_form('Approval')"
                                         class="btn btn-danger">Approve Again</button>
                                 <?php } ?>

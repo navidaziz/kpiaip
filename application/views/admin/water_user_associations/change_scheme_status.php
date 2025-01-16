@@ -1,59 +1,58 @@
 <div class="box-body">
-<?php 
-$query="SELECT * FROM schemes WHERE scheme_id = '".$scheme_id."'";
-$scheme_detail = $this->db->query($query)->row();
-?>
+    <?php
+    $query = "SELECT * FROM schemes WHERE scheme_id = '" . $scheme_id . "'";
+    $scheme_detail = $this->db->query($query)->row();
+    ?>
     <form id="data_form" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 
         <input type="hidden" value="<?php echo $scheme_id ?>" name="scheme_id" />
         <table class="table ">
             <tr>
                 <td>
-        <?php
+                    <?php
 
-$query="SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '".$scheme_id."'";
-$cheques = $this->db->query($query)->row();
-if($cheques->total>0 and $cheques->total <=3){
-    $query="SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '".$scheme_id."' and installment='Final'";
-    $final = $this->db->query($query)->row();
-    if($final->total>0){
-        $schemestatus[] = "Completed";
-    }
-        $schemestatus[] = "Final";
-        $schemestatus[] = "ICR-II";
-        $schemestatus[] = "ICR-I";
-}else{
-   
-    if($cheques->total == 0){
-         echo '<div class="alert alert-danger">';
-        echo "No cheques are attached. Kindly attach the required cheques.<br />";
-         echo "</div>";
-    }
-    if($cheques->total > 3){
-         echo '<div class="alert alert-danger">';
-        echo "More than three cheques are attached. Please review the case.<br />";
-         echo "</div>";
-    }
-   
-}
+                    $query = "SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '" . $scheme_id . "'";
+                    $cheques = $this->db->query($query)->row();
+                    if ($cheques->total > 0 and $cheques->total <= 3) {
+                        $query = "SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '" . $scheme_id . "' and installment='Final'";
+                        $final = $this->db->query($query)->row();
+                        if ($final->total > 0) {
+                            $schemestatus[] = "Completed";
+                        }
+                        $schemestatus[] = "Final";
+                        $schemestatus[] = "ICR-II";
+                        $schemestatus[] = "ICR-I";
+                    } else {
 
-       
-        $schemestatus[] = "Ongoing";
-        $schemestatus[] = "Initiated";
-        $schemestatus[] = "Registered";
-        $schemestatus[] = "Par-Completed";
-        $schemestatus[] = "Disputed";
-        $schemestatus[] = "Not Approved";
-        
-        foreach ($schemestatus as $scheme_status) { ?>
-            <input required type="radio" name="scheme_status" value="<?php echo $scheme_status; ?>" />
-            <span style="margin: 10px;"></span> <?php echo $scheme_status; ?>
-            <br />
-        <?php } ?>
+                        if ($cheques->total == 0) {
+                            echo '<div class="alert alert-danger">';
+                            echo "No cheques are attached. Kindly attach the required cheques.<br />";
+                            echo "</div>";
+                        }
+                        if ($cheques->total > 3) {
+                            echo '<div class="alert alert-danger">';
+                            echo "More than three cheques are attached. Please review the case.<br />";
+                            echo "</div>";
+                        }
+                    }
+
+
+                    $schemestatus[] = "Ongoing";
+                    $schemestatus[] = "Initiated";
+                    $schemestatus[] = "Registered";
+                    $schemestatus[] = "Par-Completed";
+                    $schemestatus[] = "Disputed";
+                    $schemestatus[] = "Not-Approved";
+
+                    foreach ($schemestatus as $scheme_status) { ?>
+                        <input required type="radio" name="scheme_status" value="<?php echo $scheme_status; ?>" />
+                        <span style="margin: 10px;"></span> <?php echo $scheme_status; ?>
+                        <br />
+                    <?php } ?>
                 </td>
                 <td>
-                    
-                     
+
+
                 </td>
             </tr>
         </table>

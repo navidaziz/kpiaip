@@ -1,51 +1,50 @@
 <div class="box-body">
-<?php 
-$query="SELECT * FROM schemes WHERE scheme_id = '".$scheme_id."'";
-$scheme_detail = $this->db->query($query)->row();
-?>
+    <?php
+    $query = "SELECT * FROM schemes WHERE scheme_id = '" . $scheme_id . "'";
+    $scheme_detail = $this->db->query($query)->row();
+    ?>
     <form id="data_form" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
 
         <input type="hidden" value="<?php echo $scheme_id ?>" name="scheme_id" />
         <table class="table ">
             <tr>
                 <td>
-        <?php
+                    <?php
 
-$query="SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '".$scheme_id."'";
-$cheques = $this->db->query($query)->row();
-if($cheques->total>0 and $cheques->total <=3){
-        $schemestatus[] = "Completed";
-        $schemestatus[] = "Final";
-        $schemestatus[] = "ICR-II";
-        $schemestatus[] = "ICR-I";
-}else{
-   
-    if($cheques->total == 0){
-         echo '<div class="alert alert-danger">';
-        echo "No cheques are attached. Kindly attach the required cheques.<br />";
-         echo "</div>";
-    }
-    if($cheques->total > 3){
-         echo '<div class="alert alert-danger">';
-        echo "More than three cheques are attached. Please review the case.<br />";
-         echo "</div>";
-    }
-   
-}
+                    $query = "SELECT COUNT(*) as total FROM expenses WHERE scheme_id = '" . $scheme_id . "'";
+                    $cheques = $this->db->query($query)->row();
+                    if ($cheques->total > 0 and $cheques->total <= 3) {
+                        $schemestatus[] = "Completed";
+                        $schemestatus[] = "Final";
+                        $schemestatus[] = "ICR-II";
+                        $schemestatus[] = "ICR-I";
+                    } else {
 
-       
-        $schemestatus[] = "Ongoing";
-        $schemestatus[] = "Initiated";
-        $schemestatus[] = "Registered";
-        $schemestatus[] = "Par-Completed";
-        $schemestatus[] = "Disputed";
-        $schemestatus[] = "Not Approved";
-        
-        foreach ($schemestatus as $scheme_status) { ?>
-            <input required type="radio" name="scheme_status" value="<?php echo $scheme_status; ?>" />
-            <span style="margin: 10px;"></span> <?php echo $scheme_status; ?>
-            <br />
-        <?php } ?>
+                        if ($cheques->total == 0) {
+                            echo '<div class="alert alert-danger">';
+                            echo "No cheques are attached. Kindly attach the required cheques.<br />";
+                            echo "</div>";
+                        }
+                        if ($cheques->total > 3) {
+                            echo '<div class="alert alert-danger">';
+                            echo "More than three cheques are attached. Please review the case.<br />";
+                            echo "</div>";
+                        }
+                    }
+
+
+                    $schemestatus[] = "Ongoing";
+                    $schemestatus[] = "Initiated";
+                    $schemestatus[] = "Registered";
+                    $schemestatus[] = "Par-Completed";
+                    $schemestatus[] = "Disputed";
+                    $schemestatus[] = "Not-Approved";
+
+                    foreach ($schemestatus as $scheme_status) { ?>
+                        <input required type="radio" name="scheme_status" value="<?php echo $scheme_status; ?>" />
+                        <span style="margin: 10px;"></span> <?php echo $scheme_status; ?>
+                        <br />
+                    <?php } ?>
                 </td>
                 <td>
                     <table class="table">
@@ -54,26 +53,26 @@ if($cheques->total>0 and $cheques->total <=3){
                             <td><input required type="number" step="any" name="approve_cost" value="<?php echo $scheme_detail->approved_cost; ?>" /></td>
                         </tr>
                         <tr>
-                        <td>CCA:</td>
-                        <td><input min="0" type="number" step="any" required id="cca" name="cca" value="<?php $scheme_detail->cca; ?>" /></td>
+                            <td>CCA:</td>
+                            <td><input min="0" type="number" step="any" required id="cca" name="cca" value="<?php $scheme_detail->cca; ?>" /></td>
                         </tr>
                         <tr>
-                        <td>GCA:</td>
-                        <td><input min="0" type="number" step="any" required id="gca" name="gca" value="<?php $scheme_detail->gca; ?>" /></td>
+                            <td>GCA:</td>
+                            <td><input min="0" type="number" step="any" required id="gca" name="gca" value="<?php $scheme_detail->gca; ?>" /></td>
                         </tr>
                         <td>GCA:</td>
                         <td><input min="0" type="number" step="any" required id="gca" name="gca" value="<?php $scheme_detail->gca; ?>" /></td>
-                        </tr>
-                        <td>Pre Water Losses: (%)</td>
-                        <td><input min="0" max="100" type="number" step="any" required id="pre_water_losses" name="pre_water_losses" value="<?php $scheme_detail->pre_water_losses; ?>" /></td>
-                        </tr>
-                        <td>Post Water Losses: (%)</td>
-                        <td><input min="0" max="100" type="number" step="any" required id="post_water_losses" name="post_water_losses" value="<?php $scheme_detail->post_water_losses; ?>" /></td>
-                        </tr>
-                    </table>
-                     
-                </td>
             </tr>
+            <td>Pre Water Losses: (%)</td>
+            <td><input min="0" max="100" type="number" step="any" required id="pre_water_losses" name="pre_water_losses" value="<?php $scheme_detail->pre_water_losses; ?>" /></td>
+            </tr>
+            <td>Post Water Losses: (%)</td>
+            <td><input min="0" max="100" type="number" step="any" required id="post_water_losses" name="post_water_losses" value="<?php $scheme_detail->post_water_losses; ?>" /></td>
+            </tr>
+        </table>
+
+        </td>
+        </tr>
         </table>
         <div id="result_response"></div>
 

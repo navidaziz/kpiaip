@@ -82,7 +82,7 @@ $fys = $this->db->query($query)->result();
             series: [
                 <?php
                 $schemes = array(
-                    "Not Approved",
+                    "Not-Approved",
                     "Disputed",
                     "Par-Completed",
                     "Registered",

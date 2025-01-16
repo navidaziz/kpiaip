@@ -297,7 +297,7 @@
                             "Registered",
                             "Par-Completed",
                             "Disputed",
-                            "Not Approved"
+                            "Not-Approved"
                         );
 
                         // Loop through each scheme status

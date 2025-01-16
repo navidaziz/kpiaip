@@ -69,6 +69,7 @@
         color: black !important;
 
     }
+
     .table_medium>tbody>tr>td,
     .table_medium>tbody>tr>th,
     .table_medium>tfoot>tr>td,
@@ -124,34 +125,38 @@
     }
 </style>
 <style>
-        .dashboard-box {
-            background-color: #f9f9f9;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            padding: 5px;
-            margin: 10px 0;
-            transition: transform 0.2s;
-        }
-        .dashboard-box:hover {
-            transform: scale(1.05);
-        }
-        .dashboard-box h3 {
-            margin: 0;
-            font-size: 10px;
-            font-weight: bold;
-            color: #333;
-        }
-        .dashboard-box p {
-            font-size: 14px;
-            color: #777;
-        }
-        .dashboard-box .count {
-            font-size: 15px;
-            font-weight: bold;
-            color: #2c3e50;
-        }
-    </style>
+    .dashboard-box {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 5px;
+        margin: 10px 0;
+        transition: transform 0.2s;
+    }
+
+    .dashboard-box:hover {
+        transform: scale(1.05);
+    }
+
+    .dashboard-box h3 {
+        margin: 0;
+        font-size: 10px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .dashboard-box p {
+        font-size: 14px;
+        color: #777;
+    }
+
+    .dashboard-box .count {
+        font-size: 15px;
+        font-weight: bold;
+        color: #2c3e50;
+    }
+</style>
 
 <body>
 
@@ -161,51 +166,51 @@
     <div class="container" style="padding-top: 5px;">
         <div class="row">
 
-        <div class="col-md-2">
+            <div class="col-md-2">
                 <div class="dashboard-box">
                     <h3>KP-IAIP Project</h3>
                     <p class="count">Data Analysis Dashboard</p>
                 </div>
             </div>
-    <?php 
-     $schemes = array(
-        "Registered",
-        "Initiated",
-        "Not Approved",
-        "Ongoing",
-        "ICR-I",
-        "ICR-II",
-        "Final",
-        "Disputed",
-        "Par-Completed",
-        "Completed"
-    );
+            <?php
+            $schemes = array(
+                "Registered",
+                "Initiated",
+                "Not-Approved",
+                "Ongoing",
+                "ICR-I",
+                "ICR-II",
+                "Final",
+                "Disputed",
+                "Par-Completed",
+                "Completed"
+            );
 
-    $colors = array(
-        "Registered" => "#FE6A35",
-        "Initiated" => "#6B8ABC",
-        "Not Approved"  => "#2CAFFE",
-        "Ongoing"  => "#D568FB",
-        "ICR-I" => "#2EE0CA",
-        "ICR-II" => "#FA4B42",
-        "Final" => "#FEB56A",
-        "Disputed" => "#544FC5",
-        "Par-Completed" => "#00E272",
-        "Completed"  => "#91E8E1"
-    );
-   
-    foreach ($schemes as $scheme_status) {
-    $query="SELECT scheme_status, COUNT(*) as total FROM schemes 
-    WHERE scheme_status ='".$scheme_status."'";
-    $scheme = $this->db->query($query)->row();
-    ?>
-            <div class="col-md-1 col-sm-3 col-xs-3">
-                <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
-                    <h3><?php echo $scheme_status; ?></h3>
-                    <p class="count"><?php echo $scheme->total ?></p>
+            $colors = array(
+                "Registered" => "#FE6A35",
+                "Initiated" => "#6B8ABC",
+                "Not-Approved"  => "#2CAFFE",
+                "Ongoing"  => "#D568FB",
+                "ICR-I" => "#2EE0CA",
+                "ICR-II" => "#FA4B42",
+                "Final" => "#FEB56A",
+                "Disputed" => "#544FC5",
+                "Par-Completed" => "#00E272",
+                "Completed"  => "#91E8E1"
+            );
+
+            foreach ($schemes as $scheme_status) {
+                $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+    WHERE scheme_status ='" . $scheme_status . "'";
+                $scheme = $this->db->query($query)->row();
+            ?>
+                <div class="col-md-1 col-sm-3 col-xs-3">
+                    <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
+                        <h3><?php echo $scheme_status; ?></h3>
+                        <p class="count"><?php echo $scheme->total ?></p>
+                    </div>
                 </div>
-            </div>
-     <?php } ?>
+            <?php } ?>
             <div class="col-md-4">
                 <div id="budget_utilization_summary"></div>
             </div>
@@ -227,7 +232,7 @@
                 <div id="scheme_category_total"></div>
             </div>
 
-             <div class="col-md-12">
+            <div class="col-md-12">
                 <div id="district_scheme_heat_map"></div>
             </div>
 
@@ -249,25 +254,25 @@
 
         </div>
         <div class="row">
-        <div class="col-md-12" >
+            <div class="col-md-12">
 
-<div style="text-align: center; margin-top:10px; border:1px solid gray; margin:10px; border-radius:5px">Financial Years Filter
-    <?php
-    // PHP code to fetch data from the database and prepare it for JavaScript
-    $query = "SELECT * FROM financial_years";
-    $financial_years = $this->db->query($query)->result();
+                <div style="text-align: center; margin-top:10px; border:1px solid gray; margin:10px; border-radius:5px">Financial Years Filter
+                    <?php
+                    // PHP code to fetch data from the database and prepare it for JavaScript
+                    $query = "SELECT * FROM financial_years";
+                    $financial_years = $this->db->query($query)->result();
 
-    foreach ($financial_years as $financial_year) { ?>
-        <label style="margin-left: 10px;">
-            <input <?php if ($financial_year->status == 1) { ?> checked <?php }  ?> onclick="filter_data()" type="checkbox" name="fy_id[<?php echo $financial_year->financial_year_id ?>]" class="fy_id" autocomplete="off">
-            <?php echo $financial_year->financial_year; ?>
-        </label>
-    <?php } ?>
+                    foreach ($financial_years as $financial_year) { ?>
+                        <label style="margin-left: 10px;">
+                            <input <?php if ($financial_year->status == 1) { ?> checked <?php }  ?> onclick="filter_data()" type="checkbox" name="fy_id[<?php echo $financial_year->financial_year_id ?>]" class="fy_id" autocomplete="off">
+                            <?php echo $financial_year->financial_year; ?>
+                        </label>
+                    <?php } ?>
 
-</div>
+                </div>
 
 
-</div>
+            </div>
             <div class="col-md-4">
                 <div id="components_expenses"></div>
             </div>
@@ -333,7 +338,7 @@
             get_report("region_expenses");
             get_report("scheme_category_total");
             get_report("scheme_category_heat_map");
-             get_report("district_scheme_heat_map");
+            get_report("district_scheme_heat_map");
 
             get_report("region_schemes");
             get_report("district_schemes");
@@ -376,8 +381,6 @@
                 console.warn(`Element with id "${elementId}" not found.`);
             }
         }
-
-        
     </script>
 
 </body>

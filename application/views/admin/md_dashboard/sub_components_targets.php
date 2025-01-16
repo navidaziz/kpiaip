@@ -39,7 +39,7 @@ $start_time = microtime(true);
 
         $query = "SELECT COUNT(scheme_id) as total,
             SUM(CASE WHEN scheme_status = 'Ongoing' THEN 1 ELSE 0 END) AS ongoing,
-            SUM(CASE WHEN scheme_status = 'Not Approved' THEN 1 ELSE 0 END) AS not_approved,
+            SUM(CASE WHEN scheme_status = 'Not-Approved' THEN 1 ELSE 0 END) AS not_approved,
             SUM(CASE WHEN scheme_status = 'Initiated' THEN 1 ELSE 0 END) AS initiated,
             SUM(CASE WHEN scheme_status = 'Disputed' THEN 1 ELSE 0 END) AS disputed,
             SUM(CASE WHEN scheme_status = 'Completed' THEN 1 ELSE 0 END) AS completed
