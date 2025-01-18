@@ -406,7 +406,7 @@
                                 pns.whit,
                                 pns.whst,
                                 pns.net_pay,
-                                pns.payment_type,
+                                pns.payment_type, 
                                 s.lining_length,
                                 SUM(e.gross_pay) as `total_paid`,
                                 COUNT(e.expense_id) as `payment_count`,

@@ -900,13 +900,9 @@ class Reports extends Admin_Controller
         s.feasibility_date AS `FEASIBILITY_DATE`, 
         s.work_order_date AS `WORK_ORDER_DATE`, 
         s.scheme_initiation_date AS `SCHEME_INITIATION_DATE`, 
-        s.estimated_cost AS `ESTIMATED_COST`, 
-        s.estimated_cost_date AS `ESTIMATED_COST_DATE`, 
-        s.approved_cost AS `APPROVED_COST`, 
+        s.estimated_cost_date AS `ESTIMATED_COST_DATE`,
         s.approval_date AS `APPROVAL_DATE`, 
-        s.revised_cost AS `REVISED_COST`, 
         s.revised_cost_date AS `REVISED_COST_DATE`, 
-        s.sanctioned_cost AS `SANCTIONED_COST`, 
         s.technical_sanction_date AS `TECHNICAL_SANCTION_DATE`, 
         s.completion_date AS `COMPLETION_DATE`, 
         s.verified_by_tpv AS `VERIFIED_BY_TPV`, 
@@ -932,15 +928,32 @@ class Reports extends Admin_Controller
         s.risers_pipe AS `RISERS_PIPE`, 
         s.risers_pond AS `RISERS_POND`, 
         s.design_discharge AS `DESIGN_DISCHARGE`, 
-        s.others AS `OTHERS`
+        s.others AS `OTHERS`,
+        s.estimated_cost AS `ESTIMATED_COST`,
+        s.approved_cost AS `APPROVED_COST`, 
+        s.revised_cost AS `REVISED_COST`,
+        s.completion_cost AS `COMPLETION_COST`,  
+        s.sanctioned_cost AS `SANCTIONED_COST`, 
+        SUM(e.gross_pay) as `TOTAL_PAID`,
+         SUM(e.gross_pay-e.net_pay) as `DEDUCTION`,
+        SUM(e.net_pay) as `NET_PAID`,
+        COUNT(e.expense_id) as `PAYMENT_COUNT`,
+        GROUP_CONCAT(e.cheque ORDER BY e.installment SEPARATOR ', ') AS `cheques`,
+        SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
+        SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
+        SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
+        SUM(CASE WHEN e.installment NOT IN ('1st', '2nd', '1st_2nd', 'final' ) THEN e.gross_pay END) AS `OTHER`,
+        SUM(CASE WHEN e.installment = 'final' THEN e.gross_pay END) AS `FINAL`
         FROM schemes AS s
         INNER JOIN districts AS d ON(d.district_id = s.district_id)
         INNER JOIN financial_years AS fy ON(fy.financial_year_id = s.financial_year_id)
         INNER JOIN component_categories AS cc ON(cc.component_category_id = s.component_category_id)
         INNER JOIN sub_components AS sc ON(sc.sub_component_id = cc.sub_component_id)
         INNER JOIN components AS c ON(c.component_id = sc.component_id)
-        INNER JOIN water_user_associations AS wua ON(wua.water_user_association_id = s.water_user_association_id)  
-        ORDER BY `SCHEME_ID` DESC";
+        INNER JOIN water_user_associations AS wua ON(wua.water_user_association_id = s.water_user_association_id)
+        LEFT JOIN expenses e ON s.scheme_id = e.scheme_id  
+        GROUP BY s.scheme_id
+        ORDER BY `SCHEME_ID` ASC";
 
         // Execute the query
         $result = $this->db->query($query)->result_array();
