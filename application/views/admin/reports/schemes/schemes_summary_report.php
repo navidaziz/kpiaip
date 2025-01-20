@@ -116,7 +116,7 @@
 
             <h4>Ongoing Schemes (Ongoing, ICR-I, ICR-II, ICRI&II, Final)</h4>
             <hr />
-            <table class="table table-bordered table_s mall" style="color: black !important;">
+            <table class="table table-bordered table_s mall table-striped" style="color: black !important;">
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -245,7 +245,7 @@
                     </tr>
 
                 </tbody>
-                <tfoot>
+                <tfoot style="background-color: white;">
                     <?php
                     $query = "SELECT 
                     COUNT(0) AS `total`,
@@ -284,7 +284,7 @@
         <div class="alert alert-success" id="messenger">
             <h4>Complete Schemes</h4>
             <hr />
-            <table class="table table-bordered table_s mall" style="color: black !important;">
+            <table class="table table-bordered table_s mall table-striped" style="color: black !important;">
                 <thead>
                     <tr>
                         <th>Category</th>
@@ -403,7 +403,7 @@
                     </tr>
 
                 </tbody>
-                <tfoot>
+                <tfoot style="background-color: white;">
                     <?php
                     $query = "SELECT 
                     COUNT(0) AS `total`,
