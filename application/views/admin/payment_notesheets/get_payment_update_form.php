@@ -180,8 +180,8 @@
             <div class="col-sm-8">
                 <?php
                 $payment_type = array(
-                    "ICT-I" => "ICR-I",
-                    "ICT_II" => "ICR-II",
+                    "ICR-I" => "ICR-I",
+                    "ICR-II" => "ICR-II",
                     "ICR-I&II" => "ICR-I&II",
                     "FINAL" => "FINAL"
                 );
