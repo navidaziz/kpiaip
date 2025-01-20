@@ -141,25 +141,25 @@
                                                             ?></th>
                         </tr>
                     </table>
+                    <?php if ($tab != 'wua' and $tab != 'r_cheques') { ?>
+                        <div class="box border blue">
+                            <!-- Include jQuery and Select2 CSS/JS -->
+                            <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+                            <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+                            <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
-                    <div class="box border blue">
-                        <!-- Include jQuery and Select2 CSS/JS -->
-                        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-                        <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
-                        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+                            <div class="box-body">
 
-                        <div class="box-body">
-
-                            <form id="filterFormScheme">
-                                <table class="table">
-                                    <tr>
-                                        <?php if (!empty($district_id)) { ?>
-                                            <input type="hidden" name="district_ids" value="<?php echo $district_id; ?>" />
-                                        <?php } else { ?>
-                                            <td style="width: 200px;">
-                                                <?php
-                                                // Fetch district data
-                                                $query = "
+                                <form id="filterFormScheme">
+                                    <table class="table">
+                                        <tr>
+                                            <?php if (!empty($district_id)) { ?>
+                                                <input type="hidden" name="district_ids" value="<?php echo $district_id; ?>" />
+                                            <?php } else { ?>
+                                                <td style="width: 200px;">
+                                                    <?php
+                                                    // Fetch district data
+                                                    $query = "
                                                         SELECT 
                                                             districts.district_name, 
                                                             districts.district_id 
@@ -168,84 +168,84 @@
                                                             ON schemes.district_id = districts.district_id 
                                                         GROUP BY districts.district_id, districts.district_name
                                                     ";
-                                                $districts = $this->db->query($query)->result();
+                                                    $districts = $this->db->query($query)->result();
+                                                    ?>
+                                                    Filter by District:
+                                                    <select class="form-control" name="district_ids[]" id="district_ids" multiple="multiple">
+                                                        <?php foreach ($districts as $district) { ?>
+                                                            <option value="<?php echo $district->district_id; ?>">
+                                                                <?php echo $district->district_name; ?>
+                                                            </option>
+                                                        <?php } ?>
+                                                    </select>
+                                                </td>
+                                            <?php } ?>
+
+                                            <td style="width: 200px;">
+                                                Filter by Category:
+                                                <?php
+                                                $query = "SELECT cc.category, cc.component_category_id FROM schemes 
+                                            INNER JOIN component_categories as cc ON schemes.component_category_id = cc.component_category_id 
+                                            GROUP BY cc.component_category_id";
+                                                $component_categories = $this->db->query($query)->result();
                                                 ?>
-                                                Filter by District:
-                                                <select class="form-control" name="district_ids[]" id="district_ids" multiple="multiple">
-                                                    <?php foreach ($districts as $district) { ?>
-                                                        <option value="<?php echo $district->district_id; ?>">
-                                                            <?php echo $district->district_name; ?>
-                                                        </option>
+                                                <select class="form-control" name="component_category_ids[]" id="component_category_ids" multiple="multiple">
+                                                    <?php foreach ($component_categories as $component_category) { ?>
+                                                        <option value="<?php echo $component_category->component_category_id; ?>"><?php echo $component_category->category; ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </td>
-                                        <?php } ?>
+                                            <td>
+                                                Search: <input type="text" name="search" id="search" class="form-control" placeholder="Search By Scheme Name or Scheme Code" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div id="searchSchemeList"></div>
+                                </form>
 
-                                        <td style="width: 200px;">
-                                            Filter by Category:
-                                            <?php
-                                            $query = "SELECT cc.category, cc.component_category_id FROM schemes 
-                                            INNER JOIN component_categories as cc ON schemes.component_category_id = cc.component_category_id 
-                                            GROUP BY cc.component_category_id";
-                                            $component_categories = $this->db->query($query)->result();
-                                            ?>
-                                            <select class="form-control" name="component_category_ids[]" id="component_category_ids" multiple="multiple">
-                                                <?php foreach ($component_categories as $component_category) { ?>
-                                                    <option value="<?php echo $component_category->component_category_id; ?>"><?php echo $component_category->category; ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            Search: <input type="text" name="search" id="search" class="form-control" placeholder="Search By Scheme Name or Scheme Code" />
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div id="searchSchemeList"></div>
-                            </form>
+                                <script>
+                                    $(document).ready(function() {
+                                        // Initialize Select2 for dropdowns
+                                        $('#district_ids, #component_category_ids').select2();
 
-                            <script>
-                                $(document).ready(function() {
-                                    // Initialize Select2 for dropdowns
-                                    $('#district_ids, #component_category_ids').select2();
-
-                                    // Function to fetch filtered data
-                                    function fetchFilteredData() {
-                                        var formData = $('#filterFormScheme').serialize();
-                                        if ($('#search').val().length == 0) {
-                                            $('#searchSchemeList').html('');
-                                            return;
-                                        }
-                                        // Send the data via AJAX
-                                        $.ajax({
-                                            url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/filter_scheme_search") ?>', // Replace with your endpoint
-                                            method: 'POST',
-                                            data: formData,
-                                            success: function(response) {
-                                                $('#searchSchemeList').html(response);
-                                            },
-                                            error: function(error) {
-                                                console.error('Error fetching data:', error);
+                                        // Function to fetch filtered data
+                                        function fetchFilteredData() {
+                                            var formData = $('#filterFormScheme').serialize();
+                                            if ($('#search').val().length == 0) {
+                                                $('#searchSchemeList').html('');
+                                                return;
                                             }
+                                            // Send the data via AJAX
+                                            $.ajax({
+                                                url: '<?php echo site_url(ADMIN_DIR . "water_user_associations/filter_scheme_search") ?>', // Replace with your endpoint
+                                                method: 'POST',
+                                                data: formData,
+                                                success: function(response) {
+                                                    $('#searchSchemeList').html(response);
+                                                },
+                                                error: function(error) {
+                                                    console.error('Error fetching data:', error);
+                                                }
+                                            });
+                                        }
+
+                                        // Trigger AJAX call on keyup in search field
+                                        $('#search').on('keyup', function() {
+                                            //if ($(this).val().length >= 3 || $(this).val().length === 0) {
+                                            fetchFilteredData();
+                                            //}
                                         });
-                                    }
 
-                                    // Trigger AJAX call on keyup in search field
-                                    $('#search').on('keyup', function() {
-                                        //if ($(this).val().length >= 3 || $(this).val().length === 0) {
-                                        fetchFilteredData();
-                                        //}
+                                        // Trigger AJAX call on district or category change
+                                        $('#district_ids, #component_category_ids').on('change', function() {
+                                            fetchFilteredData();
+                                        });
                                     });
-
-                                    // Trigger AJAX call on district or category change
-                                    $('#district_ids, #component_category_ids').on('change', function() {
-                                        fetchFilteredData();
-                                    });
-                                });
-                            </script>
+                                </script>
+                            </div>
 
                         </div>
-                    </div>
-
+                    <?php } ?>
                 </div>
 
             </div>
@@ -269,7 +269,7 @@
                 <div class="header-tabs">
 
                     <ul class="nav nav-tabs" s>
-                        <li style="font-size: 11px;">
+                        <li style="font-size: 11px;" <?php if ('r_cheques' == $tab) { ?> class="active" <?php } ?>>
                             <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/r_cheques/") . $district_id; ?>"
                                 contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
                                 <?php

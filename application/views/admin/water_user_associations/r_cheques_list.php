@@ -1,5 +1,7 @@
 <div class="table-responsive" style=" overflow-x:auto;">
 
+    <h4>Remaining Cheques</h4>
+    <hr />
     <table class="table table-bordered table_small" id="db_table">
         <thead>
             <th>#</th>
