@@ -207,6 +207,9 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_fy_wise_completed_schemes') ?>">District and FY Wise Completed Report</a>
                     </li>
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/completed_intervention_summary') ?>">Completed Intervention Summary</a>
+                    </li>
                 </ol>
 
             </div>
