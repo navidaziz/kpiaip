@@ -210,6 +210,9 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/completed_intervention_summary') ?>">Completed Intervention Summary</a>
                     </li>
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_summary_report') ?>">Schemes Summary Report</a>
+                    </li>
                 </ol>
 
             </div>
