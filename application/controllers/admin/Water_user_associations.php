@@ -418,17 +418,15 @@ class Water_user_associations extends Admin_Controller
 
     public function add_scheme()
     {
-
-        $_POST['approved_cost'] = 0;
-        $_POST['revised_cost'] = 0;
-        $_POST['sanctioned_cost'] = 0;
-        $_POST['estimated_cost'] = 0;
-        $_POST['scheme_status'] = 'Registered';
-
         if ($this->scheme_model->validate_form_data() === TRUE) {
             $scheme_id = (int) $this->input->post('scheme_id');
 
             if ($scheme_id == 0) {
+                $_POST['approved_cost'] = 0;
+                $_POST['revised_cost'] = 0;
+                $_POST['sanctioned_cost'] = 0;
+                $_POST['estimated_cost'] = 0;
+                $_POST['scheme_status'] = 'Registered';
 
                 $district_id = $this->input->post('district_id');
 
@@ -465,7 +463,7 @@ class Water_user_associations extends Admin_Controller
                 $log_inputs['scheme_id'] = $scheme_id;
                 $log_inputs['scheme_status'] = $scheme->scheme_status;
                 $log_inputs['remarks'] = 'Update';
-                $log_inputs['detail'] = "S_Name:" . $_POST['scheme_name'] . ", C_CAT_ID: " . $_POST['component_category_id'] . ", Estimated Cost:" . $_POST['estimated_cost'];
+                $log_inputs['detail'] = "S_Name:" . $_POST['scheme_name'] . ", C_CAT_ID: " . $_POST['component_category_id'];
                 $log_inputs["created_by"] = $this->session->userdata("userId");
                 $log_inputs["last_updated"] = date('Y-m-d H:i:s');
 

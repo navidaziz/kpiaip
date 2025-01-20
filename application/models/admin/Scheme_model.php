@@ -52,13 +52,13 @@ class Scheme_model extends MY_Model
             //     "label"  =>  "Water Source",
             //     "rules"  =>  "required"
             // ),
- array(
-    
+            array(
+
                 "field"  =>  "tehsil",
                 "label"  =>  "Tehsil",
                 "rules"  =>  "required"
             ),
-             array(
+            array(
                 "field"  =>  "uc",
                 "label"  =>  "UC",
                 "rules"  =>  "required"
@@ -103,29 +103,29 @@ class Scheme_model extends MY_Model
                 "rules"  =>  "required"
             ),
 
-            array(
-                "field"  =>  "estimated_cost",
-                "label"  =>  "Estimated Cost",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "estimated_cost",
+            //     "label"  =>  "Estimated Cost",
+            //     "rules"  =>  "required"
+            // ),
 
-            array(
-                "field"  =>  "approved_cost",
-                "label"  =>  "Approved Cost",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "approved_cost",
+            //     "label"  =>  "Approved Cost",
+            //     "rules"  =>  "required"
+            // ),
 
-            array(
-                "field"  =>  "revised_cost",
-                "label"  =>  "Revised Cost",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "revised_cost",
+            //     "label"  =>  "Revised Cost",
+            //     "rules"  =>  "required"
+            // ),
 
-            array(
-                "field"  =>  "sanctioned_cost",
-                "label"  =>  "Sanctioned Cost",
-                "rules"  =>  "required"
-            ),
+            // array(
+            //     "field"  =>  "sanctioned_cost",
+            //     "label"  =>  "Sanctioned Cost",
+            //     "rules"  =>  "required"
+            // ),
 
             array(
                 "field"  =>  "water_user_association_id",
@@ -159,7 +159,7 @@ class Scheme_model extends MY_Model
         $component_category = $this->db->query($query)->row()->category;
         $input['category'] = $component_category;
 
-        
+
 
         $inputs["scheme_name"]  =  $this->input->post("scheme_name");
 
@@ -222,7 +222,7 @@ class Scheme_model extends MY_Model
         $inputs["scheme_name"]  =  $this->input->post("scheme_name");
 
         $inputs["water_source"]  =  $this->input->post("water_source");
-         $inputs["tehsil"]  =  $this->input->post("tehsil");
+        $inputs["tehsil"]  =  $this->input->post("tehsil");
         $inputs["uc"]  =  $this->input->post("uc");
         $inputs["villege"]  =  $this->input->post("villege");
         $inputs["na"]  =  $this->input->post("na");
@@ -238,13 +238,13 @@ class Scheme_model extends MY_Model
 
         $inputs["beneficiaries"] = $inputs["male_beneficiaries"] + $inputs["female_beneficiaries"];
 
-        $inputs["estimated_cost"]  =  $this->input->post("estimated_cost");
+        // $inputs["estimated_cost"]  =  $this->input->post("estimated_cost");
 
-        $inputs["approved_cost"]  =  $this->input->post("approved_cost");
+        // $inputs["approved_cost"]  =  $this->input->post("approved_cost");
 
-        $inputs["revised_cost"]  =  $this->input->post("revised_cost");
+        // $inputs["revised_cost"]  =  $this->input->post("revised_cost");
 
-        $inputs["sanctioned_cost"]  =  $this->input->post("sanctioned_cost");
+        // $inputs["sanctioned_cost"]  =  $this->input->post("sanctioned_cost");
         $inputs["registration_date"]  =  $this->input->post("registration_date");
         $inputs["financial_year_id"]  =  $this->input->post("financial_year_id");
 
@@ -264,7 +264,11 @@ class Scheme_model extends MY_Model
     {
         $data = (object) array();
         $fields = array(
-            "schemes.*", "projects.project_name", "districts.district_name", "component_categories.category", "water_user_associations.wua_name"
+            "schemes.*",
+            "projects.project_name",
+            "districts.district_name",
+            "component_categories.category",
+            "water_user_associations.wua_name"
         );
         $join_table = array(
             "projects" => "projects.project_id = schemes.project_id",
@@ -308,7 +312,11 @@ class Scheme_model extends MY_Model
     {
 
         $fields = array(
-            "schemes.*", "projects.project_name", "districts.district_name", "component_categories.category", "water_user_associations.wua_name"
+            "schemes.*",
+            "projects.project_name",
+            "districts.district_name",
+            "component_categories.category",
+            "water_user_associations.wua_name"
         );
         $join_table = array(
             "projects" => "projects.project_id = schemes.project_id",
