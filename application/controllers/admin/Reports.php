@@ -959,8 +959,8 @@ class Reports extends Admin_Controller
         SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
         SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
         SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
-        SUM(CASE WHEN e.installment NOT IN ('1st', '2nd', '1st_2nd', 'final' ) THEN e.gross_pay END) AS `OTHER`,
-        SUM(CASE WHEN e.installment = 'final' THEN e.gross_pay END) AS `FINAL`
+        SUM(CASE WHEN e.installment NOT IN ('1st', '2nd', '1st_2nd', 'Final' ) THEN e.gross_pay END) AS `OTHER`,
+        SUM(CASE WHEN e.installment = 'Final' THEN e.gross_pay END) AS `FINAL`
         FROM schemes AS s
         INNER JOIN districts AS d ON(d.district_id = s.district_id)
         INNER JOIN financial_years AS fy ON(fy.financial_year_id = s.financial_year_id)

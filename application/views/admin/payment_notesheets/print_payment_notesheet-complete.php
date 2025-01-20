@@ -373,7 +373,7 @@
                                 SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
                                 SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
                                 SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
-                                SUM(CASE WHEN e.installment = 'final' THEN e.gross_pay END) AS `final`,
+                                SUM(CASE WHEN e.installment = 'Final' THEN e.gross_pay END) AS `final`,
                                 SUM(CASE WHEN e.installment IS NULL THEN e.gross_pay END) AS `other`,
                                 GROUP_CONCAT(e.cheque ORDER BY e.installment SEPARATOR ', ') AS `cheques`
                             FROM 
