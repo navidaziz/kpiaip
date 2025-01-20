@@ -127,6 +127,11 @@ class Expense_model extends MY_Model
                 "field"  =>  "cheque",
                 "label"  =>  "Cheque",
                 "rules"  =>  "required"
+            ),
+            array(
+                "field"  =>  "installment",
+                "label"  =>  "Installment",
+                "rules"  =>  "required"
             )
 
         );
@@ -241,6 +246,8 @@ class Expense_model extends MY_Model
         $inputs["st_duty_tax"]  =  $this->input->post("st_duty_tax");
         $inputs["kpra_tax"]  =  $this->input->post("kpra_tax");
         $inputs["gur_ret"]  =  $this->input->post("gur_ret");
+        $inputs["installment"]  =  $this->input->post("installment");
+
         $inputs["misc_deduction"]  =  $this->input->post("misc_deduction");
         $inputs["net_pay"]  =  $this->input->post("net_pay");
         $inputs["created_by"] = $this->session->userdata("userId");
