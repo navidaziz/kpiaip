@@ -876,7 +876,7 @@
                         </tfoot>
                     </table>
                     <div style="text-align: center;">
-                        <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'FCR') { ?>
+                        <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
 
                         <?php } else { ?>
                             <div class="alert alert-success">Scheme Status: <?php echo  $scheme->scheme_status; ?></div>
