@@ -1438,16 +1438,21 @@ class Water_user_associations extends Admin_Controller
         $columns[] = "scheme_id";
         $columns[] = "district_name";
         $columns[] = "wua_reg_code";
-        $columns[] = "wua_name";
         $columns[] = "financial_year";
         $columns[] = "scheme_code";
         $columns[] = "scheme_name";
         $columns[] = "component_category";
         $columns[] = "sanctioned_cost";
-        $columns[] = "paid";
-        $columns[] = "paid_percentage";
+        $columns[] = "total_paid";
+        $columns[] = "deduction";
+        $columns[] = "net_paid";
         $columns[] = "remaining";
         $columns[] = "payment_count";
+        $columns[] = "first";
+        $columns[] = "second";
+        $columns[] = "first_second";
+        $columns[] = "other";
+        $columns[] = "final";
         $columns[] = "scheme_note";
 
 

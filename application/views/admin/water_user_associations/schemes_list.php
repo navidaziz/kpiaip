@@ -5,18 +5,23 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>District Name</th>
-                <th>Wua Reg Code</th>
-                <th>Wua Name</th>
+                <th>District</th>
+                <th>WUA</th>
                 <th>FY</th>
                 <th>Scheme Code</th>
                 <th>Scheme Name</th>
-                <th>Component Category</th>
+                <th>Category</th>
                 <th>Sanctioned Cost</th>
+                <th>Gross Paid</th>
+                <th>Deduction</th>
                 <th>Net Paid</th>
-                <th>Paid Percentage</th>
                 <th>Remaining</th>
-                <th>Payment Count</th>
+                <th>Pay. Count</th>
+                <th>ICR-I</th>
+                <th>ICR-II</th>
+                <th>ICR-I&II</th>
+                <th>Other</th>
+                <th>FCR</th>
                 <th>Note</th>
                 <th>Action</th>
             </tr>
@@ -50,11 +55,6 @@
                     {
                         "data": "district_name"
                     },
-
-                    {
-                        "data": "wua_reg_code"
-                    },
-
                     {
                         "data": "wua_name"
                     },
@@ -77,17 +77,35 @@
                         "data": "sanctioned_cost",
                         "render": function(data, type, row) {
                             // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
                             return parseFloat(data).toLocaleString(
                                 'en-US', {
                                     minimumFractionDigits: 2
                                 });
                         }
                     },
-
                     {
-                        "data": "paid",
+                        "data": "total_paid",
                         "render": function(data, type, row) {
                             // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
+                            return parseFloat(data).toLocaleString(
+                                'en-US', {
+                                    minimumFractionDigits: 2
+                                });
+                        }
+                    },
+                    {
+                        "data": "deduction",
+                        "render": function(data, type, row) {
+                            // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
                             return parseFloat(data).toLocaleString(
                                 'en-US', {
                                     minimumFractionDigits: 2
@@ -96,13 +114,94 @@
                     },
 
                     {
-                        "data": "paid_percentage"
+                        "data": "net_paid",
+                        "render": function(data, type, row) {
+                            // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
+                            return parseFloat(data).toLocaleString(
+                                'en-US', {
+                                    minimumFractionDigits: 2
+                                });
+                        }
                     },
 
                     {
                         "data": "remaining",
                         "render": function(data, type, row) {
                             // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
+                            return parseFloat(data).toLocaleString(
+                                'en-US', {
+                                    minimumFractionDigits: 2
+                                });
+                        }
+                    },
+                    {
+                        "data": "payment_count"
+                    },
+                    {
+                        "data": "first",
+                        "render": function(data, type, row) {
+                            // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
+                            return parseFloat(data).toLocaleString(
+                                'en-US', {
+                                    minimumFractionDigits: 2
+                                });
+                        }
+                    },
+                    {
+                        "data": "second",
+                        "render": function(data, type, row) {
+                            // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
+                            return parseFloat(data).toLocaleString(
+                                'en-US', {
+                                    minimumFractionDigits: 2
+                                });
+                        }
+                    },
+                    {
+                        "data": "first_second",
+                        "render": function(data, type, row) {
+                            // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
+                            return parseFloat(data).toLocaleString(
+                                'en-US', {
+                                    minimumFractionDigits: 2
+                                });
+                        }
+                    },
+                    {
+                        "data": "other",
+                        "render": function(data, type, row) {
+                            // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
+                            return parseFloat(data).toLocaleString(
+                                'en-US', {
+                                    minimumFractionDigits: 2
+                                });
+                        }
+                    },
+                    {
+                        "data": "final",
+                        "render": function(data, type, row) {
+                            // Format the number here
+                            if (!data || isNaN(data)) {
+                                return ""; // Fallback to a default value
+                            }
                             return parseFloat(data).toLocaleString(
                                 'en-US', {
                                     minimumFractionDigits: 2
@@ -110,9 +209,6 @@
                         }
                     },
 
-                    {
-                        "data": "payment_count"
-                    },
                     {
                         "data": "scheme_note"
                     },
