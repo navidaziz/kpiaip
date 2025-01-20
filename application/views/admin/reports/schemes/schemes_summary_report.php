@@ -205,7 +205,7 @@
                     ?>
                     <tr>
                         <th>B2: Water Storage Tank </th>
-                        <td><?php echo $ongoing_b1->total; ?></td>
+                        <td><?php echo $ongoing_b2->total; ?></td>
                         <td><?php echo number_format($ongoing_b2->sactioned_cost); ?></td>
                         <td><?php echo number_format($ongoing_b2->first); ?></td>
                         <td><?php echo number_format($ongoing_b2->second) ?></td>
@@ -367,7 +367,7 @@
                     ?>
                     <tr>
                         <th>B2: Water Storage Tank </th>
-                        <td><?php echo $ongoing_b1->total; ?></td>
+                        <td><?php echo $ongoing_b2->total; ?></td>
                         <td><?php echo number_format($ongoing_b2->first); ?></td>
                         <td><?php echo number_format($ongoing_b2->second) ?></td>
                         <td><?php echo number_format($ongoing_b2->first_second); ?></td>
