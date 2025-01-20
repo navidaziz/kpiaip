@@ -150,7 +150,7 @@
                     <?php foreach ($ongoing_schemes as $scheme) { ?>
                         <tr>
                             <th><?php echo $scheme->category; ?></th>
-                            <td><?php echo number_format($scheme->total, 2); ?></td>
+                            <td><?php echo $scheme->total; ?></td>
                             <td><?php echo number_format($scheme->sactioned_cost); ?></td>
                             <td><?php echo number_format($scheme->first); ?></td>
                             <td><?php echo number_format($scheme->second) ?></td>
@@ -180,7 +180,7 @@
                     ?>
                     <tr>
                         <th>Total</th>
-                        <td><?php echo number_format($scheme->total, 2); ?></td>
+                        <td><?php echo $scheme->total; ?></td>
                         <td><?php echo number_format($scheme->sactioned_cost); ?></td>
                         <td><?php echo number_format($scheme->first); ?></td>
                         <td><?php echo number_format($scheme->second) ?></td>
