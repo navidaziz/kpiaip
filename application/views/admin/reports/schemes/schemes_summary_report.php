@@ -140,7 +140,7 @@
                     </div>
                     <div class="description"><?php echo $description; ?></div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-5">
                     <div class="alert alert-danger" id="messenger">
                         <h4>Ongoing Schemes</h4>
                         <hr />
@@ -174,7 +174,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="alert alert-success" id="messenger">
                         <h4>Completed Schemes</h4>
                         <hr />
