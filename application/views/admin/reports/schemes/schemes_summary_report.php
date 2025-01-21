@@ -282,7 +282,7 @@
     </div>
     <div class="col-md-12">
         <div class="alert alert-success" id="messenger">
-            <h4>Complete Schemes</h4>
+            <h4>Completed Schemes</h4>
             <hr />
             <table class="table table-bordered table_s mall table-striped" style="color: black !important;">
                 <thead>
