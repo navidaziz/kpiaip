@@ -27,8 +27,8 @@ class Reports extends Admin_Controller
 
     public function schemes_summary_report()
     {
-        $this->data["title"] = 'Ongoing / Completed Summary Report';
-        $this->data["description"] = 'schemes Summary Report';
+        $this->data["title"] = 'Ongoing / Completed Summary Dashboard';
+        $this->data["description"] = 'Schemes Summary Report';
         $this->data["view"] = ADMIN_DIR . "reports/schemes/schemes_summary_report";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
