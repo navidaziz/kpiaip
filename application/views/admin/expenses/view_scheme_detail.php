@@ -110,11 +110,11 @@
 
                                 <th><?php if ($scheme->sanctioned_cost) echo number_format($scheme->sanctioned_cost);
                                     else "notmentioned" ?></th>
-                                <th><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
+                                <th><?php if ($expense_summary->gross_pay) echo number_format($expense_summary->gross_pay);
                                     else echo "0.00" ?></th>
-                                <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->net_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?>
+                                <th><?php if ($scheme->sanctioned_cost > 0) echo round((($expense_summary->gross_pay * 100) / $scheme->sanctioned_cost), 2) . " %"; ?>
                                 </th>
-                                <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
+                                <th><?php echo number_format($scheme->sanctioned_cost - $expense_summary->gross_pay); ?>
                                 </th>
                             </tr>
 
@@ -861,12 +861,12 @@
                                         <strong><?php if ($scheme->sanctioned_cost) echo number_format($scheme->sanctioned_cost) ?></strong>
                                         <br />
                                         Total Paid (Rs):
-                                        <strong><?php if ($expense_summary->net_pay) echo number_format($expense_summary->net_pay);
+                                        <strong><?php if ($expense_summary->gross_pay) echo number_format($expense_summary->gross_pay);
                                                 else echo "0.00" ?></strong>
                                         <br />
                                         Total Remaining (Rs):
                                         <strong>
-                                            <?php echo number_format($scheme->sanctioned_cost - $expense_summary->net_pay); ?>
+                                            <?php echo number_format($scheme->sanctioned_cost - $expense_summary->gross_pay); ?>
                                         </strong>
                                     </h5>
                                 </td>
