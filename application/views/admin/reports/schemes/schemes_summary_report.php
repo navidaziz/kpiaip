@@ -206,54 +206,97 @@
                     </div>
                 </div>
             </div>
+            <?php
+            $colors = array(
+                "Registered" => "#FE6A35",
+                "Initiated" => "#6B8ABC",
+                "Not-Approved"  => "#2CAFFE",
+                "Ongoing"  => "#D568FB",
+                "ICR-I" => "#2EE0CA",
+                "ICR-II" => "#FA4B42",
+                "Final" => "#FEB56A",
+                "Disputed" => "#544FC5",
+                "Par-Completed" => "#00E272",
+                "Completed"  => "#91E8E1"
+            );
+            $ongoingschemes = array(
+                //"Registered",
+                //"Initiated",
+                //"Not-Approved",
+                "Ongoing",
+                "ICR-I",
+                "ICR-II",
+                "Final",
+                //"Disputed",
+                //"Par-Completed",
+                //"Completed"
+            );
+            $completedschemes = array(
+                "Par-Completed",
+                "Completed"
+            );
 
+            ?>
             <div class="row">
-                <?php
-                $schemes = array(
-                    //"Registered",
-                    //"Initiated",
-                    //"Not-Approved",
-                    "Ongoing",
-                    "ICR-I",
-                    "ICR-II",
-                    "Final",
-                    //"Disputed",
-                    "Par-Completed",
-                    "Completed"
-                );
-
-                $colors = array(
-                    "Registered" => "#FE6A35",
-                    "Initiated" => "#6B8ABC",
-                    "Not-Approved"  => "#2CAFFE",
-                    "Ongoing"  => "#D568FB",
-                    "ICR-I" => "#2EE0CA",
-                    "ICR-II" => "#FA4B42",
-                    "Final" => "#FEB56A",
-                    "Disputed" => "#544FC5",
-                    "Par-Completed" => "#00E272",
-                    "Completed"  => "#91E8E1"
-                );
-
-                foreach ($schemes as $scheme_status) {
-                    $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
-    WHERE scheme_status ='" . $scheme_status . "'";
-                    $scheme = $this->db->query($query)->row();
-                ?>
-                    <div class="col-md-2 col-sm-2 col-xs-2">
-                        <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
-                            <h3><?php echo $scheme_status; ?></h3>
-                            <p class="count"><?php echo $scheme->total ?></p>
+                <div class="col-md-8">
+                    <div sty class="alert alert-danger" style="padding: 5px; background-color: #f9f9f9;">
+                        <h6 style="text-align: center;"><strong>Ongoing Schemes</strong></h6>
+                        <div class="row">
+                            <?php
+                            foreach ($ongoingschemes as $scheme_status) {
+                                $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+                            WHERE scheme_status ='" . $scheme_status . "'";
+                                $scheme = $this->db->query($query)->row();
+                            ?>
+                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                    <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
+                                        <h3><?php
+                                            if ($scheme_status == 'Ongoing') {
+                                                echo 'ICR-0';
+                                            } else {
+                                                echo $scheme_status;
+                                            }
+                                            ?></h3>
+                                        <p class="count"><?php echo $scheme->total ?></p>
+                                    </div>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
-                <?php } ?>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-success" style="padding: 5px; background-color: #f9f9f9;">
+                        <h6 style="text-align: center;"><strong>Completed Schemes</strong></h6>
+                        <div class="row">
+                            <?php
+                            foreach ($completedschemes as $scheme_status) {
+                                $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+                    WHERE scheme_status ='" . $scheme_status . "'";
+                                $scheme = $this->db->query($query)->row();
+                            ?>
+                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                    <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
+                                        <h3><?php
+                                            if ($scheme_status == 'Ongoing') {
+                                                echo 'ICR-0';
+                                            } else {
+                                                echo $scheme_status;
+                                            }
+                                            ?></h3>
+                                        <p class="count"><?php echo $scheme->total ?></p>
+                                    </div>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="row">
 
                 <div class="col-md-12">
                     <div class="alert alert-danger" id="messenger">
 
-                        <h4>Ongoing Schemes (Ongoing, ICR-I, ICR-II, ICRI&II)</h4>
+                        <h4>Ongoing Schemes (ICR-O, ICR-I, ICR-II, ICRI&II)</h4>
                         <hr />
                         <table class="table table-bordered table_s mall table-striped" style="color: black !important;">
                             <thead>
