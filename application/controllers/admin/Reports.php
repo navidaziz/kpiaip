@@ -1002,7 +1002,7 @@ class Reports extends Admin_Controller
         // Define your query
         $query = "SELECT 
         `region` as REGION, 
-        `district_name` as DISTRICT, , 
+        `district_name` as DISTRICT, 
         `financial_year` as FY,
         `scheme_code` as SCHEME_CODE,
         `scheme_name` as SCHEME_NAME,
