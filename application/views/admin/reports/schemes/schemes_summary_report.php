@@ -134,15 +134,19 @@
 
             </div>
             <div class="row">
-                <div class="col-md-4">
-                    <div class="clearfix">
-                        <h4 class="content-title pull-left" style="font-size: 20px;"><?php echo $title; ?></h3>
+                <div class="col-md-2">
+                    <div style="margin-top: 5px; text-align: center;">
+                        <img style="width: 60%" src="<?php echo site_url("assets/logo.jpeg") ?>" />
+                        <h5><?php echo $title; ?></h5>
+                        <div class="description"><?php echo $description; ?></div>
                     </div>
-                    <div class="description"><?php echo $description; ?></div>
+
+
                 </div>
                 <div class="col-md-5">
                     <div class="alert alert-danger" id="messenger">
-                        <h4>Ongoing Schemes</h4>
+                        <h4>Ongoing Schemes <small><a target="_blank" class="label label-warning pull-right" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_ongoing"); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a></small>
+                        </h4>
                         <hr />
                         <?php
                         $query = "SELECT 
@@ -166,7 +170,7 @@
                                 <th>Balance</th>
                             </tr>
                             <tr>
-                                <th><?php echo $ongoing->total; ?></th>
+                                <th><?php echo number_format($ongoing->total); ?></th>
                                 <th><?php echo number_format($ongoing->sactioned_cost); ?></th>
                                 <th><?php echo number_format($ongoing->total_paid); ?></th>
                                 <th><?php echo number_format($ongoing->balance); ?></th>
@@ -199,10 +203,19 @@
                                 <th>Total Paid</th>
                             </tr>
                             <tr>
-                                <th><?php echo $completed->total; ?></th>
+                                <th><?php echo number_format($completed->total); ?></th>
                                 <th><?php echo number_format($completed->total_paid); ?></th>
                             </tr>
                         </table>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="alert alert-warning" id="messenger">
+                        <h4>Total </h4>
+                        <hr />
+                        <h3 style="font-weight: bolder; color:black"><?php echo number_format($ongoing->total + $completed->total); ?><br />
+                            <small> Schemes So far</small>
+                        </h3>
                     </div>
                 </div>
             </div>

@@ -17,7 +17,7 @@
     <link rel="stylesheet" type="text/css"
         href="<?php echo site_url("assets/" . ADMIN_DIR . "css/responsive.css"); ?>" />
     <script>
-    var site_url = '<?php echo base_url(ADMIN_DIR); ?>';
+        var site_url = '<?php echo base_url(ADMIN_DIR); ?>';
     </script>
     <!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
     <script src="<?php echo site_url("assets/" . ADMIN_DIR . "js/jquery/jquery-2.0.3.min.js"); ?>"></script>
@@ -106,15 +106,15 @@
                 <li style="float:right;" class="dropdown user" id="header-user"> <a href="#" class="dropdown-toggle"
                         data-toggle="dropdown"> <img alt=""
                             src="<?php
-                                  if ($this->session->userdata("user_image")) {
+                                    if ($this->session->userdata("user_image")) {
 
-                                    $file = pathinfo($this->session->userdata("user_image"));
-                                  } else {
-                                    $file['dirname'] = "";
-                                    $file['filename'] = "";
-                                    $file['extension'] = "";
-                                  }
-                                  echo site_url("assets/uploads/" . @$file['dirname'] . '/' . @$file['filename'] . '_thumb.' . @$file['extension']); ?>" />
+                                        $file = pathinfo($this->session->userdata("user_image"));
+                                    } else {
+                                        $file['dirname'] = "";
+                                        $file['filename'] = "";
+                                        $file['extension'] = "";
+                                    }
+                                    echo site_url("assets/uploads/" . @$file['dirname'] . '/' . @$file['filename'] . '_thumb.' . @$file['extension']); ?>" />
                         <span class="username"><?php echo $this->session->userdata("user_title"); ?></span> <i
                             class="fa fa-angle-down"></i> </a>
                     <ul class="dropdown-menu">
@@ -130,9 +130,9 @@
     <section id="page">
         <?php
 
-    $this->load->view(ADMIN_DIR . "components/nav.php"); ?>
+        $this->load->view(ADMIN_DIR . "components/nav.php"); ?>
         <div id="main-content"
-            <?php if ($this->router->fetch_class() == 'water_user_associations' or $this->router->fetch_class() == 'expenses' or $this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?>
+            <?php if ($this->router->fetch_method() == 'schemes_summary_report' or $this->router->fetch_class() == 'water_user_associations' or $this->router->fetch_class() == 'expenses' or $this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?>
             class="margin-left-50" <?php } ?>>
             <div class="container">
                 <div class="row">
@@ -140,33 +140,33 @@
 
                         <?php if ($this->session->flashdata("msg") || $this->session->flashdata("msg_error") || $this->session->flashdata("msg_success")) {
 
-              $type = "";
-              if ($this->session->flashdata("msg_success")) {
-                $type = "success";
-                $msg = $this->session->flashdata("msg_success");
-              } elseif ($this->session->flashdata("msg_error")) {
-                $type = "error";
-                $msg = $this->session->flashdata("msg_error");
-              } else {
-                $type = "info";
-                $msg = $this->session->flashdata("msg");
-              }
-            ?>
+                            $type = "";
+                            if ($this->session->flashdata("msg_success")) {
+                                $type = "success";
+                                $msg = $this->session->flashdata("msg_success");
+                            } elseif ($this->session->flashdata("msg_error")) {
+                                $type = "error";
+                                $msg = $this->session->flashdata("msg_error");
+                            } else {
+                                $type = "info";
+                                $msg = $this->session->flashdata("msg");
+                            }
+                        ?>
 
 
-                        <div id="toast" style="height:auto !important;">
-                            <div id="desc"><?php echo $msg; ?></div>
-                        </div>
+                            <div id="toast" style="height:auto !important;">
+                                <div id="desc"><?php echo $msg; ?></div>
+                            </div>
 
-                        <script>
-                        launch_toast();
+                            <script>
+                                launch_toast();
 
-                        function launch_toast() {
-                            var x = document.getElementById("toast")
-                            x.className = "show";
-                            setTimeout(function() {
-                                x.className = x.className.replace("show", "");
-                            }, 5000);
-                        }
-                        </script>
+                                function launch_toast() {
+                                    var x = document.getElementById("toast")
+                                    x.className = "show";
+                                    setTimeout(function() {
+                                        x.className = x.className.replace("show", "");
+                                    }, 5000);
+                                }
+                            </script>
                         <?php }  ?>
