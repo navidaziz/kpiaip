@@ -279,14 +279,17 @@
                             ?>
                                 <div class="col-md-6 col-sm-6 col-xs-6">
                                     <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
-                                        <h3><?php
-                                            if ($scheme_status == 'Ongoing') {
-                                                echo 'ICR-0';
-                                            } else {
-                                                echo $scheme_status;
-                                            }
-                                            ?></h3>
-                                        <p class="count"><?php echo $scheme->total ?></p>
+                                        <h5 style="font-weight: bold; color:black"><?php
+                                                                                    if ($scheme_status == 'Ongoing') {
+                                                                                        echo 'ICR-0';
+                                                                                    } else {
+                                                                                        echo $scheme_status;
+                                                                                    }
+                                                                                    ?></h5>
+                                        <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
+                                        <p style="text-align: right;">
+                                            <a target="_blank" class="label label-warning" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/" . $scheme_status); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a>
+                                        </p>
                                     </div>
                                 </div>
                             <?php } ?>
