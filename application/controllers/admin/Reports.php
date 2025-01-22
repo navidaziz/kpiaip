@@ -997,4 +997,55 @@ class Reports extends Admin_Controller
         // Close the output stream
         fclose($output);
     }
+    public function export_scheme_list_by_status($scheme_status)
+    {
+        // Define your query
+        $query = "SELECT 
+        `region` as REGION, 
+        `district_name` as DISTRICT, , 
+        `financial_year` as FY,
+        `scheme_code` as SCHEME_CODE,
+        `scheme_name` as SCHEME_NAME,
+        `component_category` as CATEGORY,
+        `scheme_status` as STATUS, 
+        `approvel_date` as APPROVEL_DATE,
+        `sanctioned_cost` as SANCTIONED_COST, 
+        `payment_count` as PAYMENT_COUNT,
+        `cheques` as CHEQUES,
+        `total_paid` as TOTAL_PAID, 
+        `deduction` as DEDUCTION,
+        `net_paid` as NET_PAID, 
+        `first` as `ICR-I`, 
+        `second` as `ICR-II`,
+        `first_second` as  `ICR-I&II`, 
+        `other` as `other`, 
+        `final` as `FCR`, 
+        `remaining` as `BALANCE`
+        FROM `scheme_lists` WHERE `scheme_lists`.`scheme_status` IN (?)";
+
+        // Execute the query
+        $result = $this->db->query($query, [$scheme_status])->result_array();
+
+        // Set CSV filename
+        $filename = "Schemes-data-" . time() . '.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
+    }
 }
