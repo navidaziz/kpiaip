@@ -216,6 +216,9 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_by_status') ?>">Scheme Liabality Ledger</a>
                     </li>
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_ongoing') ?>">Ongoing Scheme Liabality Ledger</a>
+                    </li>
                 </ol>
 
             </div>
