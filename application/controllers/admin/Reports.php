@@ -1081,7 +1081,7 @@ class Reports extends Admin_Controller
         `remaining` as `BALANCE`
         FROM `scheme_lists`
         WHERE `scheme_lists`.`scheme_status` IN ('Ongoing', 'ICR-I', 'ICR-II', 'ICR-I&II')";
-
+        $result = $this->db->query($query)->result_array();
         // Set CSV filename
         $filename = "Schemes-data-" . time() . '.csv';
 
