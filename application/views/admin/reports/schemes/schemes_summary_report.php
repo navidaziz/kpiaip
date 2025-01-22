@@ -226,7 +226,7 @@
                 "Ongoing",
                 "ICR-I",
                 "ICR-II",
-                "Final",
+                //"Final",
                 //"Disputed",
                 //"Par-Completed",
                 //"Completed"
@@ -248,7 +248,7 @@
                             WHERE scheme_status ='" . $scheme_status . "'";
                                 $scheme = $this->db->query($query)->row();
                             ?>
-                                <div class="col-md-3 col-sm-3 col-xs-3">
+                                <div class="col-md-4 col-sm-4 col-xs-4">
                                     <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
                                         <h3><?php
                                             if ($scheme_status == 'Ongoing') {
