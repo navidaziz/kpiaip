@@ -997,7 +997,7 @@ class Reports extends Admin_Controller
         // Close the output stream
         fclose($output);
     }
-    public function export_scheme_list_by_status($scheme_status)
+    public function export_scheme_list_by_status($scheme_status = NULL)
     {
         // Define your query
         $query = "SELECT 
@@ -1021,10 +1021,14 @@ class Reports extends Admin_Controller
         `other` as `other`, 
         `final` as `FCR`, 
         `remaining` as `BALANCE`
-        FROM `scheme_lists` WHERE `scheme_lists`.`scheme_status` IN (?)";
-
-        // Execute the query
-        $result = $this->db->query($query, [$scheme_status])->result_array();
+        FROM `scheme_lists` ";
+        if ($scheme_status) {
+            $query .= " WHERE `scheme_lists`.`scheme_status` IN (?)";
+            // Execute the query
+            $result = $this->db->query($query, [$scheme_status])->result_array();
+        } else {
+            $result = $this->db->query($query)->result_array();
+        }
 
         // Set CSV filename
         $filename = "Schemes-data-" . time() . '.csv';
