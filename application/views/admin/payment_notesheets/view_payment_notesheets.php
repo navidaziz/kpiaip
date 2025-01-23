@@ -29,6 +29,7 @@
 
                 <div class="col-md-6">
                     <div class="pull-right">
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/download_payment_notesheet_csv/' . $payment_notesheet->id); ?>" class="btn btn-warning"><i class="fa fa-download"></i> Download</a>
 
                         <button onclick="get_payment_notesheet_form('<?php echo $payment_notesheet->id ?>')" class="btn btn-warning">Edit Payment Note Sheet</button>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/print_payment_notesheet/" . $payment_notesheet->id); ?>" class="btn btn-danger">Print Payment Note Sheet</a>
