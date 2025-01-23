@@ -164,10 +164,10 @@
                         $ongoing = $this->db->query($query)->row(); ?>
                         <table class="table table-bordered table-striped" style="color: black !important;">
                             <tr>
-                                <th>Total</th>
-                                <th>Sactioned Cost</th>
-                                <th>Total Paid</th>
-                                <th>Balance</th>
+                                <th>Total No.</th>
+                                <th>Sactioned Cost (Rs.)</th>
+                                <th>Total Paid (Rs.)</th>
+                                <th>Balance (Rs.)</th>
                             </tr>
                             <tr>
                                 <th><?php echo number_format($ongoing->total); ?></th>
@@ -199,8 +199,8 @@
                         ?>
                         <table class="table table-bordered table-striped" style="color: black !important;">
                             <tr>
-                                <th>Total</th>
-                                <th>Total Paid</th>
+                                <th>Total (Rs.)</th>
+                                <th>Total Paid (Rs.)</th>
                             </tr>
                             <tr>
                                 <th><?php echo number_format($completed->total); ?></th>
@@ -211,7 +211,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="alert alert-warning" id="messenger">
-                        <h4>Total </h4>
+                        <h4>Total No.</h4>
                         <hr />
                         <h3 style="font-weight: bolder; color:black"><?php echo number_format($ongoing->total + $completed->total); ?><br />
                             <small> Schemes So far</small>
