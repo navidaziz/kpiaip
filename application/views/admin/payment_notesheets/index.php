@@ -25,6 +25,7 @@
 
                 <div class="col-md-6">
                     <div class="pull-right">
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/download_payment_notesheet_csv'); ?>" class="btn btn-warning"><i class="fa fa-download"></i> Download</a>
                         <button onclick="get_payment_notesheet_form('0')" class="btn btn-primary">Add New Payment Note Sheet</button>
 
                         <script>
@@ -159,7 +160,8 @@
                                                 row.id +
                                                 '/">View</a>' +
                                                 '<span style="margin-left: 10px;"></span>' +
-                                                '<button onclick="get_payment_notesheet_form(\'' + row.id + '\')" class="btn btn-primary">Edit</button>';
+                                                '<button onclick="get_payment_notesheet_form(\'' + row.id + '\')" class="btn btn-primary">Edit</button>' +
+                                                ' <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/download_payment_notesheet_csv/'); ?>' + row.id + '" class="btn btn-warning"><i class="fa fa-download"></i></a>';
                                         }
                                     }
 
