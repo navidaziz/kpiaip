@@ -94,6 +94,7 @@
                                 <th>Payment Notesheet Code</th>
                                 <th>PUC Tracking ID</th>
                                 <th>District</th>
+                                <th>Schemes</th>
                                 <!-- <th>PUC Title</th> -->
                                 <!-- <th>PUC Detail</th>-->
                                 <th>PUC Date</th>
@@ -138,7 +139,9 @@
                                     {
                                         "data": "district_name"
                                     },
-
+                                    {
+                                        "data": "total_schemes"
+                                    },
                                     // {
                                     //     "data": "puc_title"
                                     // },

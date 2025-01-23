@@ -150,6 +150,7 @@ class Payment_notesheets extends Admin_Controller
         $columns[] = "payment_notesheet_code";
         $columns[] = "puc_tracking_id";
         $columns[] = "district_name";
+        $columns[] = "total_schemes";
         //$columns[] = "puc_title";
         //$columns[] = "puc_detail";
         $columns[] = "puc_date";
@@ -162,7 +163,9 @@ class Payment_notesheets extends Admin_Controller
 
         $search = $this->db->escape("%" . $this->input->post("search")["value"] . "%");
         // Manual SQL query building
-        $sql = "SELECT *, d.district_name FROM payment_notesheets
+        $sql = "SELECT *, d.district_name, 
+        (SELECT COUNT(*) FROM payment_notesheet_schemes as pns WHERE pns.payment_notesheet_id = payment_notesheets.id) as total_schemes
+        FROM payment_notesheets
         INNER JOIN districts as d ON(d.district_id = payment_notesheets.district_id)
         ";
 
