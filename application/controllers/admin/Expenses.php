@@ -211,61 +211,7 @@ LEFT JOIN
             } else {
                 $expense_id = $this->expense_model->update_data($expense_id);
             }
-            if ($this->input->post("installment") and $this->input->post('scheme_id')) {
-                $scheme_id = (int) $this->input->post('scheme_id');
-                if ($this->input->post("installment") == '1st') {
-                    $status['scheme_status'] = 'ICR-I';
-                    if ($this->scheme_model->save($status, $scheme_id)) {
-                        $log_inputs['operation'] = 'Payment 1st';
-                        $log_inputs['scheme_id'] = $scheme_id;
-                        $log_inputs['scheme_status'] = 'ICR-I';
-                        $log_inputs['detail'] = 'On 1st Payment Status Change';
-                        $log_inputs['remarks'] = 'On 1st Payment Status Change';
-                        $log_inputs["created_by"] = $this->session->userdata("userId");
-                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
-                        $this->db->insert('scheme_logs', $log_inputs);
-                    }
-                }
-                if ($this->input->post("installment") == '2nd') {
-                    $status['scheme_status'] = 'ICR-II';
-                    if ($this->scheme_model->save($status, $scheme_id)) {
-                        $log_inputs['operation'] = 'Payment 2nd';
-                        $log_inputs['scheme_id'] = $scheme_id;
-                        $log_inputs['scheme_status'] = 'ICR-II';
-                        $log_inputs['detail'] = 'On 2nd Payment Status Change';
-                        $log_inputs['remarks'] = 'On 2nd Payment Status Change';
-                        $log_inputs["created_by"] = $this->session->userdata("userId");
-                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
-                        $this->db->insert('scheme_logs', $log_inputs);
-                    }
-                }
-                if ($this->input->post("installment") == '1st_2nd') {
-                    $status['scheme_status'] = 'ICR-II';
-                    if ($this->scheme_model->save($status, $scheme_id)) {
-                        $log_inputs['operation'] = 'Payment 1st_2nd';
-                        $log_inputs['scheme_id'] = $scheme_id;
-                        $log_inputs['scheme_status'] = 'ICR-II';
-                        $log_inputs['detail'] = 'On 1st_2nd Payment Status Change';
-                        $log_inputs['remarks'] = 'On 1st_2nd Payment Status Change';
-                        $log_inputs["created_by"] = $this->session->userdata("userId");
-                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
-                        $this->db->insert('scheme_logs', $log_inputs);
-                    }
-                }
-                if ($this->input->post("installment") == 'Final') {
-                    $status['scheme_status'] = 'Completed';
-                    if ($this->scheme_model->save($status, $scheme_id)) {
-                        $log_inputs['operation'] = 'Payment Final';
-                        $log_inputs['scheme_id'] = $scheme_id;
-                        $log_inputs['scheme_status'] = 'Completed';
-                        $log_inputs['detail'] = 'On Final Payment Scheme Complete';
-                        $log_inputs['remarks'] = 'On  FinalPayment Scheme Complete';
-                        $log_inputs["created_by"] = $this->session->userdata("userId");
-                        $log_inputs["last_updated"] = date('Y-m-d H:i:s');
-                        $this->db->insert('scheme_logs', $log_inputs);
-                    }
-                }
-            }
+           
             if ($expense_id) {
                 echo "success";
             } else {
