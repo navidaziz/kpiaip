@@ -1122,6 +1122,7 @@ class Reports extends Admin_Controller
             'TRAKING ID',
             'DISTRICT NAME',
             'SCHEME CODE',
+            'SCHEME NAME',
             //'Title of Account',
             'CATEGORY',
             'SANCTIONED COST',
@@ -1131,10 +1132,10 @@ class Reports extends Admin_Controller
             'Others',
             'Final',
             'TOTAL PROGRESIVE',
-            'FCR-GROSS',
+            'GROSS-Rs',
             'WHIT',
             'WHST',
-            //'Net',
+            'Net-Rs',
             'Status'
         ]);
 
@@ -1190,7 +1191,7 @@ class Reports extends Admin_Controller
                 $scheme->puc_tracking_id,
                 $scheme->district_name,
                 $scheme->scheme_code,
-                //$scheme->scheme_name,
+                $scheme->scheme_name,
                 // $scheme->title_of_account,
                 $scheme->category,
                 number_format($scheme->sanctioned_cost, 0),
@@ -1205,8 +1206,9 @@ class Reports extends Admin_Controller
                 number_format($scheme->payment_amount, 0),
                 number_format($scheme->whit, 0),
                 number_format($scheme->whst, 0),
+                number_format($scheme->net_pay, 0),
                 $scheme->scheme_status
-                //number_format($scheme->net_pay, 0),
+                //,
             ]);
         }
 
