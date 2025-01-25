@@ -1,33 +1,25 @@
+ <!-- <div class="row">
  <div class="row">
-     <div class="col-sm-12">
-         <div class="page-header">
-             <!-- STYLER -->
 
-             <!-- /STYLER -->
-             <!-- BREADCRUMBS -->
+     <div class="col-md-3">
+         <ul class="breadcrumb">
+             <li>
+                 <i class="fa fa-home"></i>
+                 <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+             </li>
+             <li><?php echo $title; ?></li>
+         </ul>
 
-             <!-- /BREADCRUMBS -->
-             <div class="row">
-
-                 <div class="col-md-3">
-                     <ul class="breadcrumb">
-                         <li>
-                             <i class="fa fa-home"></i>
-                             <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
-                         </li>
-                         <li><?php echo $title; ?></li>
-                     </ul>
-
-                 </div>
-
-
-
-             </div>
-
-
-         </div>
      </div>
+
+
+
  </div>
+
+
+ </div>
+ </div>
+ </div> -->
 
  <div class="row">
 
