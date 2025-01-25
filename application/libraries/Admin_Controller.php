@@ -67,7 +67,10 @@ class Admin_Controller extends MY_Controller
             $query = "SELECT roles.status as role_status FROM roles WHERE role_id = " . $this->session->userdata('role_id');
             $role = $this->db->query($query)->row();
             if ($account->user_status != 1 or $role->role_status != 1) {
-                $is_ajax = 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
+                $is_ajax = '';
+                if ($_SERVER['HTTP_X_REQUESTED_WITH']) {
+                    $is_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH']);
+                }
                 if ($is_ajax) {
                     echo '<div class="alert alert-danger">';
                     echo 'Your account is disabled. Please contact the administrator.';
