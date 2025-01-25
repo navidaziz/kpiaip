@@ -17,15 +17,10 @@
                          </li>
                          <li><?php echo $title; ?></li>
                      </ul>
-                     <div class="clearfix">
-                         <h4 class="content-title pull-left" style="font-size: 20px;"><?php echo $title; ?></h3>
-                     </div>
-                     <div class="description"><?php echo $description; ?></div>
-                 </div>
-
-                 <div class="col-md-9">
 
                  </div>
+
+
 
              </div>
 
