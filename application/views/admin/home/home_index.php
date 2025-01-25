@@ -60,6 +60,7 @@
                      }
                  </style>
                  <h4 style="font-weight: bold;"><i class="fa fa-home"></i> Application Module list</h4>
+                 <hr />
                  <div class="row">
 
                      <?php foreach ($menu_arr as $controller_id => $controller_data): ?>
