@@ -37,7 +37,7 @@ class Admin_Controller extends MY_Controller
         if (!in_array(uri_string(), $exception_uri)) {
             // Check if the user is logged in
             if (empty($this->session->userdata('userId'))) {
-                handleAjaxOrRedirect("Please log in again as your session has expired.", "login");
+                $this->handleAjaxOrRedirect("Please log in again as your session has expired.", "login");
             }
 
             // Check if user and role statuses are active
@@ -59,7 +59,7 @@ class Admin_Controller extends MY_Controller
 
 
             if ($userStatus != 1 || $roleStatus != 1) {
-                handleAjaxOrRedirect("Your account is disabled. Please contact the administrator.", site_url(ADMIN_DIR . "errors/account_disable"));
+                $this->handleAjaxOrRedirect("Your account is disabled. Please contact the administrator.", site_url(ADMIN_DIR . "errors/account_disable"));
             }
 
             // Check if the current module is assigned to the user
@@ -69,7 +69,7 @@ class Admin_Controller extends MY_Controller
 
             if (!in_array($current_action_id, $allowed_modules)) {
                 $module = $this->controller_name . '-' . $this->method_name;
-                handleAjaxOrRedirect(
+                $this->handleAjaxOrRedirect(
                     "You are not allowed to access this module.",
                     site_url(ADMIN_DIR . "errors/index?module=$module")
                 );

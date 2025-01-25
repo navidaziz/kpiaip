@@ -81,13 +81,13 @@ $menu_list .= "</ul>";
     , `groups`.`group_code`
     , `group_gender_types`.`group_gender_type_title`
     , `group_types`.`group_type_title`
-FROM
-`group_gender_types`
-,`groups` 
-,`group_types`
-WHERE `group_gender_types`.`group_gender_type_id` = `groups`.`group_gender_type_id`
-AND `group_types`.`group_type_id` = `groups`.`group_type_id`
-AND  `groups`.`group_id` = " . $this->session->userdata('group_id');
+        FROM
+        `group_gender_types`
+        ,`groups` 
+        ,`group_types`
+        WHERE `group_gender_types`.`group_gender_type_id` = `groups`.`group_gender_type_id`
+        AND `group_types`.`group_type_id` = `groups`.`group_type_id`
+        AND  `groups`.`group_id` = " . $this->session->userdata('group_id');
         $current_group_query = $this->db->query($query); ?>
         <!--<span style="text-align:center; color:#000000 !important;">	
 			<h5><?php
