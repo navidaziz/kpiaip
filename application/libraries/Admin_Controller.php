@@ -89,7 +89,10 @@ class Admin_Controller extends MY_Controller
             $allowed_modules[] = $this->session->userdata("role_homepage_id");
 
             if (!in_array($current_action_id, $allowed_modules)) {
-                $is_ajax = 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
+                $is_ajax = '';
+                if ($_SERVER['HTTP_X_REQUESTED_WITH']) {
+                    $is_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH']);
+                }
                 if ($is_ajax) {
                     echo '<div class="alert alert-danger">
                     <strong>Error!</strong> You are not allowed to access this module.
