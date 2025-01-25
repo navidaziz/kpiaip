@@ -119,6 +119,21 @@ class Login extends Admin_Controller
 
 			if ($user) {
 
+
+				if ($user->status == 0) {
+					$this->session->set_flashdata('msg_error', 'Your account is disabled. Please contact the administrator.');
+					redirect(ADMIN_DIR . "login");
+				}
+
+				$query = "SELECT * FROM roles WHERE role_id = '" . $user->role_id . "'";
+				$role = $this->db->query($query)->row();
+				if ($role->status == 0) {
+					$this->session->set_flashdata('msg_error', 'Your role is disabled. Please contact the administrator.');
+					redirect(ADMIN_DIR . "login");
+				}
+
+
+
 				//
 				$role_homepage_id = $this->role_m->getCol("role_homepage", $user->role_id);
 				$role_homepage_parent_id = $this->module_m->getCol("parent_id", $role_homepage_id);

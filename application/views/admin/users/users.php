@@ -21,7 +21,7 @@
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $title; ?></div>
+                    <div class="description"><?php echo $description; ?></div>
                 </div>
 
                 <div class="col-md-6">
@@ -53,10 +53,12 @@
 
                 <div class="table-responsive">
 
-                    <table class="table table-bordered">
+                    <table class="table table-bordered table_small" id="user_table">
                         <thead>
                             <tr>
 
+                                <th></th>
+                                <th>#</th>
                                 <th><?php echo $this->lang->line('user_title'); ?></th>
                                 <th><?php echo $this->lang->line('user_email'); ?></th>
                                 <th><?php echo $this->lang->line('user_mobile_number'); ?></th>
@@ -70,51 +72,57 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach ($users as $user) : ?>
-                            <?php if ($user->user_id != 1) { ?>
-                            <tr>
+                            <?php
+                            $count = 1;
+                            foreach ($users as $user) : ?>
+                                <?php if ($user->user_id != 1) { ?>
+                                    <tr>
 
+                                        <td> <a class="llink llink-trash"
+                                                href="<?php echo site_url(ADMIN_DIR . "users/trash/" . $user->user_id . "/" . $this->uri->segment(4)); ?>"><i
+                                                    class="fa fa-trash-o"></i></a>
+                                        </td>
 
-                                <td>
-                                    <?php echo $user->user_title; ?>
-                                </td>
-                                <td>
-                                    <?php echo $user->user_email; ?>
-                                </td>
-                                <td>
-                                    <?php echo $user->user_mobile_number; ?>
-                                </td>
-                                <td>
-                                    <?php echo $user->user_name; ?>
-                                </td>
-                                <td>
-                                    <?php echo $user->user_password; ?>
-                                </td>
-                                <td>
-                                    <?php
+                                        <td><?php echo $count++; ?></td>
+                                        <td> <?php echo $user->user_title; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $user->user_email; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $user->user_mobile_number; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $user->user_name; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $user->user_password; ?>
+                                        </td>
+                                        <td>
+                                            <?php
                                             echo file_type(base_url("assets/uploads/" . $user->user_image));
                                             ?>
-                                </td>
-                                <td>
-                                    <?php echo $user->role_title; ?>
-                                </td>
-                                <td>
-                                    <?php
-                                    //echo $user->district; 
-                                    if(!is_null($user->district)){
-                                        if($user->district=='0'){
-                                        echo "All Districts";
-                                        }else{
-                                           $query="SELECT district_name FROM districts WHERE district_id = '".$user->district."'";
-                                            $district = $this->db->query($query)->row();
-                                            echo $district->district_name;
-                                        }
-                                    }
-                                    ?>
-                                </td>
-                                <td>
-                                    <?php echo status($user->status,  $this->lang); ?>
-                                    <?php
+                                        </td>
+                                        <td>
+                                            <?php echo $user->role_title; ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            //echo $user->district; 
+                                            if (!is_null($user->district)) {
+                                                if ($user->district == '0') {
+                                                    echo "All Districts";
+                                                } else {
+                                                    $query = "SELECT district_name FROM districts WHERE district_id = '" . $user->district . "'";
+                                                    $district = $this->db->query($query)->row();
+                                                    echo $district->district_name;
+                                                }
+                                            }
+                                            ?>
+                                        </td>
+                                        <td>
+                                            <?php echo status($user->status,  $this->lang); ?>
+                                            <?php
 
                                             //set uri segment
                                             if (!$this->uri->segment(4)) {
@@ -129,25 +137,17 @@
                                                 echo "<a href='" . site_url(ADMIN_DIR . "users/draft/" . $user->user_id . "/" . $page) . "'> &nbsp;" . $this->lang->line('Draft') . "</a>";
                                             }
                                             ?>
-                                </td>
-                                <td>
-                                    <a class="llink llink-view"
-                                        href="<?php echo site_url(ADMIN_DIR . "users/view_user/" . $user->user_id . "/" . $this->uri->segment(4)); ?>"><i
-                                            class="fa fa-eye"></i> </a>
-                                    <a class="llink llink-edit"
-                                        href="<?php echo site_url(ADMIN_DIR . "users/edit/" . $user->user_id . "/" . $this->uri->segment(4)); ?>"><i
-                                            class="fa fa-pencil-square-o"></i></a>
-                                    <a class="llink llink-trash"
-                                        href="<?php echo site_url(ADMIN_DIR . "users/trash/" . $user->user_id . "/" . $this->uri->segment(4)); ?>"><i
-                                            class="fa fa-trash-o"></i></a>
-                                </td>
-                            </tr>
-                            <?php } ?>
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary btn-xs"
+                                                href="<?php echo site_url(ADMIN_DIR . "users/edit/" . $user->user_id . "/" . $this->uri->segment(4)); ?>">Edit</a>
+
+                                        </td>
+                                    </tr>
+                                <?php } ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-
-                    <?php echo $pagination; ?>
 
 
                 </div>
@@ -159,3 +159,21 @@
     </div>
     <!-- /MESSENGER -->
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#user_table').DataTable({
+            paging: flase,
+            dom: 'Bfrtip', // Add this line to enable buttons
+            buttons: [
+                'copy',
+                'csv',
+                'excel',
+                'pdf',
+                'print'
+            ],
+            responsive: true // Makes the table responsive
+        });
+
+    });
+</script>

@@ -43,7 +43,22 @@
         href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.12.6/css/selectize.bootstrap3.min.css"
         integrity="sha256-ze/OEYGcFbPRmvCnrSeKbRTtjG4vGLHXgOqsyLFTRjg=" crossorigin="anonymous" />
 
-
+    <style>
+        .table_small>thead>tr>th,
+        .table_small>tbody>tr>th,
+        .table_small>tfoot>tr>th,
+        .table_small>thead>tr>td,
+        .table_small>tbody>tr>td,
+        .table_small>tfoot>tr>td {
+            padding: 4px;
+            line-height: 1;
+            vertical-align: top;
+            border-top: 1px solid #ddd;
+            font-size: 10px !important;
+            color: black;
+            margin: 0px !important;
+        }
+    </style>
 </head>
 
 <body>

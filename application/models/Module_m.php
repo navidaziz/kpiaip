@@ -151,7 +151,7 @@ class Module_m extends MY_Model
         $this->db->select("module_id");
         $this->db->from($this->table);
         $this->db->where(array(
-            "module_uri" => $action_name,
+            //"module_uri" => $action_name,
             "parent_id"  => $controller_id
         ));
         $this->db->limit(1);

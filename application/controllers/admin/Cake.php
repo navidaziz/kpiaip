@@ -1,6 +1,6 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Cake extends Admin_Controller
+class Cake extends CI_Controller
 {
 
     /**
@@ -22,16 +22,16 @@ class Cake extends Admin_Controller
     public function index()
     {
 
-        $this->data["title"] = 'payment_notesheet_schemes';
-        $this->data["description"] = 'payment_notesheet_schemes';
+        $this->data["title"] = 'users';
+        $this->data["description"] = 'users';
         // $this->data["view"] = ADMIN_DIR . "cake/index";
 
 
-        $controller_name = 'payment_notesheet_schemes';
+        $controller_name = 'users';
 
 
-        $table_name = "payment_notesheet_schemes";
-        $table_name_singular = "payment_notesheet_scheme";
+        $table_name = "users";
+        $table_name_singular = "user";
         $query = "SHOW COLUMNS FROM $table_name";
 
 

@@ -44,282 +44,291 @@
         </div>
     </div>
 </div>
-<!-- /PAGE HEADER -->
+<?php if ($user->user_id != 1) { ?>
+    <div class="row">
+        <!-- MESSENGER -->
+        <div class="col-md-12">
+            <div class="box border blue" id="messenger">
+                <div class="box-title">
+                    <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
+                </div>
+                <div class="box-body">
 
-<!-- PAGE MAIN CONTENT -->
-<div class="row">
-    <!-- MESSENGER -->
-    <div class="col-md-12">
-        <div class="box border blue" id="messenger">
-            <div class="box-title">
-                <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
+                    <?php
+                    $edit_form_attr = array("class" => "form-horizontal");
+                    echo form_open_multipart(ADMIN_DIR . "users/update_data/$user->user_id", $edit_form_attr);
+                    ?>
+                    <?php echo form_hidden("restaurant_id", $user->restaurant_id); ?>
+
+                    <?php echo form_hidden("user_id", $user->user_id); ?>
+
+                    <div class="form-group">
+                        <?php
+                        $label = array(
+                            "class" => "col-md-2 control-label",
+                            "style" => "",
+                        );
+                        echo form_label($this->lang->line('role_title'), "Role Id", $label);
+                        ?>
+
+                        <div class="col-md-10">
+                            <?php
+                            echo form_dropdown("role_id", $roles, $user->role_id, "class=\"form-control\" required style=\"\"");
+                            ?>
+                        </div>
+                        <?php echo form_error("role_id", "<p class=\"text-danger\">", "</p>"); ?>
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <?php
+                        $label = array(
+                            "class" => "col-md-2 control-label",
+                            "style" => "",
+                        );
+                        echo form_label($this->lang->line('user_title'), "user_title", $label);      ?>
+
+                        <div class="col-md-10">
+                            <?php
+
+                            $text = array(
+                                "type"          =>  "text",
+                                "name"          =>  "user_title",
+                                "id"            =>  "user_title",
+                                "class"         =>  "form-control",
+                                "style"         =>  "",
+                                "required"      => "required",
+                                "title"         =>  $this->lang->line('user_title'),
+                                "value"         =>  set_value("user_title", $user->user_title),
+                                "placeholder"   =>  $this->lang->line('user_title')
+                            );
+                            echo  form_input($text);
+                            ?>
+                            <?php echo form_error("user_title", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <?php
+                        $label = array(
+                            "class" => "col-md-2 control-label",
+                            "style" => "",
+                        );
+                        echo form_label($this->lang->line('user_email'), "user_email", $label);      ?>
+
+                        <div class="col-md-10">
+                            <?php
+
+                            $text = array(
+                                "type"          =>  "text",
+                                "name"          =>  "user_email",
+                                "id"            =>  "user_email",
+                                "class"         =>  "form-control",
+                                "style"         =>  "",
+                                "required"      => "required",
+                                "title"         =>  $this->lang->line('user_email'),
+                                "value"         =>  set_value("user_email", $user->user_email),
+                                "placeholder"   =>  $this->lang->line('user_email')
+                            );
+                            echo  form_input($text);
+                            ?>
+                            <?php echo form_error("user_email", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <?php
+                        $label = array(
+                            "class" => "col-md-2 control-label",
+                            "style" => "",
+                        );
+                        echo form_label($this->lang->line('user_mobile_number'), "user_mobile_number", $label);      ?>
+
+                        <div class="col-md-10">
+                            <?php
+
+                            $text = array(
+                                "type"          =>  "text",
+                                "name"          =>  "user_mobile_number",
+                                "id"            =>  "user_mobile_number",
+                                "class"         =>  "form-control",
+                                "style"         =>  "",
+                                "required"      => "required",
+                                "title"         =>  $this->lang->line('user_mobile_number'),
+                                "value"         =>  set_value("user_mobile_number", $user->user_mobile_number),
+                                "placeholder"   =>  $this->lang->line('user_mobile_number')
+                            );
+                            echo  form_input($text);
+                            ?>
+                            <?php echo form_error("user_mobile_number", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <?php
+                        $label = array(
+                            "class" => "col-md-2 control-label",
+                            "style" => "",
+                        );
+                        echo form_label($this->lang->line('user_name'), "user_name", $label);      ?>
+
+                        <div class="col-md-10">
+                            <?php
+
+                            $text = array(
+                                "type"          =>  "text",
+                                "name"          =>  "user_name",
+                                "id"            =>  "user_name",
+                                "class"         =>  "form-control",
+                                "style"         =>  "",
+                                "required"      => "required",
+                                "title"         =>  $this->lang->line('user_name'),
+                                "value"         =>  set_value("user_name", $user->user_name),
+                                "placeholder"   =>  $this->lang->line('user_name')
+                            );
+                            echo  form_input($text);
+                            ?>
+                            <?php echo form_error("user_name", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <?php
+                        $label = array(
+                            "class" => "col-md-2 control-label",
+                            "style" => "",
+                        );
+                        echo form_label($this->lang->line('user_password'), "user_password", $label);      ?>
+
+                        <div class="col-md-10">
+                            <?php
+
+                            $text = array(
+                                "type"          =>  "text",
+                                "name"          =>  "user_password",
+                                "id"            =>  "user_password",
+                                "class"         =>  "form-control",
+                                "style"         =>  "",
+                                "required"      => "required",
+                                "title"         =>  $this->lang->line('user_password'),
+                                "value"         =>  set_value("user_password", $user->user_password),
+                                "placeholder"   =>  $this->lang->line('user_password')
+                            );
+                            echo  form_input($text);
+                            ?>
+                            <?php echo form_error("user_password", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+
+                        <?php
+                        $label = array(
+                            "class" => "col-md-2 control-label",
+                            "style" => "",
+                        );
+                        echo form_label($this->lang->line('user_image') . "<br />" . file_type(base_url("assets/uploads/" . $user->user_image)), "user_image", $label);     ?>
+
+                        <div class="col-md-10">
+                            <?php
+
+                            $file = array(
+                                "type"          =>  "file",
+                                "name"          =>  "user_image",
+                                "id"            =>  "user_image",
+                                "class"         =>  "form-control",
+                                "style"         =>  "",
+                                "title"         =>  $this->lang->line('user_image'),
+                                "value"         =>  set_value("user_image", $user->user_image),
+                                "placeholder"   =>  $this->lang->line('user_image')
+                            );
+                            echo  form_input($file);
+                            ?>
+                            <!--<?php echo file_type(base_url("assets/uploads/$user->user_image")); ?>-->
+
+                            <?php echo form_error("user_image", "<p class=\"text-danger\">", "</p>"); ?>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-group">
+                        <label for="District" class="col-md-2 control-label" style="">District</label>
+                        <div class="col-md-10">
+                            <select name="district" class="form-control searchable" required="">
+                                <option value="">Select District</option>
+                                <option <?php if (0 == $user->district) { ?> selected <?php } ?> value="0">All Districts
+                                </option>
+                                <?php
+                                $query = "SELECT * FROM districts WHERE is_district=1 ORDER BY region, district_name ASC";
+                                $districts = $this->db->query($query)->result();
+                                foreach ($districts as $district) { ?>
+                                    <option <?php if ($district->district_id == $user->district) { ?> selected <?php } ?>
+                                        value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
+                                        (<?php echo $district->region ?>)</option>
+                                <?php } ?>
+                            </select>
+                        </div>
+                    </div>
+                    <script>
+                        $('.searchable').selectize({
+                            sortField: 'text'
+                        });
+                    </script>
+                    <div class="col-md-offset-2 col-md-10">
+                        <?php
+                        $submit = array(
+                            "type"  =>  "submit",
+                            "name"  =>  "submit",
+                            "value" =>  $this->lang->line('Update'),
+                            "class" =>  "btn btn-primary",
+                            "style" =>  ""
+                        );
+                        echo form_submit($submit);
+                        ?>
+
+
+
+                        <?php
+                        $reset = array(
+                            "type"  =>  "reset",
+                            "name"  =>  "reset",
+                            "value" =>  $this->lang->line('Reset'),
+                            "class" =>  "btn btn-default",
+                            "style" =>  ""
+                        );
+                        echo form_reset($reset);
+                        ?>
+                    </div>
+                    <div style="clear:both;"></div>
+
+                    <?php echo form_close(); ?>
+
+                </div>
+
             </div>
-            <div class="box-body">
-
-                <?php
-                $edit_form_attr = array("class" => "form-horizontal");
-                echo form_open_multipart(ADMIN_DIR . "users/update_data/$user->user_id", $edit_form_attr);
-                ?>
-                <?php echo form_hidden("restaurant_id", $user->restaurant_id); ?>
-
-                <?php echo form_hidden("user_id", $user->user_id); ?>
-
-                <div class="form-group">
-                    <?php
-                    $label = array(
-                        "class" => "col-md-2 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('role_title'), "Role Id", $label);
-                    ?>
-
-                    <div class="col-md-10">
-                        <?php
-                        echo form_dropdown("role_id", $roles, $user->role_id, "class=\"form-control\" required style=\"\"");
-                        ?>
-                    </div>
-                    <?php echo form_error("role_id", "<p class=\"text-danger\">", "</p>"); ?>
-                </div>
-
-
-                <div class="form-group">
-
-                    <?php
-                    $label = array(
-                        "class" => "col-md-2 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('user_title'), "user_title", $label);      ?>
-
-                    <div class="col-md-10">
-                        <?php
-
-                        $text = array(
-                            "type"          =>  "text",
-                            "name"          =>  "user_title",
-                            "id"            =>  "user_title",
-                            "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('user_title'),
-                            "value"         =>  set_value("user_title", $user->user_title),
-                            "placeholder"   =>  $this->lang->line('user_title')
-                        );
-                        echo  form_input($text);
-                        ?>
-                        <?php echo form_error("user_title", "<p class=\"text-danger\">", "</p>"); ?>
-                    </div>
-
-
-
-                </div>
-
-                <div class="form-group">
-
-                    <?php
-                    $label = array(
-                        "class" => "col-md-2 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('user_email'), "user_email", $label);      ?>
-
-                    <div class="col-md-10">
-                        <?php
-
-                        $text = array(
-                            "type"          =>  "text",
-                            "name"          =>  "user_email",
-                            "id"            =>  "user_email",
-                            "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('user_email'),
-                            "value"         =>  set_value("user_email", $user->user_email),
-                            "placeholder"   =>  $this->lang->line('user_email')
-                        );
-                        echo  form_input($text);
-                        ?>
-                        <?php echo form_error("user_email", "<p class=\"text-danger\">", "</p>"); ?>
-                    </div>
-
-
-
-                </div>
-
-                <div class="form-group">
-
-                    <?php
-                    $label = array(
-                        "class" => "col-md-2 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('user_mobile_number'), "user_mobile_number", $label);      ?>
-
-                    <div class="col-md-10">
-                        <?php
-
-                        $text = array(
-                            "type"          =>  "text",
-                            "name"          =>  "user_mobile_number",
-                            "id"            =>  "user_mobile_number",
-                            "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('user_mobile_number'),
-                            "value"         =>  set_value("user_mobile_number", $user->user_mobile_number),
-                            "placeholder"   =>  $this->lang->line('user_mobile_number')
-                        );
-                        echo  form_input($text);
-                        ?>
-                        <?php echo form_error("user_mobile_number", "<p class=\"text-danger\">", "</p>"); ?>
-                    </div>
-
-
-
-                </div>
-
-                <div class="form-group">
-
-                    <?php
-                    $label = array(
-                        "class" => "col-md-2 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('user_name'), "user_name", $label);      ?>
-
-                    <div class="col-md-10">
-                        <?php
-
-                        $text = array(
-                            "type"          =>  "text",
-                            "name"          =>  "user_name",
-                            "id"            =>  "user_name",
-                            "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('user_name'),
-                            "value"         =>  set_value("user_name", $user->user_name),
-                            "placeholder"   =>  $this->lang->line('user_name')
-                        );
-                        echo  form_input($text);
-                        ?>
-                        <?php echo form_error("user_name", "<p class=\"text-danger\">", "</p>"); ?>
-                    </div>
-
-
-
-                </div>
-
-                <div class="form-group">
-
-                    <?php
-                    $label = array(
-                        "class" => "col-md-2 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('user_password'), "user_password", $label);      ?>
-
-                    <div class="col-md-10">
-                        <?php
-
-                        $text = array(
-                            "type"          =>  "text",
-                            "name"          =>  "user_password",
-                            "id"            =>  "user_password",
-                            "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('user_password'),
-                            "value"         =>  set_value("user_password", $user->user_password),
-                            "placeholder"   =>  $this->lang->line('user_password')
-                        );
-                        echo  form_input($text);
-                        ?>
-                        <?php echo form_error("user_password", "<p class=\"text-danger\">", "</p>"); ?>
-                    </div>
-
-
-
-                </div>
-
-                <div class="form-group">
-
-                    <?php
-                    $label = array(
-                        "class" => "col-md-2 control-label",
-                        "style" => "",
-                    );
-                    echo form_label($this->lang->line('user_image') . "<br />" . file_type(base_url("assets/uploads/" . $user->user_image)), "user_image", $label);     ?>
-
-                    <div class="col-md-10">
-                        <?php
-
-                        $file = array(
-                            "type"          =>  "file",
-                            "name"          =>  "user_image",
-                            "id"            =>  "user_image",
-                            "class"         =>  "form-control",
-                            "style"         =>  "",
-                            "title"         =>  $this->lang->line('user_image'),
-                            "value"         =>  set_value("user_image", $user->user_image),
-                            "placeholder"   =>  $this->lang->line('user_image')
-                        );
-                        echo  form_input($file);
-                        ?>
-                        <!--<?php echo file_type(base_url("assets/uploads/$user->user_image")); ?>-->
-
-                        <?php echo form_error("user_image", "<p class=\"text-danger\">", "</p>"); ?>
-                    </div>
-
-
-
-                </div>
-
-                <div class="form-group">
-                    <label for="District" class="col-md-2 control-label" style="">District</label>
-                    <div class="col-md-10">
-                        <select name="district" class="form-control searchable" required="">
-                            <option value="">Select District</option>
-                            <option <?php if(0 == $user->district){ ?> selected <?php } ?> value="0">All Districts
-                            </option>
-                            <?php 
-                            $query="SELECT * FROM districts WHERE is_district=1 ORDER BY region, district_name ASC";
-                            $districts = $this->db->query($query)->result();
-                            foreach ($districts as $district) { ?>
-                            <option <?php if($district->district_id == $user->district){ ?> selected <?php } ?>
-                                value="<?php echo $district->district_id ?>"><?php echo $district->district_name ?>
-                                (<?php echo $district->region ?>)</option>
-                            <?php } ?>
-                        </select>
-                    </div>
-                </div>
-                <script>
-                $('.searchable').selectize({
-                    sortField: 'text'
-                });
-                </script>
-                <div class="col-md-offset-2 col-md-10">
-                    <?php
-                    $submit = array(
-                        "type"  =>  "submit",
-                        "name"  =>  "submit",
-                        "value" =>  $this->lang->line('Update'),
-                        "class" =>  "btn btn-primary",
-                        "style" =>  ""
-                    );
-                    echo form_submit($submit);
-                    ?>
-
-
-
-                    <?php
-                    $reset = array(
-                        "type"  =>  "reset",
-                        "name"  =>  "reset",
-                        "value" =>  $this->lang->line('Reset'),
-                        "class" =>  "btn btn-default",
-                        "style" =>  ""
-                    );
-                    echo form_reset($reset);
-                    ?>
-                </div>
-                <div style="clear:both;"></div>
-
-                <?php echo form_close(); ?>
-
-            </div>
-
         </div>
+        <!-- /MESSENGER -->
     </div>
-    <!-- /MESSENGER -->
-</div>
+<?php } ?>

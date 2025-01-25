@@ -704,7 +704,7 @@
                         <div style="text-align: center;">
                             <h4 style="text-align: center;">
                                 Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
-                                <?php if ($scheme->scheme_status == 'Completed') { ?>
+                                <?php if ($scheme->scheme_status == 'Completed' and 1 == 2) { ?>
                                     <button class="bt btn-danger" onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change Status</button>
                                     <script>
                                         function change_scheme_status(scheme_id) {
@@ -1103,7 +1103,7 @@
 </div>
 <?php
 //if ($scheme->scheme_status == 'Par-Completed') {
-if ($scheme->scheme_status != 'Completed') { ?>
+if ($scheme->scheme_status != 'Completed' and 1 == 2) { ?>
     <?php $this->load->view(ADMIN_DIR . "temp/data_correction"); ?>
 <?php } ?>
 <script>

@@ -23,9 +23,9 @@ class Users extends Admin_Controller
      */
     public function index()
     {
-        redirect(ADMIN_DIR . $this->session->userdata('role_homepage_uri'));
-        // $main_page=base_url().ADMIN_DIR.$this->router->fetch_class()."/view";
-        //redirect($main_page); 
+        //redirect(ADMIN_DIR . $this->session->userdata('role_homepage_uri'));
+        $main_page = base_url() . ADMIN_DIR . $this->router->fetch_class() . "/view";
+        redirect($main_page);
     }
     //---------------------------------------------------------------
 
@@ -52,10 +52,11 @@ class Users extends Admin_Controller
     {
 
         $where = "`users`.`status` IN (0, 1) AND  `users`.`role_id`!=1";
-        $data = $this->user_model->get_user_list($where);
-        $this->data["users"] = $data->users;
-        $this->data["pagination"] = $data->pagination;
-        $this->data["title"] = $this->lang->line('Users');
+        $this->data["users"] = $this->user_model->get_user_list($where, false);
+        //$this->data["users"] = $data->users;
+        //$this->data["pagination"] = $data->pagination;
+        $this->data["title"] = 'MIS Users';
+        $this->data["description"] = 'List of MIS users account Information';
         $this->data["view"] = ADMIN_DIR . "users/users";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
