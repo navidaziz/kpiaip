@@ -28,20 +28,22 @@ class Admin_Controller extends MY_Controller
 
 
 
+
         // var_dump($this->session);
         //exit();
         //login check
         $exception_uri = array(
 
             "admin/login",
+            "cake",
+            "login",
             "admin/login/validate_user",
             "admin/login/logout",
         );
-        if (!in_array(uri_string(), $exception_uri)) {
 
-            if (!$this->session->userdata('userId') and empty($this->session->userdata('userId'))) {
-                // echo "problem is here too many redirections here...";
-                // exit(); 
+        if (!in_array(uri_string(), $exception_uri)) {
+            //check if the user is logged in or not
+            if (!$this->session->userdata('userId') && empty($this->session->userdata('userId'))) {
                 $is_ajax = '';
                 if ($_SERVER['HTTP_X_REQUESTED_WITH']) {
                     $is_ajax = strtolower($_SERVER['HTTP_X_REQUESTED_WITH']);
@@ -59,50 +61,54 @@ class Admin_Controller extends MY_Controller
 
 
 
-            //check if the user is logged in or not
-            // if (!$this->session->userdata('userId') && empty($this->session->userdata('userId'))) {
-            //     // echo "problem is here too many redirections here...";
-            //     // exit();
-            //     redirect(ADMIN_DIR . "login");
-            // }
 
-            // //now we will check if the current module is assigned to the user or not
-            // $this->data['current_action_id'] = $current_action_id = $this->module_m->actionIdFromName($this->controller_name, $this->method_name);
-
-            // $allowed_modules = $this->mr_m->rightsByRole($this->session->userdata("role_id"));
-
-            // //add role homepage to allowed modules
-            // $allowed_modules[] = $this->session->userdata("role_homepage_id");
-
-            // if (!in_array($current_action_id, $allowed_modules)) {
-            //     $is_ajax = 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
-            //     if ($is_ajax) {
-            //         echo '<div class="alert alert-danger">
-            //         <strong>Error!</strong> You are not allowed to access this module.
-            //         ' . $this->controller_name . ' - ' . $this->method_name . '
-            //     </div>
-            //     ';
-            //         exit();
-            //     } else {
-            //         $this->session->set_flashdata('msg_error', 'You are not allowed to access this module');
-            //         // redirect($_SERVER['HTTP_REFERER']);
-            //         // session_destroy();
-            //         redirect($this->session->userdata("role_homepage_uri"));
-            //     }
-            // }
+            $query = "SELECT users.status as user_status FROM users WHERE user_id = " . $this->session->userdata('userId');
+            $account = $this->db->query($query)->row();
+            $query = "SELECT roles.status as role_status FROM roles WHERE role_id = " . $this->session->userdata('role_id');
+            $role = $this->db->query($query)->row();
+            if ($account->user_status != 1 or $role->role_status != 1) {
+                $is_ajax = 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
+                if ($is_ajax) {
+                    echo '<div class="alert alert-danger">';
+                    echo 'Your account is disabled. Please contact the administrator.';
+                    echo '<span style="margin-left:20px;"></span><a href="' . site_url('login') . '"> Login again</a>';
+                    echo '</div>';
+                    exit();
+                } else {
+                    $this->session->set_flashdata('msg_error', 'Your account is disabled.');
+                    redirect(site_url(ADMIN_DIR . "errors/account_disable"));
+                }
+            }
 
             //now we will check if the current module is assigned to the user or not
-            $this->data['current_action_id'] = $current_action_id = $this->module_m->actionIdFromName($this->controller_name, $this->method_name);
+            //$this->data['current_action_id'] = $current_action_id = $this->module_m->actionIdFromName($this->controller_name, $this->method_name);
+            $this->data['current_action_id'] = $current_action_id = $this->module_m->actionIdFromName($this->controller_name, NULL);
             $allowed_modules = $this->mr_m->rightsByRole($this->session->userdata("role_id"));
 
             //add role homepage to allowed modules
             $allowed_modules[] = $this->session->userdata("role_homepage_id");
 
-            //var_dump($allowed_modules);
-
             if (!in_array($current_action_id, $allowed_modules)) {
-                //$this->session->set_flashdata('msg_error', 'You are not allowed to access this module');
-                //redirect($this->session->userdata("role_homepage_uri"));
+                $is_ajax = 'xmlhttprequest' == strtolower($_SERVER['HTTP_X_REQUESTED_WITH'] ?? '');
+                if ($is_ajax) {
+                    echo '<div class="alert alert-danger">
+                    <strong>Error!</strong> You are not allowed to access this module.
+                    ' . $this->controller_name . ' - ' . $this->method_name . '
+                </div>
+                ';
+                    exit();
+                } else {
+                    if (!$this->session->userdata('userId') && empty($this->session->userdata('userId'))) {
+                        redirect("login");
+                    } else {
+                        $this->session->set_flashdata('msg_error', 'You are not allowed to access this module');
+                        // redirect($_SERVER['HTTP_REFERER']);
+                        // session_destroy();
+                        //redirect($this->session->userdata("role_homepage_uri"));
+                        $module = $this->controller_name . '-' . $this->method_name;
+                        redirect(site_url(ADMIN_DIR . "errors/index?module=$module"));
+                    }
+                }
             }
         }
     }
