@@ -839,7 +839,7 @@ class Reports extends Admin_Controller
     d.district_name AS DISTRICT,
     e.cheque AS CHEQUE,   
     e.date AS `DATE`,
-    MONTH(e.date) AS `MONTH`,
+    DATE_FORMAT(e.date, '%b') AS `MONTH`,
     s.scheme_code AS SCHEME_CODE,
     s.scheme_name AS SCHEME_NAME,
     e.payee_name AS PAYEE_NAME,
@@ -896,7 +896,7 @@ LEFT JOIN
         $result = $this->db->query($query)->result_array();
 
         // Set CSV filename
-        $filename = time() . 'exported_data.csv';
+        $filename = 'expenses_reconciliation_report_' . time() . '.csv';
 
         // Set headers to download the file
         header('Content-Type: text/csv');
