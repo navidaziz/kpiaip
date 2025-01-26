@@ -1215,6 +1215,7 @@ LEFT JOIN
             // '#',
             // 'RFP CODE',
             'TRAKING ID',
+            'FRP DATE',
             'DISTRICT NAME',
             'SCHEME CODE',
             'SCHEME NAME',
@@ -1240,6 +1241,7 @@ LEFT JOIN
             SELECT 
             pn.id,
             pn.payment_notesheet_code,
+            pn.puc_date,
             pn.puc_tracking_id,
             d.district_name,
             s.scheme_id,
@@ -1283,6 +1285,7 @@ LEFT JOIN
             fputcsv($output, [
                 // $count++,
                 // $scheme->payment_notesheet_code,
+                $scheme->puc_tracking_id,
                 $scheme->puc_tracking_id,
                 $scheme->district_name,
                 $scheme->scheme_code,
