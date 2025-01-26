@@ -891,7 +891,7 @@ LEFT JOIN
     schemes AS s ON s.scheme_id = e.scheme_id
 LEFT JOIN 
     water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
-    ORDER BY e.expnense_id ASC;";
+    ORDER BY e.expense_id ASC;";
 
         // Execute the query
         $result = $this->db->query($query)->result_array();
