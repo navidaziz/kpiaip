@@ -170,6 +170,12 @@
                 <div class="dashboard-box">
                     <h3>KP-IAIP Project</h3>
                     <p class="count">Data Analysis Dashboard</p>
+                    <div>
+
+                        <a href="<?php echo site_url(ADMIN_DIR . "home/index"); ?>" class="btn btn-link"><i class="fa fa-home"></i> Home</a>
+                        <a href="<?php echo site_url(ADMIN_DIR . "login/logout"); ?>" class="btn btn-link"><i class="fa fa-sign-out"></i> Logout</a>
+
+                    </div>
                 </div>
             </div>
             <?php
@@ -332,17 +338,7 @@
 
         function filter_data() {
 
-            get_report("budget_utilization_summary");
-            get_report("fy_wise_budget_utilization");
-            get_report("district_expenses");
-            get_report("region_expenses");
-            get_report("scheme_category_total");
-            get_report("scheme_category_heat_map");
-            get_report("district_scheme_heat_map");
 
-            get_report("region_schemes");
-            get_report("district_schemes");
-            get_report("completed_scheme_avg");
             //get_report("category_totals");
 
 
@@ -362,6 +358,17 @@
 
         }
         filter_data();
+        get_report("budget_utilization_summary");
+        get_report("fy_wise_budget_utilization");
+        get_report("district_expenses");
+        get_report("region_expenses");
+        get_report("scheme_category_total");
+        get_report("scheme_category_heat_map");
+        get_report("district_scheme_heat_map");
+
+        get_report("region_schemes");
+        get_report("district_schemes");
+        get_report("completed_scheme_avg");
     </script>
 
     <script>
