@@ -834,7 +834,7 @@ class Reports extends Admin_Controller
         //e.voucher_number as VOUCHER_NO,
         $query = "SELECT
     fy.financial_year AS FY,
-    e.expense_id AS EXPENSE_ID,
+    e.expense_id AS T_ID,
     d.region AS REGION,
     d.district_name AS DISTRICT,
     e.cheque AS CHEQUE,   
@@ -890,7 +890,8 @@ LEFT JOIN
 LEFT JOIN 
     schemes AS s ON s.scheme_id = e.scheme_id
 LEFT JOIN 
-    water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id;";
+    water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
+    ORDER BY e.expnense_id ASC;";
 
         // Execute the query
         $result = $this->db->query($query)->result_array();
