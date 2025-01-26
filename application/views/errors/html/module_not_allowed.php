@@ -77,7 +77,7 @@
 		<div class="access-denied-content">
 			<h1><i class="fa fa-ban"></i> Access Denied</h1>
 			<h3>Oops! Something went wrong.</h3>
-			<p>You are not allowed to access this module <span style="color:red;">( <i><?php echo htmlspecialchars($_GET['module'] ?? 'Unknown Module', ENT_QUOTES, 'UTF-8'); ?></i> )</span>.</p>
+			<p>You are not allowed to access this module <span style="color:red;">( <i><?php echo htmlspecialchars($_GET['module'], ENT_QUOTES, 'UTF-8'); ?></i> )</span>.</p>
 			<p>Please contact the Directorate of OnFarm Water Management (OFWM) for assistance:</p>
 			<p class="contact-info">
 				<i class="fa fa-phone"></i> Ph: 091-9224307-8<br>
