@@ -153,8 +153,8 @@
                                         $query = "
                                             SELECT 
                                             COUNT(*) AS total_schemes,
-                                            SUM(paid) AS total_cost,
-                                            AVG(paid) AS avg_cost
+                                            SUM(total_paid) AS total_cost,
+                                            AVG(total_paid) AS avg_cost
                                             FROM 
                                             scheme_lists AS s
                                             WHERE s.component_category_id = '" . intval($category->component_category_id) . "'
@@ -180,8 +180,8 @@
                                     $query = "
                                             SELECT 
                                             COUNT(*) AS total_schemes,
-                                            SUM(paid) AS total_cost,
-                                            AVG(paid) AS avg_cost
+                                            SUM(total_paid) AS total_cost,
+                                            AVG(total_paid) AS avg_cost
                                             FROM 
                                             scheme_lists AS s
                                             WHERE s.component_category_id = '" . intval($category->component_category_id) . "'
