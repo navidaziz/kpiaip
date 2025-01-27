@@ -874,7 +874,10 @@ class Reports extends Admin_Controller
         END
     ) AS `STATUS`,
     e.purpose AS PURPOSE,
-    e.remarks AS REMARKS
+    e.remarks AS REMARKS,
+    (e.gross_pay - (e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay)) as  RECONCILIATION
+                       
+
 FROM 
     expenses AS e
 INNER JOIN 
