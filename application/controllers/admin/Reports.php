@@ -11,6 +11,8 @@ class Reports extends Admin_Controller
 
         parent::__construct();
         $this->lang->load("system", 'english');
+
+        $this->load->model("admin/water_user_association_model");
         //$this->output->enable_profiler(TRUE);
     }
 
@@ -24,6 +26,17 @@ class Reports extends Admin_Controller
     }
 
 
+    public function get_schemes_summary()
+    {
+        $scheme_status = $this->input->post('scheme_status');
+        $this->data["scheme_status"] = $scheme_status . ' Schemes Summary';
+        if ($scheme_status == 'Ongoing') {
+            $this->load->view(ADMIN_DIR . "reports/schemes/get_ongoing_schemes_summary", $this->data);
+        }
+        if ($scheme_status == 'Completed') {
+            $this->load->view(ADMIN_DIR . "reports/schemes/get_completed_schemes_summary", $this->data);
+        }
+    }
 
     public function schemes_summary_report()
     {
@@ -151,6 +164,25 @@ class Reports extends Admin_Controller
         $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/fy_w_expense_summary";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+    public function get_scheme_list()
+    {
+        $scheme_status = $this->input->post('scheme_status');
+        $this->data["title"] = $scheme_status . ' Scheme List';
+        $query = "SELECT * FROM scheme_lists WHERE scheme_status = ?";
+        $this->data['schemes'] = $this->db->query($query, [$scheme_status])->result();
+        $this->data["description"] = 'Scheme List';
+        $this->load->view(ADMIN_DIR . "reports/schemes/get_scheme_list", $this->data);
+    }
+
+    public function print_scheme($scheme_id)
+    {
+
+        $scheme_id = (int) $scheme_id;
+        $this->data["scheme_id"] = $scheme_id;
+        $this->load->view(ADMIN_DIR . "expenses/print_scheme_detail", $this->data);
+    }
+
+
     public function budget_u_summary()
     {
 

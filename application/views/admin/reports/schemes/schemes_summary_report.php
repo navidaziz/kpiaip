@@ -271,12 +271,33 @@
                                                                                     }
                                                                                     ?></h5>
                                         <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
-                                        <p style="text-align: right;">
+                                        <p style="text-align: center;">
+                                            <button onclick="get_list('<?php echo $scheme_status; ?>')" class="label label-success" style="border: 0px !important;"><i class="fa fa-list"></i> View List </button>
                                             <a target="_blank" class="label label-warning" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/" . $scheme_status); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a>
                                         </p>
+                                        <div class="clear:both"></div>
                                     </div>
                                 </div>
                             <?php } ?>
+
+                            <script>
+                                function get_list(scheme_status) {
+                                    $.ajax({
+                                            method: "POST",
+                                            url: "<?php echo site_url(ADMIN_DIR . 'reports/get_scheme_list'); ?>",
+                                            data: {
+                                                scheme_status: scheme_status
+                                            },
+                                        })
+                                        .done(function(respose) {
+                                            $('#modal').modal('show');
+
+                                            $('#modal_title').html(scheme_status + ' Schemes List');
+                                            $('#modal_body').html(respose);
+                                            $('.modal-dialog').css('width', '99%'); // Directly set the width
+                                        });
+                                }
+                            </script>
                         </div>
                     </div>
                 </div>
@@ -315,12 +336,35 @@
                 <div class="col-md-12">
                     <div class="alert alert-danger" id="messenger">
 
-                        <h4>Ongoing Schemes (ICR-O, ICR-I, ICR-II, ICRI&II)</h4>
+                        <h4>Ongoing Schemes (ICR-O, ICR-I, ICR-II, ICRI&II)
+
+                            <small class="pull-right">
+                                <button onclick="get_schemes_summary('Ongoing')" class="btn btn-danger btn-sm">Category Wise <i class="fa fa-expand"></i></button>
+                                <script>
+                                    function get_schemes_summary(scheme_status) {
+                                        $.ajax({
+                                                method: "POST",
+                                                url: "<?php echo site_url(ADMIN_DIR . 'reports/get_schemes_summary'); ?>",
+                                                data: {
+                                                    scheme_status: scheme_status
+                                                },
+                                            })
+                                            .done(function(respose) {
+                                                $('#modal').modal('show');
+
+                                                $('#modal_title').html(scheme_status + ' Schemes Summary');
+                                                $('#modal_body').html(respose);
+                                                $('.modal-dialog').css('width', '99%'); // Directly set the width
+                                            });
+                                    }
+                                </script>
+                            </small>
+                        </h4>
                         <hr />
                         <table class="table table-bordered table_s mall table-striped" style="color: black !important;">
                             <thead>
                                 <tr>
-                                    <th>Category</th>
+                                    <th>Components</th>
                                     <th>Total No. of Schemes</th>
                                     <th>SC/FCR</th>
                                     <th>ICR-I (Paid)</th>
@@ -334,18 +378,18 @@
                             <tbody>
                                 <?php
                                 $query = "SELECT 
-                    COUNT(0) AS `total`,
-                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
-                    SUM(`sft_schemes`.`1st`) AS `first`,
-                    SUM(`sft_schemes`.`2nd`) AS `second`,
-                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
-                    SUM(`sft_schemes`.`other`) AS `other`,
-                    SUM(`sft_schemes`.`final`) AS `final` 
-                    FROM `sft_schemes` 
-                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
-                    AND component_category_id IN (1,2,3,4,5,6,7,8)";
+                                    COUNT(0) AS `total`,
+                                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
+                                    SUM(`sft_schemes`.`1st`) AS `first`,
+                                    SUM(`sft_schemes`.`2nd`) AS `second`,
+                                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
+                                    SUM(`sft_schemes`.`other`) AS `other`,
+                                    SUM(`sft_schemes`.`final`) AS `final` 
+                                    FROM `sft_schemes` 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                    AND component_category_id IN (1,2,3,4,5,6,7,8)";
                                 $ongoing_a = $this->db->query($query)->row();
                                 ?>
                                 <tr>
@@ -362,18 +406,18 @@
                                 </tr>
                                 <?php
                                 $query = "SELECT 
-                    COUNT(0) AS `total`,
-                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
-                    SUM(`sft_schemes`.`1st`) AS `first`,
-                    SUM(`sft_schemes`.`2nd`) AS `second`,
-                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
-                    SUM(`sft_schemes`.`other`) AS `other`,
-                    SUM(`sft_schemes`.`final`) AS `final` 
-                    FROM `sft_schemes` 
-                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
-                    AND component_category_id IN (10)";
+                                    COUNT(0) AS `total`,
+                                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
+                                    SUM(`sft_schemes`.`1st`) AS `first`,
+                                    SUM(`sft_schemes`.`2nd`) AS `second`,
+                                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
+                                    SUM(`sft_schemes`.`other`) AS `other`,
+                                    SUM(`sft_schemes`.`final`) AS `final` 
+                                    FROM `sft_schemes` 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                    AND component_category_id IN (10)";
                                 $ongoing_b1 = $this->db->query($query)->row();
                                 ?>
                                 <tr>
@@ -390,18 +434,18 @@
                                 </tr>
                                 <?php
                                 $query = "SELECT 
-                    COUNT(0) AS `total`,
-                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
-                    SUM(`sft_schemes`.`1st`) AS `first`,
-                    SUM(`sft_schemes`.`2nd`) AS `second`,
-                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
-                    SUM(`sft_schemes`.`other`) AS `other`,
-                    SUM(`sft_schemes`.`final`) AS `final` 
-                    FROM `sft_schemes` 
-                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
-                    AND component_category_id IN (11)";
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
+                                        SUM(`sft_schemes`.`1st`) AS `first`,
+                                        SUM(`sft_schemes`.`2nd`) AS `second`,
+                                        SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
+                                        SUM(`sft_schemes`.`other`) AS `other`,
+                                        SUM(`sft_schemes`.`final`) AS `final` 
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                        AND component_category_id IN (11)";
                                 $ongoing_b2 = $this->db->query($query)->row();
                                 ?>
                                 <tr>
@@ -418,18 +462,18 @@
                                 </tr>
                                 <?php
                                 $query = "SELECT 
-                    COUNT(0) AS `total`,
-                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
-                    SUM(`sft_schemes`.`1st`) AS `first`,
-                    SUM(`sft_schemes`.`2nd`) AS `second`,
-                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
-                    SUM(`sft_schemes`.`other`) AS `other`,
-                    SUM(`sft_schemes`.`final`) AS `final` 
-                    FROM `sft_schemes` 
-                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
-                    AND component_category_id IN (12)";
+                                    COUNT(0) AS `total`,
+                                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
+                                    SUM(`sft_schemes`.`1st`) AS `first`,
+                                    SUM(`sft_schemes`.`2nd`) AS `second`,
+                                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
+                                    SUM(`sft_schemes`.`other`) AS `other`,
+                                    SUM(`sft_schemes`.`final`) AS `final` 
+                                    FROM `sft_schemes` 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                    AND component_category_id IN (12)";
                                 $ongoing_b3 = $this->db->query($query)->row();
                                 ?>
                                 <tr>
@@ -469,12 +513,17 @@
                 </div>
                 <div class="col-md-12">
                     <div class="alert alert-success" id="messenger">
-                        <h4>Completed Schemes</h4>
+                        <h4>Completed Schemes
+                            <small class="pull-right">
+                                <button onclick="get_schemes_summary('Completed')" class="btn btn-success btn-sm">Category Wise <i class="fa fa-expand"></i></button>
+
+                            </small>
+                        </h4>
                         <hr />
                         <table class="table table-bordered table_s mall table-striped" style="color: black !important;">
                             <thead>
                                 <tr>
-                                    <th>Category</th>
+                                    <th>Components</th>
                                     <th>Total No. of Schemes</th>
                                     <th>ICR-I (Paid)</th>
                                     <th>ICR-II (Paid)</th>

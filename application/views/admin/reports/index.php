@@ -193,7 +193,13 @@
 
             </div>
             <div class="box-body">
-                <h4>Basic Schemes Summary Reports</h4>
+                <h4>Dashboard</h4>
+                <ol>
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_summary_report') ?>">Scheme Dashboard</a>
+                    </li>
+                </ol>
+                <h4>Scheme AVG Cost</h4>
                 <ol>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_components_avg_cost') ?>">District Wise Components AVG Cost</a>
@@ -207,20 +213,23 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/category_fy_avg_cost') ?>">Category and Financial Year Wise AVG Cost</a>
                     </li>
+                </ol>
+                <h4>Complete Scheme</h4>
+                <ol>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_fy_wise_completed_schemes') ?>">District and FY Wise Completed Report</a>
                     </li>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/completed_intervention_summary') ?>">Completed Intervention Summary</a>
                     </li>
+                </ol>
+                <h4>Export Report</h4>
+                <ol>
                     <li>
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_summary_report') ?>">Schemes Summary Report</a>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_by_status') ?>">All Schemes Liability Ledger</a>
                     </li>
                     <li>
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_by_status') ?>">Scheme Liabality Ledger</a>
-                    </li>
-                    <li>
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_ongoing') ?>">Ongoing Scheme Liabality Ledger</a>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_ongoing') ?>">Only Ongoing Scheme Liability Ledger</a>
                     </li>
                 </ol>
 

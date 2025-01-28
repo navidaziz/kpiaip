@@ -110,7 +110,9 @@
                             "name"          =>  "start_date",
                             "id"            =>  "start_date",
                             "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('start_date'),
+                            "style"         =>  "",
+                            "required"      => "required",
+                            "title"         =>  $this->lang->line('start_date'),
                             "value"         =>  set_value("start_date", $financial_year->start_date),
                             "placeholder"   =>  $this->lang->line('start_date')
                         );
@@ -140,7 +142,9 @@
                             "name"          =>  "end_date",
                             "id"            =>  "end_date",
                             "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('end_date'),
+                            "style"         =>  "",
+                            "required"      => "required",
+                            "title"         =>  $this->lang->line('end_date'),
                             "value"         =>  set_value("end_date", $financial_year->end_date),
                             "placeholder"   =>  $this->lang->line('end_date')
                         );
@@ -170,13 +174,47 @@
                             "name"          =>  "financial_year",
                             "id"            =>  "financial_year",
                             "class"         =>  "form-control",
-                            "style"         =>  "", "required"      => "required", "title"         =>  $this->lang->line('financial_year'),
+                            "style"         =>  "",
+                            "required"      => "required",
+                            "title"         =>  $this->lang->line('financial_year'),
                             "value"         =>  set_value("financial_year", $financial_year->financial_year),
                             "placeholder"   =>  $this->lang->line('financial_year')
                         );
                         echo  form_input($text);
                         ?>
                         <?php echo form_error("financial_year", "<p class=\"text-danger\">", "</p>"); ?>
+                    </div>
+
+
+
+                </div>
+
+                <div class="form-group">
+
+                    <?php
+                    $label = array(
+                        "class" => "col-md-2 control-label",
+                        "style" => "",
+                    );
+                    echo form_label('Forex', "forex", $label);      ?>
+
+                    <div class="col-md-8">
+                        <?php
+
+                        $text = array(
+                            "type"          =>  "text",
+                            "name"          =>  "forex",
+                            "id"            =>  "forex",
+                            "class"         =>  "form-control",
+                            "style"         =>  "",
+                            "required"      => "required",
+                            "title"         =>  'Forex',
+                            "value"         =>  set_value("forex", $financial_year->forex),
+                            "placeholder"   =>  'Forex'
+                        );
+                        echo  form_input($text);
+                        ?>
+                        <?php echo form_error("forex", "<p class=\"text-danger\">", "</p>"); ?>
                     </div>
 
 

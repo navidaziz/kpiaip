@@ -67,7 +67,7 @@
 
                 <div class="table-responsive">
 
-                    <table class="table table-bordered">
+                    <table class="table table-bordered" id="financial_summary_table">
                         <thead>
                             <tr>
 
@@ -75,6 +75,7 @@
                                 <th><?php echo $this->lang->line('end_date'); ?></th>
                                 <th><?php echo $this->lang->line('financial_year'); ?></th>
                                 <th><?php echo $this->lang->line('project_name'); ?></th>
+                                <th>Forex</th>
                                 <th><?php echo $this->lang->line('Status'); ?></th>
                                 <th><?php echo $this->lang->line('Action'); ?></th>
                             </tr>
@@ -96,6 +97,9 @@
                                     </td>
                                     <td>
                                         <?php echo $financial_year->project_name; ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $financial_year->forex; ?>
                                     </td>
                                     <td>
                                         <?php //echo status($financial_year->status,  $this->lang); 
