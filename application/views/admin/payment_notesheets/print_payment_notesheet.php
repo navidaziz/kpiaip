@@ -539,8 +539,6 @@
 
 
                     <?php } ?>
-                </tbody>
-                <tfoot>
                     <tr>
                         <th></th>
                         <th></th>
@@ -563,7 +561,8 @@
 
 
                     </tr>
-                </tfoot>
+                </tbody>
+
             </table>
             <br />
             <p><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
