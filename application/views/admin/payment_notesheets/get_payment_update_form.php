@@ -1,5 +1,6 @@
 <form id="payment_notesheet_schemes" class="form-horizontal" enctype="multipart/form-data" method="post">
     <input type="hidden" name="id" value="<?php echo $input->id; ?>" />
+    <input type="hidden" name="scheme_id" value="<?php echo $input->scheme_id; ?>" />
 
     <?php
     $query = "SELECT * FROM schemes WHERE scheme_id = ?";
@@ -169,6 +170,49 @@
             </tr>
         </tfoot>
     </table>
+
+
+    <?php
+    $query = "SELECT pn.id, pn.payment_notesheet_code, 
+            pn.puc_tracking_id, pn.puc_date, 
+            pns.payment_type,
+            pns.payment_amount
+            FROM `payment_notesheet_schemes` as pns 
+            INNER JOIN payment_notesheets as pn ON(pn.id = pns.payment_notesheet_id)
+            WHERE scheme_id =? 
+            AND pns.id != ?";
+    $previous_pucs = $this->db->query($query, [$scheme->scheme_id, $input->id])->result();
+    if ($previous_pucs) { ?>
+        <div style="border: 1px solid gray; border-radius: 5px; padding: 5px; margin-bottom: 10px;">
+            <strong>Previous PUCs</strong>
+            <table class="table table-bordered table_small" id="wua_scheme_payment">
+                <thead>
+                    <th>#</th>
+                    <th>PUC Code</th>
+                    <th>PUC Tacking ID</th>
+                    <th>PUC Date</th>
+                    <th>Payment Type</th>
+                    <th>Pay Amount</th>
+                </thead>
+                <tbody>
+                    <?php
+                    $count = 1;
+                    foreach ($previous_pucs as $puc) { ?>
+                        <tr>
+                            <td><?php echo $count++; ?></td>
+                            <td><a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'payment_notesheets/print_payment_notesheet/' . $puc->id) ?>"><?php echo $puc->payment_notesheet_code; ?></a></td>
+                            <td><?php echo $puc->puc_tracking_id; ?></td>
+                            <td><?php echo date('d M, Y', strtotime($puc->puc_date)); ?></td>
+                            <td><?php echo $puc->payment_type; ?></td>
+                            <td><?php echo $puc->payment_amount; ?></td>
+                        </tr>
+                    <?php } ?>
+                </tbody>
+            </table>
+        </div>
+    <?php } ?>
+
+
     <?php
     $query = "SELECT COUNT(*) as total FROM expenses as e WHERE e.scheme_id = ? and e.installment = 'Final'";
     $final_count = $this->db->query($query, [$scheme->scheme_id])->row()->total;
@@ -200,7 +244,7 @@
         <div class="form-group row" <?php if ($input->payment_type != 'FINAL') { ?> style="display: none;" <?php } ?> id="completion_cost_div">
             <label for="completion_cost" class="col-sm-4 col-form-label">Final Completion Cost <span style="color: red;">*</span></label>
             <div class="col-sm-8">
-                <input min="0" max="<?php echo $scheme->sanctioned_cost; ?>" type="number" step="any" required id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="form-control">
+                <input <?php if ($input->payment_type == 'FINAL') { ?> required <?php } ?> min="0" max="<?php echo $scheme->sanctioned_cost; ?>" type="number" step="any" id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="form-control">
             </div>
         </div>
         <div class="form-group row">

@@ -338,6 +338,24 @@ class Payment_notesheets extends Admin_Controller
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
             exit();
         } else {
+
+
+            $scheme_id = $this->input->post("scheme_id");
+            $id = $this->input->post("id");
+            $payment_type = $this->input->post("payment_type");
+            $query = "SELECT COUNT(*) as total
+            FROM `payment_notesheet_schemes` as pns 
+            WHERE scheme_id =? 
+            AND pns.payment_type = ?
+            AND pns.id != ?";
+            $previous_pucs = $this->db->query($query, [$scheme_id, $payment_type, $id])->row();
+            if ($previous_pucs->total > 0) {
+                echo '<div class="alert alert-danger">Payment Type "' . $payment_type . '" already exists for this scheme.</div>';
+                exit();
+            }
+
+
+
             if ($this->input->post("payment_type") == 'FINAL') {
 
                 $id = $this->input->post("id");
