@@ -1238,7 +1238,14 @@ LEFT JOIN
     public function download_payment_notesheet_csv($payment_notesheet_id = NULL)
     {
 
-        $filename = "FRC_" . time() . ".csv";
+
+        if ($payment_notesheet_id) {
+            $this->download_payment_notesheet_single_csv($payment_notesheet_id);
+            exit();
+        }
+
+
+        $filename = "FRC_All_" . time() . ".csv";
         header("Content-Type: text/csv");
         header("Content-Disposition: attachment; filename=\"$filename\"");
 
@@ -1263,6 +1270,8 @@ LEFT JOIN
             'Others',
             'Final',
             'TOTAL PROGRESIVE',
+            'REMAINING',
+            'PAYMENT TYPE',
             'GROSS-Rs',
             'WHIT',
             'WHST',
@@ -1321,7 +1330,7 @@ LEFT JOIN
                 // $count++,
                 // $scheme->payment_notesheet_code,
                 $scheme->puc_tracking_id,
-                $scheme->puc_tracking_id,
+                $scheme->puc_date,
                 $scheme->district_name,
                 $scheme->scheme_code,
                 $scheme->scheme_name,
@@ -1334,8 +1343,8 @@ LEFT JOIN
                 number_format($scheme->{'other'}, 0),
                 number_format($scheme->{'final'}, 0),
                 number_format($scheme->total_paid, 0),
-                //number_format($scheme->remaining, 0),
-                //$scheme->payment_type,
+                number_format($scheme->remaining, 0),
+                $scheme->payment_type,
                 number_format($scheme->payment_amount, 0),
                 number_format($scheme->whit, 0),
                 number_format($scheme->whst, 0),
@@ -1349,39 +1358,18 @@ LEFT JOIN
         fclose($output);
     }
 
-    public function download_payment_notesheet_csv3($payment_notesheet_id = NULL)
+    public function download_payment_notesheet_single_csv($payment_notesheet_id)
     {
 
-        $filename = "payment_history.csv";
-        header("Content-Type: text/csv");
-        header("Content-Disposition: attachment; filename=\"$filename\"");
+
+        // Set headers to download the file as CSV
+        header('Content-Type: text/csv; charset=utf-8');
+        header('Content-Disposition: attachment; filename=FRC_' . $payment_notesheet_id . '_' . time() . '.csv');
 
         // Open the output stream
-        $output = fopen("php://output", "w");
+        $output = fopen('php://output', 'w');
 
-        // Write the CSV headers
-        fputcsv($output, [
-            '#',
-            'Scheme ID',
-            'Scheme Name',
-            'Title of Account',
-            'Cat:',
-            'TS/FCR (PKRs.)',
-            '1st Payment',
-            '2nd Payment',
-            '1st & 2nd',
-            'Other',
-            'Final',
-            'Total Paid (PKRs.)',
-            'Balance (PKRs.)',
-            'Installment Type',
-            'Gross',
-            'WHIT',
-            'WHST',
-            'Net'
-        ]);
-
-        // Fetch categories
+        // Fetch data from the database
         $query = "
             SELECT 
                 cc.component_category_id,
@@ -1391,105 +1379,43 @@ LEFT JOIN
                 schemes s
                 INNER JOIN component_categories as cc ON cc.component_category_id = s.component_category_id
                 INNER JOIN payment_notesheet_schemes as pns ON(pns.scheme_id = s.scheme_id)
-            WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'  
-            GROUP BY cc.component_category_id";
-        $categories = $this->db->query($query)->result();
-        $count = 1;
+                WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'  
+                GROUP BY cc.component_category_id  ";
+        $catrgories = $this->db->query($query)->result();
 
-        foreach ($categories as $category) {
-            // Fetch schemes under each category
-            $query = "
-        SELECT 
-            s.scheme_id,
-            s.scheme_code,
-            s.scheme_name,
-            COALESCE(e.payee_name, wua.bank_account_title) as title_of_account,
-            cc.category,
-            s.sanctioned_cost,
-            SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
-            SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
-            SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
-            SUM(CASE WHEN e.installment NOT IN ('1st', '2nd', '1st_2nd', 'Final') THEN e.gross_pay END) AS `other`,
-            SUM(CASE WHEN e.installment = 'Final' THEN e.gross_pay END) AS `final`,
-            SUM(e.gross_pay) as total_paid,
-            (s.sanctioned_cost - SUM(e.gross_pay)) as remaining,
-            pns.payment_type,
-            pns.payment_amount,
-            pns.whit,
-            pns.whst,
-            pns.net_pay
-        FROM 
-            schemes s
-            INNER JOIN component_categories as cc ON cc.component_category_id = s.component_category_id
-            INNER JOIN payment_notesheet_schemes as pns ON(pns.scheme_id = s.scheme_id)
-            LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
-            INNER JOIN water_user_associations as wua ON wua.water_user_association_id = s.water_user_association_id
-        WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "' 
-            AND s.component_category_id = '" . $category->component_category_id . "'
-        GROUP BY s.scheme_id, s.scheme_name";
+        // Write the CSV headers
 
-            $schemes = $this->db->query($query)->result();
 
-            foreach ($schemes as $scheme) {
-                // Write each scheme data to CSV
-                fputcsv($output, [
-                    $count++,
-                    $scheme->scheme_code,
-                    $scheme->scheme_name,
-                    $scheme->title_of_account,
-                    $scheme->category,
-                    number_format($scheme->sanctioned_cost, 0),
-                    number_format($scheme->{'1st'}, 0),
-                    number_format($scheme->{'2nd'}, 0),
-                    number_format($scheme->{'1st_2nd'}, 0),
-                    number_format($scheme->{'other'}, 0),
-                    number_format($scheme->{'final'}, 0),
-                    number_format($scheme->total_paid, 0),
-                    number_format($scheme->remaining, 0),
-                    $scheme->payment_type,
-                    number_format($scheme->payment_amount, 0),
-                    number_format($scheme->whit, 0),
-                    number_format($scheme->whst, 0),
-                    number_format($scheme->net_pay, 0),
-                ]);
-            }
-        }
+        // Add the merged title row
 
-        // Close the output stream
-        fclose($output);
-    }
 
-    public function download_payment_notesheet_csv2($payment_notesheet_id = NULL)
-    {
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment; filename="export.csv"');
 
-        $output = fopen('php://output', 'w');
+        fputcsv($output, [
 
-        // Write headers for the CSV
-        $headers = [
-            '#',
-            'Scheme ID',
-            'Scheme\'s Name',
-            'Title of Account',
-            'Cat:',
-            'TS/FCR (PKRs.)',
-            '1st',
-            '2nd',
-            '1st & 2nd',
-            'Other',
+            'TRAKING ID',
+            'FRP DATE',
+            'DISTRICT NAME',
+            'SCHEME CODE',
+            'SCHEME NAME',
+            //'Title of Account',
+            'CATEGORY',
+            'SANCTIONED COST',
+            'ICR-I',
+            'ICR-II',
+            'ICR-I&II',
+            'Others',
             'Final',
-            'Total Paid (PKRs.)',
-            'Balance (PKRs.)',
-            'Installment Type',
-            'Gross',
+            'TOTAL PROGRESIVE',
+            'REMAINING',
+            'PAYMENT TYPE',
+            'GROSS-Rs',
             'WHIT',
             'WHST',
-            'Net'
-        ];
-        fputcsv($output, $headers);
+            'Net-Rs',
+            'Status'
+        ]);
 
-        // Initialize totals
+        $count = 1;
         $gtotal = [
             'sanctioned_cost' => 0,
             '1st' => 0,
@@ -1505,96 +1431,163 @@ LEFT JOIN
             'net_pay' => 0,
         ];
 
-        $query = "
-    SELECT 
-        cc.component_category_id,
-        cc.category,
-        cc.category_detail
-    FROM 
-        schemes s
-        INNER JOIN component_categories as cc ON cc.component_category_id = s.component_category_id
-        INNER JOIN payment_notesheet_schemes as pns ON(pns.scheme_id = s.scheme_id)
-    WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'  
-    GROUP BY cc.component_category_id  
-";
-        $categories = $this->db->query($query)->result();
-        $count = 1;
-
-        foreach ($categories as $category) {
+        foreach ($catrgories as $catrgory) {
             $query = "
         SELECT 
-            s.scheme_id, s.scheme_code, s.scheme_name, e.payee_name, fy.financial_year,
-            cc.category, wua.bank_account_title, pns.payment_amount, pns.whit, pns.whst, 
-            pns.net_pay, pns.payment_type, s.sanctioned_cost, 
-            SUM(e.gross_pay) AS `total_paid`, 
+            pn.id,
+            pn.payment_notesheet_code,
+            pn.puc_date,
+            pn.puc_tracking_id,
+            d.district_name,
+            s.scheme_id,
+            s.scheme_status,
+            s.scheme_code,
+            s.scheme_name,
+            e.payee_name,
+            fy.financial_year,
+            cc.category,
+            wua.bank_account_title,
+            pns.id as pns_id,
+            pns.payment_amount,
+            pns.whit,
+            pns.whst,
+            pns.net_pay,
+            pns.payment_type, 
+            s.lining_length,
+            SUM(e.gross_pay) as `total_paid`,
+            COUNT(e.expense_id) as `payment_count`,
+            (s.sanctioned_cost) as `sanctioned_cost`,
             SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
             SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
             SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
             SUM(CASE WHEN e.installment = 'Final' THEN e.gross_pay END) AS `final`,
-            SUM(CASE WHEN e.installment NOT IN ('1st', '2nd', '1st_2nd', 'Final') THEN e.gross_pay END) AS `other`
+            SUM(CASE WHEN e.installment NOT IN ('1st','2nd', '1st_2nd', 'Final') THEN e.gross_pay END) AS `other`,
+            GROUP_CONCAT(e.cheque ORDER BY e.installment SEPARATOR ', ') AS `cheques`
         FROM 
             schemes s
             INNER JOIN component_categories as cc ON cc.component_category_id = s.component_category_id
             INNER JOIN payment_notesheet_schemes as pns ON(pns.scheme_id = s.scheme_id)
-            INNER JOIN financial_years as fy ON fy.financial_year_id = s.financial_year_id
+            INNER JOIN financial_years as fy ON(fy.financial_year_id = s.financial_year_id)
             LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
-            INNER JOIN water_user_associations as wua ON wua.water_user_association_id = s.water_user_association_id
-        WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "' 
-          AND s.component_category_id = '" . $category->component_category_id . "'
-        GROUP BY s.scheme_id
-        ORDER BY id ASC
+            INNER JOIN payment_notesheets pn ON pn.id = pns.payment_notesheet_id
+            INNER JOIN districts AS d ON(d.district_id = s.district_id)
+            INNER JOIN water_user_associations as wua ON(wua.water_user_association_id = s.water_user_association_id)
+            WHERE pns.payment_notesheet_id = '" . $payment_notesheet_id . "'
+            AND s.component_category_id ='" . $catrgory->component_category_id . "'
+        GROUP BY 
+            s.scheme_id, s.scheme_name
+        ORDER BY id ASC    
     ";
             $schemes = $this->db->query($query)->result();
+            $subtotal = [
+                'sanctioned_cost' => 0,
+                '1st' => 0,
+                '2nd' => 0,
+                '1st_2nd' => 0,
+                'other' => 0,
+                'final' => 0,
+                'total_paid' => 0,
+                'remaining' => 0,
+                'payment_amount' => 0,
+                'whit' => 0,
+                'whst' => 0,
+                'net_pay' => 0,
+            ];
 
-            foreach ($schemes as $scheme) {
-                $total_paid = $scheme->total_paid + $scheme->payment_amount;
-                $remaining = $scheme->sanctioned_cost - $total_paid;
+            if (!empty($schemes)) {
+                foreach ($schemes as $scheme) {
 
-                // Write row data
+                    $total_paid = ($scheme->total_paid + $scheme->payment_amount);
+                    $remaining = ($scheme->sanctioned_cost - $total_paid);
+
+                    // Write the row data to the CSV
+                    fputcsv($output, [
+                        //$count++,
+                        // $scheme->payment_notesheet_code,
+                        $scheme->puc_tracking_id,
+                        $scheme->puc_date,
+                        $scheme->district_name,
+                        $scheme->scheme_code,
+                        $scheme->scheme_name,
+                        // $scheme->title_of_account,
+                        $scheme->category,
+                        number_format($scheme->sanctioned_cost, 0),
+                        number_format($scheme->{'1st'}, 0),
+                        number_format($scheme->{'2nd'}, 0),
+                        number_format($scheme->{'1st_2nd'}, 0),
+                        number_format($scheme->{'other'}, 0),
+                        number_format($scheme->{'final'}, 0),
+                        number_format($total_paid, 0),
+                        number_format($remaining, 0),
+                        $scheme->payment_type,
+                        number_format($scheme->payment_amount, 0),
+                        number_format($scheme->whit, 0),
+                        number_format($scheme->whst, 0),
+                        number_format($scheme->net_pay, 0),
+                        $scheme->scheme_status
+                    ]);
+
+                    // Update subtotal and grand total
+                    $subtotal['sanctioned_cost'] += $scheme->sanctioned_cost;
+                    $subtotal['1st'] += $scheme->{'1st'};
+                    $subtotal['2nd'] += $scheme->{'2nd'};
+                    $subtotal['1st_2nd'] += $scheme->{'1st_2nd'};
+                    $subtotal['other'] += $scheme->{'other'};
+                    $subtotal['final'] += $scheme->{'final'};
+                    $subtotal['total_paid'] += $total_paid;
+                    $subtotal['remaining'] += $remaining;
+                    $subtotal['payment_amount'] += $scheme->payment_amount;
+                    $subtotal['whit'] += $scheme->whit;
+                    $subtotal['whst'] += $scheme->whst;
+                    $subtotal['net_pay'] += $scheme->net_pay;
+
+                    $gtotal['sanctioned_cost'] += $scheme->sanctioned_cost;
+                    $gtotal['1st'] += $scheme->{'1st'};
+                    $gtotal['2nd'] += $scheme->{'2nd'};
+                    $gtotal['1st_2nd'] += $scheme->{'1st_2nd'};
+                    $gtotal['other'] += $scheme->{'other'};
+                    $gtotal['final'] += $scheme->{'final'};
+                    $gtotal['total_paid'] += $total_paid;
+                    $gtotal['remaining'] += $remaining;
+                    $gtotal['payment_amount'] += $scheme->payment_amount;
+                    $gtotal['whit'] += $scheme->whit;
+                    $gtotal['whst'] += $scheme->whst;
+                    $gtotal['net_pay'] += $scheme->net_pay;
+                }
+
+                // Write the subtotal row
                 fputcsv($output, [
-                    $count++,
-                    $scheme->scheme_code,
-                    $scheme->scheme_name,
-                    $scheme->payee_name ?: $scheme->bank_account_title,
-                    $scheme->category,
-                    number_format($scheme->sanctioned_cost, 0),
-                    number_format($scheme->{'1st'}, 0),
-                    number_format($scheme->{'2nd'}, 0),
-                    number_format($scheme->{'1st_2nd'}, 0),
-                    number_format($scheme->{'other'}, 0),
-                    number_format($scheme->{'final'}, 0),
-                    number_format($total_paid, 0),
-                    number_format($remaining, 0),
-                    $scheme->payment_type,
-                    number_format($scheme->payment_amount, 0),
-                    number_format($scheme->whit, 0),
-                    number_format($scheme->whst, 0),
-                    number_format($scheme->net_pay, 0)
+                    '',
+                    '',
+                    '',
+                    '',
+                    '',
+                    'Sub Total',
+                    number_format($subtotal['sanctioned_cost'], 0),
+                    number_format($subtotal['1st'], 0),
+                    number_format($subtotal['2nd'], 0),
+                    number_format($subtotal['1st_2nd'], 0),
+                    number_format($subtotal['other'], 0),
+                    number_format($subtotal['final'], 0),
+                    number_format($subtotal['total_paid'], 0),
+                    number_format($subtotal['remaining'], 0),
+                    '',
+                    number_format($subtotal['payment_amount'], 0),
+                    number_format($subtotal['whit'], 0),
+                    number_format($subtotal['whst'], 0),
+                    number_format($subtotal['net_pay'], 0)
                 ]);
-
-                // Accumulate totals
-                $gtotal['sanctioned_cost'] += $scheme->sanctioned_cost;
-                $gtotal['1st'] += $scheme->{'1st'};
-                $gtotal['2nd'] += $scheme->{'2nd'};
-                $gtotal['1st_2nd'] += $scheme->{'1st_2nd'};
-                $gtotal['other'] += $scheme->{'other'};
-                $gtotal['final'] += $scheme->{'final'};
-                $gtotal['total_paid'] += $total_paid;
-                $gtotal['remaining'] += $remaining;
-                $gtotal['payment_amount'] += $scheme->payment_amount;
-                $gtotal['whit'] += $scheme->whit;
-                $gtotal['whst'] += $scheme->whst;
-                $gtotal['net_pay'] += $scheme->net_pay;
             }
         }
 
-        // Write footer totals
+        // Write the grand total row
         fputcsv($output, [
             '',
             '',
             '',
-            'Total',
             '',
+            '',
+            'Total',
             number_format($gtotal['sanctioned_cost'], 0),
             number_format($gtotal['1st'], 0),
             number_format($gtotal['2nd'], 0),
@@ -1610,6 +1603,7 @@ LEFT JOIN
             number_format($gtotal['net_pay'], 0)
         ]);
 
+        // Close the output stream
         fclose($output);
         exit;
     }
