@@ -200,7 +200,7 @@
                      <th><?php echo $scheme->whst; ?></th>
                      <th><?php echo $scheme->net_pay; ?></th>
                      <td><?php if ($scheme->payment_amount != $scheme->whit + $scheme->whst + $scheme->net_pay) {
-                                echo '<span color:red>Error</span>';
+                                echo '<span color:red !important>' . ($scheme->payment_amount - ($scheme->whit + $scheme->whst + $scheme->net_pay)) . '</span>';
                             } else {
                                 echo ($scheme->payment_amount - ($scheme->whit + $scheme->whst + $scheme->net_pay));
                             } ?></td>
