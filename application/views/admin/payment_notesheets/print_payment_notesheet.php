@@ -475,7 +475,7 @@
 
                                     <td><?php
                                         $remaining = ($scheme->sanctioned_cost - $total_paid);
-                                        echo number_format($remaining, 0);
+                                        echo $remaining;
                                         ?></td>
                                     <td> <?php echo $scheme->payment_type; ?></td>
                                     <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?></td>
