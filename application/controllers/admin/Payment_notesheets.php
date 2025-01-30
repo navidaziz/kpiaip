@@ -340,6 +340,27 @@ class Payment_notesheets extends Admin_Controller
         } else {
 
 
+            $gross_pay = $this->input->post("payment_amount");
+            $whit = $this->input->post("whit"); // Default to 0 if not set
+            $whst = $this->input->post("whst"); // Default to 0 if not set
+            $net_pay = $this->input->post("net_pay"); // Default to 0 if not set
+
+            // Convert to float to ensure proper arithmetic operations
+            $gross_pay = (float)$gross_pay;
+            $whit = (float)$whit;
+            $whst = (float)$whst;
+            $net_pay = (float)$net_pay;
+
+            $deduction = $whit + $whst + $net_pay;
+
+            if ($gross_pay != $deduction) {
+                echo '<div class="alert alert-danger">Some Error in Pay Amount or Taxes</div>';
+                exit();
+            }
+
+
+
+
             $scheme_id = $this->input->post("scheme_id");
             $id = $this->input->post("id");
             $payment_type = $this->input->post("payment_type");

@@ -39,6 +39,7 @@
                  <th>WHIT</th>
                  <th>WHST</th>
                  <th>Net Rs.</th>
+                 <th>Reconciliation</th>
                  <th>Pre. Cheques</th>
                  <th></th>
 
@@ -138,6 +139,11 @@
                          <td><?php echo $scheme->whit; ?></td>
                          <td><?php echo $scheme->whst; ?></td>
                          <td><?php echo $scheme->net_pay; ?></td>
+                         <td><?php if ($scheme->payment_amount != $scheme->whit + $scheme->whst + $scheme->net_pay) {
+                                    echo '<span color:red>Error</span>';
+                                } else {
+                                    echo ($scheme->payment_amount - ($scheme->whit + $scheme->whst + $scheme->net_pay));
+                                } ?></td>
                          <td><?php echo $scheme->cheques; ?></td>
                          <td>
                              <?php if ($scheme->payment_amount) { ?>
@@ -193,6 +199,11 @@
                      <th><?php echo $scheme->whit; ?></th>
                      <th><?php echo $scheme->whst; ?></th>
                      <th><?php echo $scheme->net_pay; ?></th>
+                     <td><?php if ($scheme->payment_amount != $scheme->whit + $scheme->whst + $scheme->net_pay) {
+                                echo '<span color:red>Error</span>';
+                            } else {
+                                echo ($scheme->payment_amount - ($scheme->whit + $scheme->whst + $scheme->net_pay));
+                            } ?></td>
                      <th></th>
                      <th></th>
 
