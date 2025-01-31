@@ -38,26 +38,24 @@
         </div>
 
 
+
+
+
         <div class="form-group">
             <label for="District" class="col-md-3 control-label" style="">Tax category</label>
             <div class="col-md-9">
-                <input required="" type="radio" name="component_category_id" value="30">
-                WHIT <span style="margin-left: 3px;"></span>
-                <input required="" type="radio" name="component_category_id" value="29">
-                WHST <span style="margin-left: 3px;"></span>
-                <input required="" type="radio" name="component_category_id" value="31">
-                KPRA <span style="margin-left: 3px;"></span>
-                <input required="" type="radio" name="component_category_id" value="33">
-                St. Duty <span style="margin-left: 3px;"></span>
-                <input required="" type="radio" name="component_category_id" value="235">
-                RDP <span style="margin-left: 3px;"></span>
-                <input required="" type="radio" name="component_category_id" value="274">
-                GUR.RET. <span style="margin-left: 3px;"></span>
-                <input required="" type="radio" name="component_category_id" value="275">
-                MISC.DEDU <span style="margin-left: 3px;"></span>
+                <?php
+                $query = "SELECT component_category_id, category FROM `component_categories` where sub_component_id=22;";
+                $tax_heads = $this->db->query($query)->result();
+                foreach ($tax_heads as $tax_head) { ?>
+                    <input required <?php if ($expense->component_category_id == $tax_head->component_category_id) { ?>
+                        checked <?php } ?> type="radio" name="component_category_id"
+                        value="<?php echo $tax_head->component_category_id ?>" />
+                    <?php echo $tax_head->category ?>
+                    <span style="margin-left: 3px;"></span>
+                <?php } ?>
             </div>
         </div>
-
 
         <div class="form-group">
             <label for="Payee Name" class="col-md-3 control-label" style="">Payee Name</label>
