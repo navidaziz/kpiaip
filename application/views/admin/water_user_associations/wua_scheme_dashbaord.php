@@ -269,7 +269,7 @@
                 <div class="header-tabs">
 
                     <ul class="nav nav-tabs" s>
-                        <li style="font-size: 11px;" <?php if ('r_cheques' == $tab) { ?> class="active" <?php } ?>>
+                        <li style="font-size: 11px; display:none" <?php if ('r_cheques' == $tab) { ?> class="active" <?php } ?>>
                             <a href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view/r_cheques/") . $district_id; ?>"
                                 contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
                                 <?php

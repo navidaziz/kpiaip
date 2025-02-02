@@ -1275,6 +1275,11 @@ LEFT JOIN
             'GROSS-Rs',
             'WHIT',
             'WHST',
+            'St.Duty',
+            'RDP',
+            'KPRA',
+            'Gur.Ret',
+            'Misc.Dedu.',
             'Net-Rs',
             'Status'
         ]);
@@ -1306,6 +1311,8 @@ LEFT JOIN
             pns.payment_amount,
             pns.whit,
             pns.whst,
+            pns.st_duty,
+            pns.rdp, pns.kpra, pns.gur_ret, pns.misc_deduction,
             pns.net_pay
             FROM 
                 schemes s
@@ -1348,6 +1355,11 @@ LEFT JOIN
                 number_format($scheme->payment_amount, 0),
                 number_format($scheme->whit, 0),
                 number_format($scheme->whst, 0),
+                number_format($scheme->st_duty, 2),
+                number_format($scheme->rdp, 2),
+                number_format($scheme->kpra, 2),
+                number_format($scheme->gur_ret, 2),
+                number_format($scheme->misc_deduction, 2),
                 number_format($scheme->net_pay, 0),
                 $scheme->scheme_status
                 //,
@@ -1411,6 +1423,11 @@ LEFT JOIN
             'GROSS-Rs',
             'WHIT',
             'WHST',
+            'St.Duty',
+            'RDP',
+            'KPRA',
+            'Gur.Ret',
+            'Misc.Dedu.',
             'Net-Rs',
             'Status'
         ]);
@@ -1428,6 +1445,11 @@ LEFT JOIN
             'payment_amount' => 0,
             'whit' => 0,
             'whst' => 0,
+            'st_duty' => 0,
+            'rdp' => 0,
+            'kpra' => 0,
+            'gur_ret' => 0,
+            'misc_deduction' => 0,
             'net_pay' => 0,
         ];
 
@@ -1491,6 +1513,11 @@ LEFT JOIN
                 'payment_amount' => 0,
                 'whit' => 0,
                 'whst' => 0,
+                'st_duty' => 0,
+                'rdp' => 0,
+                'kpra' => 0,
+                'gur_ret' => 0,
+                'misc_deduction' => 0,
                 'net_pay' => 0,
             ];
 
@@ -1523,6 +1550,11 @@ LEFT JOIN
                         number_format($scheme->payment_amount, 0),
                         number_format($scheme->whit, 0),
                         number_format($scheme->whst, 0),
+                        number_format($scheme->st_duty, 2),
+                        number_format($scheme->rdp, 2),
+                        number_format($scheme->kpra, 2),
+                        number_format($scheme->gur_ret, 2),
+                        number_format($scheme->misc_deduction, 2),
                         number_format($scheme->net_pay, 0),
                         $scheme->scheme_status
                     ]);
@@ -1539,6 +1571,11 @@ LEFT JOIN
                     $subtotal['payment_amount'] += $scheme->payment_amount;
                     $subtotal['whit'] += $scheme->whit;
                     $subtotal['whst'] += $scheme->whst;
+                    $subtotal['st_duty'] += $scheme->st_duty;
+                    $subtotal['rdp'] += $scheme->rdp;
+                    $subtotal['kpra'] += $scheme->kpra;
+                    $subtotal['gur_ret'] += $scheme->gur_ret;
+                    $subtotal['misc_deduction'] += $scheme->misc_deduction;
                     $subtotal['net_pay'] += $scheme->net_pay;
 
                     $gtotal['sanctioned_cost'] += $scheme->sanctioned_cost;
@@ -1552,6 +1589,11 @@ LEFT JOIN
                     $gtotal['payment_amount'] += $scheme->payment_amount;
                     $gtotal['whit'] += $scheme->whit;
                     $gtotal['whst'] += $scheme->whst;
+                    $gtotal['st_duty'] += $scheme->st_duty;
+                    $gtotal['rdp'] += $scheme->rdp;
+                    $gtotal['kpra'] += $scheme->kpra;
+                    $gtotal['gur_ret'] += $scheme->gur_ret;
+                    $gtotal['misc_deduction'] += $scheme->misc_deduction;
                     $gtotal['net_pay'] += $scheme->net_pay;
                 }
 
@@ -1575,6 +1617,11 @@ LEFT JOIN
                     number_format($subtotal['payment_amount'], 0),
                     number_format($subtotal['whit'], 0),
                     number_format($subtotal['whst'], 0),
+                    number_format($subtotal['st_duty'], 0),
+                    number_format($subtotal['rdp'], 0),
+                    number_format($subtotal['kpra'], 0),
+                    number_format($subtotal['gur_ret'], 0),
+                    number_format($subtotal['misc_deduction'], 0),
                     number_format($subtotal['net_pay'], 0)
                 ]);
             }
@@ -1600,6 +1647,11 @@ LEFT JOIN
             number_format($gtotal['payment_amount'], 0),
             number_format($gtotal['whit'], 0),
             number_format($gtotal['whst'], 0),
+            number_format($gtotal['st_duty'], 0),
+            number_format($gtotal['rdp'], 0),
+            number_format($gtotal['kpra'], 0),
+            number_format($gtotal['gur_ret'], 0),
+            number_format($gtotal['misc_deduction'], 0),
             number_format($gtotal['net_pay'], 0)
         ]);
 

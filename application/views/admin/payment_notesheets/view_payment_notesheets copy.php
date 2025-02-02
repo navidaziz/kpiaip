@@ -66,83 +66,91 @@
     <!-- MESSENGER -->
     <div class="col-md-12">
         <div class="box border blue" id="messenger">
-
+            <div class="box-title">
+                <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
+            </div>
             <div class="box-body">
-                <details style="cursor: pointer;">
-                    <summary>PUC Header Detail ....</summary>
+
+                <div class="table-responsive">
+
+
+                    <table id="datatable" class="table  table-bordered">
+                        <thead>
+                            <tr>
+                                <th>PUC Tracking ID</th>
+                                <th>District</th>
+                                <th>PUC Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><?php echo $payment_notesheet->payment_notesheet_code; ?></td>
+                                <td><?php echo $payment_notesheet->district_name; ?></td>
+
+                                <td><?php echo $payment_notesheet->puc_date; ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
                     <p><?php echo nl2br($payment_notesheet->puc_title); ?></p>
-                </details>
+                    <div id="errorDiv" class="box border blue" id="messenger" style="background-color:white; padding:4px; text-align:right ">
+                        Search Scheme By Scheme ID:
+                        <input class="form-control" style="width: 200px; display:inline" type="text" id="scheme_id" placeholder="Scan barcode here" autofocus />
+                        <div style="margin-top: 20px; display:block" id="scheme_id_response"></div>
 
-                <div id="errorDiv" style="text-align: center;">
-                    <div style="display: block;">
-                        <label for="scheme_id">Add Scheme In PUC using Scheme ID:</label>
-                        <input
-                            class="form-control"
-                            style="width: 200px; display: inline;"
-                            type="text"
-                            id="scheme_id"
-                            placeholder="Scheme ID"
-                            autofocus />
                     </div>
-                    <div style="margin-top:2px" id="scheme_id_response"></div>
-                </div>
 
-                <div>
-                    <strong>Payment List</strong>
-                    <div class="table-responsive">
-                        <div id="puc_list"></div>
-                    </div>
-                </div>
-                <details style="cursor: pointer;">
-                    <summary>PUC Footer Detail ....</summary>
-                    <p><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
-                </details>
-
-                <script>
-                    // Function to handle the barcode data
-                    function handleBarcode(barcode) {
-                        alert("Barcode Scanned: " + barcode);
-                        // Additional processing can be added here
-                    }
-
-                    // Add event listener for the input field
-                    const barcodeInput = document.getElementById('scheme_id');
-                    barcodeInput.addEventListener('keyup', function(event) {
-                        $('#scheme_id_response').html('');
-                        if (event.key === 'Enter') {
-                            var scheme_id = $('#scheme_id').val();
-                            $.ajax({
-                                type: 'POST',
-                                url: '<?php echo site_url(ADMIN_DIR . "payment_notesheets/seacrch_by_scheme_id"); ?>', // URL to submit form data
-                                data: {
-                                    scheme_id: scheme_id,
-                                    payment_notesheet_id: '<?php echo $payment_notesheet->id ?>'
-                                },
-                                success: function(response) {
-
-                                    if (response != 'not_found') {
-
-                                        if (response == 'success') {
-                                            get_payment_notesheet_list();
-                                        }
-                                        $('#scheme_id').val('');
-                                        $('#scheme_id_response').fadeOut(200, function() {
-                                            $(this).html(response).fadeIn(200);
-                                        });
-                                    } else {
-
-                                        $('#scheme_id_response').fadeOut(200, function() {
-                                            $(this).html('<div class="alert alert-danger">Tracking No: <strong>' + scheme_id + '</strong> Not Found. Try Again</div>').fadeIn(200);
-                                        });
-                                        triggerBuzz('errorDiv');
-                                    }
-
-
-                                }
-                            });
+                    <script>
+                        // Function to handle the barcode data
+                        function handleBarcode(barcode) {
+                            alert("Barcode Scanned: " + barcode);
+                            // Additional processing can be added here
                         }
-                    });
-                </script>
+
+                        // Add event listener for the input field
+                        const barcodeInput = document.getElementById('scheme_id');
+                        barcodeInput.addEventListener('keyup', function(event) {
+                            $('#scheme_id_response').html('');
+                            if (event.key === 'Enter') {
+                                var scheme_id = $('#scheme_id').val();
+                                $.ajax({
+                                    type: 'POST',
+                                    url: '<?php echo site_url(ADMIN_DIR . "payment_notesheets/seacrch_by_scheme_id"); ?>', // URL to submit form data
+                                    data: {
+                                        scheme_id: scheme_id,
+                                        payment_notesheet_id: '<?php echo $payment_notesheet->id ?>'
+                                    },
+                                    success: function(response) {
+
+                                        if (response != 'not_found') {
+
+                                            if (response == 'success') {
+                                                get_payment_notesheet_list();
+                                            }
+                                            $('#scheme_id').val('');
+                                            $('#scheme_id_response').fadeOut(200, function() {
+                                                $(this).html(response).fadeIn(200);
+                                            });
+                                        } else {
+
+                                            $('#scheme_id_response').fadeOut(200, function() {
+                                                $(this).html('<div class="alert alert-danger">Tracking No: <strong>' + scheme_id + '</strong> Not Found. Try Again</div>').fadeIn(200);
+                                            });
+                                            triggerBuzz('errorDiv');
+                                        }
+
+
+                                    }
+                                });
+                            }
+                        });
+                    </script>
+                </div>
+
+                <strong>Payment List</strong>
+                <div id="puc_list">
+
+                </div>
+
                 <script>
                     function get_payment_notesheet_list() {
                         $.ajax({
@@ -159,6 +167,7 @@
 
                     get_payment_notesheet_list();
                 </script>
+                <p><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
 
 
             </div>

@@ -24,6 +24,14 @@ class Expenses extends Admin_Controller
     //---------------------------------------------------------------
 
 
+    public function r_cheques()
+    {
+        $this->data["title"] = "Remaining Cheques";
+        $this->data["description"] = "All Remaining Cheques List";
+        $this->data["view"] = ADMIN_DIR . "expenses/remaining_cheques";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
     /**
      * Default action to be called
      */
@@ -211,7 +219,7 @@ LEFT JOIN
             } else {
                 $expense_id = $this->expense_model->update_data($expense_id);
             }
-           
+
             if ($expense_id) {
                 echo "success";
             } else {
@@ -922,6 +930,11 @@ LEFT JOIN
         } else {
             $input["st_charged"] = 0;
         }
+        if ($this->input->post("sst_charged") !== null) {
+            $input["sst_charged"] = $this->input->post("sst_charged");
+        } else {
+            $input["sst_charged"] = 0;
+        }
 
         if ($this->input->post("st_duty_tax") !== null) {
             $input["st_duty_tax"] = $this->input->post("st_duty_tax");
@@ -969,6 +982,7 @@ LEFT JOIN
         $this->form_validation->set_rules("invoice_gross_total", "Invoice Gross Total", "required");
         $this->form_validation->set_rules("whit_tax", "Whit Tax", "required");
         $this->form_validation->set_rules("st_charged", "ST Charged", "required");
+        $this->form_validation->set_rules("sst_charged", "ST Charged", "required");
         $this->form_validation->set_rules("whst_tax", "Whst Tax", "required");
         $this->form_validation->set_rules("st_duty_tax", "St Duty Tax", "required");
         $this->form_validation->set_rules("kpra_tax", "Kpra Tax", "required");

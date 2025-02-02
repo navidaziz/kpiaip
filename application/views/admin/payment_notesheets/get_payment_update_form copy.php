@@ -214,72 +214,56 @@
 
 
 
-    <table class="table table-bordered table-striped table_small" id="vendors_taxes" style="background-color: white;">
+    <table class="table table-bordered table_small" id="vendors_taxes" style="background-color: white;">
         <thead>
-            <tr>
-                <th colspan="14">Payment Vouchers</th>
-            </tr>
         </thead>
         <tbody>
 
 
             <tr>
+                <th></th>
                 <th>#</th>
                 <th>Voucher ID</th>
                 <th>Gross Total</th>
-                <th>ST Charged</th>
-                <th>SST Charged</th>
                 <th>WHIT</th>
-
+                <th>ST Charged</th>
                 <th>WHST</th>
                 <th>St.Duty</th>
                 <th>RDP</th>
                 <th>KPRA</th>
                 <th>Misc.Dedu.</th>
-                <th>Deduction</th>
-                <th>Net Pay</th>
+                <th>Total Deduction</th>
             </tr>
 
             <?php
-            $query = "SELECT 
-              voucher_id,
-              scheme_id, 
-              SUM(`invoice_gross_total`) as invoice_gross_total,
-              SUM(`whit_tax`) as whit_tax,
-              SUM(`whst_tax`) as whst_tax,
-              SUM(`st_charged`) as st_charged,
-               SUM(`sst_charged`) as sst_charged,
-              SUM(`st_duty_tax`) as st_duty_tax,
-              SUM(`rdp_tax`) as rdp_tax,
-              SUM(`kpra_tax`) as kpra_tax,
-              SUM(`misc_deduction`) as misc_deduction,
-              (SUM(`whit_tax`) + SUM(`whst_tax`) + SUM(`st_duty_tax`) + SUM(`rdp_tax`) + SUM(`kpra_tax`) + SUM(`misc_deduction`)) as tax_deduction
-          FROM 
-              vendors_taxes 
-          WHERE 
-              scheme_id = '" . $scheme->scheme_id . "'
-          GROUP BY 
-              voucher_id";
+            $query = "SELECT voucher_id, SUM(`invoice_gross_total`) as invoice_gross_total,
+                                        SUM(`whit_tax`) as whit_tax,
+                                        SUM(`whst_tax`) as whst_tax,
+                                        SUM(`st_charged`) as st_charged,
+                                        SUM(`st_duty_tax`) as st_duty_tax,
+                                        SUM(`rdp_tax`) as rdp_tax,
+                                        SUM(`kpra_tax`) as kpra_tax,
+                                        SUM(`misc_deduction`) as misc_deduction,
+                                        SUM(`total_deduction`) as total_deduction
+                                        FROM vendors_taxes 
+                                        WHERE scheme_id = '" . $scheme->scheme_id . "'
+                                        GROUP BY voucher_id";
             $rows = $this->db->query($query)->result();
             $count = 1;
             foreach ($rows as $row) { ?>
                 <tr>
+                    <td><input type="radio" value="<?php echo $row->voucher_id; ?>" name="voucher_id" /> </td>
                     <td><?php echo $count++; ?></td>
                     <th><?php echo $row->voucher_id; ?></th>
                     <td><?php echo number_format($row->invoice_gross_total, 2); ?></td>
-                    <td><?php echo number_format($row->st_charged, 2); ?></td>
-                    <td><?php echo number_format($row->sst_charged, 2); ?></td>
                     <td><?php echo number_format($row->whit_tax, 2); ?></td>
+                    <td><?php echo number_format($row->st_charged, 2); ?></td>
                     <td><?php echo number_format($row->whst_tax, 2); ?></td>
                     <td><?php echo number_format($row->st_duty_tax, 2); ?></td>
                     <td><?php echo number_format($row->rdp_tax, 2); ?></td>
                     <td><?php echo number_format($row->kpra_tax, 2); ?></td>
                     <td><?php echo number_format($row->misc_deduction, 2); ?></td>
-                    <td><?php echo number_format($row->tax_deduction, 2); ?></td>
-                    <td><?php
-                        $net_pay = $row->invoice_gross_total - $row->tax_deduction;
-                        echo number_format($net_pay, 2); ?></td>
-
+                    <td><?php echo number_format($row->total_deduction, 2); ?></td>
                 </tr>
             <?php } ?>
 
@@ -291,33 +275,28 @@
                                 SUM(`whit_tax`) as whit_tax,
                                 SUM(`whst_tax`) as whst_tax,
                                 SUM(`st_charged`) as st_charged,
-                                 SUM(`sst_charged`) as sst_charged,
                                 SUM(`st_duty_tax`) as st_duty_tax,
                                 SUM(`rdp_tax`) as rdp_tax,
                                 SUM(`kpra_tax`) as kpra_tax,
                                 SUM(`misc_deduction`) as misc_deduction,
-                                (SUM(`whit_tax`) + SUM(`whst_tax`) + SUM(`st_duty_tax`) + SUM(`rdp_tax`) + SUM(`kpra_tax`) + SUM(`misc_deduction`)) as tax_deduction
+                                SUM(`total_deduction`) as total_deduction
                                 FROM vendors_taxes
                                 WHERE scheme_id = '" . $scheme->scheme_id . "'";
             $row = $this->db->query($query)->row(); ?>
 
             <tr>
                 <th></th>
-                <th>Total:</th>
+                <th></th>
+                <th>Grand Total:</th>
                 <th><?php echo number_format($row->invoice_gross_total, 2); ?></th>
-                <th><?php echo number_format($row->st_charged, 2); ?></th>
-                <th><?php echo number_format($row->sst_charged, 2); ?></th>
                 <th><?php echo number_format($row->whit_tax, 2); ?></th>
-
+                <th><?php echo number_format($row->st_charged, 2); ?></th>
                 <th><?php echo number_format($row->whst_tax, 2); ?></th>
                 <th><?php echo number_format($row->st_duty_tax, 2); ?></th>
                 <th><?php echo number_format($row->rdp_tax, 2); ?></th>
                 <th><?php echo number_format($row->kpra_tax, 2); ?></th>
                 <th><?php echo number_format($row->misc_deduction, 2); ?></th>
-                <th><?php echo number_format($row->tax_deduction, 2); ?></th>
-                <th><?php
-                    $net_pay = $row->invoice_gross_total - $row->tax_deduction;
-                    echo number_format($net_pay, 2); ?></th>
+                <th><?php echo number_format($row->total_deduction, 2); ?></th>
 
             </tr>
         </tbody>
@@ -365,38 +344,12 @@
             <div class="col-sm-8">
                 <input <?php if ($input->payment_type == 'FINAL') { ?> required <?php } ?> min="0" max="<?php echo $scheme->sanctioned_cost; ?>" type="number" step="any" id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="form-control">
             </div>
-
         </div>
-
-
-
-        <div class="form-group row">
-            <label for="voucher_id" class="col-sm-4 col-form-label" style="text-align: right;"> Enter Voucher No. <span style="color: green;">( Optional )</span> <span style="color: red;"></span></label>
-            <div class="col-sm-4">
-                <input placeholder="Voucher No." min="0" type="number" step="any" id="voucher_id" name="voucher_id" value="<?php echo $input->voucher_id; ?>" class="form-control">
-            </div>
-            <div class="col-sm-4">
-                <button class="btn btn-danger btn-sm" type="button" onclick="fetchVoucherData()">Fetch Voucher Data </button>
-            </div>
-        </div>
-
-
-        <div class="form-group row">
-            <label for="payment_amount" class="col-sm-4 col-form-label">Payment Amount <span style="color: red;">*</span></label>
-            <div class="col-sm-8">
-                <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="payment_amount" name="payment_amount" value="<?php echo $input->payment_amount; ?>" class="form-control">
-            </div>
-        </div>
-        <style>
-            .formControl {
-                width: 100px;
-            }
-        </style>
 
         <table class="table table-bordered table_small">
             <thead>
                 <tr>
-
+                    <th>Gross Pay</th>
                     <th>WHIT</th>
                     <th>WHST</th>
                     <th>St.Duty</th>
@@ -404,7 +357,7 @@
                     <th>KPRA</th>
                     <th>GUR.RET.</th>
                     <th>Misc.Dedu.</th>
-
+                    <th>Net Pay</th>
                 </tr>
             </thead>
             <tbody>
@@ -413,42 +366,62 @@
 
                     <!-- WHIT Tax -->
                     <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="whit" name="whit" value="<?php echo $input->whit; ?>" class="formControl">
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="whit_tax" name="whit_tax" value="<?php echo $input->whit_tax; ?>" class="form- control">
                     </td>
 
                     <!-- WHST Tax -->
                     <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="whst" name="whst" value="<?php echo $input->whst; ?>" class="formControl">
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="whst_tax" name="whst_tax" value="<?php echo $input->whst_tax; ?>" class="form- control">
                     </td>
 
                     <!-- ST Duty Tax -->
                     <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="st_duty" name="st_duty" value="<?php echo $input->st_duty; ?>" class="formControl">
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="st_duty_tax" name="st_duty_tax" value="<?php echo $input->st_duty_tax; ?>" class="form- control">
                     </td>
 
                     <!-- RDP Tax -->
                     <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="rdp" name="rdp" value="<?php echo $input->rdp; ?>" class="formControl">
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="rdp_tax" name="rdp_tax" value="<?php echo $input->rdp_tax; ?>" class="form- control">
                     </td>
 
                     <!-- KPRA Tax -->
                     <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="kpra" name="kpra" value="<?php echo $input->kpra; ?>" class="formControl">
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="kpra_tax" name="kpra_tax" value="<?php echo $input->kpra_tax; ?>" class="form- control">
                     </td>
 
                     <!-- Guaranteed Retirement -->
                     <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="gur_ret" name="gur_ret" value="<?php echo $input->gur_ret; ?>" class="formControl">
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="gur_ret" name="gur_ret" value="<?php echo $input->gur_ret; ?>" class="form- control">
                     </td>
 
                     <!-- Miscellaneous Deduction -->
                     <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="misc_deduction" name="misc_deduction" value="<?php echo $input->misc_deduction; ?>" class="formControl">
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="misc_deduction" name="misc_deduction" value="<?php echo $input->misc_deduction; ?>" class="form- control">
                     </td>
 
                 </tr>
             </tbody>
         </table>
+
+
+        <div class="form-group row">
+            <label for="payment_amount" class="col-sm-4 col-form-label">Payment Amount <span style="color: red;">*</span></label>
+            <div class="col-sm-8">
+                <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="payment_amount" name="payment_amount" value="<?php echo $input->payment_amount; ?>" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="whit" class="col-sm-4 col-form-label">WHIT <span style="color: red;">*</span></label>
+            <div class="col-sm-8">
+                <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="whit" name="whit" value="<?php echo $input->whit; ?>" class="form-control">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="whst" class="col-sm-4 col-form-label">WHST <span style="color: red;">*</span></label>
+            <div class="col-sm-8">
+                <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="whst" name="whst" value="<?php echo $input->whst; ?>" class="form-control">
+            </div>
+        </div>
         <div class="form-group row">
             <label for="net_pay" class="col-sm-4 col-form-label">Net Pay <span style="color: red;">*</span></label>
             <div class="col-sm-8">
@@ -467,60 +440,14 @@
 </form>
 
 <script>
-    function fetchVoucherData() {
-        const voucherId = $('#voucher_id').val();
-        if (!voucherId) {
-            alert("Please Enter Voucher ID.");
-            return;
-        }
-        $.ajax({
-            url: "<?php echo site_url(ADMIN_DIR . 'payment_notesheets/get_voucher_data'); ?>",
-            type: "POST",
-            data: {
-                scheme_id: <?php echo $scheme->scheme_id; ?>,
-                voucher_id: voucherId
-            },
-            dataType: "json",
-            success: function(response) {
-                if (response.error) {
-                    alert(response.error); // Show error message
-                    return;
-                }
-
-                // If response is an array, get the first object
-                let data = Array.isArray(response) ? response[0] : response;
-
-                $('#payment_amount').val(data.invoice_gross_total);
-                $('#whit').val(data.whit_tax);
-                $('#whst').val(data.whst_tax);
-                $('#st_duty').val(data.st_duty_tax);
-                $('#rdp').val(data.rdp_tax);
-                $('#kpra').val(data.kpra_tax);
-                $('#gur_ret').val(data.gur_ret || 0); // Ensure no undefined value
-                $('#misc_deduction').val(data.misc_deduction);
-
-                calculateNetPay(); // Call function to update net pay
-            },
-            error: function() {
-                alert("Failed to fetch data. Please try again.");
-            }
-        });
-    }
-
-
     function calculateNetPay() {
 
         const paymentAmount = parseFloat($('#payment_amount').val()) || 0;
         const whit = parseFloat($('#whit').val()) || 0;
         const whst = parseFloat($('#whst').val()) || 0;
-        const st_duty = parseFloat($('#st_duty').val()) || 0;
-        const rdp = parseFloat($('#rdp').val()) || 0;
-        const kpra = parseFloat($('#kpra').val()) || 0;
-        const gur_ret = parseFloat($('#gur_ret').val()) || 0;
-        const misc_deduction = parseFloat($('#misc_deduction').val()) || 0;
 
         // Calculate net pay
-        const netPay = paymentAmount - (whst + whit + st_duty + rdp + kpra + gur_ret + misc_deduction);
+        const netPay = paymentAmount - (whst + whit);
         $('#net_pay').val(netPay.toFixed(2));
 
     }

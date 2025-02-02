@@ -237,6 +237,7 @@
                 <div class="tabbable header-tabs">
                     <ul class="nav nav-tabs">
 
+
                         <?php
                         $query = "SELECT scheme_status, COUNT(scheme_status) as total FROM schemes GROUP BY scheme_status";
                         $schemes_status = $this->db->query($query)->result();
@@ -254,6 +255,8 @@
                                     <small>(<?php echo $scheme_status->total; ?>)</small>
                                 </a>
                             </li>
+
+
                         <?php } ?>
 
 

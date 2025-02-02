@@ -687,7 +687,8 @@
                                     $query = "SELECT vendors_taxes.*, vendors.TaxPayer_Name, vendors.Vendor_Type  
                                     FROM vendors_taxes 
                                     INNER JOIN vendors  ON(vendors.vendor_id = vendors_taxes.vendor_id)
-                                    WHERE scheme_id = '" . $scheme->scheme_id . "'";
+                                    WHERE scheme_id = '" . $scheme->scheme_id . "'
+                                     AND voucher_id = '" . $voucher->voucher_id . "'";
                                     $rows = $this->db->query($query)->result();
                                     foreach ($rows as $row) { ?>
                                         <tr>

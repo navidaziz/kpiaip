@@ -45,95 +45,111 @@
             <input type="text" required id="payment_section_code" name="payment_section_code" value="<?php echo $input->payment_section_code; ?>" class="form-control">
         </div>
     </div>
-    <div class="form-group row">
-        <label for="invoice_gross_total" class="col-sm-4 col-form-label">Invoice Gross Total (Rs.)</label>
-        <div class="col-sm-8">
-            <input type="text" onkeyup="calculate_taxes()" required id="invoice_gross_total" name="invoice_gross_total" value="<?php echo $input->invoice_gross_total; ?>" class="form-control">
+    <div style="border: 1px solid gray; border-radius:5px; padding:5px; margin-bottom:10px">
+        <strong>Invoice Details</strong>
+        <hr />
+        <div class="form-group row">
+
+            <div class="col-sm-4">
+                <label for="invoice_gross_total" class="col-form-label">Invoice Gross Total (Rs.)</label>
+                <input type="number" step="any" onkeyup="calculate_taxes()" required id="invoice_gross_total" name="invoice_gross_total" value="<?php echo $input->invoice_gross_total; ?>" class="form-control">
+            </div>
+
+
+            <div class="col-sm-4">
+                <label for="st_charged_per" class="col-form-label">ST Charged (Rs)</label>
+                <input type="number" step="any" onkeyup="calculate_taxes()" required id="st_charged" name="st_charged" value="<?php echo $input->st_charged; ?>" class="form-control">
+            </div>
+
+
+            <div class="col-sm-4">
+                <label for="sst_charged" class="col-form-label">SST Charged (Rs.)</label>
+                <input type="number" onkeyup="calculate_taxes()" step="0.01" required id="sst_charged" name="sst_charged" value="<?php echo $input->sst_charged; ?>" class="form-control">
+            </div>
         </div>
     </div>
+    <div style="border: 1px solid gray; border-radius:5px; padding:5px">
+        <strong>Taxes Deducation</strong>
+        <hr />
+        <div class="form-group row">
+            <label for="whit_tax_per" class="col-sm-3 col-form-label">WHIT Rate (%)</label>
+            <div class="col-sm-3">
+                <input type="number" min="0" step="any" max="100" onkeyup="calculate_whit_tax()" required id="whit_tax_per" name="whit_tax_per" value="5.5" class="form-control">
+            </div>
+            <label for="whit_tax" class="col-sm-3 col-form-label">WHIT Amount (Rs.)</label>
+            <div class="col-sm-3">
+                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="whit_tax" name="whit_tax" value="<?php echo $input->whit_tax; ?>" class="form-control">
+            </div>
+        </div>
 
 
-    <!-- WHIT Rate and Amount -->
-    <div class="form-group row">
-        <label for="whit_tax_per" class="col-sm-3 col-form-label">WHIT Rate (%)</label>
-        <div class="col-sm-3">
-            <input type="number" min="0" step="any" max="100" onkeyup="calculate_whit_tax()" required id="whit_tax_per" name="whit_tax_per" value="0.0" class="form-control">
-        </div>
-        <label for="whit_tax" class="col-sm-3 col-form-label">WHIT Amount (Rs.)</label>
-        <div class="col-sm-3">
-            <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="whit_tax" name="whit_tax" value="<?php echo $input->whit_tax; ?>" class="form-control">
-        </div>
-    </div>
 
-    <!-- ST Charged Rate and Amount -->
-    <div class="form-group row">
-        <label for="st_charged_per" class="col-sm-3 col-form-label">ST Charged (%)</label>
-        <div class="col-sm-3">
-            <input type="number" min="0" step="any" max="100" onkeyup="calculate_st_charged_tax()" required id="st_charged_per" name="st_charged_per" value="0.0" class="form-control">
+        <!-- WHST Rate and Amount -->
+        <div class="form-group row">
+            <label for="whst_tax_per" class="col-sm-3 col-form-label">WHST Rate (%)</label>
+            <div class="col-sm-3">
+                <input type="number" min="0" step="any" max="100" onkeyup="calculate_whst_tax()" required id="whst_tax_per" name="whst_tax_per" value="20.0" class="form-control">
+            </div>
+            <label for="whst_tax" class="col-sm-3 col-form-label">WHST Amount (Rs.)</label>
+            <div class="col-sm-3">
+                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="whst_tax" name="whst_tax" value="<?php echo $input->whst_tax; ?>" class="form-control">
+            </div>
         </div>
-        <label for="st_charged" class="col-sm-3 col-form-label">ST Charged (Rs.)</label>
-        <div class="col-sm-3">
-            <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="st_charged" name="st_charged" value="<?php echo $input->st_charged; ?>" class="form-control">
-        </div>
-    </div>
 
-    <!-- WHST Rate and Amount -->
-    <div class="form-group row">
-        <label for="whst_tax_per" class="col-sm-3 col-form-label">WHST Rate (%)</label>
-        <div class="col-sm-3">
-            <input type="number" min="0" step="any" max="100" onkeyup="calculate_whst_tax()" required id="whst_tax_per" name="whst_tax_per" value="0.0" class="form-control">
+        <!-- ST Duty Rate and Amount -->
+        <div class="form-group row">
+            <label for="st_duty_tax_per" class="col-sm-3 col-form-label">ST Duty Rate (%)</label>
+            <div class="col-sm-3">
+                <input type="number" min="0" step="any" max="100" onkeyup="calculate_st_duty_tax()" required id="st_duty_tax_per" name="st_duty_tax_per" value="1" class="form-control">
+            </div>
+            <label for="st_duty_tax" class="col-sm-3 col-form-label">ST Duty Amount (Rs.)</label>
+            <div class="col-sm-3">
+                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="st_duty_tax" name="st_duty_tax" value="<?php echo $input->st_duty_tax; ?>" class="form-control">
+            </div>
         </div>
-        <label for="whst_tax" class="col-sm-3 col-form-label">WHST Amount (Rs.)</label>
-        <div class="col-sm-3">
-            <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="whst_tax" name="whst_tax" value="<?php echo $input->whst_tax; ?>" class="form-control">
-        </div>
-    </div>
 
-    <!-- ST Duty Rate and Amount -->
-    <div class="form-group row">
-        <label for="st_duty_tax_per" class="col-sm-3 col-form-label">ST Duty Rate (%)</label>
-        <div class="col-sm-3">
-            <input type="number" min="0" step="any" max="100" onkeyup="calculate_st_duty_tax()" required id="st_duty_tax_per" name="st_duty_tax_per" value="0.0" class="form-control">
+        <!-- KPRA Rate and Amount -->
+        <div class="form-group row">
+            <label for="kpra_tax_per" class="col-sm-3 col-form-label">KPRA Rate (%)</label>
+            <div class="col-sm-3">
+                <input type="number" min="0" step="any" max="100" onkeyup="calculate_kpra_tax()" required id="kpra_tax_per" name="kpra_tax_per" value="20" class="form-control">
+            </div>
+            <label for="kpra_tax" class="col-sm-3 col-form-label">KPRA Amount (Rs.)</label>
+            <div class="col-sm-3">
+                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="kpra_tax" name="kpra_tax" value="<?php echo $input->kpra_tax; ?>" class="form-control">
+            </div>
         </div>
-        <label for="st_duty_tax" class="col-sm-3 col-form-label">ST Duty Amount (Rs.)</label>
-        <div class="col-sm-3">
-            <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="st_duty_tax" name="st_duty_tax" value="<?php echo $input->st_duty_tax; ?>" class="form-control">
-        </div>
-    </div>
 
-    <!-- KPRA Rate and Amount -->
-    <div class="form-group row">
-        <label for="kpra_tax_per" class="col-sm-3 col-form-label">KPRA Rate (%)</label>
-        <div class="col-sm-3">
-            <input type="number" min="0" step="any" max="100" onkeyup="calculate_kpra_tax()" required id="kpra_tax_per" name="kpra_tax_per" value="0.0" class="form-control">
+        <!-- RDP Rate and Amount -->
+        <div class="form-group row">
+            <label for="rdp_tax_per" class="col-sm-3 col-form-label">RDP Rate (%)</label>
+            <div class="col-sm-3">
+                <input type="number" min="0" step="any" max="100" onkeyup="calculate_rdp_tax()" required id="rdp_tax_per" name="rdp_tax_per" value="0.7" class="form-control">
+            </div>
+            <label for="rdp_tax" class="col-sm-3 col-form-label">RDP Amount (Rs.)</label>
+            <div class="col-sm-3">
+                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="rdp_tax" name="rdp_tax" value="<?php echo $input->rdp_tax; ?>" class="form-control">
+            </div>
         </div>
-        <label for="kpra_tax" class="col-sm-3 col-form-label">KPRA Amount (Rs.)</label>
-        <div class="col-sm-3">
-            <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="kpra_tax" name="kpra_tax" value="<?php echo $input->kpra_tax; ?>" class="form-control">
-        </div>
-    </div>
+        <div class="form-group row">
+            <label for="total_deduction" class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-3">
+            </div>
+            <label for="misc_deduction" class="col-sm-3 col-form-label">MISC. Deduction (Rs.)</label>
+            <div class="col-sm-3">
+                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="misc_deduction" name="misc_deduction" value="<?php echo $input->misc_deduction; ?>" class="form-control">
+            </div>
 
-    <!-- RDP Rate and Amount -->
-    <div class="form-group row">
-        <label for="rdp_tax_per" class="col-sm-3 col-form-label">RDP Rate (%)</label>
-        <div class="col-sm-3">
-            <input type="number" min="0" step="any" max="100" onkeyup="calculate_rdp_tax()" required id="rdp_tax_per" name="rdp_tax_per" value="0.0" class="form-control">
         </div>
-        <label for="rdp_tax" class="col-sm-3 col-form-label">RDP Amount (Rs.)</label>
-        <div class="col-sm-3">
-            <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="rdp_tax" name="rdp_tax" value="<?php echo $input->rdp_tax; ?>" class="form-control">
-        </div>
-    </div>
-
-    <!-- MISC Deduction Rate and Amount -->
-    <div class="form-group row">
-        <label for="misc_deduction" class="col-sm-3 col-form-label">MISC. Deduction (Rs.)</label>
-        <div class="col-sm-3">
-            <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="misc_deduction" name="misc_deduction" value="<?php echo $input->misc_deduction; ?>" class="form-control">
-        </div>
-        <label for="total_deduction" class="col-sm-3 col-form-label">Net Deduction</label>
-        <div class="col-sm-3">
-            <input readonly type="number" step="0.01" required id="total_deduction" name="total_deduction" value="<?php echo $input->total_deduction; ?>" class="form-control">
+        <!-- MISC Deduction Rate and Amount -->
+        <div class="form-group row">
+            <label for="misc_deduction" class="col-sm-3 col-form-label"></label>
+            <div class="col-sm-3">
+            </div>
+            <label for="total_deduction" class="col-sm-3 col-form-label">Net Deduction</label>
+            <div class="col-sm-3">
+                <input readonly type="number" step="0.01" required id="total_deduction" name="total_deduction" value="<?php echo $input->total_deduction; ?>" class="form-control">
+            </div>
         </div>
     </div>
 
@@ -157,7 +173,7 @@
         calculate_kpra_tax();
         calculate_rdp_tax();
         calculate_misc_deduction();
-        calculate_st_charged_tax();
+        //calculate_st_charged_tax();
         //calculate_total_deduction();
     }
 
@@ -169,18 +185,19 @@
         calculate_total_deduction();
     }
 
-    function calculate_st_charged_tax() {
-        var tax_value = parseFloat($('#st_charged_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / 100);
-        $('#st_charged').val(tax.toFixed(2));
-        calculate_total_deduction();
-    }
+    // function calculate_st_charged_tax() {
+
+    //     var tax_value = parseFloat($('#st_charged_per').val());
+    //     var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
+    //     var tax = (invoice_gross_total * tax_value) / (100 + tax_value);
+    //     $('#st_charged').val(tax.toFixed(2));
+    //     calculate_total_deduction();
+    // }
 
     function calculate_whst_tax() {
         var tax_value = parseFloat($('#whst_tax_per').val());
-        var invoice_gross_total = parseFloat($('#st_charged').val());
-        var tax = invoice_gross_total * (tax_value / 100);
+        var st_charged = parseFloat($('#st_charged').val());
+        var tax = st_charged * (tax_value / 100);
         $('#whst_tax').val(tax.toFixed(2));
         calculate_total_deduction();
     }
@@ -195,8 +212,8 @@
 
     function calculate_kpra_tax() {
         var tax_value = parseFloat($('#kpra_tax_per').val());
-        var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
-        var tax = invoice_gross_total * (tax_value / tax_value);
+        var sst_charged = parseFloat($('#sst_charged').val());
+        var tax = sst_charged * (tax_value / 100);
         $('#kpra_tax').val(tax.toFixed(2));
         calculate_total_deduction();
     }
@@ -220,7 +237,8 @@
         var st_duty_tax = parseFloat($('#st_duty_tax').val());
         var whst_tax = parseFloat($('#whst_tax').val());
         var whit_tax = parseFloat($('#whit_tax').val());
-        var st_charged = parseFloat($('#st_charged').val());
+        //var st_charged = parseFloat($('#st_charged').val());
+        var st_charged = parseFloat(0);
 
         var total_deduction = misc_deduction + rdp_tax + kpra_tax + st_duty_tax + whst_tax + whit_tax + st_charged;
         $('#total_deduction').val(total_deduction.toFixed(2));

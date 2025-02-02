@@ -537,8 +537,8 @@
                                                     <td class="purpose"><?php echo $expense->purpose; ?></td>
                                                     <td><?php echo $expense->wua_registration_no; ?></td>
                                                     <td><?php echo $expense->wua_name; ?></td>
-                                                    <td><a target="_new" href="<?php echo site_url(ADMIN_DIR . "expenses/view_scheme_detail/" . $expense->scheme_id); ?>"><?php echo $expense->scheme_id; ?></a></td>
-                                                    <td><a target="_new" href="<?php echo site_url(ADMIN_DIR . "expenses/view_scheme_detail/" . $expense->scheme_id); ?>"><?php echo $expense->scheme_name; ?></a></td>
+                                                    <td><?php echo $expense->scheme_id; ?></td>
+                                                    <td><?php echo $expense->scheme_name; ?></td>
                                                     <td><?php echo $expense->financial_year; ?></td>
                                                     <td><?php echo $expense->voucher_number; ?></td>
                                                     <td><?php echo $expense->cheque; ?></td>
@@ -596,7 +596,163 @@
                                                 }]
                                             });
 
+                                            // Function to find min and max dates in the table
+                                            function getMinMaxDates() {
+                                                var dates = [];
+                                                $('#db_table tbody tr').each(function() {
+                                                    var dateText = $(this).find('td:nth-child(14)').text()
+                                                        .trim(); // Assuming the date is in the 14th column
+                                                    if (dateText) {
+                                                        var formattedDate = dateText.split('-').reverse()
+                                                            .join('-'); // Convert dd-mm-yyyy to yyyy-mm-dd
+                                                        dates.push(new Date(formattedDate));
+                                                    }
+                                                });
 
+                                                if (dates.length > 0) {
+                                                    var minDate = new Date(Math.min.apply(null,
+                                                        dates)); // Get earliest date
+                                                    var maxDate = new Date(Math.max.apply(null,
+                                                        dates)); // Get latest date
+
+                                                    // Format to yyyy-mm-dd
+                                                    var minDateFormatted = minDate.toISOString().split('T')[0];
+                                                    var maxDateFormatted = maxDate.toISOString().split('T')[0];
+
+                                                    // Set the min and max attributes for the date inputs
+                                                    $('#startDate').attr('min', minDateFormatted);
+                                                    $('#startDate').attr('max', maxDateFormatted);
+                                                    $('#endDate').attr('min', minDateFormatted);
+                                                    $('#endDate').attr('max', maxDateFormatted);
+                                                }
+                                            }
+
+                                            // Function to create dropdown filters (as defined earlier)
+                                            function createDropdownFilter(columnClass, columnIndex) {
+                                                var uniqueValues = [];
+                                                $('#db_table tbody tr').each(function() {
+                                                    var value = $(this).find('.' + columnClass).text()
+                                                        .trim();
+                                                    if (value !== "" && !uniqueValues.includes(value)) {
+                                                        uniqueValues.push(value);
+                                                    }
+                                                });
+
+                                                uniqueValues.sort();
+
+                                                var dropdownHtml = '<select id="' + columnClass +
+                                                    'Filter" class="form-control" style="width: auto; display: inline-block; margin-left: 10px;">';
+                                                dropdownHtml += '<option value="">All ' + columnClass + '</option>';
+                                                $.each(uniqueValues, function(index, value) {
+                                                    dropdownHtml += '<option value="' + value + '">' +
+                                                        value + '</option>';
+                                                });
+                                                dropdownHtml += '</select>';
+                                                $('.dt-buttons').append(dropdownHtml);
+
+                                                $('#' + columnClass + 'Filter').on('change', function() {
+                                                    filterTable();
+                                                });
+                                            }
+
+                                            // Create dropdown filters for each class (region, district, etc.)
+                                            createDropdownFilter('region', 2);
+                                            createDropdownFilter('district', 3);
+                                            createDropdownFilter('category', 4);
+                                            createDropdownFilter('purpose', 6);
+
+                                            // Add date range filter inputs (using type="date")
+                                            var dateRangeHtml =
+                                                `
+            <input type="date" id="startDate" class="form-control" style="width: auto; display: inline-block; margin-left: 10px;" placeholder="Start Date" />
+            <input type="date" id="endDate" class="form-control" style="width: auto; display: inline-block; margin-left: 10px;" placeholder="End Date" />`;
+                                            $('.dt-buttons').append(dateRangeHtml);
+
+                                            // Set the min and max dates for date inputs from table data
+                                            getMinMaxDates();
+
+                                            // Filtering logic
+                                            function filterTable() {
+                                                var selectedCategory = $('#categoryFilter').val();
+                                                var selectedRegion = $('#regionFilter').val();
+                                                var selectedDistrict = $('#districtFilter').val();
+                                                var selectedPurpose = $('#purposeFilter').val();
+                                                var startDate = $('#startDate').val();
+                                                var endDate = $('#endDate').val();
+
+                                                $.fn.dataTable.ext.search = []; // Clear any previous search filters
+
+                                                // Custom filter for category
+                                                if (selectedCategory) {
+                                                    $.fn.dataTable.ext.search.push(function(settings, data,
+                                                        dataIndex) {
+                                                        return data[4] ===
+                                                            selectedCategory; // Category column
+                                                    });
+                                                }
+
+                                                // Custom filter for region
+                                                if (selectedRegion) {
+                                                    $.fn.dataTable.ext.search.push(function(settings, data,
+                                                        dataIndex) {
+                                                        return data[2] === selectedRegion; // Region column
+                                                    });
+                                                }
+
+                                                // Custom filter for district
+                                                if (selectedDistrict) {
+                                                    $.fn.dataTable.ext.search.push(function(settings, data,
+                                                        dataIndex) {
+                                                        return data[3] ===
+                                                            selectedDistrict; // District column
+                                                    });
+                                                }
+
+                                                // Custom filter for purpose
+                                                if (selectedPurpose) {
+                                                    $.fn.dataTable.ext.search.push(function(settings, data,
+                                                        dataIndex) {
+                                                        return data[6] ===
+                                                            selectedPurpose; // Purpose column
+                                                    });
+                                                }
+
+                                                // Custom filter for date range
+                                                $.fn.dataTable.ext.search.push(function(settings, data, dataIndex) {
+                                                    var date = data[
+                                                        13]; // Date column (assuming 13th index)
+                                                    var formattedDate = date.split('-').reverse().join(
+                                                        '-'
+                                                    ); // Convert dd-mm-yyyy to yyyy-mm-dd for comparison
+                                                    if (startDate && !endDate) {
+                                                        return new Date(formattedDate) >= new Date(
+                                                            startDate);
+                                                    } else if (!startDate && endDate) {
+                                                        return new Date(formattedDate) <= new Date(endDate);
+                                                    } else if (startDate && endDate) {
+                                                        return new Date(formattedDate) >= new Date(
+                                                                startDate) && new Date(formattedDate) <=
+                                                            new Date(endDate);
+                                                    }
+                                                    return true; // Show all rows if no date range is selected
+                                                });
+
+                                                table.draw(); // Redraw the table to apply the filters
+                                            }
+
+                                            // Attach filter logic to the date inputs
+                                            $('#startDate, #endDate').on('change', function() {
+                                                // Validate end date
+                                                if ($('#startDate').val() && $('#endDate').val() &&
+                                                    new Date($('#endDate').val()) < new Date($('#startDate')
+                                                        .val())) {
+                                                    alert(
+                                                        'End date cannot be earlier than the start date.'
+                                                    );
+                                                    $('#endDate').val('');
+                                                }
+                                                filterTable(); // Call filter function
+                                            });
                                         });
                                     </script>
 

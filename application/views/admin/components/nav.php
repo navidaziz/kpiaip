@@ -70,7 +70,7 @@ $menu_list .= "</ul>";
 
 
 <div id="sidebar"
-    <?php if ($this->router->fetch_method() == 'schemes_summary_report' or $this->router->fetch_class() == 'water_user_associations' or $this->router->fetch_class() == 'expenses' or $this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?>
+    <?php if ($this->router->fetch_method() == 'payment_notesheets' or $this->router->fetch_method() == 'schemes_summary_report' or $this->router->fetch_class() == 'water_user_associations' or $this->router->fetch_class() == 'expenses' or $this->router->fetch_class() == 'annual_work_plans' or $this->router->fetch_class() == 'riders') { ?>
     class="sidebar mini-menu" <?php } else { ?>class="sidebar" <?php } ?>>
 
     <?php if ($this->session->userdata('role_id') == 14) {
