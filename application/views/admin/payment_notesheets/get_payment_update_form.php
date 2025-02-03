@@ -40,9 +40,10 @@
             <th>Gross Paid</th>
             <th>WHIT</th>
             <th>WHST</th>
+            <th>KPRA</th>
             <th>St.Duty</th>
             <th>RDP</th>
-            <th>KPRA</th>
+
             <th>GUR.RET.</th>
             <th>Misc.Dedu.</th>
             <th>Net Paid</th>
@@ -83,9 +84,9 @@
                     <td><?php echo number_format($expense->{'gross_pay'}, 0); ?></td>
                     <td><?php echo number_format($expense->{'whit_tax'}, 0); ?></td>
                     <td><?php echo number_format($expense->{'whst_tax'}, 0); ?></td>
+                    <td><?php echo number_format($expense->{'kpra_tax'}, 0); ?></td>
                     <td><?php echo number_format($expense->{'st_duty_tax'}, 0); ?></td>
                     <td><?php echo number_format($expense->{'rdp_tax'}, 0); ?></td>
-                    <td><?php echo number_format($expense->{'kpra_tax'}, 0); ?></td>
                     <td><?php echo number_format($expense->{'gur_ret'}, 0); ?></td>
                     <td><?php echo number_format($expense->{'misc_deduction'}, 0); ?></td>
                     <td><?php echo number_format($expense->{'net_pay'}, 0); ?></td>
@@ -121,9 +122,9 @@
                 <th><?php echo number_format($expenses_all->{'gross_pay'}, 0); ?></th>
                 <th><?php echo number_format($expenses_all->{'whit_tax'}, 0); ?></th>
                 <th><?php echo number_format($expenses_all->{'whst_tax'}, 0); ?></th>
+                <th><?php echo number_format($expenses_all->{'kpra_tax'}, 0); ?></th>
                 <th><?php echo number_format($expenses_all->{'st_duty_tax'}, 0); ?></th>
                 <th><?php echo number_format($expenses_all->{'rdp_tax'}, 0); ?></th>
-                <th><?php echo number_format($expenses_all->{'kpra_tax'}, 0); ?></th>
                 <th><?php echo number_format($expenses_all->{'gur_ret'}, 0); ?></th>
                 <th><?php echo number_format($expenses_all->{'misc_deduction'}, 0); ?></th>
                 <th><?php echo number_format($expenses_all->{'net_pay'}, 0); ?></th>
@@ -230,11 +231,10 @@
                 <th>ST Charged</th>
                 <th>SST Charged</th>
                 <th>WHIT</th>
-
                 <th>WHST</th>
+                <th>KPRA</th>
                 <th>St.Duty</th>
                 <th>RDP</th>
-                <th>KPRA</th>
                 <th>Misc.Dedu.</th>
                 <th>Deduction</th>
                 <th>Net Pay</th>
@@ -271,9 +271,9 @@
                     <td><?php echo number_format($row->sst_charged, 2); ?></td>
                     <td><?php echo number_format($row->whit_tax, 2); ?></td>
                     <td><?php echo number_format($row->whst_tax, 2); ?></td>
+                    <td><?php echo number_format($row->kpra_tax, 2); ?></td>
                     <td><?php echo number_format($row->st_duty_tax, 2); ?></td>
                     <td><?php echo number_format($row->rdp_tax, 2); ?></td>
-                    <td><?php echo number_format($row->kpra_tax, 2); ?></td>
                     <td><?php echo number_format($row->misc_deduction, 2); ?></td>
                     <td><?php echo number_format($row->tax_deduction, 2); ?></td>
                     <td><?php
@@ -308,11 +308,10 @@
                 <th><?php echo number_format($row->st_charged, 2); ?></th>
                 <th><?php echo number_format($row->sst_charged, 2); ?></th>
                 <th><?php echo number_format($row->whit_tax, 2); ?></th>
-
                 <th><?php echo number_format($row->whst_tax, 2); ?></th>
+                <th><?php echo number_format($row->kpra_tax, 2); ?></th>
                 <th><?php echo number_format($row->st_duty_tax, 2); ?></th>
                 <th><?php echo number_format($row->rdp_tax, 2); ?></th>
-                <th><?php echo number_format($row->kpra_tax, 2); ?></th>
                 <th><?php echo number_format($row->misc_deduction, 2); ?></th>
                 <th><?php echo number_format($row->tax_deduction, 2); ?></th>
                 <th><?php
@@ -399,9 +398,9 @@
 
                     <th>WHIT</th>
                     <th>WHST</th>
+                    <th>KPRA</th>
                     <th>St.Duty</th>
                     <th>RDP</th>
-                    <th>KPRA</th>
                     <th>GUR.RET.</th>
                     <th>Misc.Dedu.</th>
 
@@ -421,6 +420,11 @@
                         <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="whst" name="whst" value="<?php echo $input->whst; ?>" class="formControl">
                     </td>
 
+                    <!-- KPRA Tax -->
+                    <td>
+                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="kpra" name="kpra" value="<?php echo $input->kpra; ?>" class="formControl">
+                    </td>
+
                     <!-- ST Duty Tax -->
                     <td>
                         <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="st_duty" name="st_duty" value="<?php echo $input->st_duty; ?>" class="formControl">
@@ -431,10 +435,7 @@
                         <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="rdp" name="rdp" value="<?php echo $input->rdp; ?>" class="formControl">
                     </td>
 
-                    <!-- KPRA Tax -->
-                    <td>
-                        <input onkeyup="calculateNetPay()" min="0" type="number" step="any" required id="kpra" name="kpra" value="<?php echo $input->kpra; ?>" class="formControl">
-                    </td>
+
 
                     <!-- Guaranteed Retirement -->
                     <td>

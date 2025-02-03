@@ -175,7 +175,7 @@
 
 
                                     <tr>
-                                        <th colspan="17">
+                                        <th colspan="18">
                                             <h5>
                                                 <span class="pull-left">
                                                     <strong> Voucher ID: <?php echo $voucher->voucher_id; ?></strong>
@@ -201,12 +201,14 @@
                                         <th>Nature Of Payment</th>
                                         <th>Payment Section Code</th>
                                         <th>Invoice Gross Total</th>
-                                        <th>WHIT</th>
                                         <th>ST Charged</th>
+                                        <th>SST Charged</th>
+                                        <th>WHIT</th>
+
                                         <th>WHST</th>
+                                        <th>KPRA</th>
                                         <th>St.Duty</th>
                                         <th>RDP</th>
-                                        <th>KPRA</th>
                                         <th>Misc.Dedu.</th>
                                         <th>Total Deduction</th>
                                         <th>Action</th>
@@ -234,12 +236,14 @@
                                             <td><?php echo $row->nature_of_payment; ?></td>
                                             <td><?php echo $row->payment_section_code; ?></td>
                                             <td><?php echo number_format($row->invoice_gross_total, 2); ?></td>
-                                            <td><?php echo number_format($row->whit_tax, 2); ?></td>
                                             <td><?php echo number_format($row->st_charged, 2); ?></td>
+                                            <td><?php echo number_format($row->sst_charged, 2); ?></td>
+                                            <td><?php echo number_format($row->whit_tax, 2); ?></td>
+
                                             <td><?php echo number_format($row->whst_tax, 2); ?></td>
+                                            <td><?php echo number_format($row->kpra_tax, 2); ?></td>
                                             <td><?php echo number_format($row->st_duty_tax, 2); ?></td>
                                             <td><?php echo number_format($row->rdp_tax, 2); ?></td>
-                                            <td><?php echo number_format($row->kpra_tax, 2); ?></td>
                                             <td><?php echo number_format($row->misc_deduction, 2); ?></td>
                                             <td><?php echo number_format($row->total_deduction, 2); ?></td>
                                             <td><button class="btn btn-primary btn-sm" onclick="get_vendor_taxe_form('<?php echo $row->id; ?>', '<?php echo $row->voucher_id; ?>')">Edit Invoice</button>
@@ -250,6 +254,7 @@
                                         SUM(`whit_tax`) as whit_tax,
                                         SUM(`whst_tax`) as whst_tax,
                                         SUM(`st_charged`) as st_charged,
+                                         SUM(`sst_charged`) as sst_charged,
                                         SUM(`st_duty_tax`) as st_duty_tax,
                                         SUM(`rdp_tax`) as rdp_tax,
                                         SUM(`kpra_tax`) as kpra_tax,
@@ -268,12 +273,14 @@
                                         <th></th>
                                         <th>Sub Total:</th>
                                         <th><?php echo number_format($row->invoice_gross_total, 2); ?></th>
-                                        <th><?php echo number_format($row->whit_tax, 2); ?></th>
                                         <th><?php echo number_format($row->st_charged, 2); ?></th>
+                                        <th><?php echo number_format($row->sst_charged, 2); ?></th>
+                                        <th><?php echo number_format($row->whit_tax, 2); ?></th>
+
                                         <th><?php echo number_format($row->whst_tax, 2); ?></th>
+                                        <th><?php echo number_format($row->kpra_tax, 2); ?></th>
                                         <th><?php echo number_format($row->st_duty_tax, 2); ?></th>
                                         <th><?php echo number_format($row->rdp_tax, 2); ?></th>
-                                        <th><?php echo number_format($row->kpra_tax, 2); ?></th>
                                         <th><?php echo number_format($row->misc_deduction, 2); ?></th>
                                         <th><?php echo number_format($row->total_deduction, 2); ?></th>
                                         <th></th>
@@ -287,6 +294,7 @@
                                 SUM(`whit_tax`) as whit_tax,
                                 SUM(`whst_tax`) as whst_tax,
                                 SUM(`st_charged`) as st_charged,
+                                SUM(`sst_charged`) as sst_charged,
                                 SUM(`st_duty_tax`) as st_duty_tax,
                                 SUM(`rdp_tax`) as rdp_tax,
                                 SUM(`kpra_tax`) as kpra_tax,
@@ -313,12 +321,15 @@
                                     <th></th>
                                     <th>Grand Total:</th>
                                     <th><?php echo number_format($row->invoice_gross_total, 2); ?></th>
-                                    <th><?php echo number_format($row->whit_tax, 2); ?></th>
                                     <th><?php echo number_format($row->st_charged, 2); ?></th>
+                                    <th><?php echo number_format($row->sst_charged, 2); ?></th>
+                                    <th><?php echo number_format($row->whit_tax, 2); ?></th>
+
                                     <th><?php echo number_format($row->whst_tax, 2); ?></th>
+                                    <th><?php echo number_format($row->kpra_tax, 2); ?></th>
                                     <th><?php echo number_format($row->st_duty_tax, 2); ?></th>
                                     <th><?php echo number_format($row->rdp_tax, 2); ?></th>
-                                    <th><?php echo number_format($row->kpra_tax, 2); ?></th>
+
                                     <th><?php echo number_format($row->misc_deduction, 2); ?></th>
                                     <th><?php echo number_format($row->total_deduction, 2); ?></th>
                                     <th></th>
@@ -353,9 +364,10 @@
                             <th>Gross Paid</th>
                             <th>WHIT</th>
                             <th>WHST</th>
+                            <th>KPRA</th>
                             <th>St.Duty</th>
                             <th>RDP</th>
-                            <th>KPRA</th>
+
 
                             <th>Gre.Ret.</th>
                             <th>Misc.Dedu.</th>
@@ -404,9 +416,9 @@
                                     <td><?php echo number_format($expense->gross_pay); ?></td>
                                     <td><?php echo number_format($expense->whit_tax); ?></td>
                                     <td><?php echo number_format($expense->whst_tax); ?></td>
+                                    <td><?php echo number_format($expense->kpra_tax); ?></td>
                                     <td><?php echo number_format($expense->st_duty_tax); ?></td>
                                     <td><?php echo number_format($expense->rdp_tax); ?></td>
-                                    <td><?php echo number_format($expense->kpra_tax); ?></td>
                                     <td><?php echo $expense->gur_ret; ?></td>
                                     <td><?php echo number_format($expense->misc_deduction); ?></td>
                                     <td><?php echo number_format($expense->net_pay); ?></td>
@@ -434,12 +446,13 @@
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->whst_tax) echo number_format($expense_summary->whst_tax);
                                         else echo "0.00" ?></th>
+                                    <th><?php if ($expense_summary->kpra_tax) echo number_format($expense_summary->kpra_tax);
+                                        else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->st_duty_tax) echo number_format($expense_summary->st_duty_tax);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->rdp_tax) echo number_format($expense_summary->rdp_tax);
                                         else echo "0.00" ?></th>
-                                    <th><?php if ($expense_summary->kpra_tax) echo number_format($expense_summary->kpra_tax);
-                                        else echo "0.00" ?></th>
+
                                     <th><?php if ($expense_summary->gur_ret) echo number_format($expense_summary->gur_ret);
                                         else echo "0.00" ?></th>
                                     <th><?php if ($expense_summary->misc_deduction) echo number_format($expense_summary->misc_deduction);

@@ -349,9 +349,9 @@
                         <th>Gross</th>
                         <th>WHIT</th>
                         <th>WHST</th>
+                        <th>KPRA</th>
                         <th>St.Duty</th>
                         <th>RDP</th>
-                        <th>KPRA</th>
                         <th>Gur.Ret.</th>
                         <th>Misc.Dedu.</th>
                         <th>Net</th>
@@ -468,7 +468,7 @@
 
                             foreach ($schemes as $scheme) { ?>
                                 <tr>
- 
+
                                     <td><?php echo $count++ ?></td>
                                     <td><?php echo $scheme->scheme_code; ?></td>
                                     <td><?php echo $scheme->scheme_name; ?></td>
@@ -498,9 +498,10 @@
                                     <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?></td>
                                     <td><?php echo number_format($scheme->{'whit'}, 0); ?></td>
                                     <td><?php echo number_format($scheme->{'whst'}, 0); ?></td>
+                                    <td><?php echo number_format($scheme->kpra, 2); ?></td>
                                     <td><?php echo number_format($scheme->st_duty, 2); ?></td>
                                     <td><?php echo number_format($scheme->rdp, 2); ?></td>
-                                    <td><?php echo number_format($scheme->kpra, 2); ?></td>
+
                                     <td><?php echo number_format($scheme->gur_ret, 2); ?></td>
                                     <td><?php echo number_format($scheme->misc_deduction, 2); ?></td>
                                     <td><?php echo number_format($scheme->{'net_pay'}, 0); ?></td>
@@ -563,9 +564,10 @@
                                 <th> <?php echo number_format($subtotal['payment_amount'], 0); ?></th>
                                 <th><?php echo number_format($subtotal['whit'], 0); ?></th>
                                 <th><?php echo number_format($subtotal['whst'], 0); ?></th>
+                                <th><?php echo number_format($subtotal['kpra'], 0); ?></th>
                                 <th><?php echo number_format($subtotal['st_duty'], 0); ?></th>
                                 <th><?php echo number_format($subtotal['rdp'], 0); ?></th>
-                                <th><?php echo number_format($subtotal['kpra'], 0); ?></th>
+
                                 <th><?php echo number_format($subtotal['gur_ret'], 0); ?></th>
                                 <th><?php echo number_format($subtotal['misc_deduction'], 0); ?></th>
                                 <th><?php echo number_format($subtotal['net_pay'], 0); ?></th>
@@ -594,9 +596,10 @@
                         <th> <?php echo number_format($gtotal['payment_amount'], 0); ?></th>
                         <th><?php echo number_format($gtotal['whit'], 0); ?></th>
                         <th><?php echo number_format($gtotal['whst'], 0); ?></th>
+                        <th><?php echo number_format($gtotal['kpra'], 0); ?></th>
                         <th><?php echo number_format($gtotal['st_duty'], 0); ?></th>
                         <th><?php echo number_format($gtotal['rdp'], 0); ?></th>
-                        <th><?php echo number_format($gtotal['kpra'], 0); ?></th>
+
                         <th><?php echo number_format($gtotal['gur_ret'], 0); ?></th>
                         <th><?php echo number_format($gtotal['misc_deduction'], 0); ?></th>
                         <th><?php echo number_format($gtotal['net_pay'], 0); ?></th>

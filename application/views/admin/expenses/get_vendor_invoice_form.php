@@ -95,6 +95,17 @@
                 <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="whst_tax" name="whst_tax" value="<?php echo $input->whst_tax; ?>" class="form-control">
             </div>
         </div>
+        <!-- KPRA Rate and Amount -->
+        <div class="form-group row">
+            <label for="kpra_tax_per" class="col-sm-3 col-form-label">KPRA Rate (%)</label>
+            <div class="col-sm-3">
+                <input type="number" min="0" step="any" max="100" onkeyup="calculate_kpra_tax()" required id="kpra_tax_per" name="kpra_tax_per" value="20" class="form-control">
+            </div>
+            <label for="kpra_tax" class="col-sm-3 col-form-label">KPRA Amount (Rs.)</label>
+            <div class="col-sm-3">
+                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="kpra_tax" name="kpra_tax" value="<?php echo $input->kpra_tax; ?>" class="form-control">
+            </div>
+        </div>
 
         <!-- ST Duty Rate and Amount -->
         <div class="form-group row">
@@ -108,17 +119,7 @@
             </div>
         </div>
 
-        <!-- KPRA Rate and Amount -->
-        <div class="form-group row">
-            <label for="kpra_tax_per" class="col-sm-3 col-form-label">KPRA Rate (%)</label>
-            <div class="col-sm-3">
-                <input type="number" min="0" step="any" max="100" onkeyup="calculate_kpra_tax()" required id="kpra_tax_per" name="kpra_tax_per" value="20" class="form-control">
-            </div>
-            <label for="kpra_tax" class="col-sm-3 col-form-label">KPRA Amount (Rs.)</label>
-            <div class="col-sm-3">
-                <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="kpra_tax" name="kpra_tax" value="<?php echo $input->kpra_tax; ?>" class="form-control">
-            </div>
-        </div>
+
 
         <!-- RDP Rate and Amount -->
         <div class="form-group row">

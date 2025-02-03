@@ -38,9 +38,9 @@
                  <th>Pay. Amount</th>
                  <th>WHIT</th>
                  <th>WHST</th>
+                 <th>KPRA</th>
                  <th>St.Duty</th>
                  <th>RDP</th>
-                 <th>KPRA</th>
                  <th>Gur.Ret.</th>
                  <th>Misc.Dedu.</th>
                  <th>Net Rs.</th>
@@ -158,9 +158,10 @@
                          <td><?php echo $scheme->payment_amount ? number_format($scheme->payment_amount) : ''; ?></td>
                          <td><?php echo number_format($scheme->whit, 2); ?></td>
                          <td><?php echo number_format($scheme->whst, 2); ?></td>
+                         <td><?php echo number_format($scheme->kpra, 2); ?></td>
                          <td><?php echo number_format($scheme->st_duty, 2); ?></td>
                          <td><?php echo number_format($scheme->rdp, 2); ?></td>
-                         <td><?php echo number_format($scheme->kpra, 2); ?></td>
+
                          <td><?php echo number_format($scheme->gur_ret, 2); ?></td>
                          <td><?php echo number_format($scheme->misc_deduction, 2); ?></td>
                          <td><?php echo number_format($scheme->net_pay, 2); ?></td>
@@ -202,9 +203,10 @@
                  <th><?php echo number_format($total_payment_amount, 2); ?></th>
                  <th><?php echo number_format($total_whit, 2); ?></th>
                  <th><?php echo number_format($total_whst, 2); ?></th>
+                 <th><?php echo number_format($total_kpra, 2); ?></th>
                  <th><?php echo number_format($total_st_duty, 2); ?></th>
                  <th><?php echo number_format($total_rdp, 2); ?></th>
-                 <th><?php echo number_format($total_kpra, 2); ?></th>
+
                  <th><?php echo number_format($total_gur_ret, 2); ?></th>
                  <th><?php echo number_format($total_misc_deduction, 2); ?></th>
                  <th><?php echo number_format($total_net_pay, 2); ?></th>
