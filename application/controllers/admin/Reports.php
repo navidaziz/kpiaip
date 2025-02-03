@@ -1261,7 +1261,7 @@ LEFT JOIN
             'DISTRICT NAME',
             'SCHEME CODE',
             'SCHEME NAME',
-            //'Title of Account',
+            'Title of Account',
             'CATEGORY',
             'SANCTIONED COST',
             'ICR-I',
@@ -1330,7 +1330,6 @@ LEFT JOIN
         $schemes = $this->db->query($query)->result();
         $count = 1;
         foreach ($schemes as $scheme) {
-            // Write each scheme data to CSV
 
 
             fputcsv($output, [
@@ -1341,7 +1340,7 @@ LEFT JOIN
                 $scheme->district_name,
                 $scheme->scheme_code,
                 $scheme->scheme_name,
-                // $scheme->title_of_account,
+                $scheme->title_of_account,
                 $scheme->category,
                 number_format($scheme->sanctioned_cost, 0),
                 number_format($scheme->{'1st'}, 0),
@@ -1409,7 +1408,7 @@ LEFT JOIN
             'DISTRICT NAME',
             'SCHEME CODE',
             'SCHEME NAME',
-            //'Title of Account',
+            'Title of Account',
             'CATEGORY',
             'SANCTIONED COST',
             'ICR-I',
@@ -1521,12 +1520,18 @@ LEFT JOIN
                 'net_pay' => 0,
             ];
 
+
             if (!empty($schemes)) {
                 foreach ($schemes as $scheme) {
 
                     $total_paid = ($scheme->total_paid + $scheme->payment_amount);
                     $remaining = ($scheme->sanctioned_cost - $total_paid);
-
+                    $account_title = '';
+                    if ($scheme->payee_name) {
+                        $account_title = $scheme->payee_name;
+                    } else {
+                        $account_title = $scheme->bank_account_title;
+                    }
                     // Write the row data to the CSV
                     fputcsv($output, [
                         //$count++,
@@ -1536,7 +1541,7 @@ LEFT JOIN
                         $scheme->district_name,
                         $scheme->scheme_code,
                         $scheme->scheme_name,
-                        // $scheme->title_of_account,
+                        $account_title,
                         $scheme->category,
                         number_format($scheme->sanctioned_cost, 0),
                         number_format($scheme->{'1st'}, 0),
@@ -1604,6 +1609,7 @@ LEFT JOIN
                     '',
                     '',
                     '',
+                    '',
                     'Sub Total',
                     number_format($subtotal['sanctioned_cost'], 0),
                     number_format($subtotal['1st'], 0),
@@ -1629,6 +1635,7 @@ LEFT JOIN
 
         // Write the grand total row
         fputcsv($output, [
+            '',
             '',
             '',
             '',
