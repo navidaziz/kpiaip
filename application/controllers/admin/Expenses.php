@@ -821,8 +821,8 @@ LEFT JOIN
         $columns[] = "scheme_name";
         $columns[] = "component_category";
         $columns[] = "sanctioned_cost";
-        $columns[] = "paid";
-        $columns[] = "paid_percentage";
+        $columns[] = "total_paid";
+        //$columns[] = "paid_percentage";
         $columns[] = "remaining";
         $columns[] = "payment_count";
 
