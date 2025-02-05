@@ -133,7 +133,7 @@
                         <span class="username"><?php echo $this->session->userdata("user_title"); ?></span> <i
                             class="fa fa-angle-down"></i> </a>
                     <ul class="dropdown-menu">
-                        <li><a href="<?php echo site_url(ADMIN_DIR . "users/update_profile"); ?>"><i
+                        <li><a href="<?php echo site_url(ADMIN_DIR . "profile/update_profile"); ?>"><i
                                     class="fa fa-user"></i> Update Profile</a></li>
                         <li><a href="<?php echo site_url(ADMIN_DIR . "login/logout"); ?>"><i
                                     class="fa fa-power-off"></i> Log Out</a></li>
