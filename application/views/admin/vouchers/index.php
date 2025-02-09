@@ -142,7 +142,7 @@
                                         "data": null,
                                         "render": function(data, type, row) {
                                             if (row.scheme_id && row.scheme_id != 0) {
-                                                return '<a target="new" class="btn btn-link" href="<?php echo site_url(ADMIN_DIR . "expenses/view_scheme_detail/"); ?>' + row.scheme_id + '">View Scheme</a>';
+                                                return '<a target="new" class="btn btn-link" href="<?php echo site_url(ADMIN_DIR . "vouchers/print_scheme_detail/"); ?>' + row.scheme_id + '">S.ID. : ' + row.scheme_id + '</a>';
 
                                             } else {
                                                 return '-';

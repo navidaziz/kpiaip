@@ -11,6 +11,8 @@ class Vouchers extends Admin_Controller
 
         parent::__construct();
         $this->lang->load("system", 'english');
+        $this->load->model("admin/water_user_association_model");
+
         //$this->output->enable_profiler(TRUE);
     }
 
@@ -301,5 +303,14 @@ class Vouchers extends Admin_Controller
         $this->db->delete("vendors_taxes");
         $requested_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url();
         redirect($requested_url);
+    }
+
+
+    public function print_scheme_detail($scheme_id)
+    {
+
+        $scheme_id = (int) $scheme_id;
+        $this->data["scheme_id"] = $scheme_id;
+        $this->load->view(ADMIN_DIR . "expenses/print_scheme_detail", $this->data);
     }
 }
