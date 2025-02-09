@@ -158,4 +158,148 @@ class Vouchers extends Admin_Controller
         $this->data["view"] = ADMIN_DIR . "vouchers/view_voucher";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+
+
+
+    public function get_vendor_taxe_form()
+    {
+        $id = (int) $this->input->post("id");
+        if ($id == 0) {
+
+            $input = $this->get_vendor_tax_inputs();
+        } else {
+            $query = "SELECT * FROM 
+            vendors_taxes 
+            WHERE id = $id";
+            $input = $this->db->query($query)->row();
+        }
+        $this->data["input"] = $input;
+        $this->load->view(ADMIN_DIR . "vouchers/get_vendor_invoice_form", $this->data);
+    }
+
+
+    private function get_vendor_tax_inputs()
+    {
+        $input["id"] = $this->input->post("id");
+        $input["scheme_id"] = $this->input->post("scheme_id");
+        $input["vendor_id"] = $this->input->post("vendor_id");
+        $input["voucher_id"] = $this->input->post("voucher_id");
+        $input["invoice_id"] = $this->input->post("invoice_id");
+        $input["invoice_date"] = $this->input->post("invoice_date");
+        $input["nature_of_payment"] = $this->input->post("nature_of_payment");
+        $input["payment_section_code"] = $this->input->post("payment_section_code");
+        $input["invoice_gross_total"] = $this->input->post("invoice_gross_total");
+        // $input["whit_tax"] = $this->input->post("whit_tax") ?? 0;
+        // $input["whst_tax"] = $this->input->post("whst_tax") ?? 0;
+        // $input["st_charged"] = $this->input->post("st_charged") ?? 0;
+        // $input["st_duty_tax"] = $this->input->post("st_duty_tax") ?? 0;
+        // $input["kpra_tax"] = $this->input->post("kpra_tax") ?? 0;
+        // $input["rdp_tax"] = $this->input->post("rdp_tax") ?? 0;
+        // $input["total_deduction"] = $this->input->post("total_deduction") ?? 0;
+        // $input["misc_deduction"] = $this->input->post("misc_deduction") ?? 0;
+
+        if ($this->input->post("whit_tax") !== null) {
+            $input["whit_tax"] = $this->input->post("whit_tax");
+        } else {
+            $input["whit_tax"] = 0;
+        }
+
+        if ($this->input->post("whst_tax") !== null) {
+            $input["whst_tax"] = $this->input->post("whst_tax");
+        } else {
+            $input["whst_tax"] = 0;
+        }
+
+        if ($this->input->post("st_charged") !== null) {
+            $input["st_charged"] = $this->input->post("st_charged");
+        } else {
+            $input["st_charged"] = 0;
+        }
+        if ($this->input->post("sst_charged") !== null) {
+            $input["sst_charged"] = $this->input->post("sst_charged");
+        } else {
+            $input["sst_charged"] = 0;
+        }
+
+        if ($this->input->post("st_duty_tax") !== null) {
+            $input["st_duty_tax"] = $this->input->post("st_duty_tax");
+        } else {
+            $input["st_duty_tax"] = 0;
+        }
+
+        if ($this->input->post("kpra_tax") !== null) {
+            $input["kpra_tax"] = $this->input->post("kpra_tax");
+        } else {
+            $input["kpra_tax"] = 0;
+        }
+
+        if ($this->input->post("rdp_tax") !== null) {
+            $input["rdp_tax"] = $this->input->post("rdp_tax");
+        } else {
+            $input["rdp_tax"] = 0;
+        }
+
+        if ($this->input->post("total_deduction") !== null) {
+            $input["total_deduction"] = $this->input->post("total_deduction");
+        } else {
+            $input["total_deduction"] = 0;
+        }
+
+        if ($this->input->post("misc_deduction") !== null) {
+            $input["misc_deduction"] = $this->input->post("misc_deduction");
+        } else {
+            $input["misc_deduction"] = 0;
+        }
+
+        $inputs =  (object) $input;
+        return $inputs;
+    }
+
+    public function add_vendor_invoice()
+    {
+        //$this->form_validation->set_rules("scheme_id", "Scheme Id", "required");
+        $this->form_validation->set_rules("vendor_id", "Vendor Id", "required");
+        $this->form_validation->set_rules("voucher_id", "Voucher Id", "required");
+        $this->form_validation->set_rules("invoice_id", "Invoice Id", "required");
+        $this->form_validation->set_rules("invoice_date", "Invoice Date", "required");
+        $this->form_validation->set_rules("nature_of_payment", "Nature Of Payment", "required");
+        $this->form_validation->set_rules("payment_section_code", "Payment Section Code", "required");
+        $this->form_validation->set_rules("invoice_gross_total", "Invoice Gross Total", "required");
+        $this->form_validation->set_rules("whit_tax", "Whit Tax", "required");
+        $this->form_validation->set_rules("st_charged", "ST Charged", "required");
+        $this->form_validation->set_rules("sst_charged", "ST Charged", "required");
+        $this->form_validation->set_rules("whst_tax", "Whst Tax", "required");
+        $this->form_validation->set_rules("st_duty_tax", "St Duty Tax", "required");
+        $this->form_validation->set_rules("kpra_tax", "Kpra Tax", "required");
+        $this->form_validation->set_rules("rdp_tax", "Rdp Tax", "required");
+        $this->form_validation->set_rules("total_deduction", "Total Deduction", "required");
+        $this->form_validation->set_rules("misc_deduction", "Misc Deduction", "required");
+
+        if ($this->form_validation->run() == FALSE) {
+            echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+            exit();
+        } else {
+            $inputs = $this->get_vendor_tax_inputs();
+            $inputs->created_by = $this->session->userdata("userId");
+            $id = (int) $this->input->post("id");
+            if ($id == 0) {
+                $this->db->insert("vendors_taxes", $inputs);
+            } else {
+                $this->db->where("id", $id);
+                $inputs->last_updated = date('Y-m-d H:i:s');
+                $this->db->update("vendors_taxes", $inputs);
+            }
+            echo "success";
+        }
+    }
+
+
+    public function delete_vendors_invoice($id)
+    {
+        $id = (int) $id;
+        $this->db->where("id", $id);
+        $this->db->delete("vendors_taxes");
+        $requested_url = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : base_url();
+        redirect($requested_url);
+    }
 }

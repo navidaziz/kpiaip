@@ -109,7 +109,7 @@
                                 function get_vendor_taxe_form(id) {
                                     $.ajax({
                                             method: "POST",
-                                            url: "<?php echo site_url(ADMIN_DIR . 'expenses/get_vendor_taxe_form'); ?>",
+                                            url: "<?php echo site_url(ADMIN_DIR . 'vouchers/get_vendor_taxe_form'); ?>",
                                             data: {
                                                 id: id,
                                                 scheme_id: 'NULL',
@@ -160,7 +160,7 @@
                             $rows = $this->db->query($query)->result();
                             foreach ($rows as $row) { ?>
                                 <tr>
-                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_vendors_invoice/' . $row->id); ?>"
+                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'vouchers/delete_vendors_invoice/' . $row->id); ?>"
                                             onclick="return confirm('Are you sure? you want to delete the record.')"><i
                                                 class="fa fa-trash-o"></i></a> </td>
                                     <td><?php echo $count++ ?></td>

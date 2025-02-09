@@ -90,7 +90,7 @@
                         <table class="table table-bordered table-striped ">
                             <tr>
                                 <td rowspan="2" style="vertical-align: middle;">
-                                    <a class="btn btn-danger" target="_blank" href="<?php echo site_url(ADMIN_DIR . "expenses/print_scheme_detail/" . $scheme->scheme_id); ?>"><i class="fa fa-print" aria-hidden="true"></i> Print Scheme Detail</a>
+                                    <a class="btn btn-danger" target="_blank" href="<?php echo site_url(ADMIN_DIR . "vouchers/print_scheme_detail/" . $scheme->scheme_id); ?>"><i class="fa fa-print" aria-hidden="true"></i> Print Scheme Detail</a>
                                 </td>
 
                                 <th>Total Sanctioned Cost</th>
@@ -224,7 +224,7 @@
                                     $rows = $this->db->query($query)->result();
                                     foreach ($rows as $row) { ?>
                                         <tr>
-                                            <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_vendors_invoice/' . $row->id); ?>"
+                                            <td><a href="<?php echo site_url(ADMIN_DIR . 'vouchers/delete_vendors_invoice/' . $row->id); ?>"
                                                     onclick="return confirm('Are you sure? you want to delete the record.')"><i
                                                         class="fa fa-trash-o"></i></a> </td>
                                             <td><?php echo $count++ ?></td>
@@ -389,7 +389,7 @@
                             foreach ($expenses as $expense) : ?>
 
                                 <tr>
-                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>"
+                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'vouchers/delete_expense_record/' . $expense->expense_id); ?>"
                                             onclick="return confirm('Are you sure? you want to delete the record.')"><i
                                                 class="fa fa-trash-o"></i></a> </td>
 
@@ -512,7 +512,7 @@
                 function get_vendor_taxe_form(id, voucher_id) {
                     $.ajax({
                             method: "POST",
-                            url: "<?php echo site_url(ADMIN_DIR . 'expenses/get_vendor_taxe_form'); ?>",
+                            url: "<?php echo site_url(ADMIN_DIR . 'vouchers/get_vendor_taxe_form'); ?>",
                             data: {
                                 id: id,
                                 scheme_id: '<?php echo $scheme->scheme_id; ?>',
@@ -541,7 +541,7 @@
     function expense_form2(expense_id, purpose) {
         $.ajax({
                 method: "POST",
-                url: "<?php echo site_url(ADMIN_DIR . 'expenses/scheme_expense_form2'); ?>",
+                url: "<?php echo site_url(ADMIN_DIR . 'vouchers/scheme_expense_form2'); ?>",
                 data: {
                     expense_id: expense_id,
                     purpose: purpose,
@@ -558,7 +558,7 @@
     function expense_form(expense_id, purpose) {
         $.ajax({
                 method: "POST",
-                url: "<?php echo site_url(ADMIN_DIR . 'expenses/scheme_expense_form'); ?>",
+                url: "<?php echo site_url(ADMIN_DIR . 'vouchers/scheme_expense_form'); ?>",
                 data: {
                     expense_id: expense_id,
                     purpose: purpose,
