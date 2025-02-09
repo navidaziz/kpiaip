@@ -179,7 +179,7 @@
             pns.payment_type,
             pns.payment_amount
             FROM `payment_notesheet_schemes` as pns 
-            INNER JOIN payment_notesheets as pn ON(pn.id = pns.payment_notesheet_id)
+            LEFT JOIN payment_notesheets as pn ON(pn.id = pns.payment_notesheet_id)
             WHERE scheme_id =? 
             AND pns.id != ?";
     $previous_pucs = $this->db->query($query, [$scheme->scheme_id, $input->id])->result();
