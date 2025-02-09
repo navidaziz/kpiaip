@@ -89,7 +89,7 @@
                     <table id="datatable" class="table  table_small table-bordered">
                         <thead>
                             <tr>
-                                <th></th>
+                                <!-- <th></th> -->
                                 <th>#</th>
                                 <th>Payment Notesheet Code</th>
                                 <th>PUC Tracking ID</th>
@@ -114,14 +114,17 @@
                                     "url": "<?php echo base_url(ADMIN_DIR . "payment_notesheets/payment_notesheets"); ?>",
                                     "type": "POST"
                                 },
-                                "columns": [{
-                                        "data": null,
-                                        "render": function(data, type, row) {
-                                            return '<a  onclick="return confirm(\'Are you sure you want to remove this? \');" class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/trash/"); ?>' + row.id + '/' + '" onclick="return confirm(' +
-                                                'Are you sure ? you want to delete the record.' +
-                                                ')"><i class="fa fa-trash-o"></i></a>';
-                                        }
-                                    }, {
+                                "columns": [
+                                    // {
+                                    //     "data": null,
+                                    //     "render": function(data, type, row) {
+                                    //         // return '<a  onclick="return confirm(\'Are you sure you want to remove this? \');" class="llink llink-view" href="<?php echo site_url(ADMIN_DIR . "payment_notesheets/trash/"); ?>' + row.id + '/' + '" onclick="return confirm(' +
+                                    //         //     'Are you sure ? you want to delete the record.' +
+                                    //         //     ')"><i class="fa fa-trash-o"></i></a>';
+                                    //     }
+                                    // }, 
+
+                                    {
                                         "data": null,
                                         "render": function(data, type, row, meta) {
                                             return meta.row + meta.settings._iDisplayStart + 1; // Start index from 1
