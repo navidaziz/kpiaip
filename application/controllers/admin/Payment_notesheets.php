@@ -443,24 +443,29 @@ class Payment_notesheets extends Admin_Controller
             $id = $this->input->post("id");
             $payment_type = $this->input->post("payment_type");
 
-            if ($id > 0) {
-                $query = "SELECT COUNT(*) as total
+            // if ($id > 0) {
+
+            // } else {
+            //     $query = "SELECT COUNT(*) as total, payment_notesheet_id
+            // FROM `payment_notesheet_schemes` as pns 
+            // WHERE scheme_id =? 
+            // AND pns.payment_type = ?";
+            //     $previous_pucs = $this->db->query($query, [$scheme_id, $payment_type])->row();
+            // }
+            $query = "SELECT COUNT(*) as total, pns.payment_notesheet_id
             FROM `payment_notesheet_schemes` as pns 
-            WHERE scheme_id =? 
+            WHERE scheme_id = ? 
             AND pns.payment_type = ?
             AND pns.id != ?";
-                $previous_pucs = $this->db->query($query, [$scheme_id, $payment_type, $id])->row();
-            } else {
-                $query = "SELECT COUNT(*) as total
-            FROM `payment_notesheet_schemes` as pns 
-            WHERE scheme_id =? 
-            AND pns.payment_type = ?";
-                $previous_pucs = $this->db->query($query, [$scheme_id, $payment_type])->row();
-            }
-            if ($previous_pucs->total > 0) {
-                echo '<div class="alert alert-danger">Payment Type "' . $payment_type . '" already exists for this scheme.</div>';
+            $previous_pucs = $this->db->query($query, [$scheme_id, $payment_type, $id])->row();
+
+            if ($previous_pucs && $previous_pucs->total > 0) { // Check if the result exists
+                echo '<div class="alert alert-danger">Payment Type "' . htmlspecialchars($payment_type, ENT_QUOTES) . '" already exists for this scheme.
+                <a target="new" href="' . site_url(ADMIN_DIR . 'payment_notesheets/view_payment_notesheets/' . $previous_pucs->payment_notesheet_id) . '"> Detail </a>
+                </div>';
                 exit();
             }
+
 
 
 
