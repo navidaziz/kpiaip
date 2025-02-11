@@ -182,7 +182,7 @@
         var tax_value = parseFloat($('#whit_tax_per').val());
         var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
         var tax = invoice_gross_total * (tax_value / 100);
-        $('#whit_tax').val(tax.toFixed(2));
+        $('#whit_tax').val(tax.toFixed(0));
         calculate_total_deduction();
     }
 
@@ -191,7 +191,7 @@
     //     var tax_value = parseFloat($('#st_charged_per').val());
     //     var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
     //     var tax = (invoice_gross_total * tax_value) / (100 + tax_value);
-    //     $('#st_charged').val(tax.toFixed(2));
+    //     $('#st_charged').val(tax.toFixed(0));
     //     calculate_total_deduction();
     // }
 
@@ -199,7 +199,7 @@
         var tax_value = parseFloat($('#whst_tax_per').val());
         var st_charged = parseFloat($('#st_charged').val());
         var tax = st_charged * (tax_value / 100);
-        $('#whst_tax').val(tax.toFixed(2));
+        $('#whst_tax').val(tax.toFixed(0));
         calculate_total_deduction();
     }
 
@@ -207,7 +207,7 @@
         var tax_value = parseFloat($('#st_duty_tax_per').val());
         var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
         var tax = invoice_gross_total * (tax_value / 100);
-        $('#st_duty_tax').val(tax.toFixed(2));
+        $('#st_duty_tax').val(tax.toFixed(0));
         calculate_total_deduction();
     }
 
@@ -215,7 +215,7 @@
         var tax_value = parseFloat($('#kpra_tax_per').val());
         var sst_charged = parseFloat($('#sst_charged').val());
         var tax = sst_charged * (tax_value / 100);
-        $('#kpra_tax').val(tax.toFixed(2));
+        $('#kpra_tax').val(tax.toFixed(0));
         calculate_total_deduction();
     }
 
@@ -223,7 +223,7 @@
         var tax_value = parseFloat($('#rdp_tax_per').val());
         var invoice_gross_total = parseFloat($('#invoice_gross_total').val());
         var tax = invoice_gross_total * (tax_value / 100);
-        $('#rdp_tax').val(tax.toFixed(2));
+        $('#rdp_tax').val(tax.toFixed(0));
         calculate_total_deduction();
     }
 
