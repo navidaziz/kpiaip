@@ -172,6 +172,9 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_wua_data') ?>">Export Water User Association Data</a>
                     </li>
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_venders_taxes') ?>">Export Vender Taxes</a>
+                    </li>
 
                 </ol>
 

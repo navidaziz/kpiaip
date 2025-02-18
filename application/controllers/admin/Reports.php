@@ -1669,4 +1669,44 @@ LEFT JOIN
         fclose($output);
         exit;
     }
+
+
+
+
+    public function export_venders_taxes()
+    {
+        // Define your query
+        $query = "SELECT vou.voucher_id, d.district_name, s.scheme_code, s.scheme_name, cc.category,
+        `ven`.`vendor_id`, `ven`.`Vendor_Type`, `ven`.`TaxPayer_NTN`, `ven`.`TaxPayer_CNIC`, `ven`.`TaxPayer_Name`, `ven`.`TaxPayer_City`, `ven`.`TaxPayer_Address`, `ven`.`TaxPayer_Status`, `ven`.`TaxPayer_Business_Name`, `ven`.`Focal_Person`, `ven`.`Contact_No`, `ven`.`industery`, `ven`.`business_category`, `ven`.`nature_of_business`, `ven`.`registration_no`, 
+        `vi`.`invoice_id`, `vi`.`invoice_date`, `vi`.`nature_of_payment`, `vi`.`payment_section_code`, `vi`.`invoice_gross_total`, 
+        `vi`.`st_charged`, `vi`.`sst_charged`, `vi`.`whit_tax`,  `vi`.`whst_tax`, `vi`.`st_duty_tax`, `vi`.`kpra_tax`, `vi`.`rdp_tax`, `vi`.`misc_deduction` FROM `vendors_taxes` as vi  
+        INNER JOIN vendors as ven ON(ven.vendor_id = vi.vendor_id)
+        INNER JOIN vouchers as vou ON(vou.voucher_id = vi.voucher_id)
+        LEFT JOIN schemes as s ON(s.scheme_id = vi.scheme_id)  
+        LEFT JOIN districts as d ON(d.district_id = s.district_id)
+        LEFT JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
+        ORDER BY `vi`.`scheme_id` DESC;";
+        $result = $this->db->query($query)->result_array();
+        // Set CSV filename
+        $filename = "vender_taxes_" . time() . '.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
+    }
 }
