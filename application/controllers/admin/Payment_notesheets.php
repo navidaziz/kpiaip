@@ -45,8 +45,7 @@ class Payment_notesheets extends Admin_Controller
     public function get_payment_notesheet_form()
     {
 
-        echo $this->session->userdata("role_id");
-        if ($this->session->userdata("role_id") != 5) {
+        if ($this->session->userdata("role_id") != 3) {
             echo '<div class="alert alert-danger">You are not allowed to create note sheet.</div>';
             exit();
         }
@@ -67,7 +66,7 @@ class Payment_notesheets extends Admin_Controller
     public function add_payment_notesheet()
     {
 
-        if ($this->session->userdata("role_id") != 5) {
+        if ($this->session->userdata("role_id") != 3) {
             echo '<div class="alert alert-danger">You are not allowed to create note sheet.</div>';
             exit();
         }
