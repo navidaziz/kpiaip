@@ -25,9 +25,11 @@
 
                 <div class="col-md-6">
                     <div class="pull-right">
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/download_payment_notesheet_csv'); ?>" class="btn btn-warning"><i class="fa fa-download"></i> Download</a>
-                        <button onclick="get_payment_notesheet_form('0')" class="btn btn-primary">Add New Payment Note Sheet</button>
 
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/download_payment_notesheet_csv'); ?>" class="btn btn-warning"><i class="fa fa-download"></i> Download</a>
+                        <?php if ($this->session->userdata("role_id") == 5) { ?>
+                            <button onclick="get_payment_notesheet_form('0')" class="btn btn-primary">Add New Payment Note Sheet</button>
+                        <?php } ?>
                         <script>
                             function get_payment_notesheet_form(id) {
                                 $.ajax({
@@ -44,6 +46,7 @@
                                     });
                             }
                         </script>
+
 
                     </div>
                 </div>

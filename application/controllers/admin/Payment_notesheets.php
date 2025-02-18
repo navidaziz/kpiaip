@@ -44,6 +44,12 @@ class Payment_notesheets extends Admin_Controller
 
     public function get_payment_notesheet_form()
     {
+
+        if ($this->session->userdata("role_id") != 5) {
+            echo '<div class="alert alert-danger">You are not allowed to create note sheet.</div>';
+            exit();
+        }
+
         $id = (int) $this->input->post("id");
         if ($id == 0) {
 
@@ -59,6 +65,13 @@ class Payment_notesheets extends Admin_Controller
     }
     public function add_payment_notesheet()
     {
+
+        if ($this->session->userdata("role_id") != 5) {
+            echo '<div class="alert alert-danger">You are not allowed to create note sheet.</div>';
+            exit();
+        }
+
+
         // $this->form_validation->set_rules("payment_notesheet_code", "Payment Notesheet Code", "required");
         $this->form_validation->set_rules("puc_tracking_id", "Puc Tracking Id", "required");
         $this->form_validation->set_rules("district_id", "District Id", "required");
