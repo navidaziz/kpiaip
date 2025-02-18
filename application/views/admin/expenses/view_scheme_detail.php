@@ -583,6 +583,24 @@
                             <h4 style="text-align: center;">
                                 Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
                             </h4>
+                            <button class="bt btn-danger" onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change Status</button>
+                            <script>
+                                function change_scheme_status(scheme_id) {
+                                    $.ajax({
+                                            method: "POST",
+                                            url: "<?php echo site_url(ADMIN_DIR . 'expenses/change_scheme_status'); ?>",
+                                            data: {
+                                                scheme_id: scheme_id,
+                                                water_user_association_id: <?php echo $scheme->water_user_association_id; ?>,
+                                            },
+                                        })
+                                        .done(function(respose) {
+                                            $('#modal').modal('show');
+                                            $('#modal_title').html('Change Scheme Status');
+                                            $('#modal_body').html(respose);
+                                        });
+                                }
+                            </script>
                             <hr />
 
                         </div>

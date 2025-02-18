@@ -765,6 +765,39 @@ LEFT JOIN
         redirect($requested_url);
     }
 
+    public function change_scheme_status()
+    {
+        $this->data['scheme_id'] = $scheme_id =  (int) $this->input->post('scheme_id');
+        $this->data['wua_id'] = $wua_id =  (int) $this->input->post('water_user_association_id');
+        $query = "SELECT scheme_status FROM schemes GROUP BY scheme_status";
+        $this->data['scheme_statues'] = $this->db->query($query)->result();
+        $this->load->view(ADMIN_DIR . "expenses/change_scheme_status", $this->data);
+    }
+
+    function update_scheme_status()
+    {
+        $scheme_id =  (int) $this->input->post('scheme_id');
+        $scheme_status = $this->input->post('scheme_status');
+
+        $remarkrs = 'Manual Change';
+        $inputs["remarks"] = $remarkrs;
+        $inputs["scheme_status"]  =  $scheme_status;
+        $inputs["scheme_note"]  =  NULL;
+        $inputs["last_updated"] = date('Y-m-d H:i:s');
+        if ($this->scheme_model->save($inputs, $scheme_id)) {
+            $log_inputs['operation'] = 'insert';
+            $log_inputs['scheme_id'] = $scheme_id;
+            $log_inputs['scheme_status'] = $scheme_status;
+            $log_inputs['remarks'] = $remarkrs;
+            $log_inputs["created_by"] = $this->session->userdata("userId");
+            $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+            $this->db->insert('scheme_logs', $log_inputs);
+            echo "success";
+        } else {
+            echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+        }
+    }
+
     public function fetch_data()
     {
         $columns = array('scheme_name', 'category'); // Define columns to search
