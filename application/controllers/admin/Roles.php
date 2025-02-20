@@ -35,7 +35,11 @@ class Roles extends Admin_Controller
         $where = "roles.status in (0,1)";
 
         $this->data['title'] = "Roles";
-        $this->data['data'] = $this->role_m->joinGet($fields, "roles", $join, $where);
+
+        $query = "select * FROM roles where status=1";
+        $this->data['data'] = $this->db->query($query)->result();
+
+        //$this->data['data'] = $this->role_m->joinGet($fields, "roles", $join, $where);
         $this->data["view"] = ADMIN_DIR . "roles/roles";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
@@ -51,9 +55,9 @@ class Roles extends Admin_Controller
         //load required models
         $this->load->model("mr_m");
         $this->load->model("module_m");
-        if($this->input->post("checked_modules")){
-        $module_ids = explode(",", $this->input->post("checked_modules"));
-        }else{
+        if ($this->input->post("checked_modules")) {
+            $module_ids = explode(",", $this->input->post("checked_modules"));
+        } else {
             $module_ids = "";
         }
 
@@ -135,10 +139,10 @@ class Roles extends Admin_Controller
         //get this controller data to populate form
         $role_id = (int) $role_id;
         $this->data['role'] = $this->role_m->get($role_id);
-        if($this->input->post("checked_modules")){
-        $module_ids = explode(",", $this->input->post("checked_modules"));
-        }else{
-            $module_ids ="";
+        if ($this->input->post("checked_modules")) {
+            $module_ids = explode(",", $this->input->post("checked_modules"));
+        } else {
+            $module_ids = "";
         }
 
 
