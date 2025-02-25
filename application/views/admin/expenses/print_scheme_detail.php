@@ -665,7 +665,7 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                             <td><?php echo number_format($expense->net_pay); ?></td>
                             <th><?php echo $expense->installment; ?></th>
                             <th>
-                                <?php if ($scheme->sanctioned_cost) echo round(($expense->net_pay * 100) / $scheme->sanctioned_cost, 2) . " %"   ?>
+                                <?php if ($scheme->sanctioned_cost) echo round(($expense->gross_pay * 100) / $scheme->sanctioned_cost, 2) . " %"   ?>
                             </th>
 
 
