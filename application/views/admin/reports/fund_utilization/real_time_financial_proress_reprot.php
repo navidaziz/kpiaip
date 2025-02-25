@@ -76,43 +76,43 @@
 </div>
 
 <style>
-.table_small>thead>tr>th,
-.table_small>tbody>tr>th,
-.table_small>tfoot>tr>th,
-.table_small>thead>tr>td,
-.table_small>tbody>tr>td,
-.table_small>tfoot>tr>td {
-    padding: 3px;
-    line-height: 1;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-    font-size: 12px;
-    color: black;
-    margin: 0px !important;
-}
+    .table_small>thead>tr>th,
+    .table_small>tbody>tr>th,
+    .table_small>tfoot>tr>th,
+    .table_small>thead>tr>td,
+    .table_small>tbody>tr>td,
+    .table_small>tfoot>tr>td {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 12px;
+        color: black;
+        margin: 0px !important;
+    }
 
-.tax_paid {
-    color: green !important;
-    font-size: 9px !important;
-    text-align: right !important;
-    /* background-color: #f4f4f4; */
-}
+    .tax_paid {
+        color: green !important;
+        font-size: 9px !important;
+        text-align: right !important;
+        /* background-color: #f4f4f4; */
+    }
 
-.tax_unpaid {
-    color: red !important;
-    font-size: 9px !important;
-    text-align: right !important;
-    /* background-color: #f4f4f4; */
-}
+    .tax_unpaid {
+        color: red !important;
+        font-size: 9px !important;
+        text-align: right !important;
+        /* background-color: #f4f4f4; */
+    }
 
-.tax {
-    /* background-color: #f4f4f4; */
-}
+    .tax {
+        /* background-color: #f4f4f4; */
+    }
 </style>
 
 
 <div class="row">
-   <div class="col-md-12">
+    <div class="col-md-12">
         <div class="box border blue" id="messenger">
             <div class="box-body">
 
@@ -278,7 +278,7 @@
 </div>
 
 <script>
-    title = '<?php echo $title.' '.date('d-m-Y m:h:s'); ?>';
+    title = '<?php echo $title . ' ' . date('d-m-Y m:h:s'); ?>';
     $(document).ready(function() {
         $('#taxes').DataTable({
             dom: 'Bfrtip',

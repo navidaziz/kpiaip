@@ -140,7 +140,7 @@
                                 </tr>
                                 <tr>
                                     <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                        $query = "SELECT SUM(gross_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>
@@ -156,7 +156,7 @@
                                 </tr>
                                 <tr>
                                     <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                        $query = "SELECT SUM(gross_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>
