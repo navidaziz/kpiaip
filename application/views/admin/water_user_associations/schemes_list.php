@@ -1,3 +1,9 @@
+<style>
+    .btn-small {
+        padding: 2px !important;
+        margin: 1px;
+    }
+</style>
 <div class="table-responsive" style=" overflow-x:auto;">
     <h4><?php echo $tab; ?> Schemes List</h4>
     <hr />
@@ -217,11 +223,17 @@
                     {
                         "data": null,
                         "render": function(data, type, row) {
-                            return '<a class="llink llink-edit" href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_scheme_detail/"); ?>' +
-                                row.wua_id + '/' + row.scheme_id +
-                                '"><i class="fa fa-eye"></i> View</a>';
+                            let row_button = '';
+                            row_button += `<a class="btn btn-success btn-small" href="<?php echo site_url(ADMIN_DIR . 'water_user_associations/view_scheme_detail/'); ?>${row.wua_id}/${row.scheme_id}">View</a>`;
+
+                            if (row.remaing !== 0) {
+                                row_button += `<button onclick="correct_scheme_costs(${row.scheme_id})" class="btn btn-warning btn-small">Correction</button>`;
+                            }
+
+                            return row_button;
                         }
                     }
+
 
                 ],
                 "lengthMenu": [
@@ -247,7 +259,23 @@
 </div>
 
 
+
 <script>
+    function correct_scheme_costs(scheme_id) {
+        $.ajax({
+                method: "POST",
+                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/correct_scheme_costs_form'); ?>",
+                data: {
+                    scheme_id: scheme_id
+                },
+            })
+            .done(function(respose) {
+                $('#modal').modal('show');
+                $('#modal_title').html('Update Scheme Cost Detail');
+                $('#modal_body').html(respose);
+            });
+
+    }
     title = "Expenses";
     $(document).ready(function() {
         $('#db_table').DataTable({

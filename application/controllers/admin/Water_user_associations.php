@@ -1686,4 +1686,84 @@ class Water_user_associations extends Admin_Controller
         $this->data["scheme_id"] = $scheme_id;
         $this->load->view(ADMIN_DIR . "expenses/print_scheme_detail", $this->data);
     }
+
+    public function correct_scheme_costs_form()
+    {
+        $scheme_id = (int) $this->input->post('scheme_id');
+        $query = "SELECT s.*, d.district_name as district, d.region FROM schemes as s 
+        INNER JOIN districts as d ON(d.district_id = s.district_id)
+        WHERE s.scheme_id = ?";
+        $this->data['scheme'] = $this->db->query($query, [$scheme_id])->row();
+        $this->load->view(ADMIN_DIR . "water_user_associations/correct_scheme_costs_form", $this->data);
+    }
+
+    public function update_correct_scheme_costs()
+    {
+
+        $this->form_validation->set_rules("scheme_id", "Scheme ID", "required");
+        $this->form_validation->set_rules("estimated_cost", "Estimated Cost", "required");
+        $this->form_validation->set_rules("approved_cost", "Approved Cost", "required");
+        //$this->form_validation->set_rules("revised_cost", "Revised Cost", "required");
+        $this->form_validation->set_rules("completion_cost", "Completion Cost", "required");
+        $this->form_validation->set_rules("estimated_cost_date", "Estimated Cost Date", "required");
+        $this->form_validation->set_rules("approval_date", "Approved Cost Date", "required");
+        if ($this->input->post("revised_cost") > 0) {
+            $this->form_validation->set_rules("revised_cost_date", "Revised Cost Date", "required");
+        }
+        $this->form_validation->set_rules("completion_date", "Completion Date", "required");
+        if ($this->form_validation->run() == FALSE) {
+            echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+            exit();
+        } else {
+
+            $scheme_id = (int) $this->input->post('scheme_id');
+
+            $completion_cost = (float) $this->input->post("completion_cost");
+            $approved_cost = (float) $this->input->post("approved_cost");
+            $revised_cost = (float) $this->input->post("revised_cost");
+
+            if ($revised_cost <= 0 and $completion_cost > $approved_cost) {
+                echo '<div class="alert alert-danger">Completion Cost should be less than or equal to Approved Cost</div>';
+                exit();
+            }
+
+            if ($revised_cost > 0  and $completion_cost > $revised_cost) {
+                echo '<div class="alert alert-danger">Completion Cost should be less than or equal to Revised Cost</div>';
+                exit();
+            }
+
+            if ($revised_cost > 0  and $approved_cost > $revised_cost) {
+                echo '<div class="alert alert-danger">Approved Cost should be less than or equal to Revised Cost</div>';
+                exit();
+            }
+
+
+            $input["estimated_cost"] = $this->input->post("estimated_cost");
+            $input["approved_cost"] = $this->input->post("approved_cost");
+            if ($this->input->post("revised_cost") > 0) {
+                $input["revised_cost"] = $this->input->post("revised_cost");
+                $input["revised_cost_date"] = $this->input->post("revised_cost_date");
+            } else {
+                $input["revised_cost"] = 0;
+                $input["revised_cost_date"] = NULL;
+            }
+            $input["completion_cost"] = $this->input->post("completion_cost");
+            $input["sanctioned_cost"] = $this->input->post("completion_cost");
+
+
+            $input["estimated_cost_date"] = $this->input->post("estimated_cost_date");
+            $input["approval_date"] = $this->input->post("approval_date");
+
+            $input["completion_date"] = $this->input->post("completion_date");
+
+            $input["phy_completion"] = 'Yes';
+            $input["phy_completion_date"] = $this->input->post("completion_date");
+
+
+
+            $this->db->where("scheme_id", $scheme_id);
+            $this->db->update("schemes", $input);
+            echo 'success';
+        }
+    }
 }
