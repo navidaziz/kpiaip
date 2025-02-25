@@ -277,7 +277,7 @@
                       WHERE dfs.financial_year_id = $f_year->financial_year_id";
                                 $donor_fund = $this->db->query($query)->row();
 
-                                $query = "SELECT SUM(e.net_pay) as total_expense
+                                $query = "SELECT SUM(e.gross_pay) as total_expense
                       FROM expenses as e
                       WHERE e.financial_year_id = $f_year->financial_year_id";
                                 $expense = $this->db->query($query)->row();
