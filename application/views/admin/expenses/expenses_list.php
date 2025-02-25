@@ -62,7 +62,7 @@
                               FROM budget_released as br";
                                 $budget_released = $this->db->query($query)->row();
 
-                                $query = "SELECT SUM(e.net_pay) as total_expense
+                                $query = "SELECT SUM(e.gross_pay) as total_expense
                                FROM expenses as e";
                                 $expense = $this->db->query($query)->row();
                                 if ($expense->total_expense) {
