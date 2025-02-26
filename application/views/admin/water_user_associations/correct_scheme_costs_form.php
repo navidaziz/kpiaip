@@ -44,7 +44,9 @@
         <tr>
             <td colspan="4" style="text-align: center;">
 
-                <button class="btn btn-warning">Update Scheme Costs</button>
+
+
+                <button class="btn btn-warning">Update Scheme Cost</button>
 
                 <div style="margin-top: 5px;" id="result_response"></div>
             </td>
