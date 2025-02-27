@@ -13,6 +13,7 @@
         <th class="purpose">Purpose</th>
         <th>WUA Reg.</th>
         <th>WUA Asso.</th>
+        <th>Scheme ID</th>
         <th>Scheme</th>
         <th>FY</th>
         <th>Voucher Number</th>
@@ -51,7 +52,9 @@
                     <td class="purpose"><?php echo $expense->purpose; ?></td>
                     <td><?php echo $expense->wua_registration_no; ?></td>
                     <td><?php echo $expense->wua_name; ?></td>
-                    <td><?php echo $expense->scheme_name; ?></td>
+                    <td><a target="_new" href="<?php echo site_url(ADMIN_DIR . "expenses/view_scheme_detail/" . $expense->scheme_id); ?>"><?php echo $expense->scheme_id; ?></a></td>
+                    <td><a target="_new" href="<?php echo site_url(ADMIN_DIR . "expenses/view_scheme_detail/" . $expense->scheme_id); ?>"><?php echo $expense->scheme_name; ?></a></td>
+
                     <td><?php echo $expense->financial_year; ?></td>
                     <td><?php echo $expense->voucher_number; ?></td>
                     <td><?php echo $expense->cheque; ?></td>

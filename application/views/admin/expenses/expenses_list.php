@@ -62,7 +62,8 @@
                               FROM budget_released as br";
                                 $budget_released = $this->db->query($query)->row();
 
-                                $query = "SELECT SUM(e.gross_pay) as total_expense
+                                $query = "SELECT SUM(e.gross_pay) as total_expense, 
+                                SUM(e.net_pay) as total_net_paid
                                FROM expenses as e";
                                 $expense = $this->db->query($query)->row();
                                 if ($expense->total_expense) {
@@ -87,7 +88,9 @@
                                         <td><?php echo @number_format($budget_released->rs_total); ?> <small
                                                 style="font-weight: lighter;">PKRs.</small></td>
 
-                                        <td><?php echo @number_format($expense->total_expense); ?></td>
+                                        <td><?php echo @number_format($expense->total_expense); ?> - <small>Gross Paid</small><br />
+                                            <?php echo @number_format($expense->total_net_paid); ?> - <small>Net Paid</small>
+                                        </td>
                                         <td>
                                             <?php $remaing_budget = ($budget_released->rs_total - $expense->total_expense);
                                             echo @number_format($remaing_budget);
@@ -131,6 +134,7 @@
                         <table class="table table_small ">
                             <thead>
                                 <tr>
+                                    <th></th>
                                     <?php
                                     $query = "SELECT * FROM `financial_years` ORDER BY `financial_year` ASC";
                                     $financialyears = $this->db->query($query)->result();
@@ -139,6 +143,7 @@
                                     <?php  }  ?>
                                 </tr>
                                 <tr>
+                                    <th>Gross Paid:</th>
                                     <?php foreach ($financialyears as $financialyear) {
                                         $query = "SELECT SUM(gross_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
@@ -155,6 +160,24 @@
                                     <?php } ?>
                                 </tr>
                                 <tr>
+                                    <th>Net Paid:</th>
+                                    <?php foreach ($financialyears as $financialyear) {
+                                        $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                                  WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
+                                        $fy_expense = $this->db->query($query)->row();
+                                    ?>
+                                        <td>
+                                            <?php if ($fy_expense->total > 0) {
+                                                echo @number_format($fy_expense->total);
+                                            } else {
+                                                echo '0.00';
+                                            }
+                                            ?>
+                                        </td>
+                                    <?php } ?>
+                                </tr>
+                                <tr>
+                                    <td></td>
                                     <?php foreach ($financialyears as $financialyear) {
                                         $query = "SELECT SUM(gross_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
@@ -168,6 +191,8 @@
                                             ?>
                                         </td>
                                     <?php } ?>
+                                </tr>
+
                                 </tr>
                             </thead>
                         </table>
