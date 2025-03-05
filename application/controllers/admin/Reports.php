@@ -976,6 +976,8 @@ class Reports extends Admin_Controller
     sc.sub_component_name AS SUB_COMPONENT_NAME,
     cc.category AS CATEGORY,
     cc.category_detail AS CATEGORY_DETAIL, 
+    s.approved_cost as APPROVED_COST,
+    s.completion_cost as COMPLETION_COST,
     CASE 
         WHEN e.installment = 'Final' THEN s.completion_cost
         WHEN e.installment IN ('1st', '1st_2nd') THEN s.approved_cost
