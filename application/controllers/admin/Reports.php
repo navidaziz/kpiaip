@@ -865,68 +865,68 @@ class Reports extends Admin_Controller
         //wua.wua_name as WUA_NAME,
         //e.voucher_number as VOUCHER_NO,
         $query = "SELECT
-    fy.financial_year AS FY,
-    e.expense_id AS T_ID,
-    d.region AS REGION,
-    d.district_name AS DISTRICT,
-    e.cheque AS CHEQUE,   
-    e.date AS `DATE`,
-    DATE_FORMAT(e.date, '%b') AS `MONTH`,
-    s.scheme_code AS SCHEME_CODE,
-    s.scheme_name AS SCHEME_NAME,
-    e.payee_name AS PAYEE_NAME,
-    c.component_name AS COMPONENT_NAME,
-    sc.sub_component_name AS SUB_COMPONENT_NAME,
-    cc.category AS CATEGORY,
-    cc.category_detail AS CATEGORY_DETAIL, 
-    s.sanctioned_cost AS SANCTIONED_COST,
-    e.gross_pay AS GROSS_PAY,
-    e.whit_tax AS WHIT_TAX,
-    e.whst_tax AS WHST_TAX,
-    e.st_duty_tax AS ST_DUTY_TAX,
-    e.rdp_tax AS RDP_TAX,
-    e.kpra_tax AS KPRA_TAX,
-    e.gur_ret AS GUR_RET,
-    e.misc_deduction AS MISC_DEDUCTION,
-    e.net_pay AS NET_PAY,
-    s.completion_cost AS COMPLETION_COST,
-    s.lining_length AS LINE_LENGTH,
-    e.installment AS INSTALLMENT,
-    (
-        CASE
-            WHEN s.sanctioned_cost IS NULL OR s.sanctioned_cost = 0 THEN NULL
-            ELSE 
-                CONCAT(
-                    ROUND(
-                        ((e.gross_pay + e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay) * 100) / s.sanctioned_cost,
-                        2
-                    ),
-                    '%'
-                )
-        END
-    ) AS `STATUS`,
-    e.purpose AS PURPOSE,
-    e.remarks AS REMARKS,
-    (e.gross_pay - (e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay)) as  RECONCILIATION
-                       
+                fy.financial_year AS FY,
+                e.expense_id AS T_ID,
+                d.region AS REGION,
+                d.district_name AS DISTRICT,
+                e.cheque AS CHEQUE,   
+                e.date AS `DATE`,
+                DATE_FORMAT(e.date, '%b') AS `MONTH`,
+                s.scheme_code AS SCHEME_CODE,
+                s.scheme_name AS SCHEME_NAME,
+                e.payee_name AS PAYEE_NAME,
+                c.component_name AS COMPONENT_NAME,
+                sc.sub_component_name AS SUB_COMPONENT_NAME,
+                cc.category AS CATEGORY,
+                cc.category_detail AS CATEGORY_DETAIL, 
+                s.sanctioned_cost AS SANCTIONED_COST,
+                e.gross_pay AS GROSS_PAY,
+                e.whit_tax AS WHIT_TAX,
+                e.whst_tax AS WHST_TAX,
+                e.st_duty_tax AS ST_DUTY_TAX,
+                e.rdp_tax AS RDP_TAX,
+                e.kpra_tax AS KPRA_TAX,
+                e.gur_ret AS GUR_RET,
+                e.misc_deduction AS MISC_DEDUCTION,
+                e.net_pay AS NET_PAY,
+                s.completion_cost AS COMPLETION_COST,
+                s.lining_length AS LINE_LENGTH,
+                e.installment AS INSTALLMENT,
+                (
+                    CASE
+                        WHEN s.sanctioned_cost IS NULL OR s.sanctioned_cost = 0 THEN NULL
+                        ELSE 
+                            CONCAT(
+                                ROUND(
+                                    ((e.gross_pay + e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay) * 100) / s.sanctioned_cost,
+                                    2
+                                ),
+                                '%'
+                            )
+                    END
+                ) AS `STATUS`,
+                e.purpose AS PURPOSE,
+                e.remarks AS REMARKS,
+                (e.gross_pay - (e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay)) as  RECONCILIATION
+                                
 
-FROM 
-    expenses AS e
-INNER JOIN 
-    financial_years AS fy ON fy.financial_year_id = e.financial_year_id
-INNER JOIN 
-    districts AS d ON d.district_id = e.district_id
-LEFT JOIN 
-    component_categories AS cc ON cc.component_category_id = e.component_category_id
-LEFT JOIN 
-    sub_components AS sc ON sc.sub_component_id = cc.sub_component_id
-LEFT JOIN 
-    components AS c ON c.component_id = sc.component_id    
-LEFT JOIN 
-    schemes AS s ON s.scheme_id = e.scheme_id
-LEFT JOIN 
-    water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
-    ORDER BY e.expense_id ASC;";
+            FROM 
+                expenses AS e
+            INNER JOIN 
+                financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+            INNER JOIN 
+                districts AS d ON d.district_id = e.district_id
+            LEFT JOIN 
+                component_categories AS cc ON cc.component_category_id = e.component_category_id
+            LEFT JOIN 
+                sub_components AS sc ON sc.sub_component_id = cc.sub_component_id
+            LEFT JOIN 
+                components AS c ON c.component_id = sc.component_id    
+            LEFT JOIN 
+                schemes AS s ON s.scheme_id = e.scheme_id
+            LEFT JOIN 
+                water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
+                ORDER BY e.expense_id ASC;";
 
         // Execute the query
         $result = $this->db->query($query)->result_array();
@@ -953,6 +953,113 @@ LEFT JOIN
         // Close the output stream
         fclose($output);
     }
+
+
+    public function export_reconciliation_expenses2()
+    {
+        // Define your query
+        //wua.wua_registration_no as WUA_REG_NO,
+        //wua.wua_name as WUA_NAME,
+        //e.voucher_number as VOUCHER_NO,
+        $query = "SELECT
+    fy.financial_year AS FY,
+    e.expense_id AS T_ID,
+    d.region AS REGION,
+    d.district_name AS DISTRICT,
+    e.cheque AS CHEQUE,   
+    e.date AS `DATE`,
+    DATE_FORMAT(e.date, '%b') AS `MONTH`,
+    s.scheme_code AS SCHEME_CODE,
+    s.scheme_name AS SCHEME_NAME,
+    e.payee_name AS PAYEE_NAME,
+    c.component_name AS COMPONENT_NAME,
+    sc.sub_component_name AS SUB_COMPONENT_NAME,
+    cc.category AS CATEGORY,
+    cc.category_detail AS CATEGORY_DETAIL, 
+    CASE 
+        WHEN e.installment = 'Final' THEN s.completion_cost
+        WHEN e.installment IN ('1st', '1st_2nd') THEN s.approved_cost
+        WHEN e.installment = '2nd' THEN 0
+        ELSE NULL
+    END AS SANCTIONED_COST,
+
+    e.gross_pay AS GROSS_PAY,
+    e.whit_tax AS WHIT_TAX,
+    e.whst_tax AS WHST_TAX,
+    e.st_duty_tax AS ST_DUTY_TAX,
+    e.rdp_tax AS RDP_TAX,
+    e.kpra_tax AS KPRA_TAX,
+    e.gur_ret AS GUR_RET,
+    e.misc_deduction AS MISC_DEDUCTION,
+    e.net_pay AS NET_PAY,
+    s.completion_cost AS COMPLETION_COST,
+    s.lining_length AS LINE_LENGTH,
+    e.installment AS INSTALLMENT,
+
+    CASE 
+        WHEN s.sanctioned_cost IS NULL OR s.sanctioned_cost = 0 THEN NULL
+        ELSE 
+            CONCAT(
+                ROUND(
+                    ((e.gross_pay + e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay) * 100) / s.sanctioned_cost,
+                    2
+                ),
+                '%'
+            )
+    END AS `STATUS`,
+
+    e.purpose AS PURPOSE,
+    e.remarks AS REMARKS,
+
+    (e.gross_pay - (e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay)) AS RECONCILIATION
+
+FROM 
+    expenses AS e
+INNER JOIN 
+    financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+INNER JOIN 
+    districts AS d ON d.district_id = e.district_id
+LEFT JOIN 
+    component_categories AS cc ON cc.component_category_id = e.component_category_id
+LEFT JOIN 
+    sub_components AS sc ON sc.sub_component_id = cc.sub_component_id
+LEFT JOIN 
+    components AS c ON c.component_id = sc.component_id    
+LEFT JOIN 
+    schemes AS s ON s.scheme_id = e.scheme_id
+LEFT JOIN 
+    water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
+
+ORDER BY e.expense_id ASC;
+";
+
+        // Execute the query
+        $result = $this->db->query($query)->result_array();
+
+        // Set CSV filename
+        $filename = 'expenses_reconciliation_report_' . time() . '.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
+    }
+
+
 
     public function export_wua_data()
     {

@@ -160,7 +160,9 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_reconciliation_expenses') ?>">Export Financial Reconciliation Report</a>
                     </li>
-
+                    <li>
+                        <a style="color: red;" target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_reconciliation_expenses2') ?>">Export Financial Reconciliation Report 2</a>
+                    </li>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_filter_expenses') ?>">Custom Financial Report</a>
                     </li>

@@ -27,11 +27,11 @@ class Cake extends CI_Controller
         // $this->data["view"] = ADMIN_DIR . "cake/index";
 
 
-        $controller_name = 'scheme_lists';
+        $controller_name = 'schemes';
 
 
-        $table_name = "scheme_lists";
-        $table_name_singular = "scheme_lists";
+        $table_name = "schemes";
+        $table_name_singular = "scheme";
         $query = "SHOW COLUMNS FROM $table_name";
 
 
