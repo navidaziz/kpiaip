@@ -10,7 +10,7 @@
 <form id="data_form" class="form-horizontal" enctype="multipart/form-data" method="post" accept-charset="utf-8">
     <input type="hidden" class="form-control" id="scheme_id" name="scheme_id" value="<?php echo $scheme->scheme_id; ?>" required>
     <input type="hidden" class="form-control" id="water_user_association_id" name="water_user_association_id" value="<?php echo $scheme->water_user_association_id; ?>" required>
-    <input type="hidden" class="form-control" id="component_category_id" name="component_category_id" value="<?php echo $scheme->component_category_id; ?>" required>
+    <input type="text" class="form-control" id="component_category_id" name="component_category_id" value="<?php echo $scheme->component_category_id; ?>" required>
 
     <div class="row">
         <div class="col-md-3">
@@ -211,197 +211,202 @@
             <hr />
             <div class="row">
                 <div class="col-md-3">
-                    <div class="box border blue" id="messenger" style="padding: 5px; ">
 
-                        <div class="form-group row">
-                            <label for="tehsil" class="col-sm-3 col-form-label">Tehsil</label>
-                            <div class="col-sm-9">
-                                <input type="text" required id="tehsil" name="tehsil" value="<?php echo $scheme->tehsil; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="uc" class="col-sm-3 col-form-label">UC</label>
-                            <div class="col-sm-9">
-                                <input type="text" required id="uc" name="uc" value="<?php echo $scheme->uc; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="villege" class="col-sm-3 col-form-label">Villege</label>
-                            <div class="col-sm-9">
-                                <input type="text" required id="villege" name="villege" value="<?php echo $scheme->villege; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="na" class="col-sm-6 col-form-label">NA</label>
-                            <div class="col-sm-6">
-                                <input type="text" required id="na" name="na" value="<?php echo $scheme->na; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="pk" class="col-sm-6 col-form-label">PK</label>
-                            <div class="col-sm-6">
-                                <input type="text" required id="pk" name="pk" value="<?php echo $scheme->pk; ?>" class="formControl">
-                            </div>
-                        </div>
 
-                        <div class="form-group row">
-                            <label for="latitude" class="col-sm-6 col-form-label">Latitude</label>
-                            <div class="col-sm-6">
-                                <input type="text" required id="latitude" name="latitude" value="<?php echo $scheme->latitude; ?>" class="formControl">
-                            </div>
+                    <div class="form-group row">
+                        <label for="tehsil" class="col-sm-3 col-form-label">Tehsil</label>
+                        <div class="col-sm-9">
+                            <input type="text" required id="tehsil" name="tehsil" value="<?php echo $scheme->tehsil; ?>" class="formControl">
                         </div>
-                        <div class="form-group row">
-                            <label for="longitude" class="col-sm-6 col-form-label">Longitude</label>
-                            <div class="col-sm-6">
-                                <input type="text" required id="longitude" name="longitude" value="<?php echo $scheme->longitude; ?>" class="formControl">
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="uc" class="col-sm-3 col-form-label">UC</label>
+                        <div class="col-sm-9">
+                            <input type="text" required id="uc" name="uc" value="<?php echo $scheme->uc; ?>" class="formControl">
                         </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="villege" class="col-sm-3 col-form-label">Villege</label>
+                        <div class="col-sm-9">
+                            <input type="text" required id="villege" name="villege" value="<?php echo $scheme->villege; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="na" class="col-sm-6 col-form-label">NA</label>
+                        <div class="col-sm-6">
+                            <input type="text" required id="na" name="na" value="<?php echo $scheme->na; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="pk" class="col-sm-6 col-form-label">PK</label>
+                        <div class="col-sm-6">
+                            <input type="text" required id="pk" name="pk" value="<?php echo $scheme->pk; ?>" class="formControl">
+                        </div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="male_beneficiaries" class="col-sm-7 col-form-label">Male Beneficiaries</label>
-                            <div class="col-sm-5">
-                                <input type="text" required id="male_beneficiaries" name="male_beneficiaries" value="<?php echo $scheme->male_beneficiaries; ?>" class="formControl">
-                            </div>
+                    <div class="form-group row">
+                        <label for="latitude" class="col-sm-6 col-form-label">Latitude</label>
+                        <div class="col-sm-6">
+                            <input type="text" required id="latitude" name="latitude" value="<?php echo $scheme->latitude; ?>" class="formControl">
                         </div>
-                        <div class="form-group row">
-                            <label for="female_beneficiaries" class="col-sm-7 col-form-label">Female Beneficiaries</label>
-                            <div class="col-sm-5">
-                                <input type="text" required id="female_beneficiaries" name="female_beneficiaries" value="<?php echo $scheme->female_beneficiaries; ?>" class="formControl">
-                            </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="longitude" class="col-sm-6 col-form-label">Longitude</label>
+                        <div class="col-sm-6">
+                            <input type="text" required id="longitude" name="longitude" value="<?php echo $scheme->longitude; ?>" class="formControl">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="male_beneficiaries" class="col-sm-7 col-form-label">Male Beneficiaries</label>
+                        <div class="col-sm-5">
+                            <input type="text" required id="male_beneficiaries" name="male_beneficiaries" value="<?php echo $scheme->male_beneficiaries; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="female_beneficiaries" class="col-sm-7 col-form-label">Female Beneficiaries</label>
+                        <div class="col-sm-5">
+                            <input type="text" required id="female_beneficiaries" name="female_beneficiaries" value="<?php echo $scheme->female_beneficiaries; ?>" class="formControl">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <div class="box border blue" id="messenger" style="padding: 5px; ">
-                        <div class="form-group row">
-                            <label for="registration_date" class="col-sm-6 col-form-label">Registration Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="registration_date" name="registration_date" value="<?php echo $scheme->registration_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="top_date" class="col-sm-6 col-form-label">Top Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="top_date" name="top_date" value="<?php echo $scheme->top_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="survey_date" class="col-sm-6 col-form-label">Survey Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="survey_date" name="survey_date" value="<?php echo $scheme->survey_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="design_date" class="col-sm-6 col-form-label">Design Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="design_date" name="design_date" value="<?php echo $scheme->design_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="feasibility_date" class="col-sm-6 col-form-label">Feasibility Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="feasibility_date" name="feasibility_date" value="<?php echo $scheme->feasibility_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="work_order_date" class="col-sm-6 col-form-label">Work Order Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="work_order_date" name="work_order_date" value="<?php echo $scheme->work_order_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="scheme_initiation_date" class="col-sm-6 col-form-label">Scheme Initiation Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="scheme_initiation_date" name="scheme_initiation_date" value="<?php echo $scheme->scheme_initiation_date; ?>" class="formControl">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="technical_sanction_date" class="col-sm-6 col-form-label">Technical Sanction Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="technical_sanction_date" name="technical_sanction_date" value="<?php echo $scheme->technical_sanction_date; ?>" class="formControl">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="verified_by_tpv" class="col-sm-6 col-form-label">Verified By TPV</label>
-                            <div class="col-sm-6">
-
-                                <input onclick="$('#tpv_date_div').hide(); $('#verification_by_tpv_date').prop('required', false)"
-                                    <?php if ($scheme->verified_by_tpv == 'No') { ?> checked <?php } ?>
-                                    type="radio" required id="verified_by_tpv_no" name="verified_by_tpv" value="No" />
-                                No
-                                <span style="margin-left: 5px;"></span>
-                                <input onclick="$('#tpv_date_div').show(); $('#verification_by_tpv_date').prop('required', true)"
-                                    <?php if ($scheme->verified_by_tpv == 'Yes') { ?> checked <?php } ?>
-                                    type="radio" required id="verified_by_tpv_yes" name="verified_by_tpv" value="Yes" />
-                                Yes
-                            </div>
-                        </div>
-
-                        <div id="tpv_date_div" class="form-group row" style="display: <?php echo ($scheme->verified_by_tpv == 'Yes') ? 'block' : 'none'; ?>;">
-                            <label for="verification_by_tpv_date" class="col-sm-6 col-form-label">Verification by TPV Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" id="verification_by_tpv_date" name="verification_by_tpv_date"
-                                    value="<?php echo $scheme->verification_by_tpv_date; ?>" class="formControl"
-                                    <?php if ($scheme->verified_by_tpv == 'Yes') { ?> required <?php } ?>>
-                            </div>
+                    <div class="form-group row">
+                        <label for="registration_date" class="col-sm-6 col-form-label">Registration Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="registration_date" name="registration_date" value="<?php echo $scheme->registration_date; ?>" class="formControl">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="top_date" class="col-sm-6 col-form-label">Top Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="top_date" name="top_date" value="<?php echo $scheme->top_date; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="survey_date" class="col-sm-6 col-form-label">Survey Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="survey_date" name="survey_date" value="<?php echo $scheme->survey_date; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="design_date" class="col-sm-6 col-form-label">Design Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="design_date" name="design_date" value="<?php echo $scheme->design_date; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="feasibility_date" class="col-sm-6 col-form-label">Feasibility Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="feasibility_date" name="feasibility_date" value="<?php echo $scheme->feasibility_date; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="work_order_date" class="col-sm-6 col-form-label">Work Order Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="work_order_date" name="work_order_date" value="<?php echo $scheme->work_order_date; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="scheme_initiation_date" class="col-sm-6 col-form-label">Scheme Initiation Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="scheme_initiation_date" name="scheme_initiation_date" value="<?php echo $scheme->scheme_initiation_date; ?>" class="formControl">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="technical_sanction_date" class="col-sm-6 col-form-label">Technical Sanction Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="technical_sanction_date" name="technical_sanction_date" value="<?php echo $scheme->technical_sanction_date; ?>" class="formControl">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="verified_by_tpv" class="col-sm-6 col-form-label">Verified By TPV
+                            <?php echo $scheme->verified_by_tpv; ?>
+
+                        </label>
+                        <div class="col-sm-6">
+
+                            <input onclick="$('#tpv_date_div').hide(); $('#verification_by_tpv_date').prop('required', false)"
+                                <?php if ($scheme->verified_by_tpv == 'No') { ?> checked <?php } ?>
+                                type="radio" required id="verified_by_tpv_no" name="verified_by_tpv" value="No" />
+                            No
+                            <span style="margin-left: 10px;"></span>
+                            <input onclick="$('#tpv_date_div').show(); $('#verification_by_tpv_date').prop('required', true)"
+                                <?php if ($scheme->verified_by_tpv == 'Yes') { ?> checked <?php } ?>
+                                type="radio" required id="verified_by_tpv_yes" name="verified_by_tpv" value="Yes" />
+                            Yes
+                        </div>
+                    </div>
+
+                    <div id="tpv_date_div" class="form-group row" style="display: <?php echo ($scheme->verified_by_tpv == 'Yes') ? 'block' : 'none'; ?>;">
+                        <label for="verification_by_tpv_date" class="col-sm-6 col-form-label">Verification by TPV Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" id="verification_by_tpv_date" name="verification_by_tpv_date"
+                                value="<?php echo $scheme->verification_by_tpv_date; ?>" class="formControl"
+                                <?php if ($scheme->verified_by_tpv == 'Yes') { ?> required <?php } ?>>
+                        </div>
+                    </div>
+
+
+
                 </div>
                 <div class="col-md-3">
-                    <div class="box border blue" id="messenger" style="padding: 5px; ">
-                        <div class="form-group row">
-                            <label for="estimated_cost" class="col-sm-6 col-form-label">Estimated Cost</label>
-                            <div class="col-sm-6">
-                                <input type="text" required id="estimated_cost" name="estimated_cost" value="<?php echo $scheme->estimated_cost; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="estimated_cost_date" class="col-sm-6 col-form-label">Estimated Cost Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="estimated_cost_date" name="estimated_cost_date" value="<?php echo $scheme->estimated_cost_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="approved_cost" class="col-sm-6 col-form-label">Approved Cost</label>
-                            <div class="col-sm-6">
-                                <input type="text" required id="approved_cost" name="approved_cost" value="<?php echo $scheme->approved_cost; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="approval_date" class="col-sm-6 col-form-label">Approval Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="approval_date" name="approval_date" value="<?php echo $scheme->approval_date; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="revised_cost" class="col-sm-6 col-form-label">Revised Cost</label>
-                            <div class="col-sm-6">
-                                <input type="text" min="0" required id="revised_cost" name="revised_cost" value="<?php echo $scheme->revised_cost; ?>" class="formControl">
-                            </div>
-                        </div>
-                        <div class="form-group row">
-                            <label for="revised_cost_date" class="col-sm-6 col-form-label">Revised Cost Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" id="revised_cost_date" name="revised_cost_date" value="<?php echo $scheme->revised_cost_date; ?>" class="formControl">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="completion_cost" class="col-sm-6 col-form-label">Completion Cost</label>
-                            <div class="col-sm-6">
-                                <input type="text" required id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="formControl">
-                            </div>
-                        </div>
-
-                        <div class="form-group row">
-                            <label for="completion_date" class="col-sm-6 col-form-label">Completion Date</label>
-                            <div class="col-sm-6">
-                                <input type="date" required id="completion_date" name="completion_date" value="<?php echo $scheme->completion_date; ?>" class="formControl">
-                            </div>
+                    <div class="form-group row">
+                        <label for="estimated_cost" class="col-sm-6 col-form-label">Estimated Cost</label>
+                        <div class="col-sm-6">
+                            <input type="text" required id="estimated_cost" name="estimated_cost" value="<?php echo $scheme->estimated_cost; ?>" class="formControl">
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label for="estimated_cost_date" class="col-sm-6 col-form-label">Estimated Cost Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="estimated_cost_date" name="estimated_cost_date" value="<?php echo $scheme->estimated_cost_date; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="approved_cost" class="col-sm-6 col-form-label">Approved Cost</label>
+                        <div class="col-sm-6">
+                            <input type="text" required id="approved_cost" name="approved_cost" value="<?php echo $scheme->approved_cost; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="approval_date" class="col-sm-6 col-form-label">Approval Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="approval_date" name="approval_date" value="<?php echo $scheme->approval_date; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="revised_cost" class="col-sm-6 col-form-label">Revised Cost</label>
+                        <div class="col-sm-6">
+                            <input type="text" min="0" required id="revised_cost" name="revised_cost" value="<?php echo $scheme->revised_cost; ?>" class="formControl">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="revised_cost_date" class="col-sm-6 col-form-label">Revised Cost Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" id="revised_cost_date" name="revised_cost_date" value="<?php echo $scheme->revised_cost_date; ?>" class="formControl">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="completion_cost" class="col-sm-6 col-form-label">Completion Cost</label>
+                        <div class="col-sm-6">
+                            <input type="text" required id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="formControl">
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="completion_date" class="col-sm-6 col-form-label">Completion Date</label>
+                        <div class="col-sm-6">
+                            <input type="date" required id="completion_date" name="completion_date" value="<?php echo $scheme->completion_date; ?>" class="formControl">
+                        </div>
+                    </div>
+
+
+
+
                 </div>
                 <div class="col-md-3">
 
@@ -546,17 +551,16 @@
                             </div>
                         </div>
 
-                        <?php if ($scheme->saving_water_losses) { ?>
-                            <div class="form-group row">
-                                <label for="saving" class="col-sm-6 col-form-label">Water Saving
 
-                                    <strong style="color: green;">(%)</strong></label>
-                                <div class="col-sm-6">
-                                    <strong id="saving_water_losses"> <?php echo $scheme->saving_water_losses; ?> </strong> %
-                                </div>
+                        <div class="form-group row">
+                            <label for="saving" class="col-sm-6 col-form-label">Water Saving
+
+                                <strong style="color: green;">(%)</strong></label>
+                            <div class="col-sm-6">
+                                <input readonly type="text" required id="saving_water_losses" name="saving_water_losses" value="<?php echo $scheme->saving_water_losses; ?>"
+                                    class="formControl">
                             </div>
-                        <?php } ?>
-
+                        </div>
                     </div>
 
 
@@ -769,18 +773,17 @@
         let post_water_losses = parseFloat($('#post_water_losses').val());
         if (post_water_losses) {
             // Check if values are valid numbers to avoid NaN issues
-            // if (isNaN(pre_water_losses) || isNaN(post_water_losses)) {
-            //     $('#saving_water_losses').val('0');
-            //     $('#saving_water_losses').val("Invalid input");
-            //     return;
-            // }
+            if (isNaN(pre_water_losses) || isNaN(post_water_losses)) {
+                $('#saving_water_losses').val('0');
+                $('#saving_water_losses').val("Invalid input");
+                return;
+            }
 
             // Calculate saving water losses as a percentage
             let saving_water_losses = ((pre_water_losses - post_water_losses) * 100) / pre_water_losses;
-            //alert(saving_water_losses);
 
             // Set the calculated value in the target input
-            $('#saving_water_losses').html(saving_water_losses.toFixed(2));
+            $('#saving_water_losses').val(saving_water_losses.toFixed(2));
         }
     }
     calculate_water_losses_saving();
