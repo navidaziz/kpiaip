@@ -235,3 +235,13 @@ AND `school`.`reg_type_id` = 1";
   $reg_detail = $ci->db->query($query)->result()[0];
   return $reg_detail;
 }
+
+
+function convertToExactNumber($value)
+{
+  // Check if the value is in scientific notation
+  if (preg_match('/^-?\d+(\.\d+)?E[+-]?\d+$/i', $value)) {
+    return number_format((float)$value, 0, '', '');
+  }
+  return $value; // Return as-is if it's not in scientific notation
+}

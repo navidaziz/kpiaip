@@ -511,3 +511,13 @@ function strip_hidden_chars($str)
 
 	return preg_replace('/\s+/', ' ', $str);
 }
+
+
+function convertToExactNumber($value)
+{
+	// Check if the value is in scientific notation
+	if (preg_match('/^-?\d+(\.\d+)?E[+-]?\d+$/i', $value)) {
+		return number_format((float)$value, 0, '', '');
+	}
+	return $value; // Return as-is if it's not in scientific notation
+}

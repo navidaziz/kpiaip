@@ -162,7 +162,7 @@
                         <div class="form-group row">
                             <label for="bank_account_number" class="col-sm-4 col-form-label label-required">Account No.</label>
                             <div class="col-sm-8">
-                                <input type="text" req uired id="bank_account_number" name="bank_account_number" value="<?php echo $wua->bank_account_number; ?>" class="formControl">
+                                <input type="text" req uired id="bank_account_number" name="bank_account_number" value="<?php echo convertToExactNumber($wua->bank_account_number); ?>" class="formControl">
                             </div>
                         </div>
                         <div class="form-group row">
