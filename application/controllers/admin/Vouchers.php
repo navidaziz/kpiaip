@@ -32,9 +32,9 @@ class Vouchers extends Admin_Controller
         $columns[] = "voucher_type";
         $columns[] = "scheme_id";
         $columns[] = "voucher_detail";
-        $columns[] = "invoice_count";
-        $columns[] = "invoice_total";
-        $columns[] = "invoice_deduction";
+        //$columns[] = "invoice_count";
+        //$columns[] = "invoice_total";
+        //$columns[] = "invoice_deduction";
 
 
 
