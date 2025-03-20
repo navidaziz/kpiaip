@@ -855,6 +855,10 @@ class Water_user_associations extends Admin_Controller
         }
         $this->data['revised_cost'] = $revised_cost;
 
+
+
+        //here we are
+
         $query = "SELECT * FROM schemes WHERE scheme_id = $scheme_id";
         $this->data['scheme'] = $this->db->query($query)->row();
         $status_form =  $this->input->post('status_form');
