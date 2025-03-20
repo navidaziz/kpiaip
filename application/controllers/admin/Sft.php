@@ -305,7 +305,11 @@ class Sft extends Admin_Controller
             //$input["pre_additional"] = $this->input->post("pre_additional");
             $input["pre_water_losses"] = $this->input->post("pre_water_losses");
             $input["post_water_losses"] = $this->input->post("post_water_losses");
-            $input["saving_water_losses"] = round((($this->input->post("pre_water_losses") - $this->input->post("post_water_losses")) * 100) / $this->input->post("pre_water_losses"), 2);
+            if ($this->input->post("pre_water_losses") > 0) {
+                $input["saving_water_losses"] = round((($this->input->post("pre_water_losses") - $this->input->post("post_water_losses")) * 100) / $this->input->post("pre_water_losses"), 2);
+            } else {
+                $input["saving_water_losses"] = 0;
+            }
             if ($this->input->post("component_category_id") <= 9) {
                 $input["total_lenght"] = $this->input->post("total_lenght");
                 $input["lining_length"] = $this->input->post("lining_length");
