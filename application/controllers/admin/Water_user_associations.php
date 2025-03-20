@@ -730,6 +730,14 @@ class Water_user_associations extends Admin_Controller
             $inputs["phy_completion_date"] = $this->input->post('phy_completion_date');
             $inputs["completion_cost"] = $this->input->post('completion_cost');
             $inputs["completion_date"] = $this->input->post('phy_completion_date');
+
+            if ($this->input->post('distribution_date')) {
+                $inputs['distribution_date'] = $this->input->post('distribution_date');
+            }
+            if ($this->input->post('fcr_approving_expert')) {
+                $inputs['fcr_approving_expert'] = $this->input->post('fcr_approving_expert');
+            }
+
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             if ($this->scheme_model->save($inputs, $scheme_id)) {
                 $log_inputs['operation'] = 'Update';
@@ -1146,7 +1154,12 @@ class Water_user_associations extends Admin_Controller
             WHERE scheme_id = $scheme_id";
         $input = $this->db->query($query)->row();
         $this->data["input"] = $input;
-        $this->load->view(ADMIN_DIR . "water_user_associations/update_st_data_form", $this->data);
+
+        if ($input->component_category_id == 12) {
+            $this->load->view(ADMIN_DIR . "water_user_associations/update_st_data_form_b3", $this->data);
+        } else {
+            $this->load->view(ADMIN_DIR . "water_user_associations/update_st_data_form", $this->data);
+        }
     }
 
     public function scheme_initiate_form()
@@ -1526,6 +1539,81 @@ class Water_user_associations extends Admin_Controller
         echo "success";
     }
 
+
+    public function update_st_data_b3()
+    {
+        $this->form_validation->set_rules("scheme_id", "Scheme Id", "required");
+        $this->form_validation->set_rules("farmer_name", "Farmer Name", "required");
+        $this->form_validation->set_rules("contact_no", "Contact No", "required");
+        $this->form_validation->set_rules("nic_no", "Nic No", "required");
+        $this->form_validation->set_rules("government_share", "Government Share", "required");
+        $this->form_validation->set_rules("farmer_share", "Farmer Share", "required");
+        $this->form_validation->set_rules("ssc", "Ssc", "required");
+        $this->form_validation->set_rules("ssc_category", "Ssc Category", "required");
+        $this->form_validation->set_rules("transmitter_make", "Transmitter Make", "required");
+        $this->form_validation->set_rules("transmitter_model", "Transmitter Model", "required");
+        $this->form_validation->set_rules("transmitter_sr_no", "Transmitter Sr No", "required");
+        $this->form_validation->set_rules("receiver_make", "Receiver Make", "required");
+        $this->form_validation->set_rules("receiver_model", "Receiver Model", "required");
+        $this->form_validation->set_rules("receiver_sr_no", "Receiver Sr No", "required");
+        $this->form_validation->set_rules("control_box_make", "Control Box Make", "required");
+        $this->form_validation->set_rules("control_box_model", "Control Box Model", "required");
+        $this->form_validation->set_rules("control_box_sr_no", "Control Box Sr No", "required");
+        $this->form_validation->set_rules("scrapper_sr_no", "Scrapper Sr No", "required");
+        $this->form_validation->set_rules("scrapper_blade_width", "Scrapper Blade Width", "required");
+        $this->form_validation->set_rules("scrapper_weight", "Scrapper Weight", "required");
+        $this->form_validation->set_rules("approved_cost", "Approved Cost", "required");
+        $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+        $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+        $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+
+        if ($this->form_validation->run() == FALSE) {
+            echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+            exit();
+        } else {
+
+            $input["farmer_name"] = $this->input->post("farmer_name");
+            $input["contact_no"] = $this->input->post("contact_no");
+            $input["nic_no"] = $this->input->post("nic_no");
+            $input["government_share"] = $this->input->post("government_share");
+            $input["farmer_share"] = $this->input->post("farmer_share");
+            $input["ssc"] = $this->input->post("ssc");
+            $input["ssc_category"] = $this->input->post("ssc_category");
+            $input["transmitter_make"] = $this->input->post("transmitter_make");
+            $input["transmitter_model"] = $this->input->post("transmitter_model");
+            $input["transmitter_sr_no"] = $this->input->post("transmitter_sr_no");
+            $input["receiver_make"] = $this->input->post("receiver_make");
+            $input["receiver_model"] = $this->input->post("receiver_model");
+            $input["receiver_sr_no"] = $this->input->post("receiver_sr_no");
+            $input["control_box_make"] = $this->input->post("control_box_make");
+            $input["control_box_model"] = $this->input->post("control_box_model");
+            $input["control_box_sr_no"] = $this->input->post("control_box_sr_no");
+            $input["scrapper_sr_no"] = $this->input->post("scrapper_sr_no");
+            $input["scrapper_blade_width"] = $this->input->post("scrapper_blade_width");
+            $input["scrapper_weight"] = $this->input->post("scrapper_weight");
+
+
+            $input["approved_cost"] = $this->input->post("approved_cost");
+            $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
+            $input["work_order_date"] = $this->input->post("work_order_date");
+            $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
+            $inputs["work_order_no"]  =  $this->input->post("work_order_no");
+            $inputs["approval_date"]  =  $this->input->post("approval_date");
+
+            $scheme_id = (int) $this->input->post("scheme_id");
+            $this->db->where("scheme_id", $scheme_id);
+            $this->db->update("schemes", $input);
+            $log_inputs['operation'] = 'Edit';
+            $log_inputs['scheme_id'] = $scheme_id;
+            $log_inputs['scheme_status'] = $this->input->post("scheme_status");
+            $log_inputs['remarks'] = 'Record Update';
+            $log_inputs['detail'] = 'Scheme Technical Detail Updated';
+            $log_inputs["created_by"] = $this->session->userdata("userId");
+            $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+            $this->db->insert('scheme_logs', $log_inputs);
+            echo "success";
+        }
+    }
 
 
     public function scheme_lists()

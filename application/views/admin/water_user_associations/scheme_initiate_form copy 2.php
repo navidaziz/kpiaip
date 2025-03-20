@@ -17,48 +17,13 @@
                         <div class="col-md-4">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
                                 <label for="contact_no">Contact No</label>
-                                <input type="text" name="contact_no" value="<?php echo $input->contact_no; ?>" id="contact_no" class="form-control" pattern="0[0-9]{10}" style="" required="required" title="Please enter an 11-digit mobile number starting with '0'" placeholder="032400000000">
-
+                                <input type="text" class="form-control" id="contact_no" value="<?php echo $input->contact_no; ?>" name="contact_no">
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
-                                <label for="nic_no">CNIC No.</label>
-                                <input type="text" name="nic_no" value="<?php echo $input->nic_no; ?>" id="nic_no" pattern="\d{5}-\d{7}-\d{1}" onkeyup="nic_dash1(this)" class="form-control" style="" required="required" title="CNIC" placeholder="CNIC">
-                                <script language="javascript">
-                                    function nic_dash1(t)
-
-                                    {
-                                        var donepatt = /^(\d{5})\/(\d{7})\/(\d{1})$/;
-
-                                        var patt = /(\d{5}).*(\d{7}).*(\d{1})/;
-
-                                        var str = t.value;
-
-                                        if (!str.match(donepatt))
-
-                                        {
-                                            result = str.match(patt);
-
-                                            if (result != null)
-
-                                            {
-                                                t.value = t.value.replace(/[^\d]/gi, '');
-
-                                                str = result[1] + '-' + result[2] + '-' + result[3];
-
-                                                t.value = str;
-
-                                            } else {
-
-                                                if (t.value.match(/[^\d]/gi))
-
-                                                    t.value = t.value.replace(/[^\d]/gi, '');
-
-                                            }
-                                        }
-                                    }
-                                </script>
+                                <label for="nic_no">NIC No</label>
+                                <input type="text" class="form-control" id="nic_no" value="<?php echo $input->nic_no; ?>" name="nic_no">
                             </div>
                         </div>
                     </div>
@@ -608,9 +573,56 @@
 
     <?php } ?>
 
-    <input required type="hidden" name="scheme_status" value="Initiated">
+    <div style="border: 1px solid #CCCCCC; padding:5px; border-radius: 5px; margin-bottom:10px">
+        <strong><span style="color: red;">Scheme is New or Ongoing? </span>
+            <input required onclick="$('#ongoing_scheme').hide(); $('.ongoing').prop('required', false)" type="radio" name="scheme_status" value="Initiated"> New
+            <span style="margin-left: 15px;"></span>
+            <input required onclick="$('#ongoing_scheme').show(); $('.ongoing').prop('required', true)" type="radio" name="scheme_status" value="Ongoing"> Ongoing
+        </strong>
+    </div>
+
+    <div id="ongoing_scheme" style="display: none;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="box border blue" id="messenger" style="padding: 15px;">
+                    <div class="form-group row">
+                        <!-- Approved Cost -->
+                        <div class="col-md-3">
+                            <label for="approved_cost" class="col-form-label">Approved / Saction Cost</label>
+                            <input type="text" id="approved_cost" name="approved_cost"
+                                value="<?php if ($input->approved_cost) {
+                                            echo $input->approved_cost;
+                                        } ?>" class="form-control ongoing" placeholder="Enter approved cost">
+                        </div>
+
+                        <!-- Technical Sanction Date -->
+                        <div class="col-md-3">
+                            <label for="technical_sanction_date" class="col-form-label">Technical Sanction Date</label>
+                            <input type="date" id="technical_sanction_date" name="technical_sanction_date"
+                                value="<?php echo $input->technical_sanction_date; ?>" class="form-control ongoing">
+                        </div>
+
+                        <!-- Work Order Date -->
+                        <div class="col-md-3">
+                            <label for="work_order_date" class="col-form-label">Work Order Date</label>
+                            <input type="date" id="work_order_date" name="work_order_date"
+                                value="<?php echo $input->work_order_date; ?>" class="form-control ongoing">
+                        </div>
+
+                        <!-- Scheme Initiation Date -->
+                        <div class="col-md-3">
+                            <label for="scheme_initiation_date" class="col-form-label">Scheme Initiation Date</label>
+                            <input type="date" required id="scheme_initiation_date" name="scheme_initiation_date"
+                                value="<?php echo $input->scheme_initiation_date; ?>" class="form-control ongoing">
+                        </div>
+                    </div>
+                </div>
 
 
+            </div>
+        </div>
+
+    </div>
     <div class="form-group row text-center mt-3">
         <div id="result_response"></div>
         <?php if ($input->scheme_id == 0) { ?>

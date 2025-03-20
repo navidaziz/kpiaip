@@ -5,6 +5,8 @@
         <?php echo form_hidden("scheme_id", $scheme_id); ?>
         <?php echo form_hidden("status_form", $status_form); ?>
         <?php if ($status_form == 'Complete') { ?>
+
+
             <div class="col-md-12">
                 <h4>Scheme Name: <?php echo $scheme->scheme_name ?><br />
                     Scheme Code: <?php echo $scheme->scheme_code; ?><br />
@@ -37,6 +39,25 @@
                         placeholder="Physical Completion Date">
                 </div>
             </div>
+
+            <?php if ($scheme->component_category_id == 12) { ?>
+                <div class="form-group">
+                    <label for="distribution_date" class="col-md-4 control-label" style="">Distribution Date</label>
+                    <div class="col-md-8">
+                        <input type="date" name="distribution_date" value="<?php echo $scheme->distribution_date; ?>"
+                            id="distribution_date" class="form-control" style="" required="required" title="Distribution Date"
+                            placeholder="Distribution Date">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fcr_approving_expert" class="col-md-4 control-label" style="">FCR Approving Expert</label>
+                    <div class="col-md-8">
+                        <input type="text" name="fcr_approving_expert" value="<?php echo $scheme->fcr_approving_expert; ?>"
+                            id="fcr_approving_expert" class="form-control" style="" required="required" title="FCR Approving Expert"
+                            placeholder="FCR Approving Expert">
+                    </div>
+                </div>
+            <?php } ?>
 
         <?php } ?>
 
