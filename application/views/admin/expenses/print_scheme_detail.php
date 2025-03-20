@@ -310,305 +310,491 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                     </td>
                 </tr>
             </table>
+            <?php if ($scheme->component_category_id != 12) { ?>
+                <div class="table-responsive">
+                    <strong>Water User Association</strong>
+                    <table class="table table-bordered" style="width: 100%;">
+                        <tbody>
+                            <tr>
+                                <th>WUA Name</th>
+                                <th>WUA Reg. No.</th>
+                                <th>Account Title</th>
+                                <th>Account No</th>
+                                <th>Branch Code</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $water_user_association->wua_name; ?></td>
+                                <td><?php echo $water_user_association->wua_registration_no; ?></td>
+                                <td>
+                                    <?php echo $water_user_association->bank_account_title; ?>
+                                </td>
+                                <td>
+                                    <?php echo $water_user_association->bank_account_number; ?>
+                                </td>
+                                <td>
+                                    <?php echo $water_user_association->bank_branch_code; ?>
+                                </td>
+                            </tr>
 
-            <div class="table-responsive">
-                <strong>Water User Association</strong>
-                <table class="table table-bordered" style="width: 100%;">
-                    <tbody>
+
+
+
+                        </tbody>
+                    </table>
+                    <table style="width: 100%;">
                         <tr>
-                            <th>WUA Name</th>
-                            <th>WUA Reg. No.</th>
-                            <th>Account Title</th>
-                            <th>Account No</th>
-                            <th>Branch Code</th>
+                            <td>
+                                <strong>WUA Chairman </strong>
+                                <table class="table table-bordered table_small" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Chairman Name</strong></th>
+                                            <th><strong>Father Name</strong></th>
+                                            <th><strong>Gender</strong></th>
+                                            <th><strong>CNIC</strong></th>
+                                            <th><strong>Contact</strong></th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo $water_user_association->cm_name; ?></td>
+                                            <td><?php echo $water_user_association->cm_father_name; ?></td>
+                                            <td><?php echo $water_user_association->cm_gender; ?></td>
+                                            <td><?php echo $water_user_association->cm_cnic; ?></td>
+                                            <td><?php echo $water_user_association->cm_contact_no; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td>
+                                <strong>Scheme Beneficiaries </strong>
+                                <table class="table table-bordered table_small" style="width: 100%;">
+                                    <thead>
+                                        <tr>
+                                            <th><strong>Male</strong></th>
+                                            <th><strong>Female</strong></th>
+                                            <th><strong>Total</strong></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo $scheme->male_beneficiaries; ?></td>
+                                            <td><?php echo $scheme->female_beneficiaries; ?></td>
+                                            <td><?php echo $scheme->beneficiaries; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
-                        <tr>
-                            <td><?php echo $water_user_association->wua_name; ?></td>
-                            <td><?php echo $water_user_association->wua_registration_no; ?></td>
-                            <td>
-                                <?php echo $water_user_association->bank_account_title; ?>
-                            </td>
-                            <td>
-                                <?php echo $water_user_association->bank_account_number; ?>
-                            </td>
-                            <td>
-                                <?php echo $water_user_association->bank_branch_code; ?>
-                            </td>
-                        </tr>
 
+                    </table>
+                </div>
+            <?php } ?>
 
-
-
-                    </tbody>
-                </table>
+            <?php if ($scheme->component_category_id != 12) { ?>
                 <table style="width: 100%;">
                     <tr>
-                        <td>
-                            <strong>WUA Chairman </strong>
-                            <table class="table table-bordered table_small" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th><strong>Chairman Name</strong></th>
-                                        <th><strong>Father Name</strong></th>
-                                        <th><strong>Gender</strong></th>
-                                        <th><strong>CNIC</strong></th>
-                                        <th><strong>Contact</strong></th>
+                        <td style="vertical-align: top;">
+                            <strong>Dates info</strong>
+                            <table class="table table-bordered" id="dates_info">
 
-                                    </tr>
-                                </thead>
                                 <tbody>
                                     <tr>
-                                        <td><?php echo $water_user_association->cm_name; ?></td>
-                                        <td><?php echo $water_user_association->cm_father_name; ?></td>
-                                        <td><?php echo $water_user_association->cm_gender; ?></td>
-                                        <td><?php echo $water_user_association->cm_cnic; ?></td>
-                                        <td><?php echo $water_user_association->cm_contact_no; ?></td>
+                                        <td><strong>Registration Date</strong></td>
+                                        <td><?php echo $scheme->registration_date; ?></td>
                                     </tr>
+                                    <tr>
+                                        <td><strong>Top Date</strong></td>
+                                        <td><?php echo $scheme->top_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Survey Date</strong></td>
+                                        <td><?php echo $scheme->survey_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Design Date</strong></td>
+                                        <td><?php echo $scheme->design_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Feasibility Date</strong></td>
+                                        <td><?php echo $scheme->feasibility_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Work Order Date</strong></td>
+                                        <td><?php echo $scheme->work_order_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Scheme Initiation Date</strong></td>
+                                        <td><?php echo $scheme->scheme_initiation_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Verified By TPV</strong></td>
+                                        <td><?php echo $scheme->verified_by_tpv; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>TPV Date</strong></td>
+                                        <td><?php echo $scheme->verification_by_tpv_date; ?></td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+
+
+
+
+                        </td>
+                        <td style="vertical-align: top;">
+                            <strong>Technical Info</strong>
+                            <table class="table table-bordered" id="dates_info">
+                                <tr>
+                                    <td><strong>Water Source</strong></td>
+                                    <td><?php echo $scheme->water_source; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CCA</td>
+                                    <td><?php echo $scheme->cca; ?></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>ACCA</td>
+                                    <td><?php echo $scheme->acca; ?></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>GCA</td>
+                                    <td><?php echo $scheme->gca; ?></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pre Water Losses</strong></td>
+                                    <td><?php echo $scheme->pre_water_losses; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Pre Additional</strong></td>
+                                    <td><?php echo $scheme->pre_additional; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Post Water Losses</strong></td>
+                                    <td><?php echo $scheme->post_water_losses; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Saving Water Losses</strong></td>
+                                    <td><?php echo $scheme->saving_water_losses; ?></td>
+                                </tr>
+
+                                <tr>
+                                    <td><strong>Total Length</strong></td>
+                                    <td><?php echo $scheme->total_lenght; ?></td>
+                                </tr>
+
+                            </table>
+
+                        </td>
+                        <td style="vertical-align: top;">
+                            <strong></strong>
+                            <table class="table table-bordered" id="dates_info">
+
+                                <tr>
+                                    <td><strong>Total Length</strong></td>
+                                    <td><?php echo $scheme->total_lenght; ?></strong></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Lining Length</strong></td>
+                                    <td><?php echo $scheme->lining_length; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>LWH</strong></td>
+                                    <td><?php echo $scheme->lwh; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Length</strong></td>
+                                    <td><?php echo $scheme->length; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Width</strong></td>
+                                    <td><?php echo $scheme->width; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Height</strong></td>
+                                    <td><?php echo $scheme->height; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Type of Lining</strong></td>
+                                    <td><?php echo $scheme->type_of_lining; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>NACCA Panel</strong></td>
+                                    <td><?php echo $scheme->nacca_pannel; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Culvert</strong></td>
+                                    <td><?php echo $scheme->culvert; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Risers Pipe</strong></td>
+                                    <td><?php echo $scheme->risers_pipe; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Risers Pond</strong></td>
+                                    <td><?php echo $scheme->risers_pond; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Design Discharge</strong></td>
+                                    <td><?php echo $scheme->design_discharge; ?></td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Others</strong></td>
+                                    <td><?php echo $scheme->others; ?></td>
+                                </tr>
+                            </table>
+
+                        </td>
+                        <td style="vertical-align: top;">
+                            <strong>Costs info</strong>
+                            <table class="table table-bordered" id="costs_info">
+
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Estimated Cost</strong></td>
+                                        <td><?php echo $scheme->estimated_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Estimated Cost Date</strong></td>
+                                        <td><?php echo $scheme->estimated_cost_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Approved Cost</strong></td>
+                                        <td><?php echo $scheme->approved_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Approval Date</strong></td>
+                                        <td><?php echo $scheme->approval_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Revised Cost</strong></td>
+                                        <td><?php echo $scheme->revised_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Revised Cost Date</strong></td>
+                                        <td><?php echo $scheme->revised_cost_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Completion Cost</strong></td>
+                                        <td><?php echo $scheme->completion_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sanctioned Cost</strong></td>
+                                        <td><?php echo $scheme->sanctioned_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Technical Sanction Date</strong></td>
+                                        <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Physical Completion</strong></td>
+                                        <td><?php echo $scheme->phy_completion; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Physical Completion Date</strong></td>
+                                        <td><?php echo $scheme->phy_completion_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Completion Date</strong></td>
+                                        <td><?php echo $scheme->completion_date; ?></td>
+                                    </tr>
+
                                 </tbody>
                             </table>
                         </td>
-                        <td>
-                            <strong>Scheme Beneficiaries </strong>
-                            <table class="table table-bordered table_small" style="width: 100%;">
-                                <thead>
-                                    <tr>
-                                        <th><strong>Male</strong></th>
-                                        <th><strong>Female</strong></th>
-                                        <th><strong>Total</strong></th>
-                                    </tr>
-                                </thead>
+
+                    </tr>
+                </table>
+            <?php } ?>
+            <?php if ($scheme->component_category_id == 12) { ?>
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="vertical-align: top;">
+                            <strong>Dates info</strong>
+                            <table class="table table-bordered" id="dates_info">
+
                                 <tbody>
                                     <tr>
-                                        <td><?php echo $scheme->male_beneficiaries; ?></td>
-                                        <td><?php echo $scheme->female_beneficiaries; ?></td>
-                                        <td><?php echo $scheme->beneficiaries; ?></td>
+                                        <td><strong>Registration Date</strong></td>
+                                        <td><?php echo $scheme->registration_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Top Date</strong></td>
+                                        <td><?php echo $scheme->top_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Work Order No.</strong></td>
+                                        <td><?php echo $scheme->work_order_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Work Order Date</strong></td>
+                                        <td><?php echo $scheme->work_order_date; ?></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Scheme Initiation Date</strong></td>
+                                        <td><?php echo $scheme->scheme_initiation_date; ?></td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                            <strong>Farmer Detail</strong>
+                            <table class="table table-bordered table_small">
+
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Farmer Name</strong></td>
+                                        <td><?php echo $scheme->farmer_name; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Contact No</strong></td>
+                                        <td><?php echo $scheme->contact_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>NIC No</strong></td>
+                                        <td><?php echo $scheme->nic_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Government Share</strong></td>
+                                        <td><?php echo $scheme->government_share; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Farmer Share</strong></td>
+                                        <td><?php echo $scheme->farmer_share; ?></td>
+
                                     </tr>
                                 </tbody>
                             </table>
+
+
+                        </td>
+
+                        <td style="vertical-align: top;">
+                            <strong>Costs info</strong>
+                            <table class="table table-bordered" id="costs_info">
+
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Estimated Cost</strong></td>
+                                        <td><?php echo $scheme->estimated_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Estimated Cost Date</strong></td>
+                                        <td><?php echo $scheme->estimated_cost_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Approved Cost</strong></td>
+                                        <td><?php echo $scheme->approved_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Approval Date</strong></td>
+                                        <td><?php echo $scheme->approval_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Revised Cost</strong></td>
+                                        <td><?php echo $scheme->revised_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Revised Cost Date</strong></td>
+                                        <td><?php echo $scheme->revised_cost_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Completion Cost</strong></td>
+                                        <td><?php echo $scheme->completion_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sanctioned Cost</strong></td>
+                                        <td><?php echo $scheme->sanctioned_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Technical Sanction Date</strong></td>
+                                        <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Physical Completion</strong></td>
+                                        <td><?php echo $scheme->phy_completion; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Physical Completion Date</strong></td>
+                                        <td><?php echo $scheme->phy_completion_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Completion Date</strong></td>
+                                        <td><?php echo $scheme->completion_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>FCR Approving Expert:</strong>
+                                        </td>
+                                        <td><?php echo $scheme->fcr_approving_expert; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Distribution Date:</strong> </td>
+                                        <td><?php echo $scheme->distribution_date; ?></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </td>
+
+                        <td style="vertical-align: top;">
+                            <strong>Other Details</strong>
+                            <table class="table table-bordered table_small">
+
+                                <tbody>
+                                    <tr>
+                                        <td><strong>SSC:</strong> <?php echo $scheme->ssc; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>SSC Category:</strong> <?php echo $scheme->ssc_category; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Transmitter Make:</strong> <?php echo $scheme->transmitter_make; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Transmitter Model:</strong> <?php echo $scheme->transmitter_model; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Transmitter Serial No:</strong> <?php echo $scheme->transmitter_sr_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Receiver Make:</strong> <?php echo $scheme->receiver_make; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Receiver Model:</strong> <?php echo $scheme->receiver_model; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Receiver Serial No:</strong> <?php echo $scheme->receiver_sr_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Control Box Make:</strong> <?php echo $scheme->control_box_make; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Control Box Model:</strong> <?php echo $scheme->control_box_model; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Control Box Serial No:</strong> <?php echo $scheme->control_box_sr_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Scraper Serial No:</strong> <?php echo $scheme->scrapper_sr_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Scraper Blade Width:</strong> <?php echo $scheme->scrapper_blade_width; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Scraper Weight:</strong> <?php echo $scheme->scrapper_weight; ?></td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
                         </td>
                     </tr>
-
                 </table>
-            </div>
-
-
-
-            <table style="width: 100%;">
-                <tr>
-                    <td style="vertical-align: top;">
-                        <strong>Dates info</strong>
-                        <table class="table table-bordered" id="dates_info">
-
-                            <tbody>
-                                <tr>
-                                    <td><strong>Registration Date</strong></td>
-                                    <td><?php echo $scheme->registration_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Top Date</strong></td>
-                                    <td><?php echo $scheme->top_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Survey Date</strong></td>
-                                    <td><?php echo $scheme->survey_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Design Date</strong></td>
-                                    <td><?php echo $scheme->design_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Feasibility Date</strong></td>
-                                    <td><?php echo $scheme->feasibility_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Work Order Date</strong></td>
-                                    <td><?php echo $scheme->work_order_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Scheme Initiation Date</strong></td>
-                                    <td><?php echo $scheme->scheme_initiation_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Verified By TPV</strong></td>
-                                    <td><?php echo $scheme->verified_by_tpv; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>TPV Date</strong></td>
-                                    <td><?php echo $scheme->verification_by_tpv_date; ?></td>
-                                </tr>
-
-
-                            </tbody>
-                        </table>
-
-
-
-
-                    </td>
-                    <td style="vertical-align: top;">
-                        <strong>Technical Info</strong>
-                        <table class="table table-bordered" id="dates_info">
-                            <tr>
-                                <td><strong>Water Source</strong></td>
-                                <td><?php echo $scheme->water_source; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>CCA</td>
-                                <td><?php echo $scheme->cca; ?></strong></td>
-                            </tr>
-                            <tr>
-                                <td><strong>ACCA</td>
-                                <td><?php echo $scheme->acca; ?></strong></td>
-                            </tr>
-                            <tr>
-                                <td><strong>GCA</td>
-                                <td><?php echo $scheme->gca; ?></strong></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Pre Water Losses</strong></td>
-                                <td><?php echo $scheme->pre_water_losses; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Pre Additional</strong></td>
-                                <td><?php echo $scheme->pre_additional; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Post Water Losses</strong></td>
-                                <td><?php echo $scheme->post_water_losses; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Saving Water Losses</strong></td>
-                                <td><?php echo $scheme->saving_water_losses; ?></td>
-                            </tr>
-
-                            <tr>
-                                <td><strong>Total Length</strong></td>
-                                <td><?php echo $scheme->total_lenght; ?></td>
-                            </tr>
-
-                        </table>
-
-                    </td>
-                    <td style="vertical-align: top;">
-                        <strong></strong>
-                        <table class="table table-bordered" id="dates_info">
-
-                            <tr>
-                                <td><strong>Total Length</strong></td>
-                                <td><?php echo $scheme->total_lenght; ?></strong></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Lining Length</strong></td>
-                                <td><?php echo $scheme->lining_length; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>LWH</strong></td>
-                                <td><?php echo $scheme->lwh; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Length</strong></td>
-                                <td><?php echo $scheme->length; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Width</strong></td>
-                                <td><?php echo $scheme->width; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Height</strong></td>
-                                <td><?php echo $scheme->height; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Type of Lining</strong></td>
-                                <td><?php echo $scheme->type_of_lining; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>NACCA Panel</strong></td>
-                                <td><?php echo $scheme->nacca_pannel; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Culvert</strong></td>
-                                <td><?php echo $scheme->culvert; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Risers Pipe</strong></td>
-                                <td><?php echo $scheme->risers_pipe; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Risers Pond</strong></td>
-                                <td><?php echo $scheme->risers_pond; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Design Discharge</strong></td>
-                                <td><?php echo $scheme->design_discharge; ?></td>
-                            </tr>
-                            <tr>
-                                <td><strong>Others</strong></td>
-                                <td><?php echo $scheme->others; ?></td>
-                            </tr>
-                        </table>
-
-                    </td>
-                    <td style="vertical-align: top;">
-                        <strong>Costs info</strong>
-                        <table class="table table-bordered" id="costs_info">
-
-                            <tbody>
-                                <tr>
-                                    <td><strong>Estimated Cost</strong></td>
-                                    <td><?php echo $scheme->estimated_cost; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Estimated Cost Date</strong></td>
-                                    <td><?php echo $scheme->estimated_cost_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Approved Cost</strong></td>
-                                    <td><?php echo $scheme->approved_cost; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Approval Date</strong></td>
-                                    <td><?php echo $scheme->approval_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Revised Cost</strong></td>
-                                    <td><?php echo $scheme->revised_cost; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Revised Cost Date</strong></td>
-                                    <td><?php echo $scheme->revised_cost_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Completion Cost</strong></td>
-                                    <td><?php echo $scheme->completion_cost; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Sanctioned Cost</strong></td>
-                                    <td><?php echo $scheme->sanctioned_cost; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Technical Sanction Date</strong></td>
-                                    <td><?php echo $scheme->technical_sanction_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Physical Completion</strong></td>
-                                    <td><?php echo $scheme->phy_completion; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Physical Completion Date</strong></td>
-                                    <td><?php echo $scheme->phy_completion_date; ?></td>
-                                </tr>
-                                <tr>
-                                    <td><strong>Completion Date</strong></td>
-                                    <td><?php echo $scheme->completion_date; ?></td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </td>
-
-                </tr>
-            </table>
-
+            <?php } ?>
             <strong>Payments</strong>
             <table class="table table-bordered table_small" id="db_table">
                 <thead>

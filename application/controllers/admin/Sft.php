@@ -341,8 +341,8 @@ class Sft extends Admin_Controller
 
             $pre_water_losses = (float) $this->input->post("pre_water_losses");
             $post_water_losses = (float) $this->input->post("post_water_losses");
-            if ($pre_water_losses <= $post_water_losses) {
-                echo '<div class="alert alert-danger">Post Water losses should be less than or equal to Pre Water Losses</div>';
+            if ($pre_water_losses < $post_water_losses) {
+                echo '<div class="alert alert-danger">Post Water losses should be less than to Pre Water Losses</div>';
                 exit();
             }
 

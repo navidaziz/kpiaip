@@ -496,68 +496,70 @@
                                         <?php echo $scheme->water_source; ?>
                                     </td>
                                     <td>
-                                        lati: <?php echo $scheme->latitude; ?><br />
-                                        long: <?php echo $scheme->longitude; ?>
-                                        <style>
-                                            /* Style for the map icon */
-                                            .map-icon {
-                                                display: inline-flex;
-                                                /* Inline block with flex for alignment */
-                                                align-items: center;
-                                                /* Center align items vertically */
-                                                justify-content: center;
-                                                /* Center align items horizontally */
-                                                border: 2px solid gray;
-                                                /* Red border */
-                                                border-radius: 5px;
-                                                /* Rounded corners */
-                                                padding: 3px 5px;
-                                                /* Padding for better spacing */
-                                                background-color: white;
-                                                /* Background color */
-                                                color: gray;
-                                                /* Icon color */
-                                                font-size: 16px;
-                                                /* Font size */
-                                                cursor: pointer;
-                                                /* Pointer cursor on hover */
-                                                transition: all 0.3s;
-                                                /* Smooth transition for hover effects */
-                                                margin: 2px
-                                            }
+                                        <?php if ($scheme->latitude and $scheme->longitude) { ?>
+                                            lati: <?php echo $scheme->latitude; ?><br />
+                                            long: <?php echo $scheme->longitude; ?>
+                                            <style>
+                                                /* Style for the map icon */
+                                                .map-icon {
+                                                    display: inline-flex;
+                                                    /* Inline block with flex for alignment */
+                                                    align-items: center;
+                                                    /* Center align items vertically */
+                                                    justify-content: center;
+                                                    /* Center align items horizontally */
+                                                    border: 2px solid gray;
+                                                    /* Red border */
+                                                    border-radius: 5px;
+                                                    /* Rounded corners */
+                                                    padding: 3px 5px;
+                                                    /* Padding for better spacing */
+                                                    background-color: white;
+                                                    /* Background color */
+                                                    color: gray;
+                                                    /* Icon color */
+                                                    font-size: 16px;
+                                                    /* Font size */
+                                                    cursor: pointer;
+                                                    /* Pointer cursor on hover */
+                                                    transition: all 0.3s;
+                                                    /* Smooth transition for hover effects */
+                                                    margin: 2px
+                                                }
 
-                                            /* Hover effect */
-                                            .map-icon:hover {
-                                                background-color: gray;
-                                                /* Change background on hover */
-                                                color: white;
-                                                /* Change icon color on hover */
-                                                transform: scale(1.05);
-                                                /* Slightly scale the icon */
-                                            }
-                                        </style>
-                                        <i onclick="get_google_map('<?php echo $scheme->latitude; ?>', '<?php echo $scheme->longitude; ?>')"
-                                            class="fa fa-map map-icon" aria-hidden="true">
-                                            Google Map
-                                        </i>
-                                        <script>
-                                            function get_google_map(lat, long) {
-                                                $.ajax({
-                                                        method: "POST",
-                                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_google_map'); ?>",
-                                                        data: {
-                                                            scheme_id: '<?php echo $scheme->scheme_id; ?>',
-                                                            lat: lat,
-                                                            long: long
-                                                        },
-                                                    })
-                                                    .done(function(respose) {
-                                                        $('#modal').modal('show');
-                                                        $('#modal_title').html('Scheme Google Map View');
-                                                        $('#modal_body').html(respose);
-                                                    });
-                                            }
-                                        </script>
+                                                /* Hover effect */
+                                                .map-icon:hover {
+                                                    background-color: gray;
+                                                    /* Change background on hover */
+                                                    color: white;
+                                                    /* Change icon color on hover */
+                                                    transform: scale(1.05);
+                                                    /* Slightly scale the icon */
+                                                }
+                                            </style>
+                                            <i onclick="get_google_map('<?php echo $scheme->latitude; ?>', '<?php echo $scheme->longitude; ?>')"
+                                                class="fa fa-map map-icon" aria-hidden="true">
+                                                Google Map
+                                            </i>
+                                            <script>
+                                                function get_google_map(lat, long) {
+                                                    $.ajax({
+                                                            method: "POST",
+                                                            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_google_map'); ?>",
+                                                            data: {
+                                                                scheme_id: '<?php echo $scheme->scheme_id; ?>',
+                                                                lat: lat,
+                                                                long: long
+                                                            },
+                                                        })
+                                                        .done(function(respose) {
+                                                            $('#modal').modal('show');
+                                                            $('#modal_title').html('Scheme Google Map View');
+                                                            $('#modal_body').html(respose);
+                                                        });
+                                                }
+                                            </script>
+                                        <?php } ?>
                                     </td>
                                     <td>
                                         Males: <?php echo $scheme->male_beneficiaries; ?><br />
@@ -636,70 +638,145 @@
                                 </thead>
                             </table>
                         </div>
-                        <div class="table-responsive">
-                            <table class="table table-bordered table_small" id="sch emes">
-                                <thead>
-                                    <tr>
+                        <?php if ($scheme->component_category_id == 12) { ?>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table_small">
+                                    <thead>
+                                        <tr>
+                                            <th>Farmer Name</th>
+                                            <th>Contact No</th>
+                                            <th>NIC No</th>
+                                            <th>Work Order No</th>
+                                            <th>Government Share</th>
+                                            <th>Farmer Share</th>
 
-                                        <th>Verified By Tpv</th>
-                                        <th>Funding Source</th>
-                                        <th>Water Source</th>
-                                        <th>Cca</th>
-                                        <th>Gca</th>
-                                        <th>Pre</th>
-                                        <th>Pre Additional</th>
-                                        <th>Post</th>
-                                        <th>Saving</th>
-                                        <!-- <th>Saving Utilisation To Intensity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><?php echo $scheme->farmer_name; ?></td>
+                                            <td><?php echo $scheme->contact_no; ?></td>
+                                            <td><?php echo $scheme->nic_no; ?></td>
+                                            <td><?php echo $scheme->work_order_no; ?></td>
+                                            <td><?php echo $scheme->government_share; ?></td>
+                                            <td><?php echo $scheme->farmer_share; ?></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table_small">
+                                    <thead>
+                                        <tr>
+
+                                            <th>SSC</th>
+                                            <th>SSC Category</th>
+                                            <th>Transmitter Make</th>
+                                            <th>Transmitter Model</th>
+                                            <th>Transmitter Serial No</th>
+                                            <th>Receiver Make</th>
+                                            <th>Receiver Model</th>
+                                            <th>Receiver Serial No</th>
+                                            <th>Control Box Make</th>
+                                            <th>Control Box Model</th>
+                                            <th>Control Box Serial No</th>
+                                            <th>Scraper Serial No</th>
+                                            <th>Scraper Blade Width</th>
+                                            <th>Scraper Weight</th>
+                                            <th>FCR Approving Expert</th>
+                                            <th>Distribution Date</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+
+                                            <td><?php echo $scheme->ssc; ?></td>
+                                            <td><?php echo $scheme->ssc_category; ?></td>
+                                            <td><?php echo $scheme->transmitter_make; ?></td>
+                                            <td><?php echo $scheme->transmitter_model; ?></td>
+                                            <td><?php echo $scheme->transmitter_sr_no; ?></td>
+                                            <td><?php echo $scheme->receiver_make; ?></td>
+                                            <td><?php echo $scheme->receiver_model; ?></td>
+                                            <td><?php echo $scheme->receiver_sr_no; ?></td>
+                                            <td><?php echo $scheme->control_box_make; ?></td>
+                                            <td><?php echo $scheme->control_box_model; ?></td>
+                                            <td><?php echo $scheme->control_box_sr_no; ?></td>
+                                            <td><?php echo $scheme->scrapper_sr_no; ?></td>
+                                            <td><?php echo $scheme->scrapper_blade_width; ?></td>
+                                            <td><?php echo $scheme->scrapper_weight; ?></td>
+                                            <td><?php echo $scheme->fcr_approving_expert; ?></td>
+                                            <td><?php echo $scheme->distribution_date; ?></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php } else { ?>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table_small" id="sch emes">
+                                    <thead>
+                                        <tr>
+
+                                            <th>Verified By Tpv</th>
+                                            <th>Funding Source</th>
+                                            <th>Water Source</th>
+                                            <th>CCA</th>
+                                            <th>GCA</th>
+                                            <th>Pre</th>
+                                            <th>Pre Additional</th>
+                                            <th>Post</th>
+                                            <th>Saving</th>
+                                            <!-- <th>Saving Utilisation To Intensity</th>
                                         <th>Saving Utilization To Change In Cropping Pattern</th>
                                         <th>Water Productivity For Wheat And Maize</th>
                                         <th>Any Increase In Productivity After The List Crop Cycle</th> -->
-                                        <th>Total</th>
-                                        <th>Lining</th>
-                                        <th>Lwh</th>
-                                        <th>Type Of Lining</th>
-                                        <th>Nacca Pannel</th>
-                                        <th>Culvert</th>
-                                        <th>Risers Pipe</th>
-                                        <th>Risers Pond</th>
-                                        <th>Others</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                                            <th>Total</th>
+                                            <th>Lining</th>
+                                            <th>Lwh</th>
+                                            <th>Type Of Lining</th>
+                                            <th>Nacca Pannel</th>
+                                            <th>Culvert</th>
+                                            <th>Risers Pipe</th>
+                                            <th>Risers Pond</th>
+                                            <th>Others</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
 
-                                    <tr>
+                                        <tr>
 
 
-                                        <td><?php echo $scheme->verified_by_tpv; ?></td>
-                                        <td><?php echo $scheme->funding_source; ?></td>
-                                        <td><?php echo $scheme->water_source; ?></td>
-                                        <td><?php echo $scheme->cca; ?></td>
-                                        <td><?php echo $scheme->gca; ?></td>
-                                        <td><?php echo $scheme->pre_water_losses; ?></td>
-                                        <td><?php echo $scheme->pre_additional; ?></td>
-                                        <td><?php echo $scheme->post_water_losses; ?></td>
-                                        <td><?php echo $scheme->saving_water_losses; ?></td>
-                                        <!-- <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
+                                            <td><?php echo $scheme->verified_by_tpv; ?></td>
+                                            <td><?php echo $scheme->funding_source; ?></td>
+                                            <td><?php echo $scheme->water_source; ?></td>
+                                            <td><?php echo $scheme->cca; ?></td>
+                                            <td><?php echo $scheme->gca; ?></td>
+                                            <td><?php echo $scheme->pre_water_losses; ?></td>
+                                            <td><?php echo $scheme->pre_additional; ?></td>
+                                            <td><?php echo $scheme->post_water_losses; ?></td>
+                                            <td><?php echo $scheme->saving_water_losses; ?></td>
+                                            <!-- <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
                                         <td><?php echo $scheme->saving_utilization_to_change_in_cropping_pattern; ?>
                                         </td>
                                         <td><?php echo $scheme->water_productivity_for_wheat_and_maize; ?></td>
                                         <td><?php echo $scheme->any_increase_in_productivity_after_the_list_crop_cycle; ?>
                                         </td> -->
-                                        <td><?php echo $scheme->total_lenght; ?></td>
-                                        <td><?php echo $scheme->lining_length; ?></td>
-                                        <td><?php echo $scheme->lwh; ?></td>
-                                        <td><?php echo $scheme->type_of_lining; ?></td>
-                                        <td><?php echo $scheme->nacca_pannel; ?></td>
-                                        <td><?php echo $scheme->culvert; ?></td>
-                                        <td><?php echo $scheme->risers_pipe; ?></td>
-                                        <td><?php echo $scheme->risers_pond; ?></td>
-                                        <td><?php echo $scheme->others; ?></td>
+                                            <td><?php echo $scheme->total_lenght; ?></td>
+                                            <td><?php echo $scheme->lining_length; ?></td>
+                                            <td><?php echo $scheme->lwh; ?></td>
+                                            <td><?php echo $scheme->type_of_lining; ?></td>
+                                            <td><?php echo $scheme->nacca_pannel; ?></td>
+                                            <td><?php echo $scheme->culvert; ?></td>
+                                            <td><?php echo $scheme->risers_pipe; ?></td>
+                                            <td><?php echo $scheme->risers_pond; ?></td>
+                                            <td><?php echo $scheme->others; ?></td>
 
-                                    </tr>
+                                        </tr>
 
-                                </tbody>
-                            </table>
-                        </div>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <?php } ?>
 
                         <div style="text-align: center;">
                             <h4 style="text-align: center;">

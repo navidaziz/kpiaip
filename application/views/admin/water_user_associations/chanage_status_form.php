@@ -80,55 +80,88 @@
             </div>
         <?php } ?>
         <?php if ($status_form == 'Approval') { ?>
-            <div class="form-group">
+
+
+            <div class="row">
                 <div class="col-md-12">
-                    <h4>Please enter Approved Cost and Date for scheme. <br />
-                        Scheme Name: <?php echo $scheme->scheme_name ?><br />
+                    <h4>
+                        Please enter Approval Details. <br />
+                        Scheme Name: <?php echo $scheme->scheme_name; ?><br />
                         Scheme Code: <?php echo $scheme->scheme_code; ?><br />
-                        Estimated Cost: <?php echo $scheme->estimated_cost; ?></h4>
-                </div>
-                <?php
-                $label = array(
-                    "class" => "col-md-4 control-label",
-                    "style" => "",
-                );
-                echo form_label($this->lang->line('approved_cost'), "approved_cost", $label);      ?>
-
-                <div class="col-md-8">
-                    <?php
-
-                    $number = array(
-                        "type"          =>  "number",
-                        "name"          =>  "approved_cost",
-                        "id"            =>  "approved_cost",
-                        "class"         =>  "form-control",
-                        "style"         =>  "",
-                        "required"      => "required",
-                        "title"         =>  $this->lang->line('approved_cost'),
-                        "value"         =>  set_value("approved_cost", $scheme->approved_cost),
-                        "placeholder"   =>  $this->lang->line('approved_cost'),
-                        "onkeyup" => "convertNumberToWords('approved_cost')"
-                    );
-                    echo  form_input($number);
-                    ?>
-                    <p id="resultWords"></p>
-                    <?php echo form_error("approved_cost", "<p class=\"text-danger\">", "</p>"); ?>
+                        Estimated Cost: <?php echo $scheme->estimated_cost; ?>
+                    </h4>
                 </div>
             </div>
-            <div class="form-group">
-                <label for="approval_date" class="col-md-4 control-label" style="">Approval Date</label>
-                <div class="col-md-8">
-                    <input type="date" name="approval_date" value="<?php echo $scheme->approval_date; ?>" id="approval_date"
-                        class="form-control" style="" required="required" title="Approval Date" placeholder="Approval Date">
+
+            <div class="row">
+                <!-- Technical Sanction Date -->
+                <div class="col-md-4">
+                    <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+                        <label for="technical_sanction_date" class="col-form-label">Technical Sanction Date <span style="color: red;">*</span></label>
+                        <input required type="date" id="technical_sanction_date" name="technical_sanction_date"
+                            value="<?php echo $scheme->technical_sanction_date; ?>" class="form-control ongoing">
+                    </div>
                 </div>
 
 
+                <!-- Work Order Date -->
+                <div class="col-md-4">
+                    <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+                        <label for="work_order_date" class="col-form-label">Work Order Date <span style="color: red;">*</span></label>
+                        <input required type="date" id="work_order_date" name="work_order_date"
+                            value="<?php echo $scheme->work_order_date; ?>" class="form-control ongoing">
+                    </div>
+                </div>
 
+                <!-- Scheme Initiation Date -->
+                <div class="col-md-4">
+                    <div class="form-group" style="margin-left: 0px; margin-right: 0px;">
+                        <label for="scheme_initiation_date" class="col-form-label">Scheme Initiation Date <span style="color: red;">*</span></label>
+                        <input type="date" id="scheme_initiation_date" name="scheme_initiation_date"
+                            value="<?php echo $scheme->scheme_initiation_date; ?>" class="form-control ongoing" required>
+                    </div>
+                </div>
             </div>
+
+            <div class=" form-group row">
+                <div class="col-md-4"><label for="work_order_no">Work Order No <small style="color: green; font-size:7px">Optional</small></label></div>
+                <div class="col-md-8">
+                    <input type="text" class="form-control" id="work_order_no" value="<?php echo $scheme->work_order_no; ?>" name="work_order_no">
+                </div>
+            </div>
+
+
+
+            <div class=" form-group row">
+                <!-- Approval Cost -->
+                <div class="col-md-4">
+                    <label for="approved_cost" class="control-label">Approval Cost <span style="color: red;">*</span></label>
+                </div>
+                <div class="col-md-8">
+                    <input type="number" step="any" id="approved_cost" name="approved_cost"
+                        value="<?php echo $scheme->approved_cost; ?>" class="form-control"
+                        required title="Approval Cost" placeholder="Approval Cost">
+                </div>
+            </div>
+
+            <div class=" form-group row">
+                <!-- Approval Date -->
+                <div class="col-md-4">
+                    <label for="approval_date" class="control-label">Approval Date <span style="color: red;">*</span></label>
+                </div>
+                <div class="col-md-8">
+                    <input type="date" id="approval_date" name="approval_date"
+                        value="<?php echo $scheme->approval_date; ?>" class="form-control"
+                        required title="Approval Date" placeholder="Approval Date">
+                </div>
+            </div>
+
+
+
         <?php } ?>
 
 
-
+        <br />
 
         <div id="result_response"></div>
 
