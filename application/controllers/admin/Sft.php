@@ -149,7 +149,11 @@ class Sft extends Admin_Controller
         $this->data['scheme'] = $scheme = $this->db->query($query, [$scheme_id])->row();
         $query = "SELECT * FROM water_user_associations WHERE water_user_associations.water_user_association_id = ?";
         $this->data['wua'] = $this->db->query($query, [$scheme->water_user_association_id])->row();
-        $this->load->view(ADMIN_DIR . "sft/sft_review_form", $this->data);
+        if ($scheme->component_category_id == 12) {
+            $this->load->view(ADMIN_DIR . "sft/b3_sft_review_form", $this->data);
+        } else {
+            $this->load->view(ADMIN_DIR . "sft/sft_review_form", $this->data);
+        }
     }
 
     public function update_scheme_sft_data()
@@ -395,6 +399,159 @@ class Sft extends Admin_Controller
             $input["phy_completion"] = 'Yes';
             $input["phy_completion_date"] = $this->input->post("completion_date");
             $input["sft_reviewed"] = 1;
+
+            $this->db->where("scheme_id", $scheme_id);
+            $this->db->update("schemes", $input);
+            echo 'success';
+        }
+    }
+    public function update_b3_scheme_sft_data()
+    {
+        // //echo var_dump($_POST);
+        // foreach ($_POST as $index => $value) {
+        //     echo '$this->form_validation->set_rules("' . $index . '", "' . ucwords(str_replace('_', ' ', $index)) . '", "required"); <br />';
+        //     // echo '$input["' . $index . '"] = $this->input->post("' . $index . '");<br />';
+        // }
+
+        // foreach ($_POST as $index => $value) {
+        //     //echo '$this->form_validation->set_rules("' . $index . '", "' . ucwords(str_replace('_', ' ', $index)) . '", "required"); <br />';
+        //     echo '$input["' . $index . '"] = $this->input->post("' . $index . '");<br />';
+        // }
+
+        // exit();
+
+
+        $this->form_validation->set_rules("scheme_id", "Scheme Id", "required");
+        $this->form_validation->set_rules("water_user_association_id", "Water User Association Id", "required");
+        $this->form_validation->set_rules("component_category_id", "Component Category Id", "required");
+        $this->form_validation->set_rules("tehsil", "Tehsil", "required");
+        $this->form_validation->set_rules("uc", "Uc", "required");
+        $this->form_validation->set_rules("villege", "Villege", "required");
+        $this->form_validation->set_rules("na", "Na", "required");
+        $this->form_validation->set_rules("pk", "Pk", "required");
+        $this->form_validation->set_rules("approved_cost", "Approved Cost", "required");
+        $this->form_validation->set_rules("approval_date", "Approval Date", "required");
+        if ($this->input->post("revised_cost") > 0) {
+            $this->form_validation->set_rules("revised_cost", "Revised Cost", "required");
+            $this->form_validation->set_rules("revised_cost_date", "Revised Cost Date", "required");
+        }
+        $this->form_validation->set_rules("completion_cost", "Completion Cost", "required");
+        $this->form_validation->set_rules("completion_date", "Completion Date", "required");
+        $this->form_validation->set_rules("farmer_name", "Farmer Name", "required");
+        $this->form_validation->set_rules("contact_no", "Contact No", "required");
+        $this->form_validation->set_rules("nic_no", "Nic No", "required");
+        $this->form_validation->set_rules("government_share", "Government Share", "required");
+        $this->form_validation->set_rules("farmer_share", "Farmer Share", "required");
+        $this->form_validation->set_rules("ssc", "Ssc", "required");
+        $this->form_validation->set_rules("ssc_category", "Ssc Category", "required");
+        $this->form_validation->set_rules("transmitter_make", "Transmitter Make", "required");
+        $this->form_validation->set_rules("transmitter_model", "Transmitter Model", "required");
+        $this->form_validation->set_rules("transmitter_sr_no", "Transmitter Sr No", "required");
+        $this->form_validation->set_rules("receiver_make", "Receiver Make", "required");
+        $this->form_validation->set_rules("receiver_model", "Receiver Model", "required");
+        $this->form_validation->set_rules("receiver_sr_no", "Receiver Sr No", "required");
+        $this->form_validation->set_rules("control_box_make", "Control Box Make", "required");
+        $this->form_validation->set_rules("control_box_model", "Control Box Model", "required");
+        $this->form_validation->set_rules("control_box_sr_no", "Control Box Sr No", "required");
+        $this->form_validation->set_rules("scrapper_sr_no", "Scrapper Sr No", "required");
+        $this->form_validation->set_rules("scrapper_blade_width", "Scrapper Blade Width", "required");
+        $this->form_validation->set_rules("scrapper_weight", "Scrapper Weight", "required");
+        $this->form_validation->set_rules("fcr_approving_expert", "Fcr Approving Expert", "required");
+        $this->form_validation->set_rules("distribution_date", "Distribution Date", "required");
+
+
+        if ($this->form_validation->run() == FALSE) {
+            echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+            exit();
+        } else {
+
+
+
+            $input["scheme_id"] = $this->input->post("scheme_id");
+            $input["water_user_association_id"] = $this->input->post("water_user_association_id");
+            $input["component_category_id"] = $this->input->post("component_category_id");
+            $input["tehsil"] = $this->input->post("tehsil");
+            $input["uc"] = $this->input->post("uc");
+            $input["villege"] = $this->input->post("villege");
+            $input["na"] = $this->input->post("na");
+            $input["pk"] = $this->input->post("pk");
+            $input["approved_cost"] = $this->input->post("approved_cost");
+            $input["approval_date"] = $this->input->post("approval_date");
+            $input["revised_cost"] = $this->input->post("revised_cost");
+            $input["revised_cost_date"] = $this->input->post("revised_cost_date");
+            $input["completion_cost"] = $this->input->post("completion_cost");
+            $input["completion_date"] = $this->input->post("completion_date");
+            $input["farmer_name"] = $this->input->post("farmer_name");
+            $input["contact_no"] = $this->input->post("contact_no");
+            $input["nic_no"] = $this->input->post("nic_no");
+            $input["government_share"] = $this->input->post("government_share");
+            $input["farmer_share"] = $this->input->post("farmer_share");
+            $input["ssc"] = $this->input->post("ssc");
+            $input["ssc_category"] = $this->input->post("ssc_category");
+            $input["transmitter_make"] = $this->input->post("transmitter_make");
+            $input["transmitter_model"] = $this->input->post("transmitter_model");
+            $input["transmitter_sr_no"] = $this->input->post("transmitter_sr_no");
+            $input["receiver_make"] = $this->input->post("receiver_make");
+            $input["receiver_model"] = $this->input->post("receiver_model");
+            $input["receiver_sr_no"] = $this->input->post("receiver_sr_no");
+            $input["control_box_make"] = $this->input->post("control_box_make");
+            $input["control_box_model"] = $this->input->post("control_box_model");
+            $input["control_box_sr_no"] = $this->input->post("control_box_sr_no");
+            $input["scrapper_sr_no"] = $this->input->post("scrapper_sr_no");
+            $input["scrapper_blade_width"] = $this->input->post("scrapper_blade_width");
+            $input["scrapper_weight"] = $this->input->post("scrapper_weight");
+            $input["fcr_approving_expert"] = $this->input->post("fcr_approving_expert");
+            $input["distribution_date"] = $this->input->post("distribution_date");
+
+
+
+
+            $completion_cost = (float) $this->input->post("completion_cost");
+            $approved_cost = (float) $this->input->post("approved_cost");
+            $revised_cost = (float) $this->input->post("revised_cost");
+
+
+            if ($revised_cost <= 0 and $completion_cost > $approved_cost) {
+                echo '<div class="alert alert-danger">Completion Cost should be less than or equal to Approved Cost</div>';
+                exit();
+            }
+
+            if ($revised_cost > 0  and $completion_cost > $revised_cost) {
+                echo '<div class="alert alert-danger">Completion Cost should be less than or equal to Revised Cost</div>';
+                exit();
+            }
+
+            if ($revised_cost > 0  and $approved_cost > $revised_cost) {
+                echo '<div class="alert alert-danger">Approved Cost should be less than or equal to Revised Cost</div>';
+                exit();
+            }
+
+
+
+
+            $input["estimated_cost"] = 0;
+            $input["approved_cost"] = $this->input->post("approved_cost");
+            if ($this->input->post("revised_cost") > 0) {
+                $input["revised_cost"] = $this->input->post("revised_cost");
+                $input["revised_cost_date"] = $this->input->post("revised_cost_date");
+            } else {
+                $input["revised_cost"] = 0;
+                $input["revised_cost_date"] = NULL;
+            }
+            $input["completion_cost"] = $this->input->post("completion_cost");
+            $input["sanctioned_cost"] = $this->input->post("completion_cost");
+
+
+            $input["estimated_cost_date"] = 0;
+            $input["approval_date"] = $this->input->post("approval_date");
+
+            $input["completion_date"] = $this->input->post("completion_date");
+
+            $input["phy_completion"] = 'Yes';
+            $input["phy_completion_date"] = $this->input->post("completion_date");
+            $input["sft_reviewed"] = 1;
+
+            $scheme_id = (int) $this->input->post('scheme_id');
 
             $this->db->where("scheme_id", $scheme_id);
             $this->db->update("schemes", $input);
