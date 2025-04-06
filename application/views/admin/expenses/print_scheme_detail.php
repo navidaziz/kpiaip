@@ -310,7 +310,8 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                     </td>
                 </tr>
             </table>
-            <?php if ($scheme->component_category_id != 12) { ?>
+            <?php
+            if ($scheme->component_category_id != 12 and $scheme->component_category_id != 10) { ?>
                 <div class="table-responsive">
                     <strong>Water User Association</strong>
                     <table class="table table-bordered" style="width: 100%;">
@@ -392,7 +393,7 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                 </div>
             <?php } ?>
 
-            <?php if ($scheme->component_category_id != 12) { ?>
+            <?php if ($scheme->component_category_id != 12 and $scheme->component_category_id != 10) { ?>
                 <table style="width: 100%;">
                     <tr>
                         <td style="vertical-align: top;">
@@ -790,6 +791,196 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
 
                                 </tbody>
                             </table>
+
+                        </td>
+                    </tr>
+                </table>
+            <?php } ?>
+            <?php if ($scheme->component_category_id == 10) { ?>
+                <table style="width: 100%;">
+                    <tr>
+                        <td style="vertical-align: top;">
+                            <strong>Dates info</strong>
+                            <table class="table table-bordered" id="dates_info">
+
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Registration Date</strong></td>
+                                        <td><?php echo $scheme->registration_date; ?></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Survey Date</strong></td>
+                                        <td><?php echo $scheme->survey_date; ?></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td><strong>Feasibility Date</strong></td>
+                                        <td><?php echo $scheme->feasibility_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Work Order Date</strong></td>
+                                        <td><?php echo $scheme->work_order_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Scheme Initiation Date</strong></td>
+                                        <td><?php echo $scheme->scheme_initiation_date; ?></td>
+                                    </tr>
+
+
+
+                                </tbody>
+                            </table>
+
+                            <strong>Farmer Detail</strong>
+                            <table class="table table-bordered table_small">
+
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Farmer Name</strong></td>
+                                        <td><?php echo $scheme->farmer_name; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Contact No</strong></td>
+                                        <td><?php echo $scheme->contact_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>NIC No</strong></td>
+                                        <td><?php echo $scheme->nic_no; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Government Share</strong></td>
+                                        <td><?php echo $scheme->government_share; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Farmer Share</strong></td>
+                                        <td><?php echo $scheme->farmer_share; ?></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+
+
+                        </td>
+
+                        <td style="vertical-align: top;">
+                            <strong>Costs info</strong>
+                            <table class="table table-bordered" id="costs_info">
+
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Estimated Cost</strong></td>
+                                        <td><?php echo $scheme->estimated_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Estimated Cost Date</strong></td>
+                                        <td><?php echo $scheme->estimated_cost_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Approved Cost</strong></td>
+                                        <td><?php echo $scheme->approved_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Approval Date</strong></td>
+                                        <td><?php echo $scheme->approval_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Revised Cost</strong></td>
+                                        <td><?php echo $scheme->revised_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Revised Cost Date</strong></td>
+                                        <td><?php echo $scheme->revised_cost_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Completion Cost</strong></td>
+                                        <td><?php echo $scheme->completion_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Sanctioned Cost</strong></td>
+                                        <td><?php echo $scheme->sanctioned_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Technical Sanction Date</strong></td>
+                                        <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Physical Completion</strong></td>
+                                        <td><?php echo $scheme->phy_completion; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Physical Completion Date</strong></td>
+                                        <td><?php echo $scheme->phy_completion_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Completion Date</strong></td>
+                                        <td><?php echo $scheme->completion_date; ?></td>
+                                    </tr>
+
+
+                                </tbody>
+                            </table>
+                        </td>
+
+                        <td style="vertical-align: top;">
+                            <strong>Other Details</strong>
+                            <table class="table table-bordered table_small">
+                                <tbody>
+                                    <tr>
+                                        <th>SSC</th>
+                                        <td><?php echo $scheme->ssc; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Scheme Area</th>
+                                        <td><?php echo $scheme->scheme_area; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Crop</th>
+                                        <td><?php echo $scheme->crop; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Crop Category</th>
+                                        <td><?php echo $scheme->crop_category; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>System Type</th>
+                                        <td><?php echo $scheme->system_type; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Soil Type</th>
+                                        <td><?php echo $scheme->soil_type; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Power Source</th>
+                                        <td><?php echo $scheme->power_source; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Design Referred Date</th>
+                                        <td><?php echo $scheme->design_referred_date; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Desing Referred By</th>
+                                        <td><?php echo $scheme->desing_referred_by; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Feasibility Checked By</th>
+                                        <td><?php echo $scheme->feasibility_checked_by; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Design Approved By</th>
+                                        <td><?php echo $scheme->design_approved_by; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Per Acre Cost</th>
+                                        <td><?php echo $scheme->per_acre_cost; ?></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Agreement Signed Date</th>
+                                        <td><?php echo $scheme->agreement_signed_date; ?></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
 
                         </td>
                     </tr>

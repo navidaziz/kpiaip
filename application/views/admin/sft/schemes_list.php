@@ -149,12 +149,12 @@
                         "data": null,
                         "render": function(data, type, row) {
                             let row_button = '';
-                            if (row.component_category != 'B-1') {
-                                row_button += `<button onclick="correct_scheme_costs(${row.scheme_id})" class="btn btn-warning btn-small">Review SFT</button>`;
-                                return row_button;
-                            } else {
-                                return null; // NULL is not valid in JavaScript, use null instead
-                            }
+                            //if (row.component_category != 'B-1') {
+                            row_button += `<button onclick="correct_scheme_costs(${row.scheme_id})" class="btn btn-warning btn-small">Review SFT</button>`;
+                            return row_button;
+                            //} else {
+                            //  return null; // NULL is not valid in JavaScript, use null instead
+                            //}
                         }
                     }
 

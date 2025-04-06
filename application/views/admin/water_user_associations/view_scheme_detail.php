@@ -157,268 +157,274 @@
 <!-- PAGE MAIN CONTENT -->
 <div class="row">
 
+    <?php
+    if ($scheme->component_category_id != 10 and $scheme->component_category_id != 12) { ?>
+        <div class="col-md-3">
+            <div class="box border blue" id="messenger">
+                <div class="box-title">
+                    <h4><i class="fa fa-users"></i> Water User Assosiation Detail</h4>
 
-    <div class="col-md-3">
-        <div class="box border blue" id="messenger">
-            <div class="box-title">
-                <h4><i class="fa fa-users"></i> Water User Assosiation Detail</h4>
+                </div>
+                <div class="box-body">
 
-            </div>
-            <div class="box-body">
+                    <div class="table-responsive">
+                        <a
+                            href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_water_user_association/" . $water_user_association->water_user_association_id); ?>">
 
-                <div class="table-responsive">
-                    <a
-                        href="<?php echo site_url(ADMIN_DIR . "water_user_associations/view_water_user_association/" . $water_user_association->water_user_association_id); ?>">
+                            <h5>WUA Name: <?php echo $water_user_association->wua_name; ?></h5>
+                        </a>
+                        <h5>WUA REG No: <?php echo $water_user_association->wua_registration_no; ?></h5>
+                        <strong>WUA Address</strong>
+                        <table class="table table-bordered table_small">
+                            <thead>
 
-                        <h5>WUA Name: <?php echo $water_user_association->wua_name; ?></h5>
-                    </a>
-                    <h5>WUA REG No: <?php echo $water_user_association->wua_registration_no; ?></h5>
-                    <strong>WUA Address</strong>
-                    <table class="table table-bordered table_small">
-                        <thead>
+                            </thead>
+                            <tbody>
 
-                        </thead>
-                        <tbody>
-
-                            <tr>
-                                <th style="width: 120px;"><?php echo $this->lang->line('district_name'); ?></th>
-                                <td>
-                                    <?php echo $water_user_association->district_name; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><?php echo $this->lang->line('tehsil_name'); ?></th>
-                                <td>
-                                    <?php echo $water_user_association->tehsil_name; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><?php echo $this->lang->line('union_council'); ?></th>
-                                <td>
-                                    <?php echo $water_user_association->union_council; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><?php echo $this->lang->line('address'); ?></th>
-                                <td>
-                                    <?php echo $water_user_association->address; ?>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <strong>WUA Bank Detail</strong>
-                    <table class="table table-bordered table_small">
-                        <tbody>
-                            <tr>
-                                <th style="width: 120px;"><?php echo $this->lang->line('bank_account_title'); ?></th>
-                                <td>
-                                    <?php echo $water_user_association->bank_account_title; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><?php echo $this->lang->line('bank_account_number'); ?></th>
-                                <td>
-                                    <?php echo $water_user_association->bank_account_number; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th><?php echo $this->lang->line('bank_branch_code'); ?></th>
-                                <td>
-                                    <?php echo $water_user_association->bank_branch_code; ?>
-                                </td>
-                            </tr>
-                            <!-- <tr>
+                                <tr>
+                                    <th style="width: 120px;"><?php echo $this->lang->line('district_name'); ?></th>
+                                    <td>
+                                        <?php echo $water_user_association->district_name; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo $this->lang->line('tehsil_name'); ?></th>
+                                    <td>
+                                        <?php echo $water_user_association->tehsil_name; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo $this->lang->line('union_council'); ?></th>
+                                    <td>
+                                        <?php echo $water_user_association->union_council; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo $this->lang->line('address'); ?></th>
+                                    <td>
+                                        <?php echo $water_user_association->address; ?>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <strong>WUA Bank Detail</strong>
+                        <table class="table table-bordered table_small">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 120px;"><?php echo $this->lang->line('bank_account_title'); ?></th>
+                                    <td>
+                                        <?php echo $water_user_association->bank_account_title; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo $this->lang->line('bank_account_number'); ?></th>
+                                    <td>
+                                        <?php echo $water_user_association->bank_account_number; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th><?php echo $this->lang->line('bank_branch_code'); ?></th>
+                                    <td>
+                                        <?php echo $water_user_association->bank_branch_code; ?>
+                                    </td>
+                                </tr>
+                                <!-- <tr>
                                 <th><?php echo $this->lang->line('Status'); ?></th>
                                 <td>
                                     <?php echo status($water_user_association->status); ?>
                                 </td>
                             </tr> -->
-                            <tr>
-                                <th>Attachement</th>
-                                <td>
-                                    <?php
-                                    echo file_type(base_url("assets/uploads/" . $water_user_association->attachement));
-                                    ?>
-                                </td>
-                            </tr>
-
-
-                        </tbody>
-                    </table>
-
-                    <strong>WUA Chairman Detail</strong>
-                    <table class="table table-bordered table_small">
-                        <tbody>
-                            <tr>
-                                <th style="width: 120px;">Chairman Name</th>
-                                <td>
-                                    <?php echo $water_user_association->cm_name; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 120px;">Father Name</th>
-                                <td>
-                                    <?php echo $water_user_association->cm_father_name; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 120px;">Gender</th>
-                                <td>
-                                    <?php echo $water_user_association->cm_gender; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 120px;">CNIC</th>
-                                <td>
-                                    <?php echo $water_user_association->cm_cnic; ?>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th style="width: 120px;">Contact</th>
-                                <td>
-                                    <?php echo $water_user_association->cm_contact_no; ?>
-                                </td>
-                            </tr>
-
-                        </tbody>
-                    </table>
-                    <strong> WUA Other Members</strong>
-
-                    <table class="table table_s_small " style="font-size: 8px;">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>#</th>
-                                <th>Member</th>
-                                <th>Name / Father Name</th>
-                                <th>Gender</th>
-                                <th>Contact / CNIC</th>
-                                <th></th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php
-                            $count = 1;
-                            $query = "SELECT * FROM wua_members WHERE water_user_association_id = '" . $water_user_association->water_user_association_id . "'";
-                            $wua_members = $this->db->query($query)->result();
-                            foreach ($wua_members as $wua_member) : ?>
-
                                 <tr>
-
-                                    <td><a class="llink llink-trash"
-                                            href="<?php echo site_url(ADMIN_DIR . "water_user_associations/delete_member/" . $water_user_association->water_user_association_id . "/" . $water_user_association->water_user_association_id); ?>"><i
-                                                class="fa fa-trash-o"></i></a> </td>
-                                    </td>
-                                    <td><?php echo $count++; ?></td>
-
-                                    <td>
-                                        <?php echo $wua_member->member_type; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $wua_member->member_name; ?>
-                                        <br />
-                                        <?php echo $wua_member->member_father_name; ?>
-                                    </td>
-                                    <td>
-                                        <?php echo $wua_member->member_gender; ?>
-                                    </td>
+                                    <th>Attachement</th>
                                     <td>
                                         <?php
-                                        if ($wua_member->contact_no) {
-                                            echo $wua_member->contact_no . "<br />";
-                                        } ?>
-                                        <?php echo $wua_member->member_cnic; ?>
-                                    </td>
-                                    <td>
-                                        <?php
-                                        echo file_type(base_url("assets/uploads/" . $wua_member->attachment), false, 20, 20);
+                                        echo file_type(base_url("assets/uploads/" . $water_user_association->attachement));
                                         ?>
                                     </td>
+                                </tr>
 
+
+                            </tbody>
+                        </table>
+
+                        <strong>WUA Chairman Detail</strong>
+                        <table class="table table-bordered table_small">
+                            <tbody>
+                                <tr>
+                                    <th style="width: 120px;">Chairman Name</th>
                                     <td>
-                                        <a class="llink llink-edit" href="#"
-                                            onclick="awa_member_form(<?php echo $wua_member->wua_member_id; ?>)"><i
-                                                class="fa fa-pencil-square-o"></i></a>
+                                        <?php echo $water_user_association->cm_name; ?>
                                     </td>
                                 </tr>
-                            <?php endforeach; ?>
-                            <tr>
-                                <td colspan="9" style="text-align: center;">
+                                <tr>
+                                    <th style="width: 120px;">Father Name</th>
+                                    <td>
+                                        <?php echo $water_user_association->cm_father_name; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 120px;">Gender</th>
+                                    <td>
+                                        <?php echo $water_user_association->cm_gender; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 120px;">CNIC</th>
+                                    <td>
+                                        <?php echo $water_user_association->cm_cnic; ?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th style="width: 120px;">Contact</th>
+                                    <td>
+                                        <?php echo $water_user_association->cm_contact_no; ?>
+                                    </td>
+                                </tr>
 
-                                    <button style="display: none;" class="btn btn-danger btn-sm"
-                                        onclick="get_water_user_association_form('<?php echo $water_user_association->water_user_association_id; ?>')">
-                                        Edit WUA Detail
-                                        </botton>
+                            </tbody>
+                        </table>
+                        <strong> WUA Other Members</strong>
 
-                                        <script>
-                                            function get_water_user_association_form(water_user_association_id) {
-                                                $.ajax({
-                                                        method: "POST",
-                                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_water_user_association_form'); ?>",
-                                                        data: {
-                                                            water_user_association_id: water_user_association_id
-                                                        },
-                                                    })
-                                                    .done(function(respose) {
-                                                        $('#modal').modal('show');
-                                                        $('#modal_title').html('Water User Associations');
-                                                        $('#modal_body').html(respose);
-                                                    });
-                                            }
-                                        </script>
+                        <table class="table table_s_small " style="font-size: 8px;">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>#</th>
+                                    <th>Member</th>
+                                    <th>Name / Father Name</th>
+                                    <th>Gender</th>
+                                    <th>Contact / CNIC</th>
+                                    <th></th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+                                $count = 1;
+                                $query = "SELECT * FROM wua_members WHERE water_user_association_id = '" . $water_user_association->water_user_association_id . "'";
+                                $wua_members = $this->db->query($query)->result();
+                                foreach ($wua_members as $wua_member) : ?>
 
-                                        <button onclick="awa_member_form(0)" class="btn btn-primary btn-sm">Add WUA
-                                            Member</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    <tr>
 
-                    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-                    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-                    <script>
-                        function awa_member_form(wua_member_id) {
-                            $.ajax({
-                                    method: "POST",
-                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/awa_member_form'); ?>",
-                                    data: {
-                                        wua_member_id: wua_member_id,
-                                        water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
-                                    },
-                                })
-                                .done(function(response) {
+                                        <td><a class="llink llink-trash"
+                                                href="<?php echo site_url(ADMIN_DIR . "water_user_associations/delete_member/" . $water_user_association->water_user_association_id . "/" . $water_user_association->water_user_association_id); ?>"><i
+                                                    class="fa fa-trash-o"></i></a> </td>
+                                        </td>
+                                        <td><?php echo $count++; ?></td>
 
-                                    $('#modal').modal('show');
-                                    $('#modal_title').html('Add WUA Member');
-                                    $('#modal_body').html(response);
+                                        <td>
+                                            <?php echo $wua_member->member_type; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $wua_member->member_name; ?>
+                                            <br />
+                                            <?php echo $wua_member->member_father_name; ?>
+                                        </td>
+                                        <td>
+                                            <?php echo $wua_member->member_gender; ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            if ($wua_member->contact_no) {
+                                                echo $wua_member->contact_no . "<br />";
+                                            } ?>
+                                            <?php echo $wua_member->member_cnic; ?>
+                                        </td>
+                                        <td>
+                                            <?php
+                                            echo file_type(base_url("assets/uploads/" . $wua_member->attachment), false, 20, 20);
+                                            ?>
+                                        </td>
 
-                                    // Make the modal draggable
-                                    // $('#modal .modal-dialog').draggable({
-                                    //     handle: ".modal-header", // Ensure modal can be dragged by the header
-                                    //     containment: "window" // Optional: restrict dragging within the window
-                                    // });
+                                        <td>
+                                            <a class="llink llink-edit" href="#"
+                                                onclick="awa_member_form(<?php echo $wua_member->wua_member_id; ?>)"><i
+                                                    class="fa fa-pencil-square-o"></i></a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                                <tr>
+                                    <td colspan="9" style="text-align: center;">
 
-                                    // Ensure modal backdrop stays in place while dragging
-                                    // $('#modal').on('shown.bs.modal', function() {
-                                    //     $('.modal-backdrop').remove();
-                                    //     $('<div class="modal-backdrop fade show"></div>').appendTo(document
-                                    //         .body);
-                                    // });
-                                });
-                        }
-                    </script>
+                                        <button style="display: none;" class="btn btn-danger btn-sm"
+                                            onclick="get_water_user_association_form('<?php echo $water_user_association->water_user_association_id; ?>')">
+                                            Edit WUA Detail
+                                            </botton>
+
+                                            <script>
+                                                function get_water_user_association_form(water_user_association_id) {
+                                                    $.ajax({
+                                                            method: "POST",
+                                                            url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/get_water_user_association_form'); ?>",
+                                                            data: {
+                                                                water_user_association_id: water_user_association_id
+                                                            },
+                                                        })
+                                                        .done(function(respose) {
+                                                            $('#modal').modal('show');
+                                                            $('#modal_title').html('Water User Associations');
+                                                            $('#modal_body').html(respose);
+                                                        });
+                                                }
+                                            </script>
+
+                                            <button onclick="awa_member_form(0)" class="btn btn-primary btn-sm">Add WUA
+                                                Member</button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+                        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+                        <script>
+                            function awa_member_form(wua_member_id) {
+                                $.ajax({
+                                        method: "POST",
+                                        url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/awa_member_form'); ?>",
+                                        data: {
+                                            wua_member_id: wua_member_id,
+                                            water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                                        },
+                                    })
+                                    .done(function(response) {
+
+                                        $('#modal').modal('show');
+                                        $('#modal_title').html('Add WUA Member');
+                                        $('#modal_body').html(response);
+
+                                        // Make the modal draggable
+                                        // $('#modal .modal-dialog').draggable({
+                                        //     handle: ".modal-header", // Ensure modal can be dragged by the header
+                                        //     containment: "window" // Optional: restrict dragging within the window
+                                        // });
+
+                                        // Ensure modal backdrop stays in place while dragging
+                                        // $('#modal').on('shown.bs.modal', function() {
+                                        //     $('.modal-backdrop').remove();
+                                        //     $('<div class="modal-backdrop fade show"></div>').appendTo(document
+                                        //         .body);
+                                        // });
+                                    });
+                            }
+                        </script>
+
+                    </div>
+
 
                 </div>
 
-
             </div>
-
         </div>
-    </div>
+    <?php } ?>
 
-
-    <div class="col-md-9">
+    <div
+        <?php if ($scheme->component_category_id != 10 and $scheme->component_category_id != 12) { ?>
+        class="col-md-9"
+        <?php } else { ?>
+        class="col-md-12"
+        <?php } ?>>
         <div class="box border blue" id="messenger">
             <div class="box-title">
                 <h4><i class="fa fa-tasks"></i> Scheme Details
@@ -427,9 +433,25 @@
                 </h4>
                 <?php if ($scheme->scheme_status != 'Completed') { ?>
                     <span class="pull-right">
-                        <a class="llink llink-edit" style="color: white;" href="#"
-                            onclick="scheme_form(<?php echo $scheme->scheme_id; ?>)"><i class="fa fa-pencil-square-o"></i>
-                            Edit</a>
+
+                        <?php if ($scheme->scheme_status != 'Completed') { ?>
+                            <?php if ($scheme->component_category_id == 10) { ?>
+                                <a class="llink llink-edit" style="color: white;" href="#"
+                                    onclick="b1_scheme_form(<?php echo $scheme->scheme_id; ?>)"><i class="fa fa-pencil-square-o"></i>
+                                    Edit</a>
+                            <?php } else { ?>
+                                <?php if ($scheme->component_category_id == 12) { ?>
+                                    <a class="llink llink-edit" style="color: white;" href="#"
+                                        onclick="b3_scheme_form(<?php echo $scheme->scheme_id; ?>)"><i class="fa fa-pencil-square-o"></i>
+                                        Edit</a>
+                                <?php } else { ?>
+                                    <a class="llink llink-edit" style="color: white;" href="#"
+                                        onclick="scheme_form(<?php echo $scheme->scheme_id; ?>)"><i class="fa fa-pencil-square-o"></i>
+                                        Edit</a>
+                                <?php } ?>
+                            <?php } ?>
+
+                        <?php } ?>
                     </span>
                     <script>
                         function scheme_form(scheme_id) {
@@ -437,6 +459,40 @@
                             $.ajax({
                                     method: "POST",
                                     url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_form'); ?>",
+                                    data: {
+                                        scheme_id: scheme_id,
+                                        water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                                    },
+                                })
+                                .done(function(respose) {
+                                    $('#modal').modal('show');
+                                    $('#modal_title').html('Add Scheme');
+                                    $('#modal_body').html(respose);
+                                });
+                        }
+
+                        function b1_scheme_form(scheme_id) {
+
+                            $.ajax({
+                                    method: "POST",
+                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/b1_scheme_form'); ?>",
+                                    data: {
+                                        scheme_id: scheme_id,
+                                        water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
+                                    },
+                                })
+                                .done(function(respose) {
+                                    $('#modal').modal('show');
+                                    $('#modal_title').html('Add Scheme');
+                                    $('#modal_body').html(respose);
+                                });
+                        }
+
+                        function b3_scheme_form(scheme_id) {
+
+                            $.ajax({
+                                    method: "POST",
+                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/b3_scheme_form'); ?>",
                                     data: {
                                         scheme_id: scheme_id,
                                         water_user_association_id: <?php echo $water_user_association->water_user_association_id; ?>,
@@ -459,7 +515,7 @@
                                 <tr>
                                     <th>District</th>
                                     <th>Tehsil</th>
-                                    <th>Uc</th>
+                                    <th>UC</th>
                                     <th>Village</th>
                                     <th>NA</th>
                                     <th>PK</th>
@@ -711,72 +767,143 @@
                                     </tbody>
                                 </table>
                             </div>
-                        <?php } else { ?>
-                            <div class="table-responsive">
-                                <table class="table table-bordered table_small" id="sch emes">
-                                    <thead>
-                                        <tr>
+                            <?php } else {
+                            if ($scheme->component_category_id == 10) { ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table_small">
+                                        <thead>
+                                            <tr>
+                                                <th>Farmer Name</th>
+                                                <th>Contact No</th>
+                                                <th>NIC No</th>
+                                                <th>Work Order No</th>
+                                                <th>Government Share</th>
+                                                <th>Farmer Share</th>
 
-                                            <th>Verified By Tpv</th>
-                                            <th>Funding Source</th>
-                                            <th>Water Source</th>
-                                            <th>CCA</th>
-                                            <th>GCA</th>
-                                            <th>Pre</th>
-                                            <th>Pre Additional</th>
-                                            <th>Post</th>
-                                            <th>Saving</th>
-                                            <!-- <th>Saving Utilisation To Intensity</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td><?php echo $scheme->farmer_name; ?></td>
+                                                <td><?php echo $scheme->contact_no; ?></td>
+                                                <td><?php echo $scheme->nic_no; ?></td>
+                                                <td><?php echo $scheme->work_order_no; ?></td>
+                                                <td><?php echo $scheme->government_share; ?></td>
+                                                <td><?php echo $scheme->farmer_share; ?></td>
+
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table_small">
+                                        <thead>
+                                            <tr>
+
+                                                <th>SSC</th>
+                                                <th>Scheme Area</th>
+                                                <th>Crop</th>
+                                                <th>Crop Category</th>
+                                                <th>System Type</th>
+                                                <th>Soil Type</th>
+                                                <th>Power Source</th>
+                                                <th>Design Referred Date</th>
+                                                <th>Desing Referred By</th>
+                                                <th>Feasibility Checked By</th>
+                                                <th>Design Approved By</th>
+                                                <th>Per Acre Cost</th>
+                                                <th>Agreement Signed Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+
+                                                <td><?php echo $scheme->ssc; ?></td>
+                                                <td><?php echo $scheme->scheme_area; ?></td>
+                                                <td><?php echo $scheme->crop; ?></td>
+                                                <td><?php echo $scheme->crop_category; ?></td>
+                                                <td><?php echo $scheme->system_type; ?></td>
+                                                <td><?php echo $scheme->soil_type; ?></td>
+                                                <td><?php echo $scheme->power_source; ?></td>
+                                                <td><?php echo $scheme->design_referred_date; ?></td>
+                                                <td><?php echo $scheme->desing_referred_by; ?></td>
+                                                <td><?php echo $scheme->feasibility_checked_by; ?></td>
+                                                <td><?php echo $scheme->design_approved_by; ?></td>
+                                                <td><?php echo $scheme->per_acre_cost; ?></td>
+                                                <td><?php echo $scheme->agreement_signed_date; ?></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php  } else { ?>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table_small" id="sch emes">
+                                        <thead>
+                                            <tr>
+
+                                                <th>Verified By Tpv</th>
+                                                <th>Funding Source</th>
+                                                <th>Water Source</th>
+                                                <th>CCA</th>
+                                                <th>GCA</th>
+                                                <th>Pre</th>
+                                                <th>Pre Additional</th>
+                                                <th>Post</th>
+                                                <th>Saving</th>
+                                                <!-- <th>Saving Utilisation To Intensity</th>
                                         <th>Saving Utilization To Change In Cropping Pattern</th>
                                         <th>Water Productivity For Wheat And Maize</th>
                                         <th>Any Increase In Productivity After The List Crop Cycle</th> -->
-                                            <th>Total</th>
-                                            <th>Lining</th>
-                                            <th>Lwh</th>
-                                            <th>Type Of Lining</th>
-                                            <th>Nacca Pannel</th>
-                                            <th>Culvert</th>
-                                            <th>Risers Pipe</th>
-                                            <th>Risers Pond</th>
-                                            <th>Others</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
+                                                <th>Total</th>
+                                                <th>Lining</th>
+                                                <th>Lwh</th>
+                                                <th>Type Of Lining</th>
+                                                <th>Nacca Pannel</th>
+                                                <th>Culvert</th>
+                                                <th>Risers Pipe</th>
+                                                <th>Risers Pond</th>
+                                                <th>Others</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
 
-                                        <tr>
+                                            <tr>
 
 
-                                            <td><?php echo $scheme->verified_by_tpv; ?></td>
-                                            <td><?php echo $scheme->funding_source; ?></td>
-                                            <td><?php echo $scheme->water_source; ?></td>
-                                            <td><?php echo $scheme->cca; ?></td>
-                                            <td><?php echo $scheme->gca; ?></td>
-                                            <td><?php echo $scheme->pre_water_losses; ?></td>
-                                            <td><?php echo $scheme->pre_additional; ?></td>
-                                            <td><?php echo $scheme->post_water_losses; ?></td>
-                                            <td><?php echo $scheme->saving_water_losses; ?></td>
-                                            <!-- <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
+                                                <td><?php echo $scheme->verified_by_tpv; ?></td>
+                                                <td><?php echo $scheme->funding_source; ?></td>
+                                                <td><?php echo $scheme->water_source; ?></td>
+                                                <td><?php echo $scheme->cca; ?></td>
+                                                <td><?php echo $scheme->gca; ?></td>
+                                                <td><?php echo $scheme->pre_water_losses; ?></td>
+                                                <td><?php echo $scheme->pre_additional; ?></td>
+                                                <td><?php echo $scheme->post_water_losses; ?></td>
+                                                <td><?php echo $scheme->saving_water_losses; ?></td>
+                                                <!-- <td><?php echo $scheme->saving_utilisation_to_intensity; ?></td>
                                         <td><?php echo $scheme->saving_utilization_to_change_in_cropping_pattern; ?>
                                         </td>
                                         <td><?php echo $scheme->water_productivity_for_wheat_and_maize; ?></td>
                                         <td><?php echo $scheme->any_increase_in_productivity_after_the_list_crop_cycle; ?>
                                         </td> -->
-                                            <td><?php echo $scheme->total_lenght; ?></td>
-                                            <td><?php echo $scheme->lining_length; ?></td>
-                                            <td><?php echo $scheme->lwh; ?></td>
-                                            <td><?php echo $scheme->type_of_lining; ?></td>
-                                            <td><?php echo $scheme->nacca_pannel; ?></td>
-                                            <td><?php echo $scheme->culvert; ?></td>
-                                            <td><?php echo $scheme->risers_pipe; ?></td>
-                                            <td><?php echo $scheme->risers_pond; ?></td>
-                                            <td><?php echo $scheme->others; ?></td>
+                                                <td><?php echo $scheme->total_lenght; ?></td>
+                                                <td><?php echo $scheme->lining_length; ?></td>
+                                                <td><?php echo $scheme->lwh; ?></td>
+                                                <td><?php echo $scheme->type_of_lining; ?></td>
+                                                <td><?php echo $scheme->nacca_pannel; ?></td>
+                                                <td><?php echo $scheme->culvert; ?></td>
+                                                <td><?php echo $scheme->risers_pipe; ?></td>
+                                                <td><?php echo $scheme->risers_pond; ?></td>
+                                                <td><?php echo $scheme->others; ?></td>
 
-                                        </tr>
+                                            </tr>
 
-                                    </tbody>
-                                </table>
-                            </div>
-                        <?php } ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                        <?php
+
+                            }
+                        } ?>
 
                         <div style="text-align: center;">
                             <h4 style="text-align: center;">
@@ -815,22 +942,7 @@
                                         class="btn btn-danger btn-sm"><i class="fa fa-forward"></i>
                                         Initiate Scheme
                                     </button>
-                                    <script>
-                                        function initiate_scheme(scheme_id) {
-                                            $.ajax({
-                                                    method: "POST",
-                                                    url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_initiate_form'); ?>",
-                                                    data: {
-                                                        scheme_id: scheme_id
-                                                    },
-                                                })
-                                                .done(function(respose) {
-                                                    $('#modal').modal('show');
-                                                    $('#modal_title').html('Initiate Scheme');
-                                                    $('#modal_body').html(respose);
-                                                });
-                                        }
-                                    </script>
+
                                 <?php } else { ?>
 
                                 <?php } ?>
@@ -937,9 +1049,9 @@
 
                             <?php if (($scheme->scheme_status != 'Complete') and ($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
                                 <?php if ($scheme->scheme_status != 'Registered') { ?>
-                                    <button onclick="update_st_data(<?php echo $scheme->scheme_id ?>)"
+                                    <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
                                         class="btn btn-success btn-sm"><i class="fa fa-edit"></i>
-                                        Update Technical Data
+                                        Edit Technical Data
                                     </button>
                                     <script>
                                         function update_st_data(scheme_id) {
@@ -1233,4 +1345,21 @@ if ($scheme->scheme_status != 'Completed' and 1 == 2) { ?>
             ]
         });
     });
+</script>
+
+<script>
+    function initiate_scheme(scheme_id) {
+        $.ajax({
+                method: "POST",
+                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/scheme_initiate_form'); ?>",
+                data: {
+                    scheme_id: scheme_id
+                },
+            })
+            .done(function(respose) {
+                $('#modal').modal('show');
+                $('#modal_title').html('Initiate Scheme');
+                $('#modal_body').html(respose);
+            });
+    }
 </script>

@@ -152,7 +152,11 @@ class Sft extends Admin_Controller
         if ($scheme->component_category_id == 12) {
             $this->load->view(ADMIN_DIR . "sft/b3_sft_review_form", $this->data);
         } else {
-            $this->load->view(ADMIN_DIR . "sft/sft_review_form", $this->data);
+            if ($scheme->component_category_id == 10) {
+                $this->load->view(ADMIN_DIR . "sft/b1_sft_review_form", $this->data);
+            } else {
+                $this->load->view(ADMIN_DIR . "sft/sft_review_form", $this->data);
+            }
         }
     }
 
@@ -502,6 +506,183 @@ class Sft extends Admin_Controller
             $input["scrapper_weight"] = $this->input->post("scrapper_weight");
             $input["fcr_approving_expert"] = $this->input->post("fcr_approving_expert");
             $input["distribution_date"] = $this->input->post("distribution_date");
+
+
+
+
+            $completion_cost = (float) $this->input->post("completion_cost");
+            $approved_cost = (float) $this->input->post("approved_cost");
+            $revised_cost = (float) $this->input->post("revised_cost");
+
+
+            if ($revised_cost <= 0 and $completion_cost > $approved_cost) {
+                echo '<div class="alert alert-danger">Completion Cost should be less than or equal to Approved Cost</div>';
+                exit();
+            }
+
+            if ($revised_cost > 0  and $completion_cost > $revised_cost) {
+                echo '<div class="alert alert-danger">Completion Cost should be less than or equal to Revised Cost</div>';
+                exit();
+            }
+
+            if ($revised_cost > 0  and $approved_cost > $revised_cost) {
+                echo '<div class="alert alert-danger">Approved Cost should be less than or equal to Revised Cost</div>';
+                exit();
+            }
+
+
+
+
+            $input["estimated_cost"] = 0;
+            $input["approved_cost"] = $this->input->post("approved_cost");
+            if ($this->input->post("revised_cost") > 0) {
+                $input["revised_cost"] = $this->input->post("revised_cost");
+                $input["revised_cost_date"] = $this->input->post("revised_cost_date");
+            } else {
+                $input["revised_cost"] = 0;
+                $input["revised_cost_date"] = NULL;
+            }
+            $input["completion_cost"] = $this->input->post("completion_cost");
+            $input["sanctioned_cost"] = $this->input->post("completion_cost");
+
+
+            $input["estimated_cost_date"] = 0;
+            $input["approval_date"] = $this->input->post("approval_date");
+
+            $input["completion_date"] = $this->input->post("completion_date");
+
+            $input["phy_completion"] = 'Yes';
+            $input["phy_completion_date"] = $this->input->post("completion_date");
+            $input["sft_reviewed"] = 1;
+
+            $scheme_id = (int) $this->input->post('scheme_id');
+
+            $this->db->where("scheme_id", $scheme_id);
+            $this->db->update("schemes", $input);
+            echo 'success';
+        }
+    }
+
+    public function update_b1_scheme_sft_data()
+    {
+        // //echo var_dump($_POST);
+        // foreach ($_POST as $index => $value) {
+        //     echo '$this->form_validation->set_rules("' . $index . '", "' . ucwords(str_replace('_', ' ', $index)) . '", "required"); <br />';
+        //     // echo '$input["' . $index . '"] = $this->input->post("' . $index . '");<br />';
+        // }
+
+        // foreach ($_POST as $index => $value) {
+        //     //echo '$this->form_validation->set_rules("' . $index . '", "' . ucwords(str_replace('_', ' ', $index)) . '", "required"); <br />';
+        //     echo '$input["' . $index . '"] = $this->input->post("' . $index . '");<br />';
+        // }
+
+        // exit();
+
+
+        if ($this->input->post("revised_cost") > 0) {
+            $this->form_validation->set_rules("revised_cost", "Revised Cost", "required");
+            $this->form_validation->set_rules("revised_cost_date", "Revised Cost Date", "required");
+        }
+
+
+        $this->form_validation->set_rules("scheme_id", "Scheme Id", "required");
+        $this->form_validation->set_rules("water_user_association_id", "Water User Association Id", "required");
+        $this->form_validation->set_rules("component_category_id", "Component Category Id", "required");
+        $this->form_validation->set_rules("farmer_name", "Farmer Name", "required");
+        $this->form_validation->set_rules("contact_no", "Contact No", "required");
+        $this->form_validation->set_rules("nic_no", "Nic No", "required");
+        $this->form_validation->set_rules("tehsil", "Tehsil", "required");
+        $this->form_validation->set_rules("uc", "Uc", "required");
+        $this->form_validation->set_rules("villege", "Villege", "required");
+        $this->form_validation->set_rules("na", "Na", "required");
+        $this->form_validation->set_rules("pk", "Pk", "required");
+        $this->form_validation->set_rules("latitude", "Latitude", "required");
+        $this->form_validation->set_rules("longitude", "Longitude", "required");
+        $this->form_validation->set_rules("registration_date", "Registration Date", "required");
+        $this->form_validation->set_rules("survey_date", "Survey Date", "required");
+        $this->form_validation->set_rules("design_referred_date", "Design Referred Date", "required");
+        $this->form_validation->set_rules("desing_referred_by", "Desing Referred By", "required");
+        $this->form_validation->set_rules("design_approved_by", "Design Approved By", "required");
+        $this->form_validation->set_rules("feasibility_checked_by", "Feasibility Checked By", "required");
+        $this->form_validation->set_rules("feasibility_date", "Feasibility Date", "required");
+        $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+        $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+        $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+        $this->form_validation->set_rules("estimated_cost", "Estimated Cost", "required");
+        $this->form_validation->set_rules("estimated_cost_date", "Estimated Cost Date", "required");
+        $this->form_validation->set_rules("approved_cost", "Approved Cost", "required");
+        $this->form_validation->set_rules("approval_date", "Approval Date", "required");
+
+        $this->form_validation->set_rules("completion_cost", "Completion Cost", "required");
+        $this->form_validation->set_rules("completion_date", "Completion Date", "required");
+        $this->form_validation->set_rules("funding_source", "Funding Source", "required");
+        $this->form_validation->set_rules("water_source", "Water Source", "required");
+        $this->form_validation->set_rules("government_share", "Government Share", "required");
+        $this->form_validation->set_rules("farmer_share", "Farmer Share", "required");
+        $this->form_validation->set_rules("per_acre_cost", "Per Acre Cost", "required");
+        $this->form_validation->set_rules("ssc", "Ssc", "required");
+        $this->form_validation->set_rules("scheme_area", "Scheme Area", "required");
+        $this->form_validation->set_rules("crop", "Crop", "required");
+        $this->form_validation->set_rules("crop_category", "Crop Category", "required");
+        $this->form_validation->set_rules("system_type", "System Type", "required");
+        $this->form_validation->set_rules("soil_type", "Soil Type", "required");
+        $this->form_validation->set_rules("power_source", "Power Source", "required");
+        $this->form_validation->set_rules("agreement_signed_date", "Agreement Signed Date", "required");
+
+
+
+        if ($this->form_validation->run() == FALSE) {
+            echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
+            exit();
+        } else {
+
+
+            $input["scheme_id"] = $this->input->post("scheme_id");
+            $input["water_user_association_id"] = $this->input->post("water_user_association_id");
+            $input["component_category_id"] = $this->input->post("component_category_id");
+            $input["farmer_name"] = $this->input->post("farmer_name");
+            $input["contact_no"] = $this->input->post("contact_no");
+            $input["nic_no"] = $this->input->post("nic_no");
+            $input["tehsil"] = $this->input->post("tehsil");
+            $input["uc"] = $this->input->post("uc");
+            $input["villege"] = $this->input->post("villege");
+            $input["na"] = $this->input->post("na");
+            $input["pk"] = $this->input->post("pk");
+            $input["latitude"] = $this->input->post("latitude");
+            $input["longitude"] = $this->input->post("longitude");
+            $input["registration_date"] = $this->input->post("registration_date");
+            $input["survey_date"] = $this->input->post("survey_date");
+            $input["design_referred_date"] = $this->input->post("design_referred_date");
+            $input["desing_referred_by"] = $this->input->post("desing_referred_by");
+            $input["design_approved_by"] = $this->input->post("design_approved_by");
+            $input["feasibility_checked_by"] = $this->input->post("feasibility_checked_by");
+            $input["feasibility_date"] = $this->input->post("feasibility_date");
+            $input["work_order_date"] = $this->input->post("work_order_date");
+            $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
+            $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
+            $input["estimated_cost"] = $this->input->post("estimated_cost");
+            $input["estimated_cost_date"] = $this->input->post("estimated_cost_date");
+            $input["approved_cost"] = $this->input->post("approved_cost");
+            $input["approval_date"] = $this->input->post("approval_date");
+            if ($this->input->post("revised_cost") > 0) {
+                $input["revised_cost"] = $this->input->post("revised_cost");
+                $input["revised_cost_date"] = $this->input->post("revised_cost_date");
+            }
+            $input["completion_cost"] = $this->input->post("completion_cost");
+            $input["completion_date"] = $this->input->post("completion_date");
+            $input["funding_source"] = $this->input->post("funding_source");
+            $input["water_source"] = $this->input->post("water_source");
+            $input["government_share"] = $this->input->post("government_share");
+            $input["farmer_share"] = $this->input->post("farmer_share");
+            $input["per_acre_cost"] = $this->input->post("per_acre_cost");
+            $input["ssc"] = $this->input->post("ssc");
+            $input["scheme_area"] = $this->input->post("scheme_area");
+            $input["crop"] = $this->input->post("crop");
+            $input["crop_category"] = $this->input->post("crop_category");
+            $input["system_type"] = $this->input->post("system_type");
+            $input["soil_type"] = $this->input->post("soil_type");
+            $input["power_source"] = $this->input->post("power_source");
+            $input["agreement_signed_date"] = $this->input->post("agreement_signed_date");
 
 
 
