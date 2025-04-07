@@ -513,7 +513,7 @@ function strip_hidden_chars($str)
 }
 
 
-function convertToExactNumber($value)
+function convertToExactNumber2($value)
 {
 	// Check if the value is in scientific notation
 	if (preg_match('/^-?\d+(\.\d+)?E[+-]?\d+$/i', $value)) {

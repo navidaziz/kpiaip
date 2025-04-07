@@ -72,11 +72,12 @@ if ($hostname === 'localhost' || $hostname === '127.0.0.1') {
  * Different environments will require different levels of error reporting.
  * By default development will show errors but testing and live will hide them.
  */
-
+//echo ENVIRONMENT;
+//exit();
 switch (ENVIRONMENT) {
 	case 'development':
 
-		error_reporting(0);
+		//error_reporting(0);
 		ini_set('display_errors', 1);
 		break;
 
