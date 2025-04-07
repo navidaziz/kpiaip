@@ -102,7 +102,7 @@
 <!-- PAGE MAIN CONTENT -->
 <div class="row">
     <!-- MESSENGER -->
-    <?php if (!strpos($water_user_association->wua_name, 'B1&B3-') === 0) { ?>
+    <?php if (strpos($water_user_association->wua_name, 'B1&B3-') === 0) { ?>
         <div class="col-md-3">
             <div class="box border blue" id="messenger">
                 <div class="box-title">
