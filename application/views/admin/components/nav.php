@@ -28,7 +28,7 @@ foreach ($menu_arr as $controller_id => $controller_data) {
             foreach ($controller_data['actions'] as $action) {
 
                 $class = "";
-                if ($current_action_id == $action['action_id']) {
+                if (@$current_action_id == $action['action_id']) {
                     $class = "current";
                 }
                 $menu_list .= "<li class='" . $class . "' ><a class='' href='" . site_url(ADMIN_DIR . $controller_data['controller_uri'] . "/" . $action['action_uri']) . "'><span class='sub-menu-text' style=\"color:#000\">" . $action['action_title'] . "</span></a></li>";

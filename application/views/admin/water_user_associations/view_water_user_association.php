@@ -79,13 +79,12 @@
 
                 <div class="col-md-6">
                     <div class="pull-right">
-                        <?php if (strpos($water_user_association->wua_name, 'B1&B3-') === 0 or 1 == 1) { ?>
+                        <?php if (strpos($water_user_association->wua_name, 'B1&B3-') === 0) { ?>
                             <button onclick="b1_scheme_form(0)" class="btn btn-success" style="margin-top: -7px;">Add B1
                                 Scheme</button>
                             <button onclick="b3_scheme_form(0)" class="btn btn-warning" style="margin-top: -7px;">Add B3
                                 Scheme</button>
-                            <button onclick="scheme_form(0)" class="btn btn-danger" style="margin-top: -7px;">Add New
-                                Scheme</button>
+
                         <?php  } else { ?>
                             <button onclick="scheme_form(0)" class="btn btn-danger" style="margin-top: -7px;">Add New
                                 Scheme</button>
@@ -104,7 +103,7 @@
 <!-- PAGE MAIN CONTENT -->
 <div class="row">
     <!-- MESSENGER -->
-    <?php if (strpos($water_user_association->wua_name, 'B1&B3-') === 0 or 1 == 1) { ?>
+    <?php if (strpos($water_user_association->wua_name, 'B1&B3-') !== 0) { ?>
         <div class="col-md-3">
             <div class="box border blue" id="messenger">
                 <div class="box-title">
@@ -360,10 +359,10 @@
         </div>
     <?php } ?>
     <div
-        <?php if (strpos($water_user_association->wua_name, 'B1&B3-') === 0 or 1 == 1) { ?>
+        <?php if (strpos($water_user_association->wua_name, 'B1&B3-') !== 0) { ?>
         class="col-md-9"
         <?php } else { ?>
-        class="col-md-9"
+        class="col-md-12"
         <?php } ?>>
         <div class="box border blue" id="messenger">
             <div class="box-title">
