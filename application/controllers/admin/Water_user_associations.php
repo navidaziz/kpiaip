@@ -84,7 +84,7 @@ class Water_user_associations extends Admin_Controller
         $data['water_user_association_id'] = (int) $water_user_association_id;
 
         $this->data["water_user_association"] = $this->water_user_association_model->get_water_user_association($water_user_association_id)[0];
-        if (str_starts_with($this->data["water_user_association"]->wua_name, 'B1&B3-')) {
+        if (strpos($this->data["water_user_association"]->wua_name, 'B1&B3-') === 0) {
             $this->data["title"] = $this->data["water_user_association"]->wua_name . " Schemes List";
             $this->data["description"] = "List of B1 and B3 Scheme List";
         } else {
