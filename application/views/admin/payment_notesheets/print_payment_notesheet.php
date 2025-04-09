@@ -488,7 +488,12 @@
                                     <td><?php echo number_format($scheme->{'final'}, 0); ?></td>
                                     <td><?php
                                         $total_paid = ($scheme->total_paid + $scheme->payment_amount);
-                                        echo number_format($total_paid, 0); ?></td>
+                                        if ($scheme->payment_count) {
+
+                                            echo number_format($total_paid, 0);
+                                        } else {
+                                            echo "0";
+                                        } ?></td>
 
                                     <td><?php
                                         $remaining = ($scheme->sanctioned_cost - $total_paid);
