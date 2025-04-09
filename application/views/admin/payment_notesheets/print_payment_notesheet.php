@@ -489,7 +489,6 @@
                                     <td><?php
                                         $total_paid = ($scheme->total_paid + $scheme->payment_amount);
                                         if ($scheme->payment_count) {
-
                                             echo number_format($total_paid, 0);
                                         } else {
                                             echo "0";
