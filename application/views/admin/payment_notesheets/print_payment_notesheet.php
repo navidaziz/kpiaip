@@ -542,6 +542,7 @@
                                 if ($scheme->payment_count) {
                                     $gtotal['total_paid'] += $total_paid;
                                 }
+                                
                                 $gtotal['remaining'] += $remaining;
                                 $gtotal['payment_amount'] += $scheme->payment_amount;
                                 $gtotal['whit'] += $scheme->whit;
