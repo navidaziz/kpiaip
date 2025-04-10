@@ -519,7 +519,9 @@
                                 $subtotal['1st_2nd'] += $scheme->{'1st_2nd'};
                                 $subtotal['other'] += $scheme->{'other'};
                                 $subtotal['final'] += $scheme->{'final'};
-                                $subtotal['total_paid'] += $total_paid;
+                                if ($scheme->payment_count) {
+                                    $subtotal['total_paid'] += $total_paid;
+                                }
                                 $subtotal['remaining'] += $remaining;
                                 $subtotal['payment_amount'] += $scheme->payment_amount;
                                 $subtotal['whit'] += $scheme->whit;
@@ -537,7 +539,9 @@
                                 $gtotal['1st_2nd'] += $scheme->{'1st_2nd'};
                                 $gtotal['other'] += $scheme->{'other'};
                                 $gtotal['final'] += $scheme->{'final'};
-                                $gtotal['total_paid'] += $total_paid;
+                                if ($scheme->payment_count) {
+                                    $gtotal['total_paid'] += $total_paid;
+                                }
                                 $gtotal['remaining'] += $remaining;
                                 $gtotal['payment_amount'] += $scheme->payment_amount;
                                 $gtotal['whit'] += $scheme->whit;
