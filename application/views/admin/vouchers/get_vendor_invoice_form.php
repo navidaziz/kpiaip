@@ -22,31 +22,37 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="invoice_id" class="col-sm-4 col-form-label">Invoice Id</label>
-        <div class="col-sm-8">
-            <input type="text" required id="invoice_id" name="invoice_id" value="<?php echo $input->invoice_id; ?>" class="form-control">
+        <div class="col-sm-6">
+            <label for="invoice_id" class="col-sm-4 col-form-label">Invoice Id</label>
+            <div class="col-sm-8">
+                <input type="text" required id="invoice_id" name="invoice_id" value="<?php echo $input->invoice_id; ?>" class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <label for="invoice_date" class="col-sm-4 col-form-label">Invoice Date</label>
+            <div class="col-sm-8">
+                <input type="date" required id="invoice_date" name="invoice_date" value="<?php echo $input->invoice_date; ?>" class="form-control">
+            </div>
         </div>
     </div>
     <div class="form-group row">
-        <label for="invoice_date" class="col-sm-4 col-form-label">Invoice Date</label>
-        <div class="col-sm-8">
-            <input type="date" required id="invoice_date" name="invoice_date" value="<?php echo $input->invoice_date; ?>" class="form-control">
+
+        <div class=" col-sm-6">
+            <label for="nature_of_payment" class="col-sm-4 col-form-label">Nature Of Payment</label>
+            <div class="col-sm-8">
+                <input type="text" required id="nature_of_payment" name="nature_of_payment" value="<?php echo $input->nature_of_payment; ?>" class="form-control">
+            </div>
+        </div>
+        <div class=" col-sm-6">
+            <label for="payment_section_code" class="col-sm-4 col-form-label">Payment Section Code</label>
+            <div class="col-sm-8">
+                <input type="text" required id="payment_section_code" name="payment_section_code" value="<?php echo $input->payment_section_code; ?>" class="form-control">
+            </div>
         </div>
     </div>
-    <div class="form-group row">
-        <label for="nature_of_payment" class="col-sm-4 col-form-label">Nature Of Payment</label>
-        <div class="col-sm-8">
-            <input type="text" required id="nature_of_payment" name="nature_of_payment" value="<?php echo $input->nature_of_payment; ?>" class="form-control">
-        </div>
-    </div>
-    <div class="form-group row">
-        <label for="payment_section_code" class="col-sm-4 col-form-label">Payment Section Code</label>
-        <div class="col-sm-8">
-            <input type="text" required id="payment_section_code" name="payment_section_code" value="<?php echo $input->payment_section_code; ?>" class="form-control">
-        </div>
-    </div>
+
     <div style="border: 1px solid gray; border-radius:5px; padding:5px; margin-bottom:10px">
-        <strong>Invoice Details</strong>
+        <strong>Payment Detail</strong>
         <hr />
         <div class="form-group row">
 

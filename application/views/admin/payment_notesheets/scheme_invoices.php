@@ -507,7 +507,7 @@
 
 
 
-            </div>
+            </div> 
             <script>
                 function get_vendor_taxe_form(id, voucher_id) {
                     $.ajax({

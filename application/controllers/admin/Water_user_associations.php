@@ -1145,7 +1145,7 @@ class Water_user_associations extends Admin_Controller
         $this->data['scheme_id'] = $scheme_id =  (int) $this->input->post('scheme_id');
         $this->data['wua_id'] = $wua_id =  (int) $this->input->post('water_user_association_id');
         $query = "SELECT scheme_status FROM schemes GROUP BY scheme_status";
-        $this->data['scheme_statues'] = $this->db->query($query)->result();
+        $this->data['scheme_status'] = $this->db->query($query)->result();
         $this->load->view(ADMIN_DIR . "water_user_associations/change_scheme_status", $this->data);
     }
 
@@ -1305,6 +1305,7 @@ class Water_user_associations extends Admin_Controller
         $query = "SELECT * FROM schemes WHERE scheme_id = ?";
         $scheme_detail = $this->db->query($query, $scheme_id)->row();
 
+
         // //echo var_dump($_POST);
         // foreach ($_POST as $index => $value) {
         //     echo '$this->form_validation->set_rules("' . $index . '", "' . ucwords(str_replace('_', ' ', $index)) . '", "required"); <br />';
@@ -1381,7 +1382,7 @@ class Water_user_associations extends Admin_Controller
                 $input["power_source"] = $this->input->post("power_source");
                 $input["agreement_signed_date"] = $this->input->post("agreement_signed_date");
 
-                if ($scheme_detail->scheme_statues == 'Registered') {
+                if ($scheme_detail->scheme_status == 'Registered') {
                     $input["scheme_status"] = $this->input->post("scheme_status");
                 }
 
@@ -1453,7 +1454,7 @@ class Water_user_associations extends Admin_Controller
                 $input["male_beneficiaries"] = NULL;
                 $input["female_beneficiaries"] = NULL;
 
-                if ($scheme_detail->scheme_statues == 'Registered') {
+                if ($scheme_detail->scheme_status == 'Registered') {
                     $input["scheme_status"] = $this->input->post("scheme_status");
                 }
 
@@ -1575,7 +1576,7 @@ class Water_user_associations extends Admin_Controller
             $input["updated_by"] = $this->session->userdata("userId");
             $input["last_updated"] = date('Y-m-d H:i:s');
 
-            if ($scheme_detail->scheme_statues == 'Registered') {
+            if ($scheme_detail->scheme_status == 'Registered') {
                 $input["scheme_status"] = $this->input->post("scheme_status");
             }
 
