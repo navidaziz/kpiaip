@@ -332,7 +332,7 @@
             SUM(`gur_ret`) as 
             gur_ret, SUM(`misc_deduction`) as misc_deduction, 
             SUM(`net_pay`) as net_pay 
-            FROM `payment_notesheet_schemes` WHERE payment_notesheet_id =  '" . $payment_notesheet_id . "';'";
+            FROM `payment_notesheet_schemes` WHERE payment_notesheet_id =  '" . $payment_notesheet_id . "';";
             $columns_toggle = $this->db->query($query)->row();
             $colums = array();
             foreach ($columns_toggle as $column_toggle) {
