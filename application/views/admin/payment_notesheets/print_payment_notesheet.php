@@ -487,7 +487,7 @@
                                     <td><?php echo number_format($scheme->{'other'}, 0); ?></td>
                                     <td><?php echo number_format($scheme->{'final'}, 0); ?></td>
                                     <td><?php
-                                        $total_paid = ($scheme->total_paid + $scheme->payment_amount);
+                                        $total_paid = ($scheme->total_paid);
                                         if ($scheme->payment_count) {
                                             echo number_format($total_paid, 0);
                                         } else {
@@ -542,7 +542,7 @@
                                 if ($scheme->payment_count) {
                                     $gtotal['total_paid'] += $total_paid;
                                 }
-                                
+
                                 $gtotal['remaining'] += $remaining;
                                 $gtotal['payment_amount'] += $scheme->payment_amount;
                                 $gtotal['whit'] += $scheme->whit;
