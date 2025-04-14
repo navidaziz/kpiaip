@@ -416,7 +416,7 @@
                         <th style="display: <?php echo $colums['rpd'] ?>;">RDP</th>
                         <th style="display: <?php echo $colums['gur_ret'] ?>;">Gur.Ret.</th>
                         <th style="display: <?php echo $colums['misc_deduction'] ?>;">Misc.Dedu.</th>
-                        <th style="display: <?php echo $colums['net_pay'] ?>;">Net</th>
+                        <th>Net</th>
 
                     </tr>
                 </thead>
@@ -566,14 +566,13 @@
                                         ?></td>
                                     <td> <?php echo $scheme->payment_type; ?></td>
                                     <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'whit'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->{'whst'}, 0); ?></td>
-                                    <td><?php echo number_format($scheme->kpra, 2); ?></td>
-                                    <td><?php echo number_format($scheme->st_duty, 2); ?></td>
-                                    <td><?php echo number_format($scheme->rdp, 2); ?></td>
-
-                                    <td><?php echo number_format($scheme->gur_ret, 2); ?></td>
-                                    <td><?php echo number_format($scheme->misc_deduction, 2); ?></td>
+                                    <td style="display: <?php echo $colums['whit'] ?>;"><?php echo number_format($scheme->{'whit'}, 0); ?></td>
+                                    <td style="display: <?php echo $colums['whit'] ?>;"><?php echo number_format($scheme->{'whst'}, 0); ?></td>
+                                    <td style="display: <?php echo $colums['kpra'] ?>;"><?php echo number_format($scheme->kpra, 2); ?></td>
+                                    <td style="display: <?php echo $colums['st_duty'] ?>;"><?php echo number_format($scheme->st_duty, 2); ?></td>
+                                    <td style="display: <?php echo $colums['rpd'] ?>;"><?php echo number_format($scheme->rdp, 2); ?></td>
+                                    <td style="display: <?php echo $colums['gur_ret'] ?>;"><?php echo number_format($scheme->gur_ret, 2); ?></td>
+                                    <td style="display: <?php echo $colums['misc_deduction'] ?>;"><?php echo number_format($scheme->misc_deduction, 2); ?></td>
                                     <th><?php echo number_format($scheme->{'net_pay'}, 0); ?></th>
 
 
@@ -637,14 +636,16 @@
                                 <th><?php echo number_format($subtotal['remaining'], 0); ?></th>
                                 <th></th>
                                 <th> <?php echo number_format($subtotal['payment_amount'], 0); ?></th>
-                                <th><?php echo number_format($subtotal['whit'], 0); ?></th>
-                                <th><?php echo number_format($subtotal['whst'], 0); ?></th>
-                                <th><?php echo number_format($subtotal['kpra'], 0); ?></th>
-                                <th><?php echo number_format($subtotal['st_duty'], 0); ?></th>
-                                <th><?php echo number_format($subtotal['rdp'], 0); ?></th>
 
-                                <th><?php echo number_format($subtotal['gur_ret'], 0); ?></th>
-                                <th><?php echo number_format($subtotal['misc_deduction'], 0); ?></th>
+
+                                <th style="display: <?php echo $colums['whit'] ?>;"><?php echo number_format($subtotal['whit'], 0); ?></th>
+                                <th style="display: <?php echo $colums['whit'] ?>;"><?php echo number_format($subtotal['whst'], 0); ?></th>
+                                <th style="display: <?php echo $colums['kpra'] ?>;"><?php echo number_format($subtotal['kpra'], 0); ?></th>
+                                <th style="display: <?php echo $colums['st_duty'] ?>;"><?php echo number_format($subtotal['st_duty'], 0); ?></th>
+                                <th style="display: <?php echo $colums['rpd'] ?>;"><?php echo number_format($subtotal['rdp'], 0); ?></th>
+
+                                <th style="display: <?php echo $colums['gur_ret'] ?>;"><?php echo number_format($subtotal['gur_ret'], 0); ?></th>
+                                <th style="display: <?php echo $colums['misc_deduction'] ?>;"><?php echo number_format($subtotal['misc_deduction'], 0); ?></th>
                                 <th><?php echo number_format($subtotal['net_pay'], 0); ?></th>
 
 
@@ -669,14 +670,17 @@
                         <th><?php echo number_format($gtotal['remaining'], 0); ?></th>
                         <th></th>
                         <th> <?php echo number_format($gtotal['payment_amount'], 0); ?></th>
-                        <th><?php echo number_format($gtotal['whit'], 0); ?></th>
-                        <th><?php echo number_format($gtotal['whst'], 0); ?></th>
-                        <th><?php echo number_format($gtotal['kpra'], 0); ?></th>
-                        <th><?php echo number_format($gtotal['st_duty'], 0); ?></th>
-                        <th><?php echo number_format($gtotal['rdp'], 0); ?></th>
 
-                        <th><?php echo number_format($gtotal['gur_ret'], 0); ?></th>
-                        <th><?php echo number_format($gtotal['misc_deduction'], 0); ?></th>
+
+
+                        <th style="display: <?php echo $colums['whit'] ?>;"><?php echo number_format($gtotal['whit'], 0); ?></th>
+                        <th style="display: <?php echo $colums['whit'] ?>;"><?php echo number_format($gtotal['whst'], 0); ?></th>
+                        <th style="display: <?php echo $colums['kpra'] ?>;"><?php echo number_format($gtotal['kpra'], 0); ?></th>
+                        <th style="display: <?php echo $colums['st_duty'] ?>;"><?php echo number_format($gtotal['st_duty'], 0); ?></th>
+                        <th style="display: <?php echo $colums['rpd'] ?>;"><?php echo number_format($gtotal['rdp'], 0); ?></th>
+
+                        <th style="display: <?php echo $colums['gur_ret'] ?>;"><?php echo number_format($gtotal['gur_ret'], 0); ?></th>
+                        <th style="display: <?php echo $colums['misc_deduction'] ?>;"><?php echo number_format($gtotal['misc_deduction'], 0); ?></th>
                         <th><?php echo number_format($gtotal['net_pay'], 0); ?></th>
 
 
