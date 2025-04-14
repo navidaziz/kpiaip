@@ -321,7 +321,7 @@
 
 
             </p>
-
+            we are here
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo nl2br($payment_notesheet->puc_title); ?></p>
             <br />
             <table class="table table-bordered table_small">
