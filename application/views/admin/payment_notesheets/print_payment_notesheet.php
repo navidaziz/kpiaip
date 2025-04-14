@@ -321,7 +321,7 @@
 
 
             </p>
-            we are here
+
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo nl2br($payment_notesheet->puc_title); ?></p>
             <br />
             <table class="table table-bordered table_small">
@@ -496,7 +496,11 @@
 
                                     <td><?php
                                         $remaining = ($scheme->sanctioned_cost - $total_paid);
-                                        echo $remaining;
+                                        if ($remaining > 1) {
+                                            echo number_format($remaining, 0);
+                                        } else {
+                                            echo "0.00";
+                                        }
                                         ?></td>
                                     <td> <?php echo $scheme->payment_type; ?></td>
                                     <td> <?php echo number_format($scheme->{'payment_amount'}, 0); ?></td>
