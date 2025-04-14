@@ -326,7 +326,7 @@
 
                                                     if ($payment_notesheet->puc_title != '' or 1 == 2) {
                                                         echo trim($payment_notesheet->puc_title);
-                                                    } else { ?>
+                                                    } else { ?> New
                 The District Director / Officer, On-Farm Water Management, <?php echo htmlspecialchars($payment_notesheet->district_name); ?>, has submitted the following scheme files via
                 letter No. <?php echo $payment_notesheet->puc_tracking_id ?> dated <?php echo date("d m, Y", strtotime($payment_notesheet->puc_date)); ?> for release of payment under the project titled
                 “Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)” during the current financial year:
