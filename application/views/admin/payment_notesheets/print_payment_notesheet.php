@@ -335,7 +335,7 @@
                         <th rowspan="2">TS/FCR (PKRs.)</th>
                         <th colspan="6" style="text-align: center;">Payment History (PKRs.)</th>
                         <th rowspan="2">Balance (PKRs.)</th>
-                        <th rowspan="2">Installment Type</th>
+                        <th rowspan="2">Insta. Type</th>
                         <th colspan="9" style="text-align: center;">Request for Payment (PKRs.)</th>
 
                     </tr>
@@ -512,7 +512,7 @@
 
                                     <td><?php echo number_format($scheme->gur_ret, 2); ?></td>
                                     <td><?php echo number_format($scheme->misc_deduction, 2); ?></td>
-                                    <td><?php echo number_format($scheme->{'net_pay'}, 0); ?></td>
+                                    <th><?php echo number_format($scheme->{'net_pay'}, 0); ?></th>
 
 
                                 </tr>
