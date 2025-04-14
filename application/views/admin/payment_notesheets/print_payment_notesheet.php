@@ -334,6 +334,7 @@
             SUM(`net_pay`) as net_pay 
             FROM `payment_notesheet_schemes` WHERE payment_notesheet_id =  '" . $payment_notesheet_id . "';";
             $columns_toggle = $this->db->query($query)->row();
+            var_dump($columns_toggle);
             $colums = array();
 
             if ($column_toggle->whit > 0) {
