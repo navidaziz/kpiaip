@@ -324,6 +324,81 @@
 
             <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo nl2br($payment_notesheet->puc_title); ?></p>
             <br />
+            <?php
+            $query = "SELECT SUM(`whit`) as whit, SUM(`whst`) as whst, 
+            SUM(`st_duty`) as st_duty, 
+            SUM(`rdp`) as rdp, 
+            SUM(`kpra`) as kpra, 
+            SUM(`gur_ret`) as 
+            gur_ret, SUM(`misc_deduction`) as misc_deduction, 
+            SUM(`net_pay`) as net_pay 
+            FROM `payment_notesheet_schemes` WHERE payment_notesheet_id =  '" . $payment_notesheet_id . "';'";
+            $columns_toggle = $this->db->query($query)->row();
+            $colums = array();
+            foreach ($columns_toggle as $column_toggle) {
+                switch ($column_toggle) {
+                    case 'whit':
+                        if ($column_toggle > 0) {
+                            $column_toggle['whit'] = "table-cell";
+                        } else {
+                            $column_toggle['whit'] = "none";
+                        }
+                        break;
+                    case 'whst':
+                        if ($column_toggle > 0) {
+                            $column_toggle['whst'] = "table-cell";
+                        } else {
+                            $column_toggle['whst'] = "none";
+                        }
+                        break;
+                    case 'st_duty':
+                        if ($column_toggle > 0) {
+                            $column_toggle['st_duty'] = "table-cell";
+                        } else {
+                            $column_toggle['st_duty'] = "none";
+                        }
+                        break;
+                    case 'rdp':
+                        if ($column_toggle > 0) {
+                            $column_toggle['rdp'] = "table-cell";
+                        } else {
+                            $column_toggle['rdp'] = "none";
+                        }
+                        break;
+                    case 'kpra':
+                        if ($column_toggle > 0) {
+                            $column_toggle['kpra'] = "table-cell";
+                        } else {
+                            $column_toggle['kpra'] = "none";
+                        }
+                        break;
+                    case 'gur_ret':
+                        if ($column_toggle > 0) {
+                            $column_toggle['gur_ret'] = "table-cell";
+                        } else {
+                            $column_toggle['gur_ret'] = "none";
+                        }
+                        break;
+                    case 'misc_deduction':
+                        if ($column_toggle > 0) {
+                            $column_toggle['misc_deduction'] = "table-cell";
+                        } else {
+                            $column_toggle['misc_deduction'] = "none";
+                        }
+                        break;
+                    case 'net_pay':
+                        if ($column_toggle > 0) {
+                            $column_toggle['net_pay'] = "table-cell";
+                        } else {
+                            $column_toggle['net_pay'] = "none";
+                        }
+                        break;
+                    default:
+                        $column_toggle = NULL;
+                        break;
+                }
+            }
+            ?>
             <table class="table table-bordered table_small">
                 <thead style="margin-top: 30px;">
                     <tr>
@@ -347,14 +422,14 @@
                         <th>Final</th>
                         <th>Total</th>
                         <th>Gross</th>
-                        <th>WHIT</th>
-                        <th>WHST</th>
-                        <th>KPRA</th>
-                        <th>St.Duty</th>
-                        <th>RDP</th>
-                        <th>Gur.Ret.</th>
-                        <th>Misc.Dedu.</th>
-                        <th>Net</th>
+                        <th style="display: <?php echo $column_toggle['whit'] ?>;">WHIT</th>
+                        <th style="display: <?php echo $column_toggle['whit'] ?>;">WHST</th>
+                        <th style="display: <?php echo $column_toggle['kpra'] ?>;">KPRA</th>
+                        <th style="display: <?php echo $column_toggle['st_duty'] ?>;">St.Duty</th>
+                        <th style="display: <?php echo $column_toggle['rpd'] ?>;">RDP</th>
+                        <th style="display: <?php echo $column_toggle['gur_ret'] ?>;">Gur.Ret.</th>
+                        <th style="display: <?php echo $column_toggle['misc_deduction'] ?>;">Misc.Dedu.</th>
+                        <th style="display: <?php echo $column_toggle['net_pay'] ?>;">Net</th>
 
                     </tr>
                 </thead>
