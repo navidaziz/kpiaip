@@ -1785,7 +1785,7 @@ ORDER BY e.expense_id ASC;
     public function export_venders_taxes()
     {
         // Define your query
-        $query = "SELECT vou.voucher_id, d.district_name, s.scheme_code, s.scheme_name, cc.category,
+        $query = "SELECT vou.tracking_id, vou.voucher_id,  d.district_name, s.scheme_code, s.scheme_name, cc.category,
         `ven`.`vendor_id`, `ven`.`Vendor_Type`, `ven`.`TaxPayer_NTN`, `ven`.`TaxPayer_CNIC`, `ven`.`TaxPayer_Name`, `ven`.`TaxPayer_City`, `ven`.`TaxPayer_Address`, `ven`.`TaxPayer_Status`, `ven`.`TaxPayer_Business_Name`, `ven`.`Focal_Person`, `ven`.`Contact_No`, `ven`.`industery`, `ven`.`business_category`, `ven`.`nature_of_business`, `ven`.`registration_no`, 
         `vi`.`invoice_id`, `vi`.`invoice_date`, `vi`.`nature_of_payment`, `vi`.`payment_section_code`, `vi`.`invoice_gross_total`, 
         `vi`.`st_charged`, `vi`.`sst_charged`, `vi`.`whit_tax`,  `vi`.`whst_tax`, `vi`.`st_duty_tax`, `vi`.`kpra_tax`, `vi`.`rdp_tax`, `vi`.`misc_deduction` FROM `vendors_taxes` as vi  

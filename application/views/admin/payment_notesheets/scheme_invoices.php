@@ -178,7 +178,7 @@
                                         <th colspan="18">
                                             <h5>
                                                 <span class="pull-left">
-                                                    <strong> Voucher ID: <?php echo $voucher->voucher_id; ?></strong>
+                                                    <strong> Voucher ID: <?php echo $voucher->voucher_id; ?></strong> - <strong> Tracking ID: <?php echo $voucher->tracking_id; ?></strong>
                                                     <br />
                                                     Type: <?php echo $voucher->voucher_type; ?>, <?php echo $voucher->voucher_detail; ?>
                                                 </span>

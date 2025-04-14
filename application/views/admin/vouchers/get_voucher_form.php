@@ -1,7 +1,12 @@
 <form id="vouchers" class="form-horizontal" enctype="multipart/form-data" method="post">
     <input type="hidden" name="voucher_id" value="<?php echo $input->voucher_id; ?>" />
     <input type="hidden" name="scheme_id" value="<?php echo $input->scheme_id; ?>" />
-
+    <div class="form-group row">
+        <label for="tracking_id" class="col-sm-4 col-form-label">Tracking ID</label>
+        <div class="col-sm-8">
+            <input type="text" required id="tracking_id" name="tracking_id" value="<?php echo $input->tracking_id; ?>" class="form-control">
+        </div>
+    </div>
     <div class="form-group row">
         <label for="voucher_type" class="col-sm-4 col-form-label">Voucher Type</label>
         <div class="col-sm-8">

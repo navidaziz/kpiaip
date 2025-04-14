@@ -175,13 +175,14 @@
                          <td><?php echo $scheme->cheques; ?></td>
                          <td><?php echo $scheme->payment_count; ?></td>
                          <td>
+                             <a class="btn btn-danger btn-sm" style="padding: 3px;" href="<?php echo site_url(ADMIN_DIR . 'payment_notesheets/scheme_invoices/' . $payment_notesheet_id . '/' . $scheme->pns_id . '/' . $scheme->scheme_id); ?>">Voucher</a>
+                         </td>
+                         <td>
                              <button class="btn <?php echo $scheme->payment_amount ? 'btn-success' : 'btn-warning'; ?> btn-sm" style="padding: 3px;" onclick="update_payment('<?php echo $scheme->pns_id; ?>')">
                                  <?php echo $scheme->payment_amount ? 'Edit Pay.' : 'Add Pay.'; ?>
                              </button>
                          </td>
-                         <td>
-                             <a class="btn btn-danger btn-sm" style="padding: 3px;" href="<?php echo site_url(ADMIN_DIR . 'payment_notesheets/scheme_invoices/' . $payment_notesheet_id . '/' . $scheme->pns_id . '/' . $scheme->scheme_id); ?>">Invoices</a>
-                         </td>
+
                      </tr>
              <?php
                     }

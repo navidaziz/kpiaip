@@ -322,24 +322,27 @@
 
             </p>
 
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-                The District Director / Officer, On-Farm Water Management, <?php echo htmlspecialchars($payment_notesheet->district_name); ?>, has submitted the following scheme files via
-                letter No. <?php echo $payment_notesheet->puc_tracking_id ?> dated <?php echo date("d m, Y", strtotime($payment_notesheet->puc_date)); ?> for release of payment under the project titled
+
+
+            <?php
+
+            if (strlen($payment_notesheet->puc_title) > 10) {
+                echo nl2br(trim($payment_notesheet->puc_title));
+            } else { ?>
+
+                The District Director / Officer, On-Farm Water Management, <strong><?php echo htmlspecialchars($payment_notesheet->district_name); ?></strong>, has submitted the following scheme files via
+                letter No. <strong><?php echo $payment_notesheet->puc_tracking_id ?></strong> dated <strong> <?php echo date("d m, Y", strtotime($payment_notesheet->puc_date)); ?></strong> for release of payment under the project titled
                 “Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)” during the current financial year:
-                <?php
-                $query = 'SELECT * FROM financial_years WHERE financial_year_id WHERE status=1';
-                $fy = $this->db->query($query)->row();
-                echo $fy->financial_year;
-                ?>, as per the details given below:
+                <strong>
+                    <?php
+                    $query = 'SELECT * FROM financial_years WHERE  status=1';
+                    $fy = $this->db->query($query)->row();
+                    echo $fy->financial_year;
+                    ?></strong>, as per the details given below:
+            <?php  }  ?>
 
-                <?php
-
-                if ($payment_notesheet->puc_title != '' or 1 == 2) {
-                    echo trim($payment_notesheet->puc_title);
-                } else { ?> New
-
-                <?php  }  ?>
             </p>
             <br />
             <?php
@@ -708,7 +711,13 @@
 
             </table>
             <br />
-            <p><?php echo nl2br($payment_notesheet->puc_detail); ?></p>
+
+            <p>
+                <?php
+                if (strlen($payment_notesheet->puc_detail) > 10) {
+                    echo nl2br(trim($payment_notesheet->puc_detail));
+                }  ?>
+            </p>
             <table style="width: 100%;">
                 <tr>
                     <td>

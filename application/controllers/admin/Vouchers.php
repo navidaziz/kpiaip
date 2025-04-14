@@ -90,6 +90,8 @@ class Vouchers extends Admin_Controller
     {
         $input["voucher_id"] = $this->input->post("voucher_id");
         $input["scheme_id"] = $this->input->post("scheme_id");
+        $input["tracking_id"] = $this->input->post("tracking_id");
+
         //$input["voucher_no"] = $this->input->post("voucher_no");
         $input["voucher_type"] = $this->input->post("voucher_type");
         $input["voucher_detail"] = $this->input->post("voucher_detail");
@@ -139,6 +141,7 @@ class Vouchers extends Admin_Controller
             if ($voucher_id == 0) {
                 $this->db->insert("vouchers", $inputs);
                 $voucher_id = $this->db->insert_id();
+
                 $this->db->where("voucher_id", $voucher_id);
                 $voucher_no['voucher_no'] = ($voucher_id);
                 $this->db->update("vouchers", $voucher_no);
