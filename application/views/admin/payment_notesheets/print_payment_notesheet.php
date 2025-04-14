@@ -322,7 +322,21 @@
 
             </p>
 
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo trim($payment_notesheet->puc_title); ?></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php
+
+                                                    if ($payment_notesheet->puc_title != '' or 1 == 2) {
+                                                        echo trim($payment_notesheet->puc_title);
+                                                    } else { ?>
+                The District Director / Officer, On-Farm Water Management, <?php echo htmlspecialchars($payment_notesheet->district_name); ?>, has submitted the following scheme files via
+                letter No. <?php echo $payment_notesheet->puc_tracking_id ?> dated <?php echo date("d m, Y", strtotime($payment_notesheet->puc_date)); ?> for release of payment under the project titled
+                “Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)” during the current financial year:
+                <?php
+                                                        $query = 'SELECT * FROM financial_years WHERE financial_year_id WHERE status=1';
+                                                        $fy = $this->query($query)->row();
+                                                        echo $fy->financial_year;
+                ?>, as per the details given below:
+            <?php  }  ?>
+            </p>
             <br />
             <?php
             $query = "SELECT SUM(`whit`) as whit, SUM(`whst`) as whst, 
