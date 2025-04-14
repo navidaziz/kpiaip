@@ -422,14 +422,14 @@
                         <th>Final</th>
                         <th>Total</th>
                         <th>Gross</th>
-                        <th style="display: <?php echo $column_toggle['whit'] ?>;">WHIT</th>
-                        <th style="display: <?php echo $column_toggle['whit'] ?>;">WHST</th>
-                        <th style="display: <?php echo $column_toggle['kpra'] ?>;">KPRA</th>
-                        <th style="display: <?php echo $column_toggle['st_duty'] ?>;">St.Duty</th>
-                        <th style="display: <?php echo $column_toggle['rpd'] ?>;">RDP</th>
-                        <th style="display: <?php echo $column_toggle['gur_ret'] ?>;">Gur.Ret.</th>
-                        <th style="display: <?php echo $column_toggle['misc_deduction'] ?>;">Misc.Dedu.</th>
-                        <th style="display: <?php echo $column_toggle['net_pay'] ?>;">Net</th>
+                        <th style="display: <?php echo $colums['whit'] ?>;">WHIT</th>
+                        <th style="display: <?php echo $colums['whit'] ?>;">WHST</th>
+                        <th style="display: <?php echo $colums['kpra'] ?>;">KPRA</th>
+                        <th style="display: <?php echo $colums['st_duty'] ?>;">St.Duty</th>
+                        <th style="display: <?php echo $colums['rpd'] ?>;">RDP</th>
+                        <th style="display: <?php echo $colums['gur_ret'] ?>;">Gur.Ret.</th>
+                        <th style="display: <?php echo $colums['misc_deduction'] ?>;">Misc.Dedu.</th>
+                        <th style="display: <?php echo $colums['net_pay'] ?>;">Net</th>
 
                     </tr>
                 </thead>
