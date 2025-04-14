@@ -336,58 +336,58 @@
             $columns_toggle = $this->db->query($query)->row();
             $colums = array();
             foreach ($columns_toggle as $column_toggle) {
-                switch ($column_toggle) {
+                switch ($column_toggle->whit) {
                     case 'whit':
-                        if ($column_toggle->whit > 0) {
+                        if ($column_toggle > 0) {
                             $colums['whit'] = "table-cell";
                         } else {
                             $colums['whit'] = "none";
                         }
                         break;
                     case 'whst':
-                        if ($column_toggle->whst > 0) {
+                        if ($column_toggle > 0) {
                             $colums['whst'] = "table-cell";
                         } else {
                             $colums['whst'] = "none";
                         }
                         break;
                     case 'st_duty':
-                        if ($column_toggle->st_duty > 0) {
+                        if ($column_toggle > 0) {
                             $colums['st_duty'] = "table-cell";
                         } else {
                             $colums['st_duty'] = "none";
                         }
                         break;
                     case 'rdp':
-                        if ($column_toggle->rdp > 0) {
+                        if ($column_toggle > 0) {
                             $colums['rdp'] = "table-cell";
                         } else {
                             $colums['rdp'] = "none";
                         }
                         break;
                     case 'kpra':
-                        if ($column_toggle->kpra > 0) {
+                        if ($column_toggle > 0) {
                             $colums['kpra'] = "table-cell";
                         } else {
                             $colums['kpra'] = "none";
                         }
                         break;
                     case 'gur_ret':
-                        if ($column_toggle->gur_ret > 0) {
+                        if ($column_toggle > 0) {
                             $colums['gur_ret'] = "table-cell";
                         } else {
                             $colums['gur_ret'] = "none";
                         }
                         break;
                     case 'misc_deduction':
-                        if ($column_toggle->misc_deduction > 0) {
+                        if ($column_toggle > 0) {
                             $colums['misc_deduction'] = "table-cell";
                         } else {
                             $colums['misc_deduction'] = "none";
                         }
                         break;
                     case 'net_pay':
-                        if ($column_toggle->net_pay > 0) {
+                        if ($column_toggle > 0) {
                             $colums['net_pay'] = "table-cell";
                         } else {
                             $colums['net_pay'] = "none";
