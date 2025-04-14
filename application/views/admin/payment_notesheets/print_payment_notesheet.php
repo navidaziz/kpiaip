@@ -398,6 +398,8 @@
                         break;
                 }
             }
+
+            var_dump($colums);
             ?>
             <table class="table table-bordered table_small">
                 <thead style="margin-top: 30px;">
