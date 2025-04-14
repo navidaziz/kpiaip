@@ -322,7 +322,7 @@
 
             </p>
 
-            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo tnl2br(trim($payment_notesheet->puc_title)); ?></p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?php echo trim($payment_notesheet->puc_title); ?></p>
             <br />
             <?php
             $query = "SELECT SUM(`whit`) as whit, SUM(`whst`) as whst, 
