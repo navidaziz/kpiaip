@@ -329,7 +329,7 @@
                 “Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)” during the current financial year:
                 <?php
                 $query = 'SELECT * FROM financial_years WHERE financial_year_id WHERE status=1';
-                $fy = $this->query($query)->row();
+                $fy = $this->db->query($query)->row();
                 echo $fy->financial_year;
                 ?>, as per the details given below:
 
