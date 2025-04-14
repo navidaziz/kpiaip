@@ -1136,16 +1136,12 @@ class Water_user_associations extends Admin_Controller
         }
     }
 
-
-
-
-
     public function change_scheme_status()
     {
         $this->data['scheme_id'] = $scheme_id =  (int) $this->input->post('scheme_id');
         $this->data['wua_id'] = $wua_id =  (int) $this->input->post('water_user_association_id');
         $query = "SELECT scheme_status FROM schemes GROUP BY scheme_status";
-        $this->data['scheme_status'] = $this->db->query($query)->result();
+        $this->data['scheme_statues'] = $this->db->query($query)->result();
         $this->load->view(ADMIN_DIR . "water_user_associations/change_scheme_status", $this->data);
     }
 

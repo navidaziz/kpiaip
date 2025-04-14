@@ -979,6 +979,24 @@
 
                             <?php if (($this->session->userdata('role_id') == 4 or $this->session->userdata('role_id') == 1)) { ?>
 
+                                <button class="bt btn-danger" onclick="change_scheme_status('<?php echo $scheme->scheme_id ?>')">Change Status</button>
+                                <script>
+                                    function change_scheme_status(scheme_id) {
+                                        $.ajax({
+                                                method: "POST",
+                                                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/change_scheme_status'); ?>",
+                                                data: {
+                                                    scheme_id: scheme_id,
+                                                    water_user_association_id: <?php echo $scheme->water_user_association_id; ?>,
+                                                },
+                                            })
+                                            .done(function(respose) {
+                                                $('#modal').modal('show');
+                                                $('#modal_title').html('Change Scheme Status');
+                                                $('#modal_body').html(respose);
+                                            });
+                                    }
+                                </script>
                                 <?php if ($scheme->scheme_status == 'Initiated') { ?>
                                     <button onclick="chanage_status_form('Approval')" class="btn btn-primary btn-sm"><i
                                             class="fa fa-check-circle"></i> Approve</button>
