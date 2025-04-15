@@ -84,12 +84,11 @@
                                     </thead>
                                     <tbody>
                                         <td><?php echo @number_format($donor_fund->rs_total); ?> <small
-                                                style="font-weight: lighter;">PKRs.</small></td>
+                                                style="font-weight: lighter;"></small></td>
                                         <td><?php echo @number_format($budget_released->rs_total); ?> <small
-                                                style="font-weight: lighter;">PKRs.</small></td>
+                                                style="font-weight: lighter;"></small></td>
 
-                                        <td><?php echo @number_format($expense->total_expense); ?> - <small>Gross Paid</small><br />
-                                            <?php echo @number_format($expense->total_net_paid); ?> - <small>Net Paid</small>
+                                        <td><?php echo @number_format($expense->total_net_paid); ?></small>
                                         </td>
                                         <td>
                                             <?php $remaing_budget = ($budget_released->rs_total - $expense->total_expense);
@@ -103,7 +102,7 @@
                                             <?php $remaing_in_account = ($donor_fund->rs_total - $budget_released->rs_total); ?>
                                             <span style="color: green;">
                                                 <?php echo @number_format($remaing_in_account); ?>
-                                                <small style="font-weight: lighter;">PKRs.</small>
+                                                <small style="font-weight: lighter;"></small>
                                             </span>
 
                                             </td>
