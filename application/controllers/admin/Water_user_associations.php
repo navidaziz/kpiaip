@@ -1064,6 +1064,8 @@ class Water_user_associations extends Admin_Controller
         $input["bank_name"] = $this->input->post("bank_name");
         $input["bank_branch_code"] = $this->input->post("bank_branch_code");
         $input["attachement"] = $this->input->post("attachement");
+        $input["female_members"] = $this->input->post("female_members");
+        $input["male_members"] = $this->input->post("male_members");
         $inputs =  (object) $input;
         return $inputs;
     }

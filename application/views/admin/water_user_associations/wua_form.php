@@ -28,6 +28,20 @@
                           <input type="date" req uired id="wua_registration_date" name="wua_registration_date" value="<?php echo $input->wua_registration_date; ?>" class="form-control">
                       </div>
                   </div>
+
+                  <div class="form-group row">
+                      <label for="male_members" class="col-sm-6 col-form-label label-required">Male Members</label>
+                      <div class="col-sm-6">
+                          <input type="number" req uired id="male_members" name="male_members" value="<?php echo $input->male_members; ?>" class="form-control">
+                      </div>
+                  </div>
+
+                  <div class="form-group row">
+                      <label for="female_members" class="col-sm-6 col-form-label label-required">Female Members</label>
+                      <div class="col-sm-6">
+                          <input type="number" req uired id="female_members" name="female_members" value="<?php echo $input->female_members; ?>" class="form-control">
+                      </div>
+                  </div>
               </div>
           </div>
 

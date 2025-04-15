@@ -42,6 +42,20 @@
                                 <input type="date" req uired id="wua_registration_date" name="wua_registration_date" value="<?php echo $wua->wua_registration_date; ?>" class="formControl">
                             </div>
                         </div>
+
+                        <div class="form-group row">
+                            <label for="male_members" class="col-sm-6 col-form-label label-required">Male Members</label>
+                            <div class="col-sm-6">
+                                <input type="number" id="male_members" name="male_members" value="<?php echo $wua->male_members; ?>" class="formControl">
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label for="female_members" class="col-sm-6 col-form-label label-required">Female Members</label>
+                            <div class="col-sm-6">
+                                <input type="number" id="female_members" name="female_members" value="<?php echo $wua->female_members; ?>" class="formControl">
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -67,6 +81,9 @@
                                 <input type="text" req uired id="address" name="address" value="<?php echo $wua->address; ?>" class="formControl">
                             </div>
                         </div>
+
+
+
                     </div>
                 </div>
 

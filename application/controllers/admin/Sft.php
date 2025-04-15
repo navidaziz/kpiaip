@@ -173,10 +173,13 @@ class Sft extends Admin_Controller
         $this->form_validation->set_rules("file_number", "File Number", "required");
         $this->form_validation->set_rules("wua_registration_no", "Wua Registration No", "required");
         $this->form_validation->set_rules("wua_registration_date", "Wua Registration Date", "required");
+        $this->form_validation->set_rules("male_members", "Male Members", "required");
+        $this->form_validation->set_rules("female_members", "Female Members", "required");
         $this->form_validation->set_rules("tehsil_name", "Tehsil Name", "required");
         $this->form_validation->set_rules("union_council", "Union Council", "required");
         $this->form_validation->set_rules("address", "Address", "required");
         $this->form_validation->set_rules("cm_name", "CM Name", "required");
+
         $this->form_validation->set_rules("cm_father_name", "CM Father Name", "required");
         $this->form_validation->set_rules("cm_gender", "CM Gender Name", "required");
         $this->form_validation->set_rules("cm_cnic", "CM Cnic", "required");
@@ -256,6 +259,11 @@ class Sft extends Admin_Controller
             $wua["file_number"] = $this->input->post("file_number");
             $wua["wua_registration_no"] = $this->input->post("wua_registration_no");
             $wua["wua_registration_date"] = $this->input->post("wua_registration_date");
+
+
+            $wua["male_members"] = $this->input->post("male_members");
+            $wua["female_members"] = $this->input->post("female_members");
+
             $wua["tehsil_name"] = $this->input->post("tehsil_name");
             $wua["union_council"] = $this->input->post("union_council");
             $wua["address"] = $this->input->post("address");
