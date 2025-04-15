@@ -36,7 +36,37 @@ $scheme = $this->db->query($query, [$scheme_code])->row();
         <div class="panel-body">
             <div class="row">
                 <div class="col-md-12" style="text-align: center;">
-                    <a class="btn btn-danger" target="_blank" href="<?php echo site_url(ADMIN_DIR . "verification/print_scheme_detail/" . $scheme->scheme_id); ?>"><i class="fa fa-print" aria-hidden="true"></i> Print Scheme Detail</a>
+
+                    <table class="table table-bordered table_small" id="sche mes">
+                        <thead>
+                            <tr>
+                                <th>Estimated Cost</th>
+                                <th>Estimated Cost Date</th>
+                                <th>Approved Cost</th>
+                                <th>Approval Date</th>
+                                <th>Revised Cost</th>
+                                <th>Revised Cost Date</th>
+                                <th>Completion Cost</th>
+                                <th>Sanctioned Cost</th>
+                                <th>Technical Sanction Date</th>
+                                <th>Completion Date</th>
+                            </tr>
+                            <tr>
+                                <td><?php echo $scheme->estimated_cost; ?></td>
+                                <td><?php echo $scheme->estimated_cost_date; ?></td>
+                                <td><?php echo $scheme->approved_cost; ?></td>
+                                <td><?php echo $scheme->approval_date; ?></td>
+                                <td><?php echo $scheme->revised_cost; ?></td>
+                                <td><?php echo $scheme->revised_cost_date; ?></td>
+                                <td><?php echo $scheme->completion_cost; ?></td>
+                                <td><?php echo $scheme->sanctioned_cost; ?></td>
+                                <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                <td><?php echo $scheme->completion_date; ?></td>
+                            </tr>
+                        </thead>
+                    </table>
+
+                    <a class="btn btn-success" target="_blank" href="<?php echo site_url(ADMIN_DIR . "verification/print_scheme_detail/" . $scheme->scheme_id); ?>"> Scheme More Detail</a>
 
                 </div>
 
