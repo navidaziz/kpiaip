@@ -62,7 +62,7 @@
                               FROM budget_released as br";
                                 $budget_released = $this->db->query($query)->row();
 
-                                $query = "SELECT SUM(e.gross_pay) as total_expense, 
+                                $query = "SELECT SUM(e.net_pay) as total_expense, 
                                 SUM(e.net_pay) as total_net_paid
                                FROM expenses as e";
                                 $expense = $this->db->query($query)->row();
@@ -76,10 +76,10 @@
                                 <table class="table table_small">
                                     <thead>
                                         <tr>
-                                            <th>Received from WB</th>
-                                            <th>Budget Released</th>
-                                            <th>Budget Used (Exp.)</th>
-                                            <th>Budget Remaining</th>
+                                            <th>Received from WB (PKR)</th>
+                                            <th>Budget Released From FD (PKR)</th>
+                                            <th>Expenditures (PKR)</th>
+                                            <th>Balance (PKR)</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -99,14 +99,14 @@
 
                                     </tbody>
                                     <tfoot>
-                                        <td>Remaing funds in account <br />
+                                        <th>Balance Funds RFA Account (PKR)<br />
                                             <?php $remaing_in_account = ($donor_fund->rs_total - $budget_released->rs_total); ?>
                                             <span style="color: green;">
                                                 <?php echo @number_format($remaing_in_account); ?>
                                                 <small style="font-weight: lighter;">PKRs.</small>
                                             </span>
 
-                                        </td>
+                                            </td>
 
                                         <td style="text-align: center;"><?php
                                                                         if ($donor_fund->rs_total) {
@@ -142,25 +142,9 @@
                                         <th><?php echo $financialyear->financial_year; ?></th>
                                     <?php  }  ?>
                                 </tr>
+
                                 <tr>
-                                    <th>Gross Paid:</th>
-                                    <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(gross_pay) as total FROM `expenses` 
-                                                  WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
-                                        $fy_expense = $this->db->query($query)->row();
-                                    ?>
-                                        <td>
-                                            <?php if ($fy_expense->total > 0) {
-                                                echo @number_format($fy_expense->total);
-                                            } else {
-                                                echo '0.00';
-                                            }
-                                            ?>
-                                        </td>
-                                    <?php } ?>
-                                </tr>
-                                <tr>
-                                    <th>Net Paid:</th>
+                                    <th>Expenditures</th>
                                     <?php foreach ($financialyears as $financialyear) {
                                         $query = "SELECT SUM(net_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
@@ -179,7 +163,7 @@
                                 <tr>
                                     <td></td>
                                     <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(gross_pay) as total FROM `expenses` 
+                                        $query = "SELECT SUM(net_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>
