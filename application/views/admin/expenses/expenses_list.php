@@ -130,55 +130,57 @@
                     </div>
                     <div class="col-md-6">
                         <h4>FY Wise Expense Summary</h4>
-                        <table class="table table_small ">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <?php
-                                    $query = "SELECT * FROM `financial_years` ORDER BY `financial_year` ASC";
-                                    $financialyears = $this->db->query($query)->result();
-                                    foreach ($financialyears as $financialyear) { ?>
-                                        <th><?php echo $financialyear->financial_year; ?></th>
-                                    <?php  }  ?>
-                                </tr>
+                        <div class="table-responsive" style=" overflow-x:auto;">
+                            <table class="table table_small ">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <?php
+                                        $query = "SELECT * FROM `financial_years` ORDER BY `financial_year` ASC";
+                                        $financialyears = $this->db->query($query)->result();
+                                        foreach ($financialyears as $financialyear) { ?>
+                                            <th><?php echo $financialyear->financial_year; ?></th>
+                                        <?php  }  ?>
+                                    </tr>
 
-                                <tr>
-                                    <th>Expenditures</th>
-                                    <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                    <tr>
+                                        <th>Expenditures</th>
+                                        <?php foreach ($financialyears as $financialyear) {
+                                            $query = "SELECT SUM(net_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
-                                        $fy_expense = $this->db->query($query)->row();
-                                    ?>
-                                        <td>
-                                            <?php if ($fy_expense->total > 0) {
-                                                echo @number_format($fy_expense->total);
-                                            } else {
-                                                echo '0.00';
-                                            }
-                                            ?>
-                                        </td>
-                                    <?php } ?>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <?php foreach ($financialyears as $financialyear) {
-                                        $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                            $fy_expense = $this->db->query($query)->row();
+                                        ?>
+                                            <td>
+                                                <?php if ($fy_expense->total > 0) {
+                                                    echo @number_format($fy_expense->total);
+                                                } else {
+                                                    echo '0.00';
+                                                }
+                                                ?>
+                                            </td>
+                                        <?php } ?>
+                                    </tr>
+                                    <tr>
+                                        <td></td>
+                                        <?php foreach ($financialyears as $financialyear) {
+                                            $query = "SELECT SUM(net_pay) as total FROM `expenses` 
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
-                                        $fy_expense = $this->db->query($query)->row();
-                                    ?>
-                                        <td>
-                                            <?php
-                                            if ($donor_fund->rs_total) {
-                                                echo  round(($fy_expense->total / $donor_fund->rs_total) * 100, 2) . "%";
-                                            }
-                                            ?>
-                                        </td>
-                                    <?php } ?>
-                                </tr>
+                                            $fy_expense = $this->db->query($query)->row();
+                                        ?>
+                                            <td>
+                                                <?php
+                                                if ($donor_fund->rs_total) {
+                                                    echo  round(($fy_expense->total / $donor_fund->rs_total) * 100, 2) . "%";
+                                                }
+                                                ?>
+                                            </td>
+                                        <?php } ?>
+                                    </tr>
 
-                                </tr>
-                            </thead>
-                        </table>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </div>
 
                     </div>
                 </div>
