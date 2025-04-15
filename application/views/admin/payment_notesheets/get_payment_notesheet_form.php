@@ -38,7 +38,7 @@
         <label for="puc_title" class="col-sm-12 col-form-label">PUC Title</label>
         <div class="col-sm-12">
 
-            <textarea rows="5" class="form-control" required id="puc_title" name="puc_title"><?php echo $input->puc_title; ?></textarea>
+            <textarea rows="5" class="form-control" id="puc_title" name="puc_title"><?php echo $input->puc_title; ?></textarea>
         </div>
     </div>
     <div class="form-group row">

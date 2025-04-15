@@ -75,7 +75,7 @@ class Payment_notesheets extends Admin_Controller
         // $this->form_validation->set_rules("payment_notesheet_code", "Payment Notesheet Code", "required");
         $this->form_validation->set_rules("puc_tracking_id", "Puc Tracking Id", "required");
         $this->form_validation->set_rules("district_id", "District Id", "required");
-        $this->form_validation->set_rules("puc_title", "Puc Title", "required");
+        //$this->form_validation->set_rules("puc_title", "Puc Title", "required");
         // $this->form_validation->set_rules("puc_detail", "Puc Detail", "required");
         $this->form_validation->set_rules("puc_date", "Puc Date", "required");
 
