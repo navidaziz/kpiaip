@@ -223,7 +223,7 @@ $f_years = $this->db->query($query)->result();
                                     <td class="tax_paid"><?php echo $f_year->gur_ret_paid; ?></td>
                                     <td class="tax_paid"><?php echo $f_year->misc_deduction_paid; ?></td>
                                     <td><?php echo $f_year->tax_paid ? $f_year->tax_paid : 0; ?></td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td></td>
 
                                 </tr>
@@ -244,7 +244,7 @@ $f_years = $this->db->query($query)->result();
                                     <td class="tax_unpaid">
                                         <?php echo $f_year->misc_deduction - $f_year->misc_deduction_paid; ?></td>
                                     <td><?php echo $f_year->remaining_taxes ? $f_year->remaining_taxes : 0; ?></td>
-                                    <td></td>
+                                    <!-- <td></td> -->
                                     <td></td>
 
                                 </tr>
@@ -289,7 +289,7 @@ $f_years = $this->db->query($query)->result();
                                 <td class="tax_paid"><?php echo $f_year_total->gur_ret_paid; ?></td>
                                 <td class="tax_paid"><?php echo $f_year_total->misc_deduction_paid; ?></td>
                                 <td><?php echo $f_year_total->tax_paid ? $f_year_total->tax_paid : 0; ?></td>
-                                <td></td>
+                                <!-- <td></td> -->
                                 <td></td>
 
                             </tr>
@@ -318,7 +318,7 @@ $f_years = $this->db->query($query)->result();
                                 </td>
                                 <td><?php echo $f_year_total->remaining_taxes ? $f_year_total->remaining_taxes : 0; ?>
                                 </td>
-                                <td></td>
+                                <!-- <td></td> -->
                                 <td></td>
 
                             </tr>
