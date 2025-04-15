@@ -360,14 +360,14 @@
 
 
         <div class="form-group row" <?php if ($input->payment_type != 'FINAL') { ?> style="display: none;" <?php } ?> id="completion_cost_div">
-            <label for="completion_cost" class="col-sm-4 col-form-label">Final Completion Cost <span style="color: red;">*</span></label>
-            <div class="col-sm-8">
+            <label for="completion_cost" class="col-sm-3 col-form-label">Final Completion Cost <span style="color: red;">*</span></label>
+            <div class="col-sm-3">
                 <input <?php if ($input->payment_type == 'FINAL') { ?> required <?php } ?> min="0" max="<?php echo $scheme->sanctioned_cost; ?>" type="number" step="any" id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="form-control">
             </div>
 
-            <label for="completion_date" class="col-sm-4 col-form-label">Final Completion Date <span style="color: red;">*</span></label>
-            <div class="col-sm-8">
-                <input <?php if ($input->payment_type == 'FINAL') { ?> required <?php } ?> min="0" max="<?php echo $scheme->completion_date; ?>" type="number" step="any" id="completion_date" name="completion_date" value="<?php echo $scheme->completion_date; ?>" class="form-control">
+            <label for="completion_date" class="col-sm-3 col-form-label">Final Completion Date <span style="color: red;">*</span></label>
+            <div class="col-sm-3">
+                <input <?php if ($input->payment_type == 'FINAL') { ?> required <?php } ?> min="0" max="<?php echo $scheme->completion_date; ?>" type="date" id="completion_date" name="completion_date" value="<?php echo $scheme->completion_date; ?>" class="form-control">
             </div>
 
         </div>
