@@ -14,7 +14,7 @@ class Verification extends Admin_Controller
 
     public function index()
     {
-        $this->data["title"] = 'Cheque and Schemes Verification';
+        $this->data["title"] = 'Cheque and Scheme Verification';
         $this->data["description"] = 'Cheque and Scheme Verification and Conformation Dashboard';
         $this->data["view"] = ADMIN_DIR . "verification/index";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
