@@ -57,17 +57,17 @@
 </div>
 <div class="row">
     <!-- MESSENGER -->
-    <div class="col-md-12">
+    <div class="col-md-6">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-bell"></i> <?php echo $title; ?></h4>
+                <h4><i class="fa fa-bell"></i> Cheque Verification</h4>
             </div>
             <div class="box-body">
                 <div style="text-align: center;">
                     <label for="cheque_no" class="control-label">Search By Cheque No.</label>
                     <hr />
                     <input id="cheque_no" type="text" class="form-control" style="display: inline; width:300px" name="cheque_no" />
-                    <button onclick="search_cheque($('#cheque_no').val())" type="submit" class="btn btn-success">Search</button>
+                    <button onclick="search_cheque($('#cheque_no').val())" type="submit" class="btn btn-success">Search Cheque</button>
                 </div>
 
                 <script>
@@ -108,3 +108,56 @@
             </div>
         </div>
     </div>
+
+    <div class="col-md-6">
+        <div class="box border blue" id="messenger">
+            <div class="box-title">
+                <h4><i class="fa fa-bell"></i> Scheme Verification</h4>
+            </div>
+            <div class="box-body">
+                <div style="text-align: center;">
+                    <label for="scheme_code" class="control-label">Search By Scheme Code</label>
+                    <hr />
+                    <input id="scheme_code" type="text" class="form-control" style="display: inline; width:300px" name="scheme_code" />
+                    <button onclick="search_cheque($('#scheme_code').val())" type="submit" class="btn btn-danger">Search Scheme</button>
+                </div>
+
+                <script>
+                    $(document).ready(function() {
+                        // Call search_cheque when Enter key is pressed
+                        $('#scheme_code').keypress(function(event) {
+                            if (event.which === 13) { // 13 = Enter key
+                                event.preventDefault(); // Prevent form submission
+                                search_cheque($('#scheme_code').val());
+                            }
+                        });
+                    });
+
+                    // The function now only accepts cheque_no as parameter
+                    function search_cheque(scheme_code) {
+                        // Check if cheque_no is empty
+                        if (scheme_code.trim() === '') {
+                            alert('Please enter a Scheme Code.');
+                            $('#scheme_code').focus();
+                            return false;
+                        }
+
+                        $.ajax({
+                                method: "POST",
+                                url: "<?php echo site_url(ADMIN_DIR . 'verification/search_scheme'); ?>",
+                                data: {
+                                    scheme_code: scheme_code, // Pass the cheque number dynamically
+                                },
+                            })
+                            .done(function(response) {
+                                console.log(response);
+                                $('#modal').modal('show');
+                                $('#modal_title').html('Scheme Detail');
+                                $('#modal_body').html(response);
+                            });
+                    }
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
