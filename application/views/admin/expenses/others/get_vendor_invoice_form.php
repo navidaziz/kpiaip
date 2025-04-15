@@ -51,7 +51,7 @@
         <div class="form-group row">
 
             <div class="col-sm-4">
-                <label for="invoice_gross_total" class="col-form-label">Invoice Gross Total (Rs.)</label>
+                <label for="invoice_gross_total" class="col-form-label">Gross (PKRs) (Rs.)</label>
                 <input type="number" step="any" onkeyup="calculate_taxes()" required id="invoice_gross_total" name="invoice_gross_total" value="<?php echo $input->invoice_gross_total; ?>" class="form-control">
             </div>
 
@@ -63,7 +63,7 @@
 
 
             <div class="col-sm-4">
-                <label for="sst_charged" class="col-form-label">SST Charged (Rs.)</label>
+                <label for="sst_charged" class="col-form-label">KPRA Charged</label>
                 <input type="number" onkeyup="calculate_taxes()" step="0.01" required id="sst_charged" name="sst_charged" value="<?php echo $input->sst_charged; ?>" class="form-control">
             </div>
         </div>
@@ -136,7 +136,7 @@
             <label for="total_deduction" class="col-sm-3 col-form-label"></label>
             <div class="col-sm-3">
             </div>
-            <label for="misc_deduction" class="col-sm-3 col-form-label">MISC. Deduction (Rs.)</label>
+            <label for="misc_deduction" class="col-sm-3 col-form-label">Misc. Ded. (Rs.)</label>
             <div class="col-sm-3">
                 <input type="number" onkeyup="calculate_total_deduction()" step="0.01" required id="misc_deduction" name="misc_deduction" value="<?php echo $input->misc_deduction; ?>" class="form-control">
             </div>
@@ -147,7 +147,7 @@
             <label for="misc_deduction" class="col-sm-3 col-form-label"></label>
             <div class="col-sm-3">
             </div>
-            <label for="total_deduction" class="col-sm-3 col-form-label">Net Deduction</label>
+            <label for="total_deduction" class="col-sm-3 col-form-label">Total Ded.</label>
             <div class="col-sm-3">
                 <input readonly type="number" step="0.01" required id="total_deduction" name="total_deduction" value="<?php echo $input->total_deduction; ?>" class="form-control">
             </div>

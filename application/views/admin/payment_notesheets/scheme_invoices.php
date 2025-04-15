@@ -200,7 +200,7 @@
                                         <th>Invoice Date</th>
                                         <th>Nature Of Payment</th>
                                         <th>Payment Section Code</th>
-                                        <th>Invoice Gross Total</th>
+                                        <th>Gross (PKRs)</th>
                                         <th>ST Charged</th>
                                         <th>SST Charged</th>
                                         <th>WHIT</th>
@@ -507,7 +507,7 @@
 
 
 
-            </div> 
+            </div>
             <script>
                 function get_vendor_taxe_form(id, voucher_id) {
                     $.ajax({

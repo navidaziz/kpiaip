@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="invoice_gross_total" class="col-sm-4 col-form-label">Invoice Gross Total</label>
+        <label for="invoice_gross_total" class="col-sm-4 col-form-label">Gross (PKRs)</label>
         <div class="col-sm-8">
             <input type="text" required id="invoice_gross_total" name="invoice_gross_total" value="<?php echo $input->invoice_gross_total; ?>" class="form-control">
         </div>
@@ -170,7 +170,7 @@
     </div>
 
     <div class="form-group row">
-        <label for="total_deduction" class="col-sm-4 col-form-label">Net Deduction</label>
+        <label for="total_deduction" class="col-sm-4 col-form-label">Total Ded.</label>
         <div class="col-sm-8">
             <script>
                 function total_deduction() {

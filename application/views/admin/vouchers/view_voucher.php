@@ -137,7 +137,7 @@
                                 <th>Invoice Date</th>
                                 <th>Nature Of Payment</th>
                                 <th>Payment Section Code</th>
-                                <th>Invoice Gross Total</th>
+                                <th>Gross (PKRs)</th>
                                 <th>WHIT</th>
                                 <th>ST Charged</th>
                                 <th>WHST</th>

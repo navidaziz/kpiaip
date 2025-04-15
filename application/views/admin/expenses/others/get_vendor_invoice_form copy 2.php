@@ -44,7 +44,7 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="invoice_gross_total" class="col-sm-4 col-form-label">Invoice Gross Total (Rs.)</label>
+        <label for="invoice_gross_total" class="col-sm-4 col-form-label">Gross (PKRs) (Rs.)</label>
         <div class="col-sm-8">
             <input type="text" onkeyup="calculate_taxes()" required id="invoice_gross_total" name="invoice_gross_total" value="<?php echo $input->invoice_gross_total; ?>" class="form-control">
         </div>
@@ -116,14 +116,14 @@
 
             <input type="number" min="0" max="100" onkeyup="calculate_misc_deduction()" required id="misc_deduction_per" name="misc_deduction_per" value="0.0" class="form-control">
         </div>
-        <label for="misc_deduction" class="col-sm-3 col-form-label">MISC. Deduction (Rs.)</label>
+        <label for="misc_deduction" class="col-sm-3 col-form-label">Misc. Ded. (Rs.)</label>
         <div class="col-sm-3">
             <input type="number" step="0.01" required id="misc_deduction" name="misc_deduction" value="<?php echo $input->misc_deduction; ?>" class="form-control">
         </div>
     </div>
 
     <div class="form-group row">
-        <label for="total_deduction" class="col-sm-4 col-form-label">Net Deduction</label>
+        <label for="total_deduction" class="col-sm-4 col-form-label">Total Ded.</label>
         <div class="col-sm-8">
 
             <input readonly type="number" step="0.01" required id="total_deduction" name="total_deduction" value="<?php echo $input->total_deduction; ?>" class="form-control">

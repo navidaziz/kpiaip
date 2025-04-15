@@ -1012,7 +1012,7 @@ LEFT JOIN
         $this->form_validation->set_rules("invoice_date", "Invoice Date", "required");
         $this->form_validation->set_rules("nature_of_payment", "Nature Of Payment", "required");
         $this->form_validation->set_rules("payment_section_code", "Payment Section Code", "required");
-        $this->form_validation->set_rules("invoice_gross_total", "Invoice Gross Total", "required");
+        $this->form_validation->set_rules("invoice_gross_total", "Gross (PKRs)", "required");
         $this->form_validation->set_rules("whit_tax", "Whit Tax", "required");
         $this->form_validation->set_rules("st_charged", "ST Charged", "required");
         $this->form_validation->set_rules("sst_charged", "ST Charged", "required");

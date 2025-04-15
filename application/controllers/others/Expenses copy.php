@@ -56,15 +56,15 @@ class Expenses extends Admin_Controller
         INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
         INNER JOIN districts as d ON(d.district_id = e.district_id) 
         ";
-            
-            if($this->input->get('fy')){
-                if($this->input->get('fy')=='fy'){
-                    $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
-                }
-            }else{
-                $query .= " WHERE MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+
+        if ($this->input->get('fy')) {
+            if ($this->input->get('fy') == 'fy') {
+                $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
             }
-           
+        } else {
+            $query .= " WHERE MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+        }
+
         $expenses = $this->db->query($query)->result();
         $this->data["expenses"] = $expenses;
 
@@ -79,14 +79,14 @@ class Expenses extends Admin_Controller
         SUM(net_pay) as net_pay
         FROM expenses as e 
         INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
-        INNER JOIN districts as d ON(d.district_id = e.district_id) "; 
-        if($this->input->get('fy')){
-            if($this->input->get('fy')=='fy'){
-            $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
+        INNER JOIN districts as d ON(d.district_id = e.district_id) ";
+        if ($this->input->get('fy')) {
+            if ($this->input->get('fy') == 'fy') {
+                $query .= " WHERE e.financial_year_id = $financial_year->financial_year_id";
             }
-            }else{
-                $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
-            }
+        } else {
+            $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
+        }
         $expense_summary = $this->db->query($query)->row();
         $this->data["expense_summary"] = $expense_summary;
 
@@ -99,15 +99,15 @@ class Expenses extends Admin_Controller
             INNER JOIN financial_years as fy ON(fy.financial_year_id = e.financial_year_id)
             INNER JOIN districts as d ON(d.district_id = e.district_id)
             WHERE e.category = '" . $tax . "' ";
-            
-            if($this->input->get('fy')){
-                if($this->input->get('fy')=='fy'){
+
+            if ($this->input->get('fy')) {
+                if ($this->input->get('fy') == 'fy') {
                     $query .= " AND e.financial_year_id = $financial_year->financial_year_id";
                 }
-            }else{
+            } else {
                 $query .= " AND MONTH(`e`.`date`) = $filter_month AND YEAR(`e`.`date`) = $filter_year ";
             }
-            
+
 
             if ($this->db->query($query)->row()->net_pay) {
                 $tax_paid[$tax] = $this->db->query($query)->row()->net_pay;
@@ -915,7 +915,7 @@ class Expenses extends Admin_Controller
         $this->form_validation->set_rules("invoice_date", "Invoice Date", "required");
         $this->form_validation->set_rules("nature_of_payment", "Nature Of Payment", "required");
         $this->form_validation->set_rules("payment_section_code", "Payment Section Code", "required");
-        $this->form_validation->set_rules("invoice_gross_total", "Invoice Gross Total", "required");
+        $this->form_validation->set_rules("invoice_gross_total", "Gross (PKRs)", "required");
         $this->form_validation->set_rules("whit_tax", "Whit Tax", "required");
         $this->form_validation->set_rules("st_charged", "ST Charged", "required");
         $this->form_validation->set_rules("whst_tax", "Whst Tax", "required");
