@@ -76,41 +76,41 @@
 </div>
 
 <style>
-.table_small>thead>tr>th,
-.table_small>tbody>tr>th,
-.table_small>tfoot>tr>th,
-.table_small>thead>tr>td,
-.table_small>tbody>tr>td,
-.table_small>tfoot>tr>td {
-    padding: 3px;
-    line-height: 1;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-    font-size: 12px;
-    color: black;
-    margin: 0px !important;
-}
+    .table_small>thead>tr>th,
+    .table_small>tbody>tr>th,
+    .table_small>tfoot>tr>th,
+    .table_small>thead>tr>td,
+    .table_small>tbody>tr>td,
+    .table_small>tfoot>tr>td {
+        padding: 3px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 12px;
+        color: black;
+        margin: 0px !important;
+    }
 
-.tax_paid {
-    color: green !important;
-    font-size: 9px !important;
-    text-align: right !important;
-    /* background-color: #f4f4f4; */
-}
+    .tax_paid {
+        color: green !important;
+        font-size: 9px !important;
+        text-align: right !important;
+        /* background-color: #f4f4f4; */
+    }
 
-.tax_unpaid {
-    color: red !important;
-    font-size: 9px !important;
-    text-align: right !important;
-    /* background-color: #f4f4f4; */
-}
+    .tax_unpaid {
+        color: red !important;
+        font-size: 9px !important;
+        text-align: right !important;
+        /* background-color: #f4f4f4; */
+    }
 
-.tax {
-    /* background-color: #f4f4f4; */
-}
+    .tax {
+        /* background-color: #f4f4f4; */
+    }
 </style>
-<?php 
-                $query = "SELECT 
+<?php
+$query = "SELECT 
     SUM(`net_pay`) AS net_pay, 
     SUM(`whit_tax`) AS whit_tax, 
     SUM(`whit_tax_paid`) AS whit_tax_paid, 
@@ -158,7 +158,7 @@ $f_years = $this->db->query($query)->result();
                             <tr>
                                 <th></th>
                                 <th>FY</th>
-                                <th>Net Paid</th>
+                                <th>Expenditures</th>
                                 <th>WHST
                                 </th>
                                 <th>WHIT
@@ -177,7 +177,7 @@ $f_years = $this->db->query($query)->result();
                                 </th>
                                 <th>Deduction
                                 </th>
-                                <th>Gross Paid</th>
+                                <!-- <th>Gross Paid</th> -->
                                 <th>Reconciliation</th>
                             </tr>
 
@@ -188,66 +188,66 @@ $f_years = $this->db->query($query)->result();
                             foreach ($f_years as $f_year) {  ?>
 
 
-                            <!-- First row: Total -->
-                            <tr <?php if ($f_year->fy_status == 1) { ?>
-                                style="background-color:#CAF7B7; font-weight:bold;" <?php } ?>>
-                                <th><?php echo $count++; ?></th>
-                                <th nowrap><?php echo $f_year->fy; ?><?php if ($f_year->fy_status == 1) { ?> *
+                                <!-- First row: Total -->
+                                <tr <?php if ($f_year->fy_status == 1) { ?>
+                                    style="background-color:#CAF7B7; font-weight:bold;" <?php } ?>>
+                                    <th><?php echo $count++; ?></th>
+                                    <th nowrap><?php echo $f_year->fy; ?><?php if ($f_year->fy_status == 1) { ?> *
                                     <?php } ?></th>
-                                <th><?php echo $f_year->net_pay ? $f_year->net_pay : 0; ?></th>
-                                <th class="tax"><?php echo $f_year->whst_tax; ?></th>
-                                <th class="tax"><?php echo $f_year->whit_tax; ?></th>
-                                <th class="tax"><?php echo $f_year->kpra_tax; ?></th>
-                                <th class="tax"><?php echo $f_year->st_duty_tax; ?></th>
-                                <th class="tax"><?php echo $f_year->rdp_tax; ?></th>
-                                <th class="tax"><?php echo $f_year->wht; ?></th>
-                                <th class="tax"><?php echo $f_year->gur_ret; ?></th>
-                                <th class="tax"><?php echo $f_year->misc_deduction; ?></th>
-                                <th><?php echo $f_year->deduction ? $f_year->deduction : 0; ?></th>
-                                <th><?php echo $f_year->gross_pay ? $f_year->gross_pay : 0; ?></th>
-                                <th><?php echo $f_year->reconciliation ? $f_year->reconciliation : 0; ?></th>
+                                    <th><?php echo $f_year->net_pay ? $f_year->net_pay : 0; ?></th>
+                                    <th class="tax"><?php echo $f_year->whst_tax; ?></th>
+                                    <th class="tax"><?php echo $f_year->whit_tax; ?></th>
+                                    <th class="tax"><?php echo $f_year->kpra_tax; ?></th>
+                                    <th class="tax"><?php echo $f_year->st_duty_tax; ?></th>
+                                    <th class="tax"><?php echo $f_year->rdp_tax; ?></th>
+                                    <th class="tax"><?php echo $f_year->wht; ?></th>
+                                    <th class="tax"><?php echo $f_year->gur_ret; ?></th>
+                                    <th class="tax"><?php echo $f_year->misc_deduction; ?></th>
+                                    <th><?php echo $f_year->deduction ? $f_year->deduction : 0; ?></th>
+                                    <!-- <th><?php echo $f_year->gross_pay ? $f_year->gross_pay : 0; ?></th> -->
+                                    <th><?php echo $f_year->reconciliation ? $f_year->reconciliation : 0; ?></th>
 
-                            </tr>
+                                </tr>
 
-                            <!-- Second row: Paid -->
-                            <tr>
-                                <th></th>
-                                <th nowrap></th>
-                                <th class="tax_paid">Paid</th>
-                                <td class="tax_paid"><?php echo $f_year->whst_tax_paid; ?></td>
-                                <td class="tax_paid"><?php echo $f_year->whit_tax_paid; ?></td>
-                                <td class="tax_paid"><?php echo $f_year->kpra_tax_paid; ?></td>
-                                <td class="tax_paid"><?php echo $f_year->st_duty_tax_paid; ?></td>
-                                <td class="tax_paid"><?php echo $f_year->rdp_tax_paid; ?></td>
-                                <td class="tax_paid"><?php echo $f_year->wht_paid; ?></td>
-                                <td class="tax_paid"><?php echo $f_year->gur_ret_paid; ?></td>
-                                <td class="tax_paid"><?php echo $f_year->misc_deduction_paid; ?></td>
-                                <td><?php echo $f_year->tax_paid ? $f_year->tax_paid : 0; ?></td>
-                                <td></td>
-                                <td></td>
+                                <!-- Second row: Paid -->
+                                <tr>
+                                    <th></th>
+                                    <th nowrap></th>
+                                    <th class="tax_paid">Paid</th>
+                                    <td class="tax_paid"><?php echo $f_year->whst_tax_paid; ?></td>
+                                    <td class="tax_paid"><?php echo $f_year->whit_tax_paid; ?></td>
+                                    <td class="tax_paid"><?php echo $f_year->kpra_tax_paid; ?></td>
+                                    <td class="tax_paid"><?php echo $f_year->st_duty_tax_paid; ?></td>
+                                    <td class="tax_paid"><?php echo $f_year->rdp_tax_paid; ?></td>
+                                    <td class="tax_paid"><?php echo $f_year->wht_paid; ?></td>
+                                    <td class="tax_paid"><?php echo $f_year->gur_ret_paid; ?></td>
+                                    <td class="tax_paid"><?php echo $f_year->misc_deduction_paid; ?></td>
+                                    <td><?php echo $f_year->tax_paid ? $f_year->tax_paid : 0; ?></td>
+                                    <td></td>
+                                    <td></td>
 
-                            </tr>
+                                </tr>
 
-                            <!-- Third row: Unpaid -->
-                            <tr>
-                                <th></th>
-                                <th nowrap></th>
-                                <th class="tax_unpaid">Unpaid</th>
-                                <td class="tax_unpaid"><?php echo $f_year->whst_tax - $f_year->whst_tax_paid; ?></td>
-                                <td class="tax_unpaid"><?php echo $f_year->whit_tax - $f_year->whit_tax_paid; ?></td>
-                                <td class="tax_unpaid"><?php echo $f_year->kpra_tax - $f_year->kpra_tax_paid; ?></td>
-                                <td class="tax_unpaid"><?php echo $f_year->st_duty_tax - $f_year->st_duty_tax_paid; ?>
-                                </td>
-                                <td class="tax_unpaid"><?php echo $f_year->rdp_tax - $f_year->rdp_tax_paid; ?></td>
-                                <td class="tax_unpaid"><?php echo $f_year->wht - $f_year->wht_paid; ?></td>
-                                <td class="tax_unpaid"><?php echo $f_year->gur_ret - $f_year->gur_ret_paid; ?></td>
-                                <td class="tax_unpaid">
-                                    <?php echo $f_year->misc_deduction - $f_year->misc_deduction_paid; ?></td>
-                                <td><?php echo $f_year->remaining_taxes ? $f_year->remaining_taxes : 0; ?></td>
-                                <td></td>
-                                <td></td>
+                                <!-- Third row: Unpaid -->
+                                <tr>
+                                    <th></th>
+                                    <th nowrap></th>
+                                    <th class="tax_unpaid">Unpaid</th>
+                                    <td class="tax_unpaid"><?php echo $f_year->whst_tax - $f_year->whst_tax_paid; ?></td>
+                                    <td class="tax_unpaid"><?php echo $f_year->whit_tax - $f_year->whit_tax_paid; ?></td>
+                                    <td class="tax_unpaid"><?php echo $f_year->kpra_tax - $f_year->kpra_tax_paid; ?></td>
+                                    <td class="tax_unpaid"><?php echo $f_year->st_duty_tax - $f_year->st_duty_tax_paid; ?>
+                                    </td>
+                                    <td class="tax_unpaid"><?php echo $f_year->rdp_tax - $f_year->rdp_tax_paid; ?></td>
+                                    <td class="tax_unpaid"><?php echo $f_year->wht - $f_year->wht_paid; ?></td>
+                                    <td class="tax_unpaid"><?php echo $f_year->gur_ret - $f_year->gur_ret_paid; ?></td>
+                                    <td class="tax_unpaid">
+                                        <?php echo $f_year->misc_deduction - $f_year->misc_deduction_paid; ?></td>
+                                    <td><?php echo $f_year->remaining_taxes ? $f_year->remaining_taxes : 0; ?></td>
+                                    <td></td>
+                                    <td></td>
 
-                            </tr>
+                                </tr>
 
 
                             <?php } ?>
@@ -269,7 +269,7 @@ $f_years = $this->db->query($query)->result();
                                 <th class="tax"><?php echo $f_year_total->gur_ret; ?></th>
                                 <th class="tax"><?php echo $f_year_total->misc_deduction; ?></th>
                                 <th><?php echo $f_year_total->deduction ? $f_year_total->deduction : 0; ?></th>
-                                <th><?php echo $f_year_total->gross_pay ? $f_year_total->gross_pay : 0; ?></th>
+                                <!-- <th><?php echo $f_year_total->gross_pay ? $f_year_total->gross_pay : 0; ?></th> -->
                                 <th><?php echo $f_year_total->reconciliation ? $f_year_total->reconciliation : 0; ?>
                                 </th>
 
@@ -334,7 +334,7 @@ $f_years = $this->db->query($query)->result();
 </div>
 
 <script>
-    title = '<?php echo $title.' '.date('d-m-Y m:h:s'); ?>';
+    title = '<?php echo $title . ' ' . date('d-m-Y m:h:s'); ?>';
     $(document).ready(function() {
         $('#taxes').DataTable({
             dom: 'Bfrtip',
