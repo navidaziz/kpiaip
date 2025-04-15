@@ -37,7 +37,7 @@ $scheme = $this->db->query($query, [$scheme_code])->row();
             <div class="row">
                 <div class="col-md-12" style="text-align: center;">
 
-                    <table class="table table-bordered table_small" id="sche mes">
+                    <table class="table table-bordered" id="sche mes">
                         <thead>
                             <tr>
                                 <th>Estimated Cost</th>
@@ -58,10 +58,11 @@ $scheme = $this->db->query($query, [$scheme_code])->row();
                                 <td><?php echo $scheme->approval_date; ?></td>
                                 <td><?php echo $scheme->revised_cost; ?></td>
                                 <td><?php echo $scheme->revised_cost_date; ?></td>
-                                <td><?php echo $scheme->completion_cost; ?></td>
                                 <td><?php echo $scheme->sanctioned_cost; ?></td>
-                                <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                <td><?php echo $scheme->completion_cost; ?></td>
                                 <td><?php echo $scheme->completion_date; ?></td>
+
+
                             </tr>
                         </thead>
                     </table>
