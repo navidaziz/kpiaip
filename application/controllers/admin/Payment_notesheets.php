@@ -493,13 +493,14 @@ class Payment_notesheets extends Admin_Controller
                     echo '<div class="alert alert-danger">Scheme Completion Cost must be less than or equal to Scheme Sanctioned Cost.</div>';
                     exit();
                 }
+                $s_inputs["sanctioned_cost"] = $completion_cost;
+                $s_inputs["completion_cost"] = $completion_cost;
+                $this->db->where("scheme_id", $payment_scheme_id);
+                $this->db->update("schemes", $s_inputs);
             }
 
 
-            $s_inputs["sanctioned_cost"] = $completion_cost;
-            $s_inputs["completion_cost"] = $completion_cost;
-            $this->db->where("scheme_id", $payment_scheme_id);
-            $this->db->update("schemes", $s_inputs);
+
 
             $inputs["payment_amount"] = $this->input->post("payment_amount");
             $inputs["whit"] = $this->input->post("whit");
