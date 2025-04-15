@@ -186,7 +186,7 @@ class Reports extends Admin_Controller
     public function budget_u_summary()
     {
 
-        $this->data["title"] = 'Budget Utilization Summary';
+        $this->data["title"] = 'Receipts Vs Expenditures Summary';
         $this->data["description"] = 'Upto Now';
         $this->data["view"] = ADMIN_DIR . "reports/fund_utilization/budget_u_summary";
         $this->load->view(ADMIN_DIR . "layout", $this->data);

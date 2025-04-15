@@ -120,7 +120,7 @@
 
                         <div class="col-md-7">
                             <div class="box-body">
-                                <h4>Budget Utilization Summary</h4>
+                                <h4>Receipts Vs Expenditures Summary</h4>
 
                                 <div class="table-responsive">
                                     <table class="table table_s_small table-bordered">

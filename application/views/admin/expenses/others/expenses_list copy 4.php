@@ -1,18 +1,18 @@
 <style>
-.table_small>thead>tr>th,
-.table_small>tbody>tr>th,
-.table_small>tfoot>tr>th,
-.table_small>thead>tr>td,
-.table_small>tbody>tr>td,
-.table_small>tfoot>tr>td {
-    padding: 4px;
-    line-height: 1;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-    font-size: 10px !important;
-    color: black;
-    margin: 0px !important;
-}
+    .table_small>thead>tr>th,
+    .table_small>tbody>tr>th,
+    .table_small>tfoot>tr>th,
+    .table_small>thead>tr>td,
+    .table_small>tbody>tr>td,
+    .table_small>tfoot>tr>td {
+        padding: 4px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 10px !important;
+        color: black;
+        margin: 0px !important;
+    }
 </style>
 <div class="row">
     <div class="col-sm-12">
@@ -46,7 +46,7 @@
                 <div class="col-md-9">
                     <div class="col-md-6">
                         <div class="box-body">
-                            <h4>Budget Utilization Summary</h4>
+                            <h4>Receipts Vs Expenditures Summary</h4>
 
                             <div class="table-responsive ">
                                 <?php
@@ -135,7 +135,7 @@
                                     $query = "SELECT * FROM `financial_years` ORDER BY `financial_year` ASC";
                                     $financialyears = $this->db->query($query)->result();
                                     foreach ($financialyears as $financialyear) { ?>
-                                    <th><?php echo $financialyear->financial_year; ?></th>
+                                        <th><?php echo $financialyear->financial_year; ?></th>
                                     <?php  }  ?>
                                 </tr>
                                 <tr>
@@ -144,14 +144,14 @@
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>
-                                    <td>
-                                        <?php if ($fy_expense->net_pay > 0) {
+                                        <td>
+                                            <?php if ($fy_expense->net_pay > 0) {
                                                 echo @number_format($fy_expense->net_pay);
                                             } else {
                                                 echo '0.00';
                                             }
                                             ?>
-                                    </td>
+                                        </td>
                                     <?php } ?>
                                 </tr>
                                 <tr>
@@ -160,13 +160,13 @@
                                                   WHERE `expenses`.`financial_year_id` = '" . $financialyear->financial_year_id . "'";
                                         $fy_expense = $this->db->query($query)->row();
                                     ?>
-                                    <td>
-                                        <?php
+                                        <td>
+                                            <?php
                                             if ($donor_fund->rs_total) {
                                                 echo  round(($fy_expense->net_pay / $donor_fund->rs_total) * 100, 2) . "%";
                                             }
                                             ?>
-                                    </td>
+                                        </td>
                                     <?php } ?>
                                 </tr>
                             </thead>
@@ -183,14 +183,14 @@
 </div>
 
 <style>
-.box .header-tabs .nav-tabs>li.active a,
-.box .header-tabs .nav-tabs>li.active a:after,
-.box .header-tabs .nav-tabs>li.active a:before {
-    background: #f0ad4e;
-    z-index: 3;
-    color: black;
-    font-weight: bold;
-}
+    .box .header-tabs .nav-tabs>li.active a,
+    .box .header-tabs .nav-tabs>li.active a:after,
+    .box .header-tabs .nav-tabs>li.active a:before {
+        background: #f0ad4e;
+        z-index: 3;
+        color: black;
+        font-weight: bold;
+    }
 </style>
 
 <div class="row" style="margin-bottom: 10px; margin-top:-15px">
@@ -202,21 +202,21 @@
             <?php $query = "SELECT * FROM `financial_years`";
             $financialyearsList = $this->db->query($query)->result();
             foreach ($financialyearsList as $financialyear) { ?>
-            <option <?php if ($financial_year->financial_year_id == $financialyear->financial_year_id) { ?>selected
-                <?php } ?>
-                value="<?php echo $financialyear->financial_year_id; ?>?date=<?php echo $financialyear->start_date; ?>">
-                <?php echo $financialyear->financial_year ?></option>
+                <option <?php if ($financial_year->financial_year_id == $financialyear->financial_year_id) { ?>selected
+                    <?php } ?>
+                    value="<?php echo $financialyear->financial_year_id; ?>?date=<?php echo $financialyear->start_date; ?>">
+                    <?php echo $financialyear->financial_year ?></option>
             <?php } ?>
         </select>
     </div>
     <div class="col-md-8" style="text-align: right;">
         <span style="margin-left: 10px;"></span>
         <script>
-        function reloadPage() {
-            var selectedValue = document.getElementById("financial_year").value;
+            function reloadPage() {
+                var selectedValue = document.getElementById("financial_year").value;
 
-            window.location.href = '<?php echo site_url(ADMIN_DIR . 'expenses/index/'); ?>' + selectedValue;
-        }
+                window.location.href = '<?php echo site_url(ADMIN_DIR . 'expenses/index/'); ?>' + selectedValue;
+            }
         </script>
         <a href="<?php echo site_url(ADMIN_DIR . "expenses/schemes") ?>" class="btn btn-danger">Schemes Expenses [ A
             (All) + B (B-2) ] Only</a>
@@ -225,36 +225,36 @@
         <button class="btn btn-success" onclick="expense_form(0)">General Expense</button>
         <button class="btn btn-warning" onclick="tax_expense_form(0)">Tax As an Expense</button>
         <script>
-        function tax_expense_form(expense_id, purpose) {
-            $.ajax({
-                    method: "POST",
-                    url: "<?php echo site_url(ADMIN_DIR . 'expenses/tax_expense_form'); ?>",
-                    data: {
-                        expense_id: expense_id,
-                        purpose: purpose,
-                    },
-                })
-                .done(function(respose) {
-                    $('#modal').modal('show');
-                    $('#modal_title').html('Add Tax As an Expense');
-                    $('#modal_body').html(respose);
-                });
-        }
+            function tax_expense_form(expense_id, purpose) {
+                $.ajax({
+                        method: "POST",
+                        url: "<?php echo site_url(ADMIN_DIR . 'expenses/tax_expense_form'); ?>",
+                        data: {
+                            expense_id: expense_id,
+                            purpose: purpose,
+                        },
+                    })
+                    .done(function(respose) {
+                        $('#modal').modal('show');
+                        $('#modal_title').html('Add Tax As an Expense');
+                        $('#modal_body').html(respose);
+                    });
+            }
 
-        function expense_form(expense_id) {
-            $.ajax({
-                    method: "POST",
-                    url: "<?php echo site_url(ADMIN_DIR . 'expenses/expense_form'); ?>",
-                    data: {
-                        expense_id: expense_id,
-                    },
-                })
-                .done(function(respose) {
-                    $('#modal').modal('show');
-                    $('#modal_title').html('Add Expense');
-                    $('#modal_body').html(respose);
-                });
-        }
+            function expense_form(expense_id) {
+                $.ajax({
+                        method: "POST",
+                        url: "<?php echo site_url(ADMIN_DIR . 'expenses/expense_form'); ?>",
+                        data: {
+                            expense_id: expense_id,
+                        },
+                    })
+                    .done(function(respose) {
+                        $('#modal').modal('show');
+                        $('#modal_title').html('Add Expense');
+                        $('#modal_body').html(respose);
+                    });
+            }
         </script>
     </div>
 </div>
@@ -271,8 +271,8 @@
                 <div class="tabbable header-tabs">
                     <ul class="nav nav-tabs">
                         <!-- <li <?php if ($this->input->get('fy') == 'all') {
-                                echo ' class="active" ';
-                            } ?>>
+                                        echo ' class="active" ';
+                                    } ?>>
 
                             <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?fy=all"
                                 contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
@@ -291,33 +291,33 @@
 
                         <?php
 
-                    $start_date = new DateTime($financial_year->start_date);
-                    $end_date = new DateTime($financial_year->end_date);
+                        $start_date = new DateTime($financial_year->start_date);
+                        $end_date = new DateTime($financial_year->end_date);
 
-                    // Create a DatePeriod object to iterate through each month
-                    $interval = new DateInterval('P1M'); // 1 month interval
-                    $dateRange = new DatePeriod($start_date, $interval, $end_date);
-                    $months = array();
-                    // Print each month and year
-                    foreach ($dateRange as $date) {
+                        // Create a DatePeriod object to iterate through each month
+                        $interval = new DateInterval('P1M'); // 1 month interval
+                        $dateRange = new DatePeriod($start_date, $interval, $end_date);
+                        $months = array();
+                        // Print each month and year
+                        foreach ($dateRange as $date) {
 
-                        $months[] = $date->format('Y-m-d');
-                    } ?>
+                            $months[] = $date->format('Y-m-d');
+                        } ?>
 
                         <?php rsort($months) ?>
 
                         <?php
-                    foreach ($months as $index => $month) {
-                    ?>
-                        <li <?php if (date('y-m', strtotime($filter_date)) == date('y-m', strtotime($month))) {
-                                echo ' class="active" ';
-                            } ?>>
+                        foreach ($months as $index => $month) {
+                        ?>
+                            <li <?php if (date('y-m', strtotime($filter_date)) == date('y-m', strtotime($month))) {
+                                    echo ' class="active" ';
+                                } ?>>
 
-                            <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?date=<?php echo date('Y-m-d', strtotime($month)); ?>"
-                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                                <span
-                                    class="hidden-inline-mobile"><?php echo date('M, y', strtotime($month)); ?></span></a>
-                        </li>
+                                <a href="<?php echo site_url(ADMIN_DIR . "expenses/index/" . $financial_year->financial_year_id) ?>?date=<?php echo date('Y-m-d', strtotime($month)); ?>"
+                                    contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                    <span
+                                        class="hidden-inline-mobile"><?php echo date('M, y', strtotime($month)); ?></span></a>
+                            </li>
                         <?php } ?>
 
 
@@ -336,8 +336,8 @@
                                         <tr>
                                             <th>Gross Paid</th>
                                             <th>Net Paid</th>
-                                            <?php foreach($tax_paid as $tax => $tax_value){ ?>
-                                            <th><?php echo $tax; ?></th>
+                                            <?php foreach ($tax_paid as $tax => $tax_value) { ?>
+                                                <th><?php echo $tax; ?></th>
                                             <?php } ?>
                                             <th>Tax Payables</th>
 
@@ -345,49 +345,49 @@
                                         <tr>
                                             <th><?php echo @number_format($expense_summary->gross_pay); ?></th>
                                             <th><?php echo @number_format($expense_summary->net_pay); ?></th>
-                                            <?php 
-                                            $taxPayAble=0;
-                                            foreach($tax_paid as $tax => $tax_value){ ?>
-                                            <th>
-                                                <?php
-                                                    switch(trim($tax)) {
+                                            <?php
+                                            $taxPayAble = 0;
+                                            foreach ($tax_paid as $tax => $tax_value) { ?>
+                                                <th>
+                                                    <?php
+                                                    switch (trim($tax)) {
                                                         case 'WHST':
                                                             echo @number_format($expense_summary->whst_tax);
-                                                            $taxPayAble+=$expense_summary->whst_tax;
+                                                            $taxPayAble += $expense_summary->whst_tax;
                                                             break;
                                                         case 'WHIT':
                                                             echo @number_format($expense_summary->whit_tax);
-                                                             $taxPayAble+=$expense_summary->whit_tax;
+                                                            $taxPayAble += $expense_summary->whit_tax;
                                                             break;
                                                         case 'KPRA':
                                                             echo @number_format($expense_summary->kpra_tax);
-                                                            $taxPayAble+=$expense_summary->kpra_tax;
+                                                            $taxPayAble += $expense_summary->kpra_tax;
                                                             break;
                                                         case 'St. Duty':
                                                             echo @number_format($expense_summary->st_duty_tax);
-                                                            $taxPayAble+=$expense_summary->st_duty_tax;
+                                                            $taxPayAble += $expense_summary->st_duty_tax;
                                                             break;
                                                         case 'RDP':
                                                             echo @number_format($expense_summary->rdp_tax);
-                                                             $taxPayAble+=$expense_summary->rdp_tax;
+                                                            $taxPayAble += $expense_summary->rdp_tax;
                                                             break;
                                                         case 'WHT':
                                                             echo "0";
                                                             break;
                                                         case 'GUR.RET.':
                                                             echo @number_format($expense_summary->gur_ret);
-                                                            $taxPayAble+=$expense_summary->gur_ret;
+                                                            $taxPayAble += $expense_summary->gur_ret;
                                                             break;
                                                         case 'MISC.DEDU':
                                                             echo @number_format($expense_summary->misc_deduction);
-                                                            $taxPayAble+=$expense_summary->misc_deduction;
+                                                            $taxPayAble += $expense_summary->misc_deduction;
                                                             break;
                                                         default:
                                                             echo $tax;  // In case of an unexpected tax key
                                                             break;
                                                     }
-                                            ?>
-                                            </th>
+                                                    ?>
+                                                </th>
                                             <?php } ?>
                                             <th><?php echo @number_format($taxPayAble); ?></th>
 
@@ -395,14 +395,14 @@
                                         <tr>
                                             <th></th>
                                             <th>Taxes Paid</th>
-                                            <?php 
-                                            $taxesPaid=0;
-                                            foreach($tax_paid as $tax => $tax_value){ ?>
-                                            <th>
-                                                <?php echo @number_format($tax_value); 
-                                                $taxesPaid+=$tax_value;
-                                                ?>
-                                            </th>
+                                            <?php
+                                            $taxesPaid = 0;
+                                            foreach ($tax_paid as $tax => $tax_value) { ?>
+                                                <th>
+                                                    <?php echo @number_format($tax_value);
+                                                    $taxesPaid += $tax_value;
+                                                    ?>
+                                                </th>
 
                                             <?php } ?>
 
@@ -411,51 +411,51 @@
                                         <tr>
                                             <th></th>
                                             <th>Taxes Remaining</th>
-                                            <?php 
-                                            $taxesRemaining=0;
-                                            foreach($tax_paid as $tax => $tax_value){ ?>
-                                            <th>
-                                                <?php
-                                                    switch(trim($tax)) {
+                                            <?php
+                                            $taxesRemaining = 0;
+                                            foreach ($tax_paid as $tax => $tax_value) { ?>
+                                                <th>
+                                                    <?php
+                                                    switch (trim($tax)) {
                                                         case 'WHST':
-                                                            echo @number_format($expense_summary->whst_tax-$tax_value);
-                                                            $taxesRemaining+=$expense_summary->whst_tax-$tax_value;
+                                                            echo @number_format($expense_summary->whst_tax - $tax_value);
+                                                            $taxesRemaining += $expense_summary->whst_tax - $tax_value;
                                                             break;
                                                         case 'WHIT':
-                                                            echo @number_format($expense_summary->whit_tax-$tax_value);
-                                                            $taxesRemaining+=$expense_summary->whit_tax-$tax_value;
+                                                            echo @number_format($expense_summary->whit_tax - $tax_value);
+                                                            $taxesRemaining += $expense_summary->whit_tax - $tax_value;
                                                             break;
                                                         case 'KPRA':
-                                                            echo @number_format($expense_summary->kpra_tax-$tax_value);
-                                                            $taxesRemaining+=$expense_summary->kpra_tax-$tax_value;
+                                                            echo @number_format($expense_summary->kpra_tax - $tax_value);
+                                                            $taxesRemaining += $expense_summary->kpra_tax - $tax_value;
                                                             break;
                                                         case 'St. Duty':
-                                                            echo @number_format($expense_summary->st_duty_tax-$tax_value);
-                                                            $taxesRemaining+=$expense_summary->st_duty_tax-$tax_value;
+                                                            echo @number_format($expense_summary->st_duty_tax - $tax_value);
+                                                            $taxesRemaining += $expense_summary->st_duty_tax - $tax_value;
                                                             break;
                                                         case 'RDP':
-                                                            echo @number_format($expense_summary->rdp_tax-$tax_value);
-                                                            $taxesRemaining+=$expense_summary->rdp_tax-$tax_value;
+                                                            echo @number_format($expense_summary->rdp_tax - $tax_value);
+                                                            $taxesRemaining += $expense_summary->rdp_tax - $tax_value;
                                                             break;
                                                         case 'WHT':
                                                             echo "0";
                                                             break;
                                                         case 'GUR.RET.':
-                                                            echo @number_format($expense_summary->gur_ret-$tax_value);
-                                                            $taxesRemaining+=$expense_summary->gur_ret-$tax_value;
+                                                            echo @number_format($expense_summary->gur_ret - $tax_value);
+                                                            $taxesRemaining += $expense_summary->gur_ret - $tax_value;
                                                             break;
                                                         case 'MISC.DEDU':
-                                                            echo @number_format($expense_summary->misc_deduction-$tax_value);
-                                                            $taxesRemaining+=$expense_summary->misc_deduction-$tax_value;
+                                                            echo @number_format($expense_summary->misc_deduction - $tax_value);
+                                                            $taxesRemaining += $expense_summary->misc_deduction - $tax_value;
                                                             break;
                                                         default:
                                                             echo $tax;  // In case of an unexpected tax key
                                                             break;
                                                     }
-                                            ?>
-                                            </th>
+                                                    ?>
+                                                </th>
                                             <?php } ?>
-                                            <th><?php echo @number_format($taxesPaid-$taxPayAble); ?></th>
+                                            <th><?php echo @number_format($taxesPaid - $taxPayAble); ?></th>
                                         </tr>
                                     </table>
                                 </div>
@@ -498,58 +498,94 @@
                                             $count = 1;
                                             foreach ($expenses as $expense) : ?>
 
-                                            <tr>
-                                                <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>"
-                                                        onclick="return confirm('Are you sure? you want to delete the record.')"><i
-                                                            class="fa fa-trash-o"></i></a> </td>
+                                                <tr>
+                                                    <td><a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>"
+                                                            onclick="return confirm('Are you sure? you want to delete the record.')"><i
+                                                                class="fa fa-trash-o"></i></a> </td>
 
-                                                <td><?php echo $count++; ?></td>
-                                                <td><?php echo $expense->region; ?></td>
-                                                <td><?php echo $expense->district_name; ?></td>
-                                                <td class="category"><?php echo $expense->category; ?></td>
-                                                <td><?php echo $expense->category_detail; ?></td>
-                                                <td><small><?php echo $expense->purpose; ?></small></td>
+                                                    <td><?php echo $count++; ?></td>
+                                                    <td><?php echo $expense->region; ?></td>
+                                                    <td><?php echo $expense->district_name; ?></td>
+                                                    <td class="category"><?php echo $expense->category; ?></td>
+                                                    <td><?php echo $expense->category_detail; ?></td>
+                                                    <td><small><?php echo $expense->purpose; ?></small></td>
 
-                                                <td><?php echo $expense->wua_registration_no; ?></td>
-                                                <td><?php echo $expense->wua_name; ?></td>
-                                                <td><?php echo $expense->scheme_name; ?></td>
+                                                    <td><?php echo $expense->wua_registration_no; ?></td>
+                                                    <td><?php echo $expense->wua_name; ?></td>
+                                                    <td><?php echo $expense->scheme_name; ?></td>
 
-                                                <td><?php echo $expense->financial_year; ?></td>
-                                                <td><?php echo $expense->voucher_number; ?></td>
-                                                <td><?php echo $expense->cheque; ?></td>
-                                                <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
-                                                <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
-                                                <td><?php if($expense->gross_pay>0){ echo number_format($expense->gross_pay, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->whit_tax>0){ echo number_format($expense->whit_tax, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->whst_tax>0){ echo number_format($expense->whst_tax, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->st_duty_tax>0){ echo number_format($expense->st_duty_tax, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->rdp_tax>0){ echo number_format($expense->rdp_tax, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->kpra_tax>0){ echo number_format($expense->kpra_tax, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->gur_ret>0){ echo number_format($expense->gur_ret, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->misc_deduction>0){ echo number_format($expense->misc_deduction, 2); }else{ echo 0; }?>
-                                                </td>
-                                                <td><?php if($expense->net_pay>0){ echo number_format($expense->net_pay, 2); }else{ echo 0; }?>
-                                                </td>
+                                                    <td><?php echo $expense->financial_year; ?></td>
+                                                    <td><?php echo $expense->voucher_number; ?></td>
+                                                    <td><?php echo $expense->cheque; ?></td>
+                                                    <td><?php echo date('d-m-Y', strtotime($expense->date)); ?></td>
+                                                    <td><small><i><?php echo $expense->payee_name; ?></i></small></td>
+                                                    <td><?php if ($expense->gross_pay > 0) {
+                                                            echo number_format($expense->gross_pay, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->whit_tax > 0) {
+                                                            echo number_format($expense->whit_tax, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->whst_tax > 0) {
+                                                            echo number_format($expense->whst_tax, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->st_duty_tax > 0) {
+                                                            echo number_format($expense->st_duty_tax, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->rdp_tax > 0) {
+                                                            echo number_format($expense->rdp_tax, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->kpra_tax > 0) {
+                                                            echo number_format($expense->kpra_tax, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->gur_ret > 0) {
+                                                            echo number_format($expense->gur_ret, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->misc_deduction > 0) {
+                                                            echo number_format($expense->misc_deduction, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
+                                                    <td><?php if ($expense->net_pay > 0) {
+                                                            echo number_format($expense->net_pay, 2);
+                                                        } else {
+                                                            echo 0;
+                                                        } ?>
+                                                    </td>
 
-                                                <td>
-                                                    <?php if(in_array($expense->component_category_id, $taxes_ids)) { ?>
-                                                    <button
-                                                        onclick="tax_expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
-                                                    <?php } else { ?>
-                                                    <button
-                                                        onclick="expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
-                                                    <?php } ?>
-                                                </td>
+                                                    <td>
+                                                        <?php if (in_array($expense->component_category_id, $taxes_ids)) { ?>
+                                                            <button
+                                                                onclick="tax_expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
+                                                        <?php } else { ?>
+                                                            <button
+                                                                onclick="expense_form(<?php echo $expense->expense_id ?>)">Edit</button>
+                                                        <?php } ?>
+                                                    </td>
 
 
-                                            </tr>
+                                                </tr>
                                             <?php endforeach; ?>
 
 
@@ -584,19 +620,19 @@
 
 
 <script>
-title = "Expenses ";
-$(document).ready(function() {
-    $('#db_table').DataTable({
-        dom: 'Bfrtip',
-        paging: false,
-        title: title,
-        "order": [],
-        searching: true,
-        buttons: [{
-            extend: 'excelHtml5',
+    title = "Expenses ";
+    $(document).ready(function() {
+        $('#db_table').DataTable({
+            dom: 'Bfrtip',
+            paging: false,
             title: title,
-        }]
-    });
+            "order": [],
+            searching: true,
+            buttons: [{
+                extend: 'excelHtml5',
+                title: title,
+            }]
+        });
 
-});
+    });
 </script>

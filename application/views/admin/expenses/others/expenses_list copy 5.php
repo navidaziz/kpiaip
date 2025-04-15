@@ -46,7 +46,7 @@
                 <div class="col-md-9">
                     <div class="col-md-6">
                         <div class="box-body">
-                            <h4>Budget Utilization Summary</h4>
+                            <h4>Receipts Vs Expenditures Summary</h4>
 
                             <div class="table-responsive ">
                                 <?php

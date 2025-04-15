@@ -77,7 +77,7 @@
                 <h4>Basic Financial Summary Reports</h4>
                 <ol>
                     <li>
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/budget_u_summary') ?>">Budget Utilization Summary</a>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/budget_u_summary') ?>">Receipts Vs Expenditures Summary</a>
                     </li>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/fy_w_expense_summary') ?>">FY Wise Expense Summary</a>
