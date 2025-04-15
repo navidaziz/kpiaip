@@ -365,6 +365,11 @@
                 <input <?php if ($input->payment_type == 'FINAL') { ?> required <?php } ?> min="0" max="<?php echo $scheme->sanctioned_cost; ?>" type="number" step="any" id="completion_cost" name="completion_cost" value="<?php echo $scheme->completion_cost; ?>" class="form-control">
             </div>
 
+            <label for="completion_date" class="col-sm-4 col-form-label">Final Completion Date <span style="color: red;">*</span></label>
+            <div class="col-sm-8">
+                <input <?php if ($input->payment_type == 'FINAL') { ?> required <?php } ?> min="0" max="<?php echo $scheme->completion_date; ?>" type="number" step="any" id="completion_date" name="completion_date" value="<?php echo $scheme->completion_date; ?>" class="form-control">
+            </div>
+
         </div>
 
 

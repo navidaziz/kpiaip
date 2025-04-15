@@ -387,9 +387,11 @@ class Payment_notesheets extends Admin_Controller
         $this->form_validation->set_rules("payment_type", "Payment Type", "required");
         if ($this->input->post("payment_type") == 'FINAL') {
             $this->form_validation->set_rules("completion_cost", "Completaion Cost", "required");
+            $this->form_validation->set_rules("completion_date", "Completaion Date", "required");
         }
 
         $completion_cost = $this->input->post("completion_cost");
+        $completion_date = $this->input->post("completion_date");
 
         if ($this->form_validation->run() == FALSE) {
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
@@ -478,10 +480,6 @@ class Payment_notesheets extends Admin_Controller
                 </div>';
                 exit();
             }
-
-
-
-
             if ($this->input->post("payment_type") == 'FINAL') {
 
                 $id = $this->input->post("id");
@@ -495,12 +493,10 @@ class Payment_notesheets extends Admin_Controller
                 }
                 $s_inputs["sanctioned_cost"] = $completion_cost;
                 $s_inputs["completion_cost"] = $completion_cost;
+                $s_inputs["completion_date"] = $completion_date;
                 $this->db->where("scheme_id", $payment_scheme_id);
                 $this->db->update("schemes", $s_inputs);
             }
-
-
-
 
             $inputs["payment_amount"] = $this->input->post("payment_amount");
             $inputs["whit"] = $this->input->post("whit");
