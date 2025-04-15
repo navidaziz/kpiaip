@@ -1247,7 +1247,7 @@ WHERE
     {
         // Build the base query
         $query = "
-    SELECT  
+        SELECT  
         e.*,
         DATE_FORMAT(e.date, '%e %b, %Y') as date,
         fy.financial_year, 
@@ -1265,17 +1265,17 @@ WHERE
         ((whit_tax+whst_tax+st_duty_tax+rdp_tax+kpra_tax+gur_ret+misc_deduction+net_pay)-gross_pay) as reconcilation,
         (whit_tax+whst_tax+st_duty_tax+rdp_tax+kpra_tax+gur_ret+misc_deduction) as taxable,
         IF(s.sanctioned_cost > 0, ROUND((gross_pay * 100) / s.sanctioned_cost, 2), 0) AS paid_percentage
-    FROM 
-        expenses AS e
-    INNER JOIN financial_years AS fy ON fy.financial_year_id = e.financial_year_id
-    INNER JOIN districts AS d ON d.district_id = e.district_id
-    LEFT JOIN component_categories AS cc ON cc.component_category_id = e.component_category_id
-    INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
-    INNER JOIN components as c ON(c.component_id = sc.component_id)
-    LEFT JOIN schemes AS s ON s.scheme_id = e.scheme_id
-    LEFT JOIN water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
-    WHERE 1=1
-    ";
+        FROM 
+            expenses AS e
+        INNER JOIN financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+        INNER JOIN districts AS d ON d.district_id = e.district_id
+        LEFT JOIN component_categories AS cc ON cc.component_category_id = e.component_category_id
+        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+        INNER JOIN components as c ON(c.component_id = sc.component_id)
+        LEFT JOIN schemes AS s ON s.scheme_id = e.scheme_id
+        LEFT JOIN water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
+        WHERE 1=1
+        ";
 
         $params = [];
 

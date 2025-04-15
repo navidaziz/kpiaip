@@ -34,28 +34,53 @@ class Backup extends Admin_Controller
 
     public function backup_gz()
     {
-        // Load the DB utility class
+        // Load DB utility
         $this->load->dbutil();
 
-        // Set backup preferences
-        $prefs = array(
-            'database' => $this->db->database, // database name
-            'format'      => 'txt',      // backup file format - txt or gzip (CI gzips it internally)
-            'filename'    => 'backup.sql', // used only with gzip
-            'add_drop'    => TRUE,       // add DROP TABLE statements
-            'add_insert'  => TRUE,       // add INSERT data
-            'newline'     => "\n",       // newline format
-            'foreign_key_checks' => FALSE,
+        // Base config for new DB connection
+        $new_db_config = array(
+            'hostname' => 'localhost',
+            'username' => 'root',
+            'password' => '',
+            'database' => 'chitralcom_kpiaip',
+            'dbdriver' => 'mysqli',
+            'dbprefix' => '',
+            'pconnect' => FALSE,
+            'db_debug' => TRUE,
+            'cache_on' => FALSE,
+            'cachedir' => '',
+            'swap_pre' => '',
+            'encrypt'  => FALSE,
+            'compress' => FALSE,
+            'stricton' => FALSE,
+            'failover' => array(),
+            'save_queries' => TRUE
         );
 
-        // Generate the backup
+        // Load specific DB connection
+        $specific_db = $this->load->database($new_db_config, TRUE);
+
+        // Load dbutil for the specific DB
+        $this->load->dbutil();
+        $this->dbutil->db = $specific_db;
+
+        // Backup preferences
+        $prefs = array(
+            'format'             => 'txt',
+            'add_drop'           => TRUE,
+            'add_insert'         => TRUE,
+            'newline'            => "\n",
+            'foreign_key_checks' => FALSE
+        );
+
+        // Generate backup
         $backup = $this->dbutil->backup($prefs);
 
         // Gzip it
         $gz_data = gzencode($backup, 9);
 
-        // Set file name
-        $filename = 'db_backup_' . date('Y-m-d_H-i-s') . '.sql.gz';
+        // File name
+        $filename = $db_name . '_backup_' . date('Y-m-d_H-i-s') . '.sql.gz';
 
         // Force download
         header('Content-Type: application/x-gzip');

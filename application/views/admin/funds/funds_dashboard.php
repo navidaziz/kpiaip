@@ -88,15 +88,15 @@
                                     <table class="table table_s_small table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Project Cost </th>
-                                                <th>Received from WB</th>
-                                                <th>Remaining</th>
+                                                <th>Project Cost (USD)</th>
+                                                <th>Received from WB (USD)</th>
+                                                <th>Balance from WB (USD)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <th><?php echo @number_format($project->cost); ?> $.</th>
-                                            <th><?php echo @number_format($donor_fund->dollar_total); ?> $.</th>
-                                            <th><?php echo @number_format($remaing_donor_founds); ?> $.</th>
+                                            <th><?php echo @number_format($project->cost); ?></th>
+                                            <th><?php echo @number_format($donor_fund->dollar_total); ?></th>
+                                            <th><?php echo @number_format($remaing_donor_founds); ?></th>
                                         </tbody>
                                         <tfoot>
                                             <tr>
@@ -126,15 +126,15 @@
                                     <table class="table table_s_small table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>Received from WB</th>
-                                                <th>Budget Released</th>
-                                                <th>Budget Used (Exp.)</th>
-                                                <th>Budget Remaining</th>
+                                                <th>Received from WB (PKR)</th>
+                                                <th>Budget Released From FD (PKR)</th>
+                                                <th>Expenditures (PKR)</th>
+                                                <th>Balance (PKR)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <th><?php echo @number_format($donor_fund->rs_total); ?> <small style="font-weight: lighter;">PKRs.</small></th>
-                                            <th><?php echo @number_format($budget_released->rs_total); ?> <small style="font-weight: lighter;">PKRs.</small></th>
+                                            <th><?php echo @number_format($donor_fund->rs_total); ?> <small style="font-weight: lighter;"></small></th>
+                                            <th><?php echo @number_format($budget_released->rs_total); ?> <small style="font-weight: lighter;"></small></th>
 
                                             <th><?php echo @number_format($expense->total_expense); ?></th>
                                             <th>
@@ -145,11 +145,11 @@
 
                                         </tbody>
                                         <tfoot>
-                                            <th>Remaing funds in account <br />
+                                            <th>Balance Funds RFA Account (PKR)<br />
                                                 <?php $remaing_in_account = ($donor_fund->rs_total - $budget_released->rs_total); ?>
                                                 <span style="color: green;">
                                                     <?php echo @number_format($remaing_in_account); ?>
-                                                    <small style="font-weight: lighter;">PKRs.</small>
+                                                    <small style="font-weight: lighter;"></small>
                                                 </span>
 
                                             </th>
