@@ -227,6 +227,22 @@
                             </div>
                         </div>
                     <?php } ?>
+
+                    <div class="col-md-2 col-sm-2 col-xs-2">
+                        <div class="dashboard-box" style="background-color: #00E272;">
+                            <h3>Current Ongoing</h3>
+                            <p class="count">
+                                <?php
+                                $query = "SELECT scheme_status, 
+                                COUNT(*) as total 
+                                FROM schemes 
+                                WHERE scheme_status IN('Ongoing', 'ICR-I', 'ICR-II')";
+                                $scheme = $this->db->query($query)->row();
+                                echo $scheme->total;
+                                ?> *
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-md-4">
