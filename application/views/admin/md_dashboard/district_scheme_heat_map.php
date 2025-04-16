@@ -17,7 +17,7 @@ $schemes = [
     "Ongoing",
     "ICR-I",
     "ICR-II",
-    "Final"
+    //"Final"
 ];
 
 // Heatmap data preparation
@@ -64,7 +64,12 @@ foreach ($schemes as $y_index => $scheme_status) {
             },
             yAxis: {
                 categories: [
-                    <?php foreach ($schemes as $scheme_status): ?> '<?php echo addslashes($scheme_status); ?>',
+                    <?php foreach ($schemes as $scheme_status): ?> '<?php
+                                                                    if ($scheme_status == "Ongoing") {
+                                                                        echo "ICR-0";
+                                                                    } else {
+                                                                        echo $scheme_status;
+                                                                    } ?>',
                     <?php endforeach; ?>
                 ],
                 title: null,

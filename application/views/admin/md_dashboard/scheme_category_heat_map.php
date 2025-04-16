@@ -60,8 +60,13 @@ $fys = $this->db->query($query)->result();
                         "Completed"
                     );
                     foreach ($schemes as $scheme_status) {
-                        echo "'" . $scheme_status . "',";
+                        if ($scheme_status == "Ongoing") {
+                            echo "'ICR-0',";
+                        } else {
+                            echo "'" . $scheme_status . "',";
+                        }
                     }
+
                     ?>
                 ],
                 title: null,

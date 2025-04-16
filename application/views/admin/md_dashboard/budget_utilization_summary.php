@@ -73,7 +73,7 @@ $world_bank = $this->db->query($query)->row();
                 gridLineWidth: 0,
                 labels: {
                     formatter: function() {
-                        return this.value + ' million';
+                        return this.value + ' (m)';
                     },
                     style: {
                         fontSize: '8px' // Adjust font size as needed
@@ -119,27 +119,27 @@ $world_bank = $this->db->query($query)->row();
             <thead>
                 <tr>
                     <th></th>
-                    <th style="background-color: #FF645A;">Disbursement From (WB)</th>
-                    <th style="background-color: #FFBE18;">Releases in RFA</th>
+                    <th style="background-color: #FF645A;">Disbursement From (WB) (m)</th>
+                    <th style="background-color: #FFBE18;">Releases in RFA (m)</th>
 
                 </tr>
             </thead>
             <tbody>
 
                 <tr>
-                    <th>Receipts</th>
-                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format($world_bank->total / 1000000, 2); ?> (m)</td>
-                    <td style="background-color: #FFBE18;"><?php echo number_format($budget_released->total / 1000000, 2); ?> (m)</td>
+                    <th>Receipts (m)</th>
+                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format($world_bank->total / 1000000, 2); ?></td>
+                    <td style="background-color: #FFBE18;"><?php echo number_format($budget_released->total / 1000000, 2); ?></td>
                 </tr>
                 <tr>
                     <th style="background-color: #19F98B"></th>
-                    <th style="background-color: #19F98B;">Expenses</th>
-                    <td style="text-align: center; background-color: #19F98B"><?php echo number_format($expenses->total / 1000000, 2); ?> (m)</td>
+                    <th style="background-color: #19F98B;">Expenses (m)</th>
+                    <td style="text-align: center; background-color: #19F98B"><?php echo number_format($expenses->total / 1000000, 2); ?></td>
                 </tr>
                 <tr>
-                    <th>Balance</th>
-                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format(($world_bank->total - $expenses->total) / 1000000, 2); ?> (m)</td>
-                    <td style="background-color: #FFBE18; text-align:center"><?php echo number_format(($budget_released->total - $expenses->total) / 1000000, 2); ?> (m)</td>
+                    <th>Balance (m)</th>
+                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format(($world_bank->total - $expenses->total) / 1000000, 2); ?></td>
+                    <td style="background-color: #FFBE18; text-align:center"><?php echo number_format(($budget_released->total - $expenses->total) / 1000000, 2); ?></td>
                 </tr>
 
             </tbody>

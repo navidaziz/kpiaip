@@ -16,7 +16,7 @@ $fys = $this->db->query($query)->result();
                 text: 'Regional-Level Analysis of Scheme Expenditures'
             },
             subtitle: {
-                text: 'Regional Ranked by Highest to Lowest Scheme Expenses'
+                text: 'Regional Ranked by Highest to Lowest over all Expenditures'
             },
             xAxis: {
                 type: 'category',
@@ -31,14 +31,14 @@ $fys = $this->db->query($query)->result();
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Expenses (millions)'
+                    text: 'Expenditures (millions)'
                 }
             },
             legend: {
                 enabled: false
             },
             tooltip: {
-                pointFormat: 'Expenses: <b>{point.y:.1f} millions</b>'
+                pointFormat: 'Expenditures: <b>{point.y:.1f} millions</b>'
             },
             series: [{
                 name: 'Population',
@@ -54,7 +54,6 @@ $fys = $this->db->query($query)->result();
                     <?php
                     $query = "SELECT d.region, SUM(e.net_pay) as total FROM expenses as e
                     INNER JOIN districts as d ON(d.district_id = e.district_id)
-                    and d.is_district =1
                     GROUP BY d.region ORDER BY total DESC";
                     $districts = $this->db->query($query)->result();
                     foreach ($districts as $district) { ?>['<?php echo htmlspecialchars($district->region); ?>', <?php echo round($district->total / 1000000, 3); ?>], <?php } ?>

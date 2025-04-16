@@ -80,19 +80,24 @@ $fys = $this->db->query($query)->result();
             series: [
                 <?php
                 $schemes = array(
-                    "Not-Approved",
-                    "Disputed",
-                    "Par-Completed",
-                    "Registered",
-                    "Initiated",
+                    //"Not-Approved",
+                    //"Disputed",
+                    //"Par-Completed",
+                    //"Registered",
+                    //"Initiated",
                     "Ongoing",
                     "ICR-I",
                     "ICR-II",
-                    "Final",
+                    //"Final",
                     "Completed"
                 );
                 foreach ($schemes as $scheme_status) { ?> {
-                        name: '<?php echo $scheme_status; ?>',
+                        name: '<?php
+                                if ($scheme_status == "Ongoing") {
+                                    echo "ICR-0";
+                                } else {
+                                    echo $scheme_status;
+                                } ?>',
                         data: [
                             <?php foreach ($regions as $region) {
                                 $query = "SELECT COUNT(*) as total FROM schemes as s

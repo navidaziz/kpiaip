@@ -17,7 +17,7 @@ $fys = $this->db->query($query)->result();
                 text: 'District-Level Analysis of Scheme Expenditures'
             },
             subtitle: {
-                text: 'Districts Ranked by Highest to Lowest Scheme Expenses'
+                text: 'Districts Ranked by Highest to Lowest Over all Expenditures'
             },
             xAxis: {
                 type: 'category',
@@ -32,16 +32,16 @@ $fys = $this->db->query($query)->result();
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Expeneses (millions)'
+                    text: 'Expenditures (millions)'
                 }
             },
             tooltip: {
                 shared: true,
-                pointFormat: 'Expenses: <b>{point.y:.1f} millions</b>'
+                pointFormat: 'Expenditures: <b>{point.y:.1f} millions</b>'
             },
             series: [{
                     type: 'column',
-                    name: 'Expenses',
+                    name: 'Expenditures',
                     colors: [
                         '#9b20d9', '#9215ac', '#861ec9', '#7a17e6', '#7010f9', '#691af3',
                         '#6225ed', '#5b30e7', '#533be1', '#4c46db', '#4551d5', '#3e5ccf',
@@ -54,8 +54,9 @@ $fys = $this->db->query($query)->result();
                         <?php
                         $query = "SELECT d.district_name, SUM(e.net_pay) as total FROM expenses as e
                     INNER JOIN districts as d ON(d.district_id = e.district_id)
-                    and d.is_district =1
+                    
                     GROUP BY d.district_name ORDER BY total DESC";
+                        //and d.is_district =1
                         $districts = $this->db->query($query)->result();
                         $count = 1;
                         foreach ($districts as $district) { ?> {

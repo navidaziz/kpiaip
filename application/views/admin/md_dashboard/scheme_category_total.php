@@ -65,25 +65,31 @@ $fys = $this->db->query($query)->result();
                 }
             },
             tooltip: {
-                valueSuffix: ' MNOK'
+                valueSuffix: ' Total Schemes',
             },
             series: [
                 <?php
                 $schemes = array(
-                    "Not-Approved",
+                    //"Not-Approved",
                     "Disputed",
-                    "Par-Completed",
-                    "Registered",
-                    "Initiated",
+                    //"Par-Completed",
+                    //"Registered",
+                    //"Initiated",
                     "Ongoing",
                     "ICR-I",
                     "ICR-II",
-                    "Final",
+                    //"Final",
                     "Completed"
                 );
                 foreach ($schemes as $scheme_status) {
                 ?> {
-                        name: '<?php echo $scheme_status; ?>',
+                        name: '<?php
+                                if ($scheme_status == "Ongoing") {
+                                    echo "ICR-0";
+                                } else {
+                                    echo $scheme_status;
+                                }
+                                ?>',
                         data: [
                             <?php
                             $query = "SELECT cc.category, cc.category_detail, COUNT(s.scheme_id) as total FROM component_categories as cc 
