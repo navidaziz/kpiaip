@@ -218,6 +218,9 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/category_fy_avg_cost') ?>">Category and Financial Year Wise AVG Cost</a>
                     </li>
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_filter') ?>">Custom Scheme Report</a>
+                    </li>
                 </ol>
                 <h4>Complete Scheme</h4>
                 <ol>
@@ -237,9 +240,7 @@
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_ongoing') ?>">Only Ongoing Scheme Liability Ledger</a>
                     </li>
 
-                    <li>
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_filter') ?>">Custom Scheme Report</a>
-                    </li>
+
                 </ol>
 
             </div>
