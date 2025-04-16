@@ -137,30 +137,7 @@
             <div class="box-body">
                 <div class="header-tabs">
                     <?php if ($district_id > 0) { ?>
-                        <ul class="nav nav-tabs" s>
 
-                            <li style="font-size: 11px;" <?php if ('corrected' == $tab) { ?> class="active" <?php } ?>>
-                                <a href="<?php echo site_url(ADMIN_DIR . "sft/index/corrected"); ?>"
-                                    contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                                    Reviewed (<?php echo $revied_schemes->total; ?>)
-                                </a>
-                            </li>
-                            <!-- WUA List Tab -->
-                            <li style="font-size: 11px;" <?php if ('correction' == $tab) { ?> class="active" <?php } ?>>
-                                <a href="<?php echo site_url(ADMIN_DIR . "sft/index/correction"); ?>"
-                                    contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                                    Need Review (<?php echo $review_schemes->total; ?>)
-
-                                </a>
-                            </li>
-
-                        </ul>
-
-                        <div class="tab-content" style="margin-top: -35px;">
-
-                            <?php $this->load->view(ADMIN_DIR . "sft/schemes_list"); ?>
-
-                        </div>
                     <?php } else { ?>
                         <div class="col-md-12">
                             <?php
@@ -238,6 +215,30 @@
 
                         </div>
                     <?php } ?>
+                    <ul class="nav nav-tabs" s>
+
+                        <li style="font-size: 11px;" <?php if ('corrected' == $tab) { ?> class="active" <?php } ?>>
+                            <a href="<?php echo site_url(ADMIN_DIR . "sft/index/corrected"); ?>"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                Reviewed (<?php echo $revied_schemes->total; ?>)
+                            </a>
+                        </li>
+                        <!-- WUA List Tab -->
+                        <li style="font-size: 11px;" <?php if ('correction' == $tab) { ?> class="active" <?php } ?>>
+                            <a href="<?php echo site_url(ADMIN_DIR . "sft/index/correction"); ?>"
+                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                Need Review (<?php echo $review_schemes->total; ?>)
+
+                            </a>
+                        </li>
+
+                    </ul>
+
+                    <div class="tab-content" style="margin-top: -35px;">
+
+                        <?php $this->load->view(ADMIN_DIR . "sft/schemes_list"); ?>
+
+                    </div>
                 </div>
 
 
