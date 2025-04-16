@@ -1820,104 +1820,108 @@ ORDER BY e.expense_id ASC;
     }
 
 
-    public function sanctioned_report()
+    public function schemes_filter()
     {
-        $this->data["title"] = 'Scheme Sactioned Report';
-        $this->data["description"] = 'Scheme Sactioned Report';
-        $this->data["view"] = ADMIN_DIR . "reports/sanctioned_report/index";
+        $this->data["title"] = 'Scheme Filter Report';
+        $this->data["description"] = 'Scheme Filter Report';
+        $this->data["view"] = ADMIN_DIR . "reports/schemes_filter/schemes_filter_list";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
-    public function filter_schemes()
+    public function schemes_filter_list()
     {
-        // Build the base query
         $query = "
-        SELECT  
-        e.*,
-        DATE_FORMAT(e.date, '%e %b, %Y') as date,
-        fy.financial_year, 
-        cc.category, 
-        cc.category_detail, 
-        sc.sub_component_name,
-        c.component_name,
-        s.scheme_name,
-        s.scheme_code,
-        s.sanctioned_cost,
-        wua.wua_registration_no,
-        wua.wua_name,
-        d.district_name, 
-        d.region,
-        ((whit_tax+whst_tax+st_duty_tax+rdp_tax+kpra_tax+gur_ret+misc_deduction+net_pay)-gross_pay) as reconcilation,
-        (whit_tax+whst_tax+st_duty_tax+rdp_tax+kpra_tax+gur_ret+misc_deduction) as taxable,
-        IF(s.sanctioned_cost > 0, ROUND((gross_pay * 100) / s.sanctioned_cost, 2), 0) AS paid_percentage
+        SELECT 
+            s.scheme_id,
+            s.scheme_code,
+            s.scheme_name,
+            s.scheme_status,
+            d.district_name,
+            d.region,
+            s.approval_date,
+            s.completion_date,
+            e.payee_name,
+            fy.financial_year,
+            cc.category,
+            s.lining_length,
+            s.sanctioned_cost,
+            SUM(e.gross_pay) AS total_paid,
+            COUNT(e.expense_id) AS payment_count,
+            SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay ELSE 0 END) AS `1st`,
+            SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay ELSE 0 END) AS `2nd`,
+            SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay ELSE 0 END) AS `1st_2nd`,
+            SUM(CASE WHEN e.installment = 'Final' THEN e.gross_pay ELSE 0 END) AS `final`,
+            SUM(CASE WHEN e.installment NOT IN ('1st','2nd','1st_2nd','Final') THEN e.gross_pay ELSE 0 END) AS `other`,
+            GROUP_CONCAT(e.cheque ORDER BY e.installment SEPARATOR ', ') AS cheques
         FROM 
-            expenses AS e
-        INNER JOIN financial_years AS fy ON fy.financial_year_id = e.financial_year_id
-        INNER JOIN districts AS d ON d.district_id = e.district_id
-        LEFT JOIN component_categories AS cc ON cc.component_category_id = e.component_category_id
-        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
-        INNER JOIN components as c ON(c.component_id = sc.component_id)
-        LEFT JOIN schemes AS s ON s.scheme_id = e.scheme_id
-        LEFT JOIN water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
-        WHERE 1=1
-        ";
+            schemes s
+            INNER JOIN component_categories cc ON cc.component_category_id = s.component_category_id
+            INNER JOIN financial_years fy ON fy.financial_year_id = s.financial_year_id
+            LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
+            INNER JOIN districts d ON d.district_id = s.district_id
+        WHERE 1 = 1
+    ";
 
         $params = [];
 
-        // Helper function to handle filter inputs and SQL placeholders
-        $addFilter = function ($field, $inputKey, &$query, &$params) {
+        // Helper to add dynamic filters
+        $addFilter = function ($field, $inputKey) use (&$query, &$params) {
             $values = $this->input->post($inputKey);
             if ($values) {
-                if (!is_array($values)) {
-                    $values = [$values];
-                }
+                if (!is_array($values)) $values = [$values];
                 $placeholders = implode(',', array_fill(0, count($values), '?'));
                 $query .= " AND $field IN ($placeholders)";
                 $params = array_merge($params, $values);
             }
         };
 
-        // Add filters dynamically
-        $addFilter('e.financial_year_id', 'financial_year_ids', $query, $params);
-        $addFilter('e.district_id', 'district_ids', $query, $params);
-        $addFilter('d.region', 'regions', $query, $params);
-        $addFilter('e.purpose', 'purposes', $query, $params);
-        $addFilter('e.component_category_id', 'component_category_ids', $query, $params);
-        $addFilter('cc.sub_component_id', 'sub_component_ids', $query, $params);
-        $addFilter('sc.component_id', 'component_ids', $query, $params);
+        // Apply filters
+        $addFilter('s.financial_year_id', 'financial_year_ids');
+        $addFilter('s.district_id', 'district_ids');
+        $addFilter('d.region', 'regions');
+        $addFilter('s.scheme_status', 'scheme_status');
+        $addFilter('s.component_category_id', 'component_category_ids');
+        $addFilter('s.scheme_code', 'scheme_codes');
+        $addFilter('s.scheme_name', 'scheme_names');
+        $addFilter('s.scheme_id', 'scheme_ids');
 
-        // Add date range filters
+
         $start_date = $this->input->post('start_date');
         $end_date = $this->input->post('end_date');
+        $date_filter_by = $this->input->post('date_filter_by');
+
+        // Sanitize column name to prevent SQL injection
+        $allowed_columns = ['approval_date', 'completion_date']; // whitelist
+        if (in_array($date_filter_by, $allowed_columns)) {
+            $date_filter = 's.' . $date_filter_by;
+        } else {
+            $date_filter = 's.approval_date'; // default
+        }
+
+        // Now apply the filter
         if ($start_date && !$end_date) {
-            $query .= " AND DATE(e.date) >= ?";
+            $query .= " AND DATE($date_filter) >= ?";
             $params[] = $start_date;
         } elseif (!$start_date && $end_date) {
-            $query .= " AND DATE(e.date) <= ?";
+            $query .= " AND DATE($date_filter) <= ?";
             $params[] = $end_date;
         } elseif ($start_date && $end_date) {
-            $query .= " AND DATE(e.date) BETWEEN ? AND ?";
+            $query .= " AND DATE($date_filter) BETWEEN ? AND ?";
             $params[] = $start_date;
             $params[] = $end_date;
         }
 
-        // Add a LIMIT clause for pagination or performance optimization
-        //$query .= " LIMIT 100";
+
+        // Group by scheme_id (important for aggregation)
+        $query .= " GROUP BY s.scheme_id";
 
         try {
-            // Execute the query with parameters to avoid SQL injection
-            $expenses = $this->db->query($query, $params)->result();
-
-            // Return JSON response
-            echo json_encode([
-                'success' => true,
-                'data' => $expenses
-            ]);
+            $results = $this->db->query($query, $params)->result();
+            echo json_encode(['success' => true, 'data' => $results]);
         } catch (Exception $e) {
-            // Handle query errors
             echo json_encode([
                 'success' => false,
-                'message' => 'Error fetching expenses. Please try again.',
+                'message' => 'Query error',
                 'error' => $e->getMessage()
             ]);
         }

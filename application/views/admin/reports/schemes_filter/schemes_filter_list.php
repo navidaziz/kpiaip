@@ -105,9 +105,10 @@
                                 <th>Financial Year</th>
                                 <th>Regions</th>
                                 <th>Districts</th>
-                                <th>Components</th>
-                                <th>Sub Comp.</th>
-                                <th>Comp. Categories</th>
+                                <!-- <th>Components</th> -->
+                                <th>Scheme Status</th>
+                                <th>Component Categories</th>
+                                <th>Date Filter By</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
                                 <th>Filter</th>
@@ -128,9 +129,9 @@
                                 </td>
                                 <td>
                                     <?php
-                                    $query = "SELECT d.region FROM expenses as e 
-                                                    INNER JOIN districts as d ON(d.district_id = e.district_id)
-                                                    GROUP BY d.region";
+                                    $query = "SELECT region FROM  districts as d 
+                                    WHERE is_district = 1
+                                    GROUP BY d.region ASC";
                                     $regions = $this->db->query($query)->result();
                                     ?>
                                     <select class="form-control" name="regions[]" id="regions" multiple="multiple">
@@ -178,9 +179,9 @@
                                 </td>
                                 <td>
                                     <?php
-                                    $query = "SELECT d.district_name, e.district_id FROM expenses as e 
-                                                    INNER JOIN districts as d ON(d.district_id = e.district_id)
-                                                    GROUP BY d.district_name";
+                                    $query = "SELECT d.district_name, d.district_id  FROM  districts as d 
+                                    WHERE is_district = 1
+                                    GROUP BY d.district_name";
                                     $districts = $this->db->query($query)->result();
                                     ?>
                                     <select class="form-control" name="district_ids[]" id="district_ids" multiple="multiple">
@@ -190,8 +191,20 @@
                                     </select>
 
                                 </td>
-
                                 <td>
+                                    <?php
+                                    $query = "SELECT scheme_status  FROM  schemes as s
+                                     GROUP BY s.scheme_status";
+                                    $schemes_status = $this->db->query($query)->result();
+                                    ?>
+                                    <select class="form-control" name="scheme_status[]" id="scheme_status" multiple="multiple">
+                                        <?php foreach ($schemes_status as $scheme_status) { ?>
+                                            <option value="<?php echo $scheme_status->scheme_status; ?>"><?php echo $scheme_status->scheme_status; ?></option>
+                                        <?php } ?>
+                                    </select>
+
+                                </td>
+                                <td style="display: none;">
                                     <?php
                                     $query = "SELECT 
                                                         c.component_id, 
@@ -247,7 +260,7 @@
 
                                 </td>
 
-                                <td>
+                                <td style="display: none;">
                                     <?php
                                     $query = "SELECT 
                                                         sc.sub_component_id, 
@@ -310,16 +323,21 @@
                                 </td>
                                 <td>
                                     <?php
-                                    $query = "SELECT cc.category, e.component_category_id FROM expenses as e 
-                                                        INNER JOIN component_categories as cc ON(cc.component_category_id = e.component_category_id)
-                                                        GROUP BY cc.category";
+                                    $query = "SELECT cc.category, cc.category_detail, cc.component_category_id FROM component_categories as cc 
+                                    WHERE cc.component_category_id <=12 GROUP BY cc.category";
                                     $categories = $this->db->query($query)->result();
                                     ?>
                                     <select class="form-control" name="component_category_ids[]" id="component_category_ids" multiple="multiple">
                                         <?php foreach ($categories as $categorie) { ?>
-                                            <option value="<?php echo $categorie->component_category_id; ?>"><?php echo $categorie->category; ?></option>
+                                            <option value="<?php echo $categorie->component_category_id; ?>"><?php echo $categorie->category; ?> - <?php echo $categorie->category_detail; ?></option>
                                         <?php } ?>
                                     </select>
+                                </td>
+
+                                <td>
+                                    <select class="form-control" name="date_filter_by" id="date_filter_by">
+                                        <option value="approval_date">Approved Date</option>
+                                        <option value="completion_date">Completion Date</option>
                                 </td>
 
 
@@ -328,158 +346,148 @@
                                 <td><button class="btn btn-danger" type="submit">Process</button></td>
                             </tr>
                         </table>
-                        <div id="filter_expenses"></div>
+                        <div id="filte r_expenses"></div>
                     </form>
+
+
+
+                    <table id="schemesTable" class="table table-bordered table-striped table_small" style="width: 100%;">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Scheme Code</th>
+                                <th>Status</th>
+                                <th>Scheme Name</th>
+                                <th>District</th>
+                                <th>Region</th>
+                                <th>Approval Date</th>
+                                <th>Payee</th>
+                                <th>Financial Year</th>
+                                <th>Category</th>
+                                <th>Sanctioned Cost</th>
+                                <th>Total Paid</th>
+                                <th>Payment Count</th>
+                                <th>1st Installment</th>
+                                <th>2nd Installment</th>
+                                <th>1st + 2nd</th>
+                                <th>Final</th>
+                                <th>Other</th>
+                                <th>Cheques</th>
+                                <th>Completion Date</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+
                     <script>
                         $(document).ready(function() {
-                            // Initialize Select2 for all select dropdowns
-                            $('#financial_year_ids, #regions, #district_ids, #component_ids, #sub_component_ids, #component_category_ids, #purposes').select2();
+                            // Initialize Select2
+                            $('#financial_year_ids, #scheme_status, #regions, #district_ids, #component_ids, #sub_component_ids, #component_category_ids, #purposes').select2();
 
-                            // Handle the form submission with AJAX
+                            // Handle form submission
                             $('#filterForm').on('submit', function(event) {
-                                event.preventDefault(); // Prevent the default form submission
+                                event.preventDefault();
 
-                                // Serialize form data
                                 var formData = $(this).serialize();
 
-                                // Send the data via AJAX
                                 $.ajax({
-                                    url: '<?php echo site_url(ADMIN_DIR . "reports/filter_schemes") ?>', // Replace with your server-side filtering URL
-                                    method: 'POST', // or POST depending on your requirement
+                                    url: '<?php echo site_url(ADMIN_DIR . "reports/schemes_filter_list"); ?>',
+                                    method: 'POST',
                                     data: formData,
                                     success: function(response) {
                                         response = JSON.parse(response);
-                                        if (response.success) {
-                                            // Assuming response.data is the array of data to be displayed in the table
-                                            var tableData = response.data;
 
-                                            // Initialize DataTable with the fetched data
-                                            $('#expensesTable').DataTable({
-                                                destroy: true,
-                                                dom: 'Blfrtip', // Added 'l' to include the length menu
-                                                lengthChange: true, // Ensures the 'Show entries' dropdown is enabled
-                                                ordering: true,
-                                                searching: true,
+                                        if (response.success) {
+                                            if ($.fn.DataTable.isDataTable('#schemesTable')) {
+                                                $('#schemesTable').DataTable().clear().destroy();
+                                            }
+
+                                            $('#schemesTable').DataTable({
+                                                data: response.data,
+                                                columns: [{
+                                                        data: 'scheme_id'
+                                                    },
+                                                    {
+                                                        data: 'scheme_code'
+                                                    },
+                                                    {
+                                                        data: 'scheme_status'
+                                                    },
+                                                    {
+                                                        data: 'scheme_name'
+                                                    },
+                                                    {
+                                                        data: 'district_name'
+                                                    },
+                                                    {
+                                                        data: 'region'
+                                                    },
+                                                    {
+                                                        data: 'approval_date'
+                                                    },
+                                                    {
+                                                        data: 'payee_name'
+                                                    },
+                                                    {
+                                                        data: 'financial_year'
+                                                    },
+                                                    {
+                                                        data: 'category'
+                                                    },
+                                                    {
+                                                        data: 'sanctioned_cost'
+                                                    },
+                                                    {
+                                                        data: 'total_paid'
+                                                    },
+                                                    {
+                                                        data: 'payment_count'
+                                                    },
+                                                    {
+                                                        data: '1st'
+                                                    },
+                                                    {
+                                                        data: '2nd'
+                                                    },
+                                                    {
+                                                        data: '1st_2nd'
+                                                    },
+                                                    {
+                                                        data: 'final'
+                                                    },
+                                                    {
+                                                        data: 'other'
+                                                    },
+                                                    {
+                                                        data: 'cheques'
+                                                    },
+                                                    {
+                                                        data: 'completion_date'
+                                                    }
+                                                ],
+                                                dom: 'Blfrtip',
+                                                pageLength: -1,
                                                 buttons: [{
                                                         extend: 'print',
-                                                        title: "Custom Schemes Report (Date: <?php echo date('d-m-Y h:m:s') ?>)",
+                                                        title: "Custom Schemes Report (Date: <?php echo date('d-m-Y h:i:s'); ?>)"
                                                     },
                                                     {
                                                         extend: 'excelHtml5',
-                                                        title: "Custom Schemes Report (Date: <?php echo date('d-m-Y h:m:s') ?>)",
-                                                    }
-                                                ],
-                                                data: tableData,
-                                                columns: [{
-                                                        data: 'financial_year',
-                                                        title: 'Financial Year'
-                                                    },
-                                                    {
-                                                        data: 'scheme_id',
-                                                        title: 'Scheme ID'
-                                                    },
-                                                    {
-                                                        data: 'scheme_name',
-                                                        title: "Scheme's Name"
-                                                    },
-                                                    {
-                                                        data: 'status',
-                                                        title: 'Status'
-                                                    },
-                                                    {
-                                                        data: 'region',
-                                                        title: 'Region'
-                                                    },
-                                                    {
-                                                        data: 'district_name',
-                                                        title: 'District'
-                                                    },
-                                                    {
-                                                        data: 'approval_date',
-                                                        title: 'Approval Date'
-                                                    },
-                                                    {
-                                                        data: 'category',
-                                                        title: 'Cat'
-                                                    },
-                                                    {
-                                                        data: 'sanctioned_cost',
-                                                        title: 'Sanctioned Cost'
-                                                    },
-                                                    {
-                                                        data: 'balance',
-                                                        title: 'Balance (PKRs.)'
-                                                    },
-                                                    {
-                                                        data: 'first_advance',
-                                                        title: '1st'
-                                                    },
-                                                    {
-                                                        data: 'second_advance',
-                                                        title: '2nd'
-                                                    },
-                                                    {
-                                                        data: 'first_second_advance',
-                                                        title: '1st & 2nd'
-                                                    },
-                                                    {
-                                                        data: 'other_advance',
-                                                        title: 'Other'
-                                                    },
-                                                    {
-                                                        data: 'final_advance',
-                                                        title: 'Final'
-                                                    },
-                                                    {
-                                                        data: 'total_advance',
-                                                        title: 'Total'
+                                                        title: "Custom Schemes Report (Date: <?php echo date('d-m-Y h:i:s'); ?>)"
                                                     }
                                                 ]
                                             });
-
                                         } else {
                                             alert('No data found');
                                         }
                                     },
-                                    error: function(error) {
-                                        // Handle any errors here
-                                        console.error('Error fetching data:', error);
+                                    error: function(xhr) {
+                                        console.error('Error:', xhr.responseText);
                                     }
                                 });
                             });
                         });
                     </script>
-
-                    <!-- Your DataTable HTML Table -->
-                    <table id="scheme_table" class="table table-striped table-bordered table_s_small" style="width:100%">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>FY</th>
-                                <th>Scheme ID</th>
-                                <th>Scheme's Name</th>
-                                <th>Status</th>
-                                <th>Region</th>
-                                <th>District</th>
-                                <th>Approval Date</th>
-                                <th>Cat:</th>
-                                <th>Sanctioned Cost</th>
-
-                                <th>Balance (PKRs.)</th>
-                                <th>1st</th>
-                                <th>2nd</th>
-                                <th>1st & 2nd</th>
-                                <th>Other</th>
-                                <th>Final</th>
-                                <th>Total</th>
-
-                            </tr>
-                        </thead>
-                    </table>
-
-
-
-
 
                 </div>
             </div>
