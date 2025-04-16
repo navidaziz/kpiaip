@@ -55,7 +55,7 @@ $fys = $this->db->query($query)->result();
                         $query = "SELECT d.district_name, SUM(e.net_pay) as total FROM expenses as e
                     INNER JOIN districts as d ON(d.district_id = e.district_id)
                    
-                    GROUP BY d.district_id ORDER BY total DESC LIMIT 33";
+                    GROUP BY d.district_id ORDER BY total DESC LIMIT 36";
                         //and d.is_district =1
                         $districts = $this->db->query($query)->result();
                         $count = 1;
