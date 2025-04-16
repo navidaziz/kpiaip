@@ -133,6 +133,7 @@
         padding: 5px;
         margin: 10px 0;
         transition: transform 0.2s;
+
     }
 
     .dashboard-box:hover {
@@ -141,18 +142,20 @@
 
     .dashboard-box h3 {
         margin: 0;
-        font-size: 10px;
+        font-size: 15px;
         font-weight: bold;
         color: #333;
     }
 
+
+
     .dashboard-box p {
-        font-size: 14px;
+        font-size: 24px;
         color: #777;
     }
 
     .dashboard-box .count {
-        font-size: 15px;
+        font-size: 24px;
         font-weight: bold;
         color: #2c3e50;
     }
@@ -166,7 +169,7 @@
     <div class="container" style="padding-top: 5px;">
         <div class="row">
 
-            <div class="col-md-2">
+            <div class="col-md-3">
                 <div class="dashboard-box">
                     <h3>KP-IAIP Project</h3>
                     <p class="count">Data Analysis Dashboard</p>
@@ -178,45 +181,54 @@
                     </div>
                 </div>
             </div>
-            <?php
-            $schemes = array(
-                "Registered",
-                "Initiated",
-                "Not-Approved",
-                "Ongoing",
-                "ICR-I",
-                "ICR-II",
-                "Final",
-                "Disputed",
-                "Par-Completed",
-                "Completed"
-            );
+            <div class="col-md-9">
+                <div class="row">
+                    <?php
+                    $schemes = array(
+                        //"Registered",
+                        //"Initiated",
+                        //"Not-Approved",
+                        "Ongoing",
+                        "ICR-I",
+                        "ICR-II",
+                        // "Final",
+                        "Disputed",
+                        // "Par-Completed",
+                        "Completed"
+                    );
 
-            $colors = array(
-                "Registered" => "#FE6A35",
-                "Initiated" => "#6B8ABC",
-                "Not-Approved"  => "#2CAFFE",
-                "Ongoing"  => "#D568FB",
-                "ICR-I" => "#2EE0CA",
-                "ICR-II" => "#FA4B42",
-                "Final" => "#FEB56A",
-                "Disputed" => "#544FC5",
-                "Par-Completed" => "#00E272",
-                "Completed"  => "#91E8E1"
-            );
+                    $colors = array(
+                        "Registered" => "#FE6A35",
+                        "Initiated" => "#6B8ABC",
+                        "Not-Approved"  => "#2CAFFE",
+                        "Ongoing"  => "#D568FB",
+                        "ICR-I" => "#2EE0CA",
+                        "ICR-II" => "#FA4B42",
+                        "Final" => "#FEB56A",
+                        "Disputed" => "#FEB56A",
+                        "Par-Completed" => "#00E272",
+                        "Completed"  => "#91E8E1"
+                    );
 
-            foreach ($schemes as $scheme_status) {
-                $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+                    foreach ($schemes as $scheme_status) {
+                        $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
     WHERE scheme_status ='" . $scheme_status . "'";
-                $scheme = $this->db->query($query)->row();
-            ?>
-                <div class="col-md-1 col-sm-3 col-xs-3">
-                    <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
-                        <h3><?php echo $scheme_status; ?></h3>
-                        <p class="count"><?php echo $scheme->total ?></p>
-                    </div>
+                        $scheme = $this->db->query($query)->row();
+                    ?>
+                        <div class="col-md-2 col-sm-2 col-xs-2">
+                            <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
+                                <h3><?php
+                                    if ($scheme_status == 'Ongoing') {
+                                        echo $scheme_status = 'ICT-0';
+                                    } else {
+                                        echo $scheme_status;
+                                    } ?></h3>
+                                <p class="count"><?php echo $scheme->total ?></p>
+                            </div>
+                        </div>
+                    <?php } ?>
                 </div>
-            <?php } ?>
+            </div>
             <div class="col-md-4">
                 <div id="budget_utilization_summary"></div>
             </div>

@@ -48,15 +48,15 @@ $fys = $this->db->query($query)->result();
                     <?php
                     // Define scheme statuses for the y-axis
                     $schemes = array(
-                        "Not-Approved",
+                        //"Not-Approved",
                         "Disputed",
-                        "Par-Completed",
-                        "Registered",
-                        "Initiated",
+                        //"Par-Completed",
+                        //"Registered",
+                        //"Initiated",
                         "Ongoing",
                         "ICR-I",
                         "ICR-II",
-                        "Final",
+                        //"Final",
                         "Completed"
                     );
                     foreach ($schemes as $scheme_status) {
