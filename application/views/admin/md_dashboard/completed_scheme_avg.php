@@ -136,9 +136,9 @@ $fys = $this->db->query($query)->result();
                         name: '<?php echo $category->category; ?>',
                         data: [
                             <?php foreach ($fys as $fy) {
-                                $query = "SELECT MIN(s.net_paid) as min,
-                                AVG(s.net_paid) as avg,
-                                MAX(s.net_paid) as max
+                                $query = "SELECT MIN(s.total_paid) as min,
+                                AVG(s.total_paid) as avg,
+                                MAX(s.total_paid) as max
                                 FROM scheme_lists as s 
                                 WHERE s.component_category_id = '" . $category->component_category_id . "'
                                 AND s.financial_year = '" . $fy->financial_year . "'
