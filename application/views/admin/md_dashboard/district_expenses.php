@@ -6,10 +6,10 @@ $fys = $this->db->query($query)->result();
 ?>
 
 <div class="jumbotron" style="padding: 2px;">
-    <div id="district_expenses_div" style="width:100%; height:400px;"></div>
+    <div id="district_expenses_div2" style="width:100%; height:400px;"></div>
 
     <script>
-        Highcharts.chart('district_expenses_div', {
+        Highcharts.chart('district_expenses_div2', {
             chart: {
                 type: 'column'
             },
@@ -54,14 +54,14 @@ $fys = $this->db->query($query)->result();
                         <?php
                         $query = "SELECT d.district_name, SUM(e.net_pay) as total FROM expenses as e
                     INNER JOIN districts as d ON(d.district_id = e.district_id)
-                    WHERE d.is_district = 1
+                   
                     GROUP BY d.district_name ORDER BY total DESC";
                         //and d.is_district =1
                         $districts = $this->db->query($query)->result();
                         $count = 1;
                         foreach ($districts as $district) { ?> {
                                 name: '<?php echo $count . '. ' . substr(htmlspecialchars($district->district_name), 0, 10); ?>',
-                                y: <?php echo round($district->total / 1000000, 3); ?>
+                                y: <?php echo round($district->total / 1000000, 2); ?>
                             },
                         <?php $count++;
                         } ?>
