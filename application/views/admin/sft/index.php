@@ -136,29 +136,108 @@
             </div>
             <div class="box-body">
                 <div class="header-tabs">
+                    <?php if ($district_id > 0) { ?>
+                        <ul class="nav nav-tabs" s>
 
-                    <ul class="nav nav-tabs" s>
+                            <li style="font-size: 11px;" <?php if ('corrected' == $tab) { ?> class="active" <?php } ?>>
+                                <a href="<?php echo site_url(ADMIN_DIR . "sft/index/corrected"); ?>"
+                                    contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                    Reviewed (<?php echo $revied_schemes->total; ?>)
+                                </a>
+                            </li>
+                            <!-- WUA List Tab -->
+                            <li style="font-size: 11px;" <?php if ('correction' == $tab) { ?> class="active" <?php } ?>>
+                                <a href="<?php echo site_url(ADMIN_DIR . "sft/index/correction"); ?>"
+                                    contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
+                                    Need Review (<?php echo $review_schemes->total; ?>)
 
-                        <li style="font-size: 11px;" <?php if ('corrected' == $tab) { ?> class="active" <?php } ?>>
-                            <a href="<?php echo site_url(ADMIN_DIR . "sft/index/corrected"); ?>"
-                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                                Reviewed (<?php echo $revied_schemes->total; ?>)
-                            </a>
-                        </li>
-                        <!-- WUA List Tab -->
-                        <li style="font-size: 11px;" <?php if ('correction' == $tab) { ?> class="active" <?php } ?>>
-                            <a href="<?php echo site_url(ADMIN_DIR . "sft/index/correction"); ?>"
-                                contenteditable="false" style="cursor: pointer; padding: 7px 8px;">
-                                Need Review (<?php echo $review_schemes->total; ?>)
+                                </a>
+                            </li>
 
-                            </a>
-                        </li>
+                        </ul>
 
-                    </ul>
+                        <div class="tab-content" style="margin-top: -35px;">
 
-                    <div class="tab-content" style="margin-top: -35px;">
-                        <?php $this->load->view(ADMIN_DIR . "sft/schemes_list"); ?>
-                    </div>
+                            <?php $this->load->view(ADMIN_DIR . "sft/schemes_list"); ?>
+
+                        </div>
+                    <?php } else { ?>
+                        <div class="col-md-12">
+                            <?php
+                            // Count the total WUA List
+                            $query = "SELECT COUNT(*) as total FROM schemes WHERE scheme_status = 'Completed' and sft_reviewed=1";
+                            if ($district_id) {
+                                $query .= " AND district_id = $district_id";
+                            }
+                            $revied_schemes = $this->db->query($query)->row(); // Fetch the total count
+
+                            // Count the total WUA List
+                            $query = "SELECT COUNT(*) as total FROM schemes WHERE scheme_status = 'Completed' and sft_reviewed=0";
+                            if ($district_id) {
+                                $query .= " AND district_id = $district_id";
+                            }
+                            $review_schemes = $this->db->query($query)->row(); // Fetch the total count
+
+                            $precentage = round(($revied_schemes->total * 100) / $review_schemes->total, 2); ?>
+                            <table class="table table-bordered table-striped text-center table_small">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th>S/No.</th>
+                                        <th>Region</th>
+                                        <th>District</th>
+                                        <th>Total</th>
+                                        <th>Reviewed</th>
+                                        <th>Remaining</th>
+                                        <th>Percentage</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php
+                                    $query = "SELECT * FROM districts WHERE is_district = 1 ORDER BY district_name ASC";
+                                    $districts = $this->db->query($query)->result(); // Fetch the total count
+                                    $s_no = 1;
+                                    foreach ($districts as $district) {
+
+                                        // Count the total WUA List
+                                        $query = "SELECT COUNT(*) as total FROM schemes 
+                                        WHERE scheme_status = 'Completed' and sft_reviewed=1
+                                        and district_id = $district->district_id";
+                                        $revied_schemes = $this->db->query($query)->row(); // Fetch the total count
+
+                                        // Count the total WUA List
+                                        $query = "SELECT COUNT(*) as total FROM schemes 
+                                        WHERE scheme_status = 'Completed' and sft_reviewed=0
+                                        and district_id = $district->district_id";
+
+                                        $review_schemes = $this->db->query($query)->row(); // Fetch the total count
+                                        if ($review_schemes->total) {
+                                            $precentage = round(($revied_schemes->total * 100) / $review_schemes->total, 2);
+                                        } else {
+                                            $precentage = 0;
+                                        } ?>
+                                        <tr>
+                                            <td><?php echo $s_no++; ?></td>
+                                            <td><?php echo $district->region; ?></td>
+                                            <td><strong><?php echo $district->district_name; ?></strong></td>
+                                            <td><strong style="color: #dc3545;"><?php echo $review_schemes->total + $revied_schemes->total; ?></strong></td>
+                                            <td><strong style="color: #28a745;"><?php echo $revied_schemes->total; ?></strong></td>
+                                            <td><strong style="color: #ffc107;"><?php echo $review_schemes->total - $revied_schemes->total; ?></strong></td>
+                                            <th>
+                                                <div class="progress" style="height:20px!important">
+                                                    <div class="progress-bar bg-danger" role="progressbar"
+                                                        style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    <?php } ?>
+
+
+                                </tbody>
+                            </table>
+
+
+                        </div>
+                    <?php } ?>
                 </div>
 
 

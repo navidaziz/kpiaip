@@ -34,7 +34,7 @@
             <!-- /BREADCRUMBS -->
             <div class="row">
 
-                <div class="col-md-4">
+                <div class="col-md-12">
                     <div class="clearfix">
 
                         <h3 class="content-title pull-left"><?php echo $title ?></h3>
@@ -119,7 +119,7 @@
                     <label for="scheme_code" class="control-label">Search By Scheme Code</label>
                     <hr />
                     <input id="scheme_code" type="text" class="form-control" style="display: inline; width:300px" name="scheme_code" />
-                    <button onclick="search_cheque($('#scheme_code').val())" type="submit" class="btn btn-danger">Search Scheme</button>
+                    <button onclick="search_scheme($('#scheme_code').val())" type="submit" class="btn btn-danger">Search Scheme</button>
                 </div>
 
                 <script>
@@ -128,13 +128,13 @@
                         $('#scheme_code').keypress(function(event) {
                             if (event.which === 13) { // 13 = Enter key
                                 event.preventDefault(); // Prevent form submission
-                                search_cheque($('#scheme_code').val());
+                                search_scheme($('#scheme_code').val());
                             }
                         });
                     });
 
                     // The function now only accepts cheque_no as parameter
-                    function search_cheque(scheme_code) {
+                    function search_scheme(scheme_code) {
                         // Check if cheque_no is empty
                         if (scheme_code.trim() === '') {
                             alert('Please enter a Scheme Code.');
