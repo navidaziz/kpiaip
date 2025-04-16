@@ -128,18 +128,18 @@ $world_bank = $this->db->query($query)->row();
 
                 <tr>
                     <th>Receipts</th>
-                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format($world_bank->total / 1000000, 0); ?> (m)</td>
-                    <td style="background-color: #FFBE18;"><?php echo number_format($budget_released->total / 1000000, 0); ?> (m)</td>
+                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format($world_bank->total / 1000000, 2); ?> (m)</td>
+                    <td style="background-color: #FFBE18;"><?php echo number_format($budget_released->total / 1000000, 2); ?> (m)</td>
                 </tr>
                 <tr>
                     <th style="background-color: #19F98B"></th>
                     <th style="background-color: #19F98B;">Expenses</th>
-                    <td style="text-align: center; background-color: #19F98B"><?php echo number_format($expenses->total / 1000000, 0); ?> (m)</td>
+                    <td style="text-align: center; background-color: #19F98B"><?php echo number_format($expenses->total / 1000000, 2); ?> (m)</td>
                 </tr>
                 <tr>
                     <th>Balance</th>
-                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format(($world_bank->total - $expenses->total) / 1000000, 0); ?> (m)</td>
-                    <td style="background-color: #FFBE18; text-align:center"><?php echo number_format(($budget_released->total - $expenses->total) / 1000000, 0); ?> (m)</td>
+                    <td style="background-color: #FF645A; text-align:right"><?php echo number_format(($world_bank->total - $expenses->total) / 1000000, 2); ?> (m)</td>
+                    <td style="background-color: #FFBE18; text-align:center"><?php echo number_format(($budget_released->total - $expenses->total) / 1000000, 2); ?> (m)</td>
                 </tr>
 
             </tbody>
