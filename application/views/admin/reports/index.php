@@ -236,6 +236,10 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_list_ongoing') ?>">Only Ongoing Scheme Liability Ledger</a>
                     </li>
+
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_filter') ?>">Custom Scheme Report</a>
+                    </li>
                 </ol>
 
             </div>
