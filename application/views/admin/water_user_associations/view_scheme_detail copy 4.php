@@ -76,22 +76,27 @@
                     <div class="clearfix">
                         <h3 class="content-title pull-left"><?php echo $title; ?></h3>
                     </div>
-                    <h4>Scheme Code: <strong><?php echo $scheme->scheme_code; ?> </strong></h4>
-
-                    <strong>Category:
-                        <?php
-                        $query = "SELECT * FROM `component_categories` 
+                    <div class="description"><?php echo $scheme->scheme_code; ?> <br />
+                        <?php if ($scheme->phy_completion === 'Yes') { ?>
+                            <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
+                        <?php } else { ?>
+                            <strong>Physically Completed: No</strong>
+                        <?php } ?>
+                        <br />
+                        <strong>Category:
+                            <?php
+                            $query = "SELECT * FROM `component_categories` 
                                 WHERE component_category_id=$scheme->component_category_id";
-                        $category = $this->db->query($query)->row();
-                        if ($category) {
-                            echo $category->category . " <small>(" . $category->category_detail . ")</small>";
-                        } else {
-                            echo "Undefine";
-                        }
-                        ?>
+                            $category = $this->db->query($query)->row();
+                            if ($category) {
+                                echo $category->category . " <small>(" . $category->category_detail . ")</small>";
+                            } else {
+                                echo "Undefine";
+                            }
+                            ?>
 
-                    </strong>
-                    </h4>
+                        </strong>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -903,19 +908,6 @@
                         <div style="text-align: center;">
                             <h4 style="text-align: center;">
                                 Current Scheme Status: <?php echo scheme_status($scheme->scheme_status); ?>
-
-
-                                <?php if ($scheme->phy_completion === 'Yes') { ?>
-                                    <span class="label label-danger">
-                                        <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
-                                    </span>
-                                <?php } else { ?>
-                                    <span class="label label-success">
-                                        <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
-                                    </span>
-                                <?php } ?>
-                                </span>
-
                                 <button onclick="scheme_logs()" class="btn btn-primary btn-sm"
                                     style="width: 25px; height: 25px; padding: 0; margin-left: 6px; border-radius: 50%; display: inline; align-items: center; justify-content: center;">
                                     <i class="fa fa-history"></i>
@@ -925,7 +917,7 @@
 
                             </h4>
 
-                            <div style="font-size: 20px;">
+                            <div>
                                 <?php echo scheme_status_detail($scheme->scheme_status); ?>
                             </div>
                             <hr />
@@ -1359,6 +1351,22 @@ if ($scheme->scheme_status != 'Completed' and 1 == 2) { ?>
             .done(function(respose) {
                 $('#modal').modal('show');
                 $('#modal_title').html('Scheme Status Logs');
+                $('#modal_body').html(respose);
+            });
+    }
+</script>
+<script>
+    function update_st_data(scheme_id) {
+        $.ajax({
+                method: "POST",
+                url: "<?php echo site_url(ADMIN_DIR . 'water_user_associations/update_st_data_form'); ?>",
+                data: {
+                    scheme_id: scheme_id
+                },
+            })
+            .done(function(respose) {
+                $('#modal').modal('show');
+                $('#modal_title').html('Update Scheme Technical Data ');
                 $('#modal_body').html(respose);
             });
     }

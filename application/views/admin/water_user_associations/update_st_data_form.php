@@ -56,7 +56,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="verified_by_tpv" class="col-sm-6 col-form-label">Verified By TPV</label>
+                    <label for="verified_by_tpv" class="col-sm-6 col-form-label">Reviewed By Consultant</label>
                     <div class="col-sm-6">
                         <input onclick="$('#tpv_date_div').hide(); $('#verification_by_tpv_date').prop('required', false)"
                             <?php if ($input->verified_by_tpv == 'No') { ?> checked <?php } ?>
@@ -354,7 +354,7 @@
 
                             ?>
                             <select required class="form-control" id="type_of_lining" name="type_of_lining">
-                                <option value="">Select Water Source</option>
+                                <option value="">Select Lining Type</option>
                                 <?php foreach ($liningTypes as $index => $value) { ?>
                                     <option <?php if ($input->type_of_lining == $value) { ?> selected <?php } ?>
                                         value="<?php echo $value; ?>"><?php echo $value; ?></option>

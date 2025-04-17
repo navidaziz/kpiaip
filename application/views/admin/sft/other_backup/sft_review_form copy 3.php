@@ -188,7 +188,7 @@
         </div>
 
         <div class="form-group row">
-            <label for="verified_by_tpv" class="col-sm-6 col-form-label">Verified By TPV</label>
+            <label for="verified_by_tpv" class="col-sm-6 col-form-label">Reviewed By Consultant</label>
             <div class="col-sm-6">
                 <input type="text" required id="verified_by_tpv" name="verified_by_tpv" value="<?php echo $scheme->verified_by_tpv; ?>" class="form-control">
             </div>

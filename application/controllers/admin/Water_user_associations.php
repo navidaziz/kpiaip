@@ -821,8 +821,13 @@ class Water_user_associations extends Admin_Controller
     function chanage_status_form()
     {
         $scheme_id =  (int) $this->input->post('scheme_id');
-        $query = "SELECT * FROM schemes WHERE scheme_id = $scheme_id";
-        $this->data['scheme'] = $this->db->query($query)->row();
+        $query = "SELECT s.*, d.district_name as district, d.region, cc.category, cc.category_detail
+        FROM schemes as s 
+        INNER JOIN districts as d ON(d.district_id = s.district_id)
+        INNER JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
+        WHERE s.scheme_id = ?";
+        $this->data['scheme'] = $scheme = $this->db->query($query, [$scheme_id])->row();
+
         $status_form =  $this->input->post('status_form');
         $this->data['scheme_id'] = $scheme_id;
         $this->data['status_form'] = $status_form;
@@ -837,34 +842,7 @@ class Water_user_associations extends Admin_Controller
         $s = $this->db->query($query, $scheme_id)->row();
 
 
-        if ($status_form == 'Complete') {
-            $inputs["remarks"] = $remarks = '';
-            $inputs["phy_completion"]  =  'Yes';
-            $inputs["phy_completion_date"] = $this->input->post('phy_completion_date');
-            $inputs["completion_cost"] = $this->input->post('completion_cost');
-            $inputs["completion_date"] = $this->input->post('phy_completion_date');
 
-            if ($this->input->post('distribution_date')) {
-                $inputs['distribution_date'] = $this->input->post('distribution_date');
-            }
-            if ($this->input->post('fcr_approving_expert')) {
-                $inputs['fcr_approving_expert'] = $this->input->post('fcr_approving_expert');
-            }
-
-            $inputs["last_updated"] = date('Y-m-d H:i:s');
-            if ($this->scheme_model->save($inputs, $scheme_id)) {
-                $log_inputs['operation'] = 'Update';
-                $log_inputs['scheme_id'] = $scheme_id;
-                $log_inputs['scheme_status'] = 'Physical Completed';
-                $log_inputs['remarks'] = $remarks;
-                $log_inputs["created_by"] = $this->session->userdata("userId");
-                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
-                $this->db->insert('scheme_logs', $log_inputs);
-                echo "success";
-            } else {
-                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
-            }
-        }
 
         if ($status_form == 'Ongoing') {
             $inputs["remarks"] = $remarks = '';
@@ -924,19 +902,14 @@ class Water_user_associations extends Admin_Controller
 
         if ($status_form == 'Approval') {
             $inputs["approved_cost"]  =  $this->input->post("approved_cost");
-            $inputs["revised_cost"]  =  0;
             $inputs["sanctioned_cost"] = $this->input->post("approved_cost");
             $inputs["approval_date"]  =  $this->input->post("approval_date");
-            $inputs["technical_sanction_date"]  =  $this->input->post("technical_sanction_date");
-            $inputs["work_order_date"]  =  $this->input->post("work_order_date");
-            $inputs["scheme_initiation_date"]  =  $this->input->post("scheme_initiation_date");
-            $inputs["work_order_no"]  =  $this->input->post("work_order_no");
-            $inputs["scheme_status"]  =  'Ongoing';
+            $inputs["scheme_status"]  =  'Sanctioned';
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             if ($this->scheme_model->save($inputs, $scheme_id)) {
-                $log_inputs['operation'] = 'insert';
+                $log_inputs['operation'] = 'Update';
                 $log_inputs['scheme_id'] = $scheme_id;
-                $log_inputs['scheme_status'] = 'Ongoing';
+                $log_inputs['scheme_status'] = 'Sanctioned';
                 $log_inputs['remarks'] = 'Approved ' . (date("Y-m-d H:i:s"));
                 $log_inputs['detail'] =  "Approved Cost:" . $inputs["approved_cost"];
                 $log_inputs["created_by"] = $this->session->userdata("userId");
@@ -1280,20 +1253,24 @@ class Water_user_associations extends Admin_Controller
     public function scheme_initiate_form()
     {
         $scheme_id = (int) $this->input->post('scheme_id');
-        $query = "SELECT * FROM 
-            schemes 
-            WHERE scheme_id = $scheme_id";
-        $input = $this->db->query($query)->row();
-        $this->data["input"] = $input;
+        $complete = $this->input->post('complete');
+        $query = "SELECT s.*, d.district_name as district, d.region, cc.category, cc.category_detail
+        FROM schemes as s 
+        INNER JOIN districts as d ON(d.district_id = s.district_id)
+        INNER JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
+        WHERE s.scheme_id = ?";
+        $form = 'scheme_initiate_form_other';
+        $this->data['input'] = $scheme = $this->db->query($query, [$scheme_id])->row();
         if ($this->data["input"]->component_category_id == 10) {
-            $this->load->view(ADMIN_DIR . "water_user_associations/scheme_initiate_form_b1", $this->data);
-        } else {
-            if ($this->data["input"]->component_category_id == 12) {
-                $this->load->view(ADMIN_DIR . "water_user_associations/scheme_initiate_form_b3", $this->data);
-            } else {
-                $this->load->view(ADMIN_DIR . "water_user_associations/scheme_initiate_form", $this->data);
-            }
+            $form = 'scheme_initiate_form_b1';
         }
+        if ($this->data["input"]->component_category_id == 12) {
+            $form = 'scheme_initiate_form_b3';
+        }
+        $this->data['form'] = $form;
+        $this->data['complete'] = $complete;
+        $this->data['scheme_id'] = $scheme_id;
+        $this->load->view(ADMIN_DIR . "water_user_associations/scheme_initiate_form", $this->data);
     }
 
     public function initiate_scheme()
@@ -1302,6 +1279,14 @@ class Water_user_associations extends Admin_Controller
         $scheme_id = (int) $this->input->post("scheme_id");
         $query = "SELECT * FROM schemes WHERE scheme_id = ?";
         $scheme_detail = $this->db->query($query, $scheme_id)->row();
+
+
+        if ($this->input->post('pre_water_losses') < $this->input->post('post_water_losses')) {
+            echo '<div class="alert alert-danger">Pre Water Losses should be less than Post Water Losses</div>';
+            exit();
+        }
+
+
 
 
         // //echo var_dump($_POST);
@@ -1327,9 +1312,7 @@ class Water_user_associations extends Admin_Controller
             $this->form_validation->set_rules("design_approved_by", "Design Approved By", "required");
             $this->form_validation->set_rules("feasibility_checked_by", "Feasibility Checked By", "required");
             $this->form_validation->set_rules("feasibility_date", "Feasibility Date", "required");
-            $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
-            $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
-            $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+
             $this->form_validation->set_rules("estimated_cost", "Estimated Cost", "required");
             $this->form_validation->set_rules("estimated_cost_date", "Estimated Cost Date", "required");
             $this->form_validation->set_rules("funding_source", "Funding Source", "required");
@@ -1346,6 +1329,11 @@ class Water_user_associations extends Admin_Controller
             $this->form_validation->set_rules("power_source", "Power Source", "required");
             $this->form_validation->set_rules("scheme_status", "Scheme Status", "required");
             $this->form_validation->set_rules("agreement_signed_date", "Agreement Signed Date", "required");
+
+            $this->form_validation->set_rules("work_order_no", "Work Order No", "required");
+            $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+            $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+            $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
 
 
             if ($this->form_validation->run() == FALSE) {
@@ -1380,8 +1368,13 @@ class Water_user_associations extends Admin_Controller
                 $input["power_source"] = $this->input->post("power_source");
                 $input["agreement_signed_date"] = $this->input->post("agreement_signed_date");
 
-                if ($scheme_detail->scheme_status == 'Registered') {
-                    $input["scheme_status"] = $this->input->post("scheme_status");
+                $input["work_order_no"] = $this->input->post("work_order_no");
+                $input["work_order_date"] = $this->input->post("work_order_date");
+                $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
+                $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
+
+                if ($scheme_detail->scheme_status == 'Sanctioned') {
+                    $input["scheme_status"] = 'Initiated';
                 }
 
                 $scheme_id = (int) $this->input->post("scheme_id");
@@ -1423,6 +1416,12 @@ class Water_user_associations extends Admin_Controller
             $this->form_validation->set_rules("scrapper_sr_no", "Scrapper Sr No", "required");
             $this->form_validation->set_rules("scrapper_blade_width", "Scrapper Blade Width", "required");
             $this->form_validation->set_rules("scrapper_weight", "Scrapper Weight", "required");
+            $this->form_validation->set_rules("work_order_no", "Work Order No", "required");
+            $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+            $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+            $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+
+
             if ($this->form_validation->run() == FALSE) {
                 echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
                 exit();
@@ -1452,8 +1451,13 @@ class Water_user_associations extends Admin_Controller
                 $input["male_beneficiaries"] = NULL;
                 $input["female_beneficiaries"] = NULL;
 
-                if ($scheme_detail->scheme_status == 'Registered') {
-                    $input["scheme_status"] = $this->input->post("scheme_status");
+                $input["work_order_no"] = $this->input->post("work_order_no");
+                $input["work_order_date"] = $this->input->post("work_order_date");
+                $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
+                $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
+
+                if ($scheme_detail->scheme_status == 'Sanctioned') {
+                    $input["scheme_status"] = 'Initiated';
                 }
 
                 $scheme_id = (int) $this->input->post("scheme_id");
@@ -1503,6 +1507,7 @@ class Water_user_associations extends Admin_Controller
         // $this->form_validation->set_rules("water_productivity_for_wheat_and_maize", "Water Productivity For Wheat And Maize", "required");
         // $this->form_validation->set_rules("any_increase_in_productivity_after_the_list_crop_cycle", "Any Increase In Productivity After The List Crop Cycle", "required");
 
+
         //var_dump($scheme_detail);
         if ($scheme_detail->component_category_id == 11) {
             $this->form_validation->set_rules("lwh", "Lwh", "required");
@@ -1524,6 +1529,15 @@ class Water_user_associations extends Admin_Controller
         }
         //$this->form_validation->set_rules("others", "Others", "required");
         $this->form_validation->set_rules("scheme_status", "Scheme Status", "required");
+
+
+        $this->form_validation->set_rules("work_order_no", "Work Order No", "required");
+        $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+        $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
+        $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
+
+
+
 
         if ($this->form_validation->run() == FALSE) {
             echo '<div class="alert alert-danger">' . validation_errors() . "</div>";
@@ -1570,12 +1584,19 @@ class Water_user_associations extends Admin_Controller
             $input["culvert"] = $this->input->post("culvert");
             $input["risers_pipe"] = $this->input->post("risers_pipe");
             $input["risers_pond"] = $this->input->post("risers_pond");
+
+            $input["work_order_no"] = $this->input->post("work_order_no");
+            $input["work_order_date"] = $this->input->post("work_order_date");
+            $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
+            $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
+
+
             $input["others"] = $this->input->post("others");
             $input["updated_by"] = $this->session->userdata("userId");
             $input["last_updated"] = date('Y-m-d H:i:s');
 
-            if ($scheme_detail->scheme_status == 'Registered') {
-                $input["scheme_status"] = $this->input->post("scheme_status");
+            if ($scheme_detail->scheme_status == 'Sanctioned') {
+                $input["scheme_status"] = 'Initiated';
             }
 
 
@@ -1591,6 +1612,40 @@ class Water_user_associations extends Admin_Controller
             $log_inputs["last_updated"] = date('Y-m-d H:i:s');
             $this->db->insert('scheme_logs', $log_inputs);
         }
+
+        $phy_completion = $this->input->post('phy_completion');
+
+        if ($phy_completion === 'Yes') {
+            $inputs["remarks"] = $remarks = '';
+            $inputs["phy_completion"]  =  'Yes';
+            $inputs["phy_completion_date"] = $this->input->post('phy_completion_date');
+            $inputs["build_in_cost"] = $this->input->post('build_in_cost');
+            if ($this->input->post('distribution_date')) {
+                $inputs['distribution_date'] = $this->input->post('distribution_date');
+            }
+            if ($this->input->post('fcr_approving_expert')) {
+                $inputs['fcr_approving_expert'] = $this->input->post('fcr_approving_expert');
+            }
+
+            $inputs["last_updated"] = date('Y-m-d H:i:s');
+            if ($this->scheme_model->save($inputs, $scheme_id)) {
+                $log_inputs['operation'] = 'Update';
+                $log_inputs['scheme_id'] = $scheme_id;
+                $log_inputs['scheme_status'] = 'Physical Completed';
+                $log_inputs['remarks'] = $remarks;
+                $log_inputs["created_by"] = $this->session->userdata("userId");
+                $log_inputs["last_updated"] = date('Y-m-d H:i:s');
+                $this->db->insert('scheme_logs', $log_inputs);
+                echo "success";
+                exit();
+            } else {
+                echo  '<div class="alert alert-danger">Error While Adding or Updating the record.<div>';
+                exit();
+            }
+        }
+
+
+
         echo "success";
     }
 

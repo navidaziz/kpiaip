@@ -288,16 +288,18 @@
                         <?php
                         // Define the schemes statuses array
                         $schemes = array(
+                            "Disputed",
+                            "Not-Approved",
                             "Completed",
                             "Final",
                             "ICR-II",
                             "ICR-I",
                             "Ongoing",
                             "Initiated",
-                            "Registered",
-                            "Par-Completed",
-                            "Disputed",
-                            "Not-Approved"
+                            "Sanctioned",
+                            "Registered"
+                            // "Par-Completed",
+
                         );
 
                         // Loop through each scheme status

@@ -160,7 +160,7 @@
                     SUM(`sft_schemes`.`other`) AS `other`,
                     SUM(`sft_schemes`.`final`) AS `final` 
                     FROM `sft_schemes` 
-                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing')";
+                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Initiated')";
                         $ongoing = $this->db->query($query)->row(); ?>
                         <table class="table table-bordered table-striped" style="color: black !important;">
                             <tr>
@@ -211,7 +211,7 @@
                 </div>
                 <div class="col-md-2">
                     <div class="alert alert-warning" id="messenger">
-                        <h4>Total No.</h4>
+                        <h4>Total Schemes.</h4>
                         <hr />
                         <h3 style="font-weight: bolder; color:black"><?php echo number_format($ongoing->total + $completed->total); ?><br />
                             <small> Schemes So far</small>
@@ -224,7 +224,7 @@
                 "Registered" => "#FE6A35",
                 "Initiated" => "#6B8ABC",
                 "Not-Approved"  => "#2CAFFE",
-                "Ongoing"  => "#D568FB",
+                "Sanctioned"  => "#D568FB",
                 "ICR-I" => "#2EE0CA",
                 "ICR-II" => "#FA4B42",
                 "Final" => "#FEB56A",
@@ -236,7 +236,8 @@
                 //"Registered",
                 //"Initiated",
                 //"Not-Approved",
-                "Ongoing",
+                "Sanctioned",
+                "Initiated",
                 "ICR-I",
                 "ICR-II",
                 //"Final",
@@ -245,13 +246,13 @@
                 //"Completed"
             );
             $completedschemes = array(
-                "Par-Completed",
+                //"Par-Completed",
                 "Completed"
             );
 
             ?>
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-10">
                     <div sty class="alert alert-danger" style="padding: 5px; background-color: #f9f9f9;">
                         <h6 style="text-align: center;"><strong>Ongoing Schemes</strong></h6>
                         <div class="row">
@@ -261,7 +262,7 @@
                             WHERE scheme_status ='" . $scheme_status . "'";
                                 $scheme = $this->db->query($query)->row();
                             ?>
-                                <div class="col-md-4 col-sm-4 col-xs-4">
+                                <div class="col-md-3 col-sm-3 col-xs-3">
                                     <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
                                         <h5 style="font-weight: bold; color:black"><?php
                                                                                     if ($scheme_status == 'Ongoing') {
@@ -301,17 +302,17 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <div class="alert alert-success" style="padding: 5px; background-color: #f9f9f9;">
                         <h6 style="text-align: center;"><strong>Completed Schemes</strong></h6>
                         <div class="row">
                             <?php
                             foreach ($completedschemes as $scheme_status) {
                                 $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
-                    WHERE scheme_status ='" . $scheme_status . "'";
+                                WHERE scheme_status ='" . $scheme_status . "'";
                                 $scheme = $this->db->query($query)->row();
                             ?>
-                                <div class="col-md-6 col-sm-6 col-xs-6">
+                                <div class="col-md-12 col-sm-12 col-xs-12">
                                     <div class="dashboard-box" style="background-color: <?php echo $colors[$scheme_status] ?>;">
                                         <h5 style="font-weight: bold; color:black"><?php
                                                                                     if ($scheme_status == 'Ongoing') {
@@ -336,7 +337,7 @@
                 <div class="col-md-12">
                     <div class="alert alert-danger" id="messenger">
 
-                        <h4>Ongoing Schemes (ICR-O, ICR-I, ICR-II, ICRI&II)
+                        <h4>Ongoing Schemes (Sanctioned, Initiated, ICR-I, ICR-II, ICRI&II)
 
                             <small class="pull-right">
                                 <button onclick="get_schemes_summary('Ongoing')" class="btn btn-danger btn-sm">Category Wise <i class="fa fa-expand"></i></button>
@@ -388,7 +389,7 @@
                                     SUM(`sft_schemes`.`other`) AS `other`,
                                     SUM(`sft_schemes`.`final`) AS `final` 
                                     FROM `sft_schemes` 
-                                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II') 
                                     AND component_category_id IN (1,2,3,4,5,6,7,8)";
                                 $ongoing_a = $this->db->query($query)->row();
                                 ?>
@@ -416,7 +417,7 @@
                                     SUM(`sft_schemes`.`other`) AS `other`,
                                     SUM(`sft_schemes`.`final`) AS `final` 
                                     FROM `sft_schemes` 
-                                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II')  
                                     AND component_category_id IN (10)";
                                 $ongoing_b1 = $this->db->query($query)->row();
                                 ?>
@@ -444,7 +445,7 @@
                                         SUM(`sft_schemes`.`other`) AS `other`,
                                         SUM(`sft_schemes`.`final`) AS `final` 
                                         FROM `sft_schemes` 
-                                        WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II')  
                                         AND component_category_id IN (11)";
                                 $ongoing_b2 = $this->db->query($query)->row();
                                 ?>
@@ -472,7 +473,7 @@
                                     SUM(`sft_schemes`.`other`) AS `other`,
                                     SUM(`sft_schemes`.`final`) AS `final` 
                                     FROM `sft_schemes` 
-                                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Ongoing') 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II')  
                                     AND component_category_id IN (12)";
                                 $ongoing_b3 = $this->db->query($query)->row();
                                 ?>

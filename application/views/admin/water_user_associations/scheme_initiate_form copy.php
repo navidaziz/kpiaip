@@ -57,7 +57,7 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="verified_by_tpv" class="col-sm-6 col-form-label">Verified By TPV</label>
+                    <label for="verified_by_tpv" class="col-sm-6 col-form-label">Reviewed By Consultant</label>
                     <div class="col-sm-6">
                         <?php
                         $options['Yes'] = 'Yes';

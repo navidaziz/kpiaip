@@ -5,7 +5,9 @@
     }
 </style>
 <div class="table-responsive" style=" overflow-x:auto;">
-    <h4><?php echo $tab; ?> Schemes List</h4>
+    <h4><strong><?php echo $tab; ?> Schemes List </strong>
+        <span class="pull-right"><?php echo schemes_status_for_list($tab); ?></span>
+    </h4>
     <hr />
     <table id="datatable" class="table  table_small table-bordered">
         <thead>

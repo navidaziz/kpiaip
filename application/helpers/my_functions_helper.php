@@ -174,6 +174,157 @@ if (!function_exists('menu_status')) {
 }
 
 
+if (!function_exists('schemes_status_for_list')) {
+
+	function schemes_status_for_list($status)
+	{
+		switch ($status) {
+			case 'Registered':
+				// Scheme has been registered but is pending approval.
+				return "<span class='label label-danger'>
+							<i class='fa fa-info-circle'></i>
+							<strong>Registered:</strong> These schemes have been successfully registered and are currently awaiting financial approval. 
+							No further action can be taken until the approval process is completed for all listed schemes.
+						</span>";
+
+			case 'Sanctioned':
+				// Scheme is approved and financials are cleared, awaiting work order.
+				return "<span class='label label-info'>
+							<i class='fa fa-info-circle'></i>
+							<strong>Sanctioned:</strong> These schemes have been financially sanctioned and approved. 
+							They may proceed once the official work order is issued for each of the listed schemes.
+						</span>";
+
+			case 'Initiated':
+				// Work order issued and scheme implementation has begun.
+				return "<span class='label label-warning'>
+							<i class='fa fa-info-circle'></i>
+							<strong>Initiated:</strong> The work orders for these schemes have been issued, and they are now actively being implemented at the district level.
+						</span>";
+
+			case 'ICR-I':
+				// First installment paid, financial milestone achieved.
+				return "<span class='label label-warning'>
+							<i class='fa fa-info-circle'></i>
+							<strong>ICR-I:</strong> The first installment (ICR-I) has been disbursed for these schemes, allowing for the continuation of their activities.
+						</span>";
+
+			case 'ICR-II':
+				// Second installment paid, continuing the project.
+				return "<span class='label label-warning'>
+							<i class='fa fa-info-circle'></i>
+							<strong>ICR-II:</strong> The second installment (ICR-II) has been disbursed for these schemes, and the work is moving forward as planned.
+						</span>";
+
+			case 'Completed':
+				// Scheme fully completed and funded, ready for final reporting.
+				return "<span class='label label-success'>
+							<i class='fa fa-info-circle'></i>
+							<strong>Completed:</strong> These schemes have been successfully completed, and all related activities have been finalized, including financial disbursements.
+						</span>";
+
+			default:
+				// Unknown status or error handling.
+				return NULL;
+		}
+	}
+}
+
+
+
+if (!function_exists('scheme_status_detail')) {
+
+	function scheme_status_detail($status)
+	{
+		switch ($status) {
+			case 'Registered':
+				return "<span class='label label-danger'>
+                        <i class='fa fa-info-circle'></i>
+                        Scheme is registered and awaiting financial approval. Initiation is permitted only after the approval process is completed.
+                    </span>";
+
+			case 'Sanctioned':
+				return "<span class='label label-info'>
+                        <i class='fa fa-info-circle'></i>
+                        Scheme has been sanctioned and financially approved. Further actions may proceed upon issuance of the official work order.
+                    </span>";
+
+			case 'Initiated':
+				return "<span class='label label-warning'>
+                        <i class='fa fa-info-circle'></i>
+                        Work order issued. The scheme has been initiated and is currently under implementation at the district level.
+                    </span>";
+
+			case 'ICR-I':
+				return "<span class='label label-warning'>
+                        <i class='fa fa-info-circle'></i>
+                        The first installment (ICR-I) has been disbursed for this scheme.
+                    </span>";
+
+			case 'ICR-II':
+				return "<span class='label label-warning'>
+                        <i class='fa fa-info-circle'></i>
+                        The second installment (ICR-II) has been disbursed for this scheme.
+                    </span>";
+
+			case 'Completed':
+				return "<span class='label label-success'>
+                        <i class='fa fa-info-circle'></i>
+                        Scheme has been fully funded and marked as physically completed.
+                    </span>";
+
+			default:
+				return null;
+		}
+	}
+}
+
+if (!function_exists('scheme_status_for_list')) {
+
+	function scheme_status_for_list($status)
+	{
+		switch ($status) {
+			case 'Registered':
+				return "<span class='label label-danger'>
+                        <i class='fa fa-info-circle'></i>
+                        Scheme is registered and awaiting financial approval. Initiation is permitted only after the approval process is completed.
+                    </span>";
+
+			case 'Sanctioned':
+				return "<span class='label label-info'>
+                        <i class='fa fa-info-circle'></i>
+                        Scheme has been sanctioned and financially approved. Further actions may proceed upon issuance of the official work order.
+                    </span>";
+
+			case 'Initiated':
+				return "<span class='label label-warning'>
+                        <i class='fa fa-info-circle'></i>
+                        Work order issued. The scheme has been initiated and is currently under implementation at the district level.
+                    </span>";
+
+			case 'ICR-I':
+				return "<span class='label label-warning'>
+                        <i class='fa fa-info-circle'></i>
+                        The first installment (ICR-I) has been disbursed for this scheme.
+                    </span>";
+
+			case 'ICR-II':
+				return "<span class='label label-warning'>
+                        <i class='fa fa-info-circle'></i>
+                        The second installment (ICR-II) has been disbursed for this scheme.
+                    </span>";
+
+			case 'Completed':
+				return "<span class='label label-success'>
+                        <i class='fa fa-info-circle'></i>
+                        Scheme has been fully funded and marked as physically completed.
+                    </span>";
+
+			default:
+				return null;
+		}
+	}
+}
 
 
 /**
@@ -186,8 +337,6 @@ if (!function_exists('scheme_status')) {
 
 	function scheme_status($status, $lang_obj = NULL)
 	{
-
-
 		if (!is_null($lang_obj)) {
 			if ($status == 'Ongoing') {
 				return "<span class='label label-success'>$status</span>";

@@ -322,7 +322,7 @@
                     </div>
 
                     <div class="form-group row">
-                        <label for="verified_by_tpv" class="col-sm-6 col-form-label">Verified By TPV
+                        <label for="verified_by_tpv" class="col-sm-6 col-form-label">Reviewed By Consultant
                             <?php echo $scheme->verified_by_tpv; ?>
 
                         </label>

@@ -430,7 +430,7 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                                         <td><?php echo $scheme->scheme_initiation_date; ?></td>
                                     </tr>
                                     <tr>
-                                        <td><strong>Verified By TPV</strong></td>
+                                        <td><strong>Reviewed By Consultant</strong></td>
                                         <td><?php echo $scheme->verified_by_tpv; ?></td>
                                     </tr>
                                     <tr>
