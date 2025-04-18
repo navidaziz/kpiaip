@@ -666,6 +666,7 @@
                                         <th>Completion Cost</th>
                                         <th>Sanctioned Cost</th>
                                         <th>Technical Sanction Date</th>
+                                        <th>Phy. Completion Date</th>
                                         <th>Completion Date</th>
                                     </tr>
                                     <tr>
@@ -684,6 +685,7 @@
                                         <td><?php echo $scheme->completion_cost; ?></td>
                                         <td><?php echo $scheme->sanctioned_cost; ?></td>
                                         <td><?php echo $scheme->technical_sanction_date; ?></td>
+                                        <td><?php echo $scheme->phy_completion_date; ?></td>
                                         <td><?php echo $scheme->completion_date; ?></td>
                                     </tr>
                                 </thead>
