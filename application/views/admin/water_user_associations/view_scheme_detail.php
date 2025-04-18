@@ -910,12 +910,12 @@
 
 
                                 <?php if ($scheme->phy_completion === 'Yes') { ?>
-                                    <span class="label label-danger">
+                                    <span class="label label-success">
                                         <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
                                     </span>
                                 <?php } else { ?>
-                                    <span class="label label-success">
-                                        <strong>Physically Completed: <?php echo $scheme->phy_completion; ?></strong>
+                                    <span class="label label-warning">
+                                        <strong>Physically Completed: No</strong>
                                     </span>
                                 <?php } ?>
                                 </span>
