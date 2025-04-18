@@ -682,9 +682,8 @@
                                         <td><?php echo $scheme->approved_cost; ?></td>
                                         <td><?php echo $scheme->approval_date; ?></td>
                                         <td><?php echo $scheme->revised_cost; ?></td>
-                                        <td><?php echo $scheme->build_in_cost; ?></td>
-
                                         <td><?php echo $scheme->revised_cost_date; ?></td>
+                                        <td><?php echo $scheme->build_in_cost; ?></td>
                                         <td><?php echo $scheme->completion_cost; ?></td>
                                         <td><?php echo $scheme->sanctioned_cost; ?></td>
                                         <td><?php echo $scheme->technical_sanction_date; ?></td>

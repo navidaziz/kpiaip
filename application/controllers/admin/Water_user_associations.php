@@ -1619,6 +1619,7 @@ class Water_user_associations extends Admin_Controller
             $inputs["remarks"] = $remarks = '';
             $inputs["phy_completion"]  =  'Yes';
             $inputs["phy_completion_date"] = $this->input->post('phy_completion_date');
+            //$inputs["completion_date"] = $this->input->post('completion_date');
             $inputs["build_in_cost"] = $this->input->post('build_in_cost');
             if ($this->input->post('distribution_date')) {
                 $inputs['distribution_date'] = $this->input->post('distribution_date');

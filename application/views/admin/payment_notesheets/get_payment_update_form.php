@@ -17,6 +17,7 @@
             <th>Estimated Cost</th>
             <th>Approved Cost</th>
             <th>Revised Cost</th>
+            <th>Build In Cost</th>
             <th>Completion Cost</th>
             <th>Current Sanctioned Cost</th>
         </tr>
@@ -24,6 +25,7 @@
             <td><?php echo number_format($scheme->{'estimated_cost'}, 0); ?></td>
             <td><?php echo number_format($scheme->{'approved_cost'}, 0); ?></td>
             <td><?php echo number_format($scheme->{'revised_cost'}, 0); ?></td>
+            <td><?php echo number_format($scheme->{'build_in_cost'}, 0); ?></td>
             <td><?php echo number_format($scheme->{'completion_cost'}, 0); ?></td>
             <td><?php echo number_format($scheme->{'sanctioned_cost'}, 0); ?></td>
         </tr>
