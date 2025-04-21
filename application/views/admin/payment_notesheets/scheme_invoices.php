@@ -339,7 +339,7 @@
                     </div>
 
                     <h4 style="margin-bottom: 20px;">Payments
-
+                        <?php echo $scheme->scheme_status; ?>
                         <span class="pull-right">
                             <?php if ($scheme->scheme_status == 'Initiated' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
 
