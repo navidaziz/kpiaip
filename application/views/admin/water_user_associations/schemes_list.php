@@ -228,9 +228,9 @@
                             let row_button = '';
                             row_button += `<a class="btn btn-success btn-small" href="<?php echo site_url(ADMIN_DIR . 'water_user_associations/view_scheme_detail/'); ?>${row.wua_id}/${row.scheme_id}">View</a>`;
 
-                            if (row.scheme_status == 'Completed') {
-                                row_button += `<button onclick="correct_scheme_costs(${row.scheme_id})" class="btn btn-warning btn-small">Correct Cost</button>`;
-                            }
+                            // if (row.scheme_status == 'Completed') {
+                            //     row_button += `<button onclick="correct_scheme_costs(${row.scheme_id})" class="btn btn-warning btn-small">Correct Cost</button>`;
+                            // }
 
                             return row_button;
                         }
