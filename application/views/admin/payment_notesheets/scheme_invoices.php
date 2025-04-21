@@ -183,7 +183,7 @@
                                                     Type: <?php echo $voucher->voucher_type; ?>, <?php echo $voucher->voucher_detail; ?>
                                                 </span>
                                                 <span class="pull-right">
-                                                    <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
+                                                    <?php if ($scheme->scheme_status == 'Initiated' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
                                                         <button onclick="get_voucher_form('<?php echo $voucher->voucher_id; ?>')" class="btn btn-success btn-sm">Edit Voucher</button>
                                                         <button onclick="get_vendor_taxe_form('0', '<?php echo $voucher->voucher_id ?>')" class="btn btn-danger btn-sm">Add
                                                             Invoice</button>
@@ -339,7 +339,7 @@
                     </div>
 
                     <h4 style="margin-bottom: 20px;">Payments
-                        <?php echo $scheme->scheme_status; ?>
+
                         <span class="pull-right">
                             <?php if ($scheme->scheme_status == 'Initiated' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
 
