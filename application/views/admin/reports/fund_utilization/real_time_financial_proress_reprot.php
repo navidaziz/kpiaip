@@ -117,155 +117,136 @@
             <div class="box-body">
 
                 <div class="table-responsive">
-                    <div style="text-align: center;">
-                        <h4> Khyber Pakhtunkhwa, Irrigated Agriculture Improvement Project (KP-IAIP) P163474</h4>
-                        <h5>FINANCIAL PROGRESS -REALTIME</h5>
-                    </div>
+
+
+
                     <table class="table table_small table-bordered" id="real_time_summary">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-
+                                <th colspan="14">
+                                    <div style="text-align: center;">
+                                        <h4> Khyber Pakhtunkhwa, Irrigated Agriculture Improvement Project (KP-IAIP) P163474</h4>
+                                        <h5>FINANCIAL PROGRESS - REALTIME</h5>
+                                    </div>
+                                </th>
                             </tr>
-
-
-                        </thead>
-                        <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
+                                <th></th>
+                                <td colspan="2"></td>
                                 <td colspan="2" style="text-align: center;"><strong>Opening Balance</strong></td>
-                                <td style="display: none;">Opening Balance</td>
                                 <td colspan="2" style="text-align: center;"><strong>Receipt from WB</strong></td>
-                                <td style="display: none;">Receipt from WB</td>
-
                                 <td colspan="2" style="text-align: center;"><strong>Funds Available</strong></td>
-                                <td style="display: none;">Funds Available</td>
-                                <td><strong>Expense</strong></td>
-
+                                <td colspan="2"><strong>Expense</strong></td>
                                 <td colspan="2" style="text-align: center;"><strong>Closing Balance</strong></td>
-                                <td style="display: none;">Closing Balance</td>
                                 <td><strong>Buring Rate</strong></td>
                             </tr>
-
                             <tr>
                                 <td></td>
-                                <td><strong>FY<strong></td>
-                                <td><strong>US$<strong></td>
-                                <td><strong>PKRs<strong></td>
-                                <td><strong>US$<strong></td>
-                                <td><strong>PKRs<strong></td>
-                                <td><strong>US$<strong></td>
-                                <td><strong>PKRs<strong></td>
-                                <td><strong>PKRs<strong></td>
-                                <td><strong>US$<strong></td>
-                                <td><strong>PKRs<strong></td>
+                                <td><strong>FY</strong></td>
+                                <td><strong>Forex</strong></td>
+                                <td><strong>US$</strong></td>
+                                <td><strong>PKRs</strong></td>
+                                <td><strong>US$</strong></td>
+                                <td><strong>PKRs</strong></td>
+                                <td><strong>US$</strong></td>
+                                <td><strong>PKRs</strong></td>
+                                <td><strong>US$</strong></td>
+                                <td><strong>PKRs</strong></td>
+                                <td><strong>US$</strong></td>
+                                <td><strong>PKRs</strong></td>
                                 <td><strong>(%)</strong></td>
                             </tr>
+                        </thead>
+                        <tbody>
                             <?php
                             $count = 1;
-                            $opening_balance_dollar = 0;
                             $opening_balance_pkr = 0;
-                            $funds_available_dollar = 0;
                             $funds_available_pkr = 0;
-                            $closing_balance_dollar = 0;
                             $closing_balance_pkr = 0;
+
+                            // Initialize totals for each column
+                            $total_opening_balance_usd = 0;
+                            $total_opening_balance_pkr = 0;
+                            $total_receipt_usd = 0;
+                            $total_receipt_pkr = 0;
+                            $total_funds_available_usd = 0;
+                            $total_funds_available_pkr = 0;
+                            $total_expense_usd = 0;
+                            $total_expense_pkr = 0;
+                            $total_closing_balance_usd = 0;
+                            $total_closing_balance_pkr = 0;
+
                             $query = "SELECT * FROM financial_years";
                             $f_years = $this->db->query($query)->result();
+
                             foreach ($f_years as $f_year) {
-                                $query = "SELECT SUM(dollar_total) as dollar_total,
-                                SUM(rs_total) as rs_total
-                                    FROM donor_funds_released as dfs
-                                    WHERE dfs.financial_year_id = $f_year->financial_year_id";
+                                $query = "SELECT SUM(dollar_total) as dollar_total, SUM(rs_total) as rs_total
+                      FROM donor_funds_released as dfs
+                      WHERE dfs.financial_year_id = $f_year->financial_year_id";
                                 $donor_fund = $this->db->query($query)->row();
 
-                                $query = "SELECT SUM(rs_total) as rs_total
-                                    FROM budget_released as br
-                                    WHERE br.financial_year_id = $f_year->financial_year_id";
-                                $budget_released = $this->db->query($query)->row();
-
-                                $query = "SELECT SUM(e.gross_pay) as total_expense
-                                    FROM expenses as e
-                                    WHERE e.financial_year_id = $f_year->financial_year_id";
+                                $query = "SELECT SUM(e.net_pay) as total_expense
+                      FROM expenses as e
+                      WHERE e.financial_year_id = $f_year->financial_year_id";
                                 $expense = $this->db->query($query)->row();
+
                                 $funds_available_pkr = $opening_balance_pkr + $donor_fund->rs_total;
                                 $closing_balance_pkr = $funds_available_pkr - $expense->total_expense;
-                                if ($expense->total_expense and $funds_available_pkr > 0) {
-                                    $buring_rate = round((($expense->total_expense / $funds_available_pkr) * 100), 2)  . "%";
+
+                                if ($expense->total_expense && $funds_available_pkr > 0) {
+                                    $buring_rate = round((($expense->total_expense / $funds_available_pkr) * 100), 2) . "%";
                                 } else {
                                     $buring_rate = "0%";
                                 }
-                            ?> <tr <?php if ($f_year->status == 1) { ?> style="background-color:#CAF7B7; font-weight:bold;" <?php } ?>>
+
+                                // Accumulate totals
+                                $total_opening_balance_usd += $opening_balance_pkr * $f_year->forex;
+                                $total_opening_balance_pkr += $opening_balance_pkr;
+                                $total_receipt_usd += $donor_fund->dollar_total;
+                                $total_receipt_pkr += $donor_fund->rs_total;
+                                $total_funds_available_usd += $funds_available_pkr * $f_year->forex;
+                                $total_funds_available_pkr += $funds_available_pkr;
+                                $total_expense_usd += $expense->total_expense * $f_year->forex;
+                                $total_expense_pkr += $expense->total_expense;
+                                $total_closing_balance_usd += $closing_balance_pkr * $f_year->forex;
+                                $total_closing_balance_pkr += $closing_balance_pkr;
+                            ?>
+                                <tr <?php if ($f_year->status == 1) { ?> style="background-color:#CAF7B7; font-weight:bold;" <?php } ?>>
                                     <th><?php echo $count++; ?></th>
                                     <th><?php echo $f_year->financial_year; ?><?php if ($f_year->status == 1) { ?> * <?php } ?></th>
-                                    <td><?php echo @number_format($opening_balance_dollar); ?></td>
-                                    <td><?php echo @number_format($opening_balance_pkr); ?></td>
-                                    <td><?php echo @number_format($donor_fund->dollar_total); ?></td>
-                                    <td><?php echo @number_format($donor_fund->rs_total); ?></td>
-                                    <td><?php echo @number_format($funds_available_dollar); ?></td>
-                                    <td><?php echo @number_format($funds_available_pkr); ?></td>
-                                    <!-- <td><?php echo @number_format($budget_released->rs_total); ?></td> -->
-                                    <td><?php echo @number_format($expense->total_expense); ?></td>
-                                    <td><?php echo @number_format($closing_balance_dollar); ?></td>
-                                    <td><?php echo @number_format($closing_balance_pkr); ?></td>
+                                    <td><?php echo $f_year->forex; ?></td>
+                                    <td class="number-cell"><?php echo @number_format($opening_balance_pkr * $f_year->forex); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($opening_balance_pkr); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($donor_fund->dollar_total); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($donor_fund->rs_total); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($funds_available_pkr * $f_year->forex); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($funds_available_pkr); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($expense->total_expense * $f_year->forex); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($expense->total_expense); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($closing_balance_pkr * $f_year->forex); ?></td>
+                                    <td class="number-cell"><?php echo @number_format($closing_balance_pkr); ?></td>
                                     <th style="text-align: center;"><?php echo $buring_rate; ?></th>
                                 </tr>
-
                             <?php
                                 $opening_balance_pkr = $closing_balance_pkr;
-                            } ?>
-
+                            }
+                            ?>
                         </tbody>
                         <tfoot>
-                            <?php
-
-                            $query = "SELECT SUM(dollar_total) as dollar_total,
-                                SUM(rs_total) as rs_total
-                                    FROM donor_funds_released as dfs";
-                            $donor_fund = $this->db->query($query)->row();
-
-                            $query = "SELECT SUM(rs_total) as rs_total
-                                    FROM budget_released as br";
-                            $budget_released = $this->db->query($query)->row();
-
-                            $query = "SELECT SUM(e.gross_pay) as total_expense
-                                    FROM expenses as e";
-                            $expense = $this->db->query($query)->row();
-                            if ($expense->total_expense and $donor_fund->rs_total > 0) {
-                                $buring_rate = round((($expense->total_expense / $donor_fund->rs_total) * 100), 2)  . "%";
-                            } else {
-                                $buring_rate = "0%";
-                            }
-                            ?> <tr>
-                                <th></th>
-                                <th></th>
+                            <tr>
+                                <th colspan="3"><strong>Total</strong></th>
+                                <td class="number-cell"><strong><?php echo @number_format($total_opening_balance_usd); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_opening_balance_pkr); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_receipt_usd); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_receipt_pkr); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_funds_available_usd); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_funds_available_pkr); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_expense_usd); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_expense_pkr); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_closing_balance_usd); ?></strong></td>
+                                <td class="number-cell"><strong><?php echo @number_format($total_closing_balance_pkr); ?></strong></td>
                                 <td></td>
-                                <td></td>
-                                <th><?php echo @number_format($donor_fund->dollar_total); ?></th>
-                                <th><?php echo @number_format($donor_fund->rs_total); ?></th>
-                                <td></td>
-                                <td></td>
-                                <!-- <td><?php echo @number_format($budget_released->rs_total); ?></td> -->
-                                <th><?php echo @number_format($expense->total_expense); ?></th>
-                                <td></td>
-                                <td></td>
-                                <th style="text-align: center;"><?php echo $buring_rate; ?></th>
-
                             </tr>
-
-
-
                         </tfoot>
                     </table>
 
@@ -280,7 +261,7 @@
 <script>
     title = '<?php echo $title . ' ' . date('d-m-Y m:h:s'); ?>';
     $(document).ready(function() {
-        $('#taxes').DataTable({
+        $('#real_time_summary').DataTable({
             dom: 'Bfrtip',
             paging: false,
             title: title,

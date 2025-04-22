@@ -431,7 +431,7 @@ class Reports extends Admin_Controller
             $component_categories = $this->db->query($query)->result();
             foreach ($component_categories as $component_category) {
                 $query = "SELECT COUNT(0) as total,
-            SUM(gross_pay) as gross_pay
+            SUM(net_pay) as net_pay
             FROM expenses as e 
             INNER JOIN districts as d ON (d.district_id = e.district_id)
             WHERE d.region = ? 
@@ -452,7 +452,7 @@ class Reports extends Admin_Controller
                 $component_categories = $this->db->query($query)->result();
                 foreach ($component_categories as $component_category) {
                     $query = "SELECT COUNT(0) as total,
-                SUM(gross_pay) as gross_pay
+                SUM(net_pay) as net_pay
                 FROM expenses as e 
                 WHERE e.component_category_id = ? 
                 AND e.district_id = ?

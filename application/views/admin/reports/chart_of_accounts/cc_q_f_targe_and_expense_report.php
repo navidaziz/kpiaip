@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-sm-12">
         <div class="page-header">
@@ -78,7 +77,7 @@
 <div class="row">
     <!-- <div class="col-md-12" style="padding:10px; text-align:right">
 <button class="milltion_converter btn btn-danger btn-sm" onclick="convertToMillions()">Convert to Millions</button>
-<a style="display:none" class="relaod_page btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR.'reports/cc_q_f_targe_and_expense_report') ?>" >Reload Data</a>
+<a style="display:none" class="relaod_page btn btn-primary btn-sm" href="<?php echo site_url(ADMIN_DIR . 'reports/cc_q_f_targe_and_expense_report') ?>" >Reload Data</a>
 </div> -->
 
     <script>
@@ -103,7 +102,7 @@
     <div class="col-md-12">
         <div style="background-color: white; padding:5px">
             <div class="table-responsive">
-                <?php 
+                <?php
                 $query = "SELECT * FROM `financial_years`";
                 $financial_years = $this->db->query($query)->result();
                 ?>
@@ -115,15 +114,15 @@
                             <th></th>
                             <?php foreach ($financial_years as $financial_year) { ?>
                                 <td></td>
-                                 <?php if($financial_year->status==1){ ?>
-                                   <td></td>
+                                <?php if ($financial_year->status == 1) { ?>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                     <td></td>
                                 <?php } ?>
-                                 <th></th>
+                                <th></th>
                             <?php } ?>
-                           
+
                             <th></th>
                             <th></th>
                         </tr>
@@ -131,8 +130,8 @@
                             <th></th>
                             <th></th>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                                <th style="text-align:center" ><?php echo $financial_year->financial_year;  ?></th>
-                                <?php if($financial_year->status==1){ ?>
+                                <th style="text-align:center"><?php echo $financial_year->financial_year;  ?></th>
+                                <?php if ($financial_year->status == 1) { ?>
                                     <th></th>
                                     <th></th>
                                     <th></th>
@@ -140,135 +139,135 @@
                                 <?php } ?>
                                 <th></th>
                             <?php } ?>
-                            
-                                <th></th>
-                                <th></th>
+
+                            <th></th>
+                            <th></th>
                         </tr>
-                        
+
                     </thead>
                     <tbody>
                         <tr>
                             <th>Components Category</th>
                             <th>Total Budget</th>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                                <td>Budget</td>
-                                    <?php if($financial_year->status==1){ ?>
-                                        <th>Q-1</th>
-                                        <th>Q-2</th>
-                                        <th>Q-3</th>
-                                        <th>Q-4</th>
-                                    <?php } ?>
-                                <td>Expense</td>
+                                <th>Budget</th>
+                                <?php if ($financial_year->status == 1) { ?>
+                                    <th>Q-1</th>
+                                    <th>Q-2</th>
+                                    <th>Q-3</th>
+                                    <th>Q-4</th>
+                                <?php } ?>
+                                <th>Expense</th>
                             <?php } ?>
-                            
-                                <td>Total Expense</td>
-                                <td>Remaing</td>
+
+                            <th>Total Expense</th>
+                            <th>Remaing</th>
                         </tr>
-                        <?php 
+                        <?php
                         $query = "SELECT cc.* FROM `component_categories` as cc
                         INNER JOIN expenses as e ON(e.component_category_id = cc.component_category_id)
                         GROUP BY component_category_id
                         ";
                         $component_categories = $this->db->query($query)->result();
                         foreach ($component_categories as $component_category) { ?>
-                        <tr>
-                            <th><?php echo $component_category->category;  ?></th>
-                            <th class="values"><?php 
-                            $query="SELECT SUM(material_cost) as total FROM `annual_work_plans` 
-                                    WHERE component_category_id='".$component_category->component_category_id."';";
-                            $f_budget = $this->db->query($query)->row();
-                            if($f_budget){
-                                if($f_budget->total){
-                                echo round($f_budget->total,3);
-                                }
-                            }      
-                            ?></th>
-                            <?php foreach ($financial_years as $financial_year) { ?>
-                                <td class="values"><?php 
-                                    $query="SELECT SUM(material_cost) as total FROM `annual_work_plans` 
-                                            WHERE component_category_id='".$component_category->component_category_id."'
-                                            AND financial_year_id = '".$financial_year->financial_year_id."';";
-                                    $fy_budget = $this->db->query($query)->row();
-                                    if($fy_budget){
-                                        echo $fy_budget->total;
-                                    }      
-                                    ?>
-                                </td>
-                                <?php if($financial_year->status==1){ ?>
-                                    <th class="values">
-                                        <?php 
-                                        $year_start = date('Y',strtotime($financial_year->start_date));
-                                        $query="SELECT SUM(gross_pay) as total FROM `expenses` 
-                                        WHERE component_category_id='".$component_category->component_category_id."'
-                                        AND financial_year_id = '".$financial_year->financial_year_id."'
-                                        AND DATE(date) BETWEEN '".$year_start."-07-01' AND '".$year_start."-09-30';";
-                                        $fy_q_expense = $this->db->query($query)->row();
-                                        if($fy_q_expense){
-                                        echo $fy_q_expense->total;
-                                        }      
-                                        ?>
-                                    </th>
-                                    <th class="values"><?php 
-                                        $year_start = date('Y',strtotime($financial_year->start_date));
-                                        $query="SELECT SUM(gross_pay) as total FROM `expenses` 
-                                        WHERE component_category_id='".$component_category->component_category_id."'
-                                        AND financial_year_id = '".$financial_year->financial_year_id."'
-                                        AND DATE(date) BETWEEN '".$year_start."-10-01' AND '".$year_start."-12-31';";
-                                        $fy_q_expense = $this->db->query($query)->row();
-                                        if($fy_q_expense){
-                                        echo $fy_q_expense->total;
-                                        }      
-                                        ?></th>
-                                    <th class="values"><?php 
-                                        $year_end = date('Y',strtotime($financial_year->end_date));
-                                        $query="SELECT SUM(gross_pay) as total FROM `expenses` 
-                                        WHERE component_category_id='".$component_category->component_category_id."'
-                                        AND financial_year_id = '".$financial_year->financial_year_id."'
-                                        AND DATE(date) BETWEEN '".$year_end."-01-01' AND '".$year_end."-03-31';";
-                                        $fy_q_expense = $this->db->query($query)->row();
-                                        if($fy_q_expense){
-                                        echo $fy_q_expense->total;
-                                        }      
-                                        ?></th>
-                                    <th class="values"><?php 
-                                        $year_end = date('Y',strtotime($financial_year->end_date));
-                                        $query="SELECT SUM(gross_pay) as total FROM `expenses` 
-                                        WHERE component_category_id='".$component_category->component_category_id."'
-                                        AND financial_year_id = '".$financial_year->financial_year_id."'
-                                        AND DATE(date) BETWEEN '".$year_end."-04-01' AND '".$year_end."-06-30';";
-                                        $fy_q_expense = $this->db->query($query)->row();
-                                        if($fy_q_expense){
-                                        echo $fy_q_expense->total;
-                                        }      
-                                        ?></th>
-                                <?php } ?>
-                                <?php 
-                                    $query="SELECT SUM(gross_pay) as total FROM `expenses` 
-                                            WHERE component_category_id='".$component_category->component_category_id."'
-                                            AND financial_year_id = '".$financial_year->financial_year_id."';";
+                            <tr>
+                                <th><?php echo $component_category->category;  ?></th>
+                                <th class="values"><?php
+                                                    $query = "SELECT SUM(material_cost) as total FROM `annual_work_plans` 
+                                    WHERE component_category_id='" . $component_category->component_category_id . "';";
+                                                    $f_budget = $this->db->query($query)->row();
+                                                    if ($f_budget) {
+                                                        if ($f_budget->total) {
+                                                            echo number_format(round($f_budget->total, 3), 0);
+                                                        }
+                                                    }
+                                                    ?></th>
+                                <?php foreach ($financial_years as $financial_year) { ?>
+                                    <td class="values"><?php
+                                                        $query = "SELECT SUM(material_cost) as total FROM `annual_work_plans` 
+                                            WHERE component_category_id='" . $component_category->component_category_id . "'
+                                            AND financial_year_id = '" . $financial_year->financial_year_id . "';";
+                                                        $fy_budget = $this->db->query($query)->row();
+                                                        if ($fy_budget) {
+                                                            echo number_format($fy_budget->total, 0);
+                                                        }
+                                                        ?>
+                                    </td>
+                                    <?php if ($financial_year->status == 1) { ?>
+                                        <th class="values">
+                                            <?php
+                                            $year_start = date('Y', strtotime($financial_year->start_date));
+                                            $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                        WHERE component_category_id='" . $component_category->component_category_id . "'
+                                        AND financial_year_id = '" . $financial_year->financial_year_id . "'
+                                        AND DATE(date) BETWEEN '" . $year_start . "-07-01' AND '" . $year_start . "-09-30';";
+                                            $fy_q_expense = $this->db->query($query)->row();
+                                            if ($fy_q_expense) {
+                                                echo number_format($fy_q_expense->total, 0);
+                                            }
+                                            ?>
+                                        </th>
+                                        <th class="values"><?php
+                                                            $year_start = date('Y', strtotime($financial_year->start_date));
+                                                            $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                        WHERE component_category_id='" . $component_category->component_category_id . "'
+                                        AND financial_year_id = '" . $financial_year->financial_year_id . "'
+                                        AND DATE(date) BETWEEN '" . $year_start . "-10-01' AND '" . $year_start . "-12-31';";
+                                                            $fy_q_expense = $this->db->query($query)->row();
+                                                            if ($fy_q_expense) {
+                                                                echo number_format($fy_q_expense->total, 0);
+                                                            }
+                                                            ?></th>
+                                        <th class="values"><?php
+                                                            $year_end = date('Y', strtotime($financial_year->end_date));
+                                                            $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                        WHERE component_category_id='" . $component_category->component_category_id . "'
+                                        AND financial_year_id = '" . $financial_year->financial_year_id . "'
+                                        AND DATE(date) BETWEEN '" . $year_end . "-01-01' AND '" . $year_end . "-03-31';";
+                                                            $fy_q_expense = $this->db->query($query)->row();
+                                                            if ($fy_q_expense) {
+                                                                echo number_format($fy_q_expense->total, 0);
+                                                            }
+                                                            ?></th>
+                                        <th class="values"><?php
+                                                            $year_end = date('Y', strtotime($financial_year->end_date));
+                                                            $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                        WHERE component_category_id='" . $component_category->component_category_id . "'
+                                        AND financial_year_id = '" . $financial_year->financial_year_id . "'
+                                        AND DATE(date) BETWEEN '" . $year_end . "-04-01' AND '" . $year_end . "-06-30';";
+                                                            $fy_q_expense = $this->db->query($query)->row();
+                                                            if ($fy_q_expense) {
+                                                                echo number_format($fy_q_expense->total, 0);
+                                                            }
+                                                            ?></th>
+                                    <?php } ?>
+                                    <?php
+                                    $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                            WHERE component_category_id='" . $component_category->component_category_id . "'
+                                            AND financial_year_id = '" . $financial_year->financial_year_id . "';";
                                     $fy_expense = $this->db->query($query)->row(); ?>
-                                <td class="values" <?php if($fy_expense->total>$fy_budget->total){ ?> style="color:red" <?php  } ?> >
-                                    <?php if($fy_expense){
-                                          echo $fy_expense->total;
-                                        }      
-                                    ?>
-                                </td>
-                                 
-                            <?php } ?>
-                            <th class="values">
-                                    <?php 
-                                    $query="SELECT SUM(gross_pay) as total FROM `expenses` 
-                                            WHERE component_category_id='".$component_category->component_category_id."';";
+                                    <td class="values" <?php if ($fy_expense->total > $fy_budget->total) { ?> style="color:red" <?php  } ?>>
+                                        <?php if ($fy_expense) {
+                                            echo number_format($fy_expense->total, 0);
+                                        }
+                                        ?>
+                                    </td>
+
+                                <?php } ?>
+                                <th class="values">
+                                    <?php
+                                    $query = "SELECT SUM(net_pay) as total FROM `expenses` 
+                                            WHERE component_category_id='" . $component_category->component_category_id . "';";
                                     $total_expense = $this->db->query($query)->row();
-                                    if($total_expense){
-                                        echo $total_expense->total;
-                                    }      
+                                    if ($total_expense) {
+                                        echo number_format($total_expense->total, 0);
+                                    }
                                     ?>
                                 </th>
-                                <th class="values" <?php  if($total_expense->total>$f_budget->total){ ?> style="color:red" <?php } ?>>
-                                    <?php  echo $f_budget->total-$total_expense->total; ?></th>
+                                <th class="values" <?php if ($total_expense->total > $f_budget->total) { ?> style="color:red" <?php } ?>>
+                                    <?php echo number_format(($f_budget->total - $total_expense->total), 0); ?></th>
                             <?php } ?>
-                        </tr>
+                            </tr>
                     </tbody>
                 </table>
 
@@ -309,37 +308,37 @@
 
                 },
                 {
-    extend: 'pdfHtml5',
-    title: title,
-    pageSize: 'legal',
-    orientation: 'landscape',
-    messageTop: '<?php echo $table_title; ?>',
-    customize: function (doc) {
-        // Set the default font size for all content
-        doc.defaultStyle.fontSize = 8;
+                    extend: 'pdfHtml5',
+                    title: title,
+                    pageSize: 'legal',
+                    orientation: 'landscape',
+                    messageTop: '<?php echo $table_title; ?>',
+                    customize: function(doc) {
+                        // Set the default font size for all content
+                        doc.defaultStyle.fontSize = 8;
 
-        // Set page margins (2 points on each side)
-        doc.pageMargins = [2, 2, 2, 2];
+                        // Set page margins (2 points on each side)
+                        doc.pageMargins = [2, 2, 2, 2];
 
-        // Safely find the table and apply cell padding
-        doc.content.forEach(function(contentItem) {
-            if (contentItem.table) {
-                contentItem.table.body.forEach(function(row) {
-                    row.forEach(function(cell) {
-                        cell.margin = [1, 1, 1, 1];  // Apply padding to each cell
-                    });
-                });
-            }
-        });
+                        // Safely find the table and apply cell padding
+                        doc.content.forEach(function(contentItem) {
+                            if (contentItem.table) {
+                                contentItem.table.body.forEach(function(row) {
+                                    row.forEach(function(cell) {
+                                        cell.margin = [1, 1, 1, 1]; // Apply padding to each cell
+                                    });
+                                });
+                            }
+                        });
 
-        // Apply font size adjustments if the styles exist
-        if (doc.styles) {
-            if (doc.styles.tableHeader) doc.styles.tableHeader.fontSize = 8;
-            if (doc.styles.title) doc.styles.title.fontSize = 8;
-            if (doc.styles.messageTop) doc.styles.messageTop.fontSize = 8;
-        }
-    }
-}
+                        // Apply font size adjustments if the styles exist
+                        if (doc.styles) {
+                            if (doc.styles.tableHeader) doc.styles.tableHeader.fontSize = 8;
+                            if (doc.styles.title) doc.styles.title.fontSize = 8;
+                            if (doc.styles.messageTop) doc.styles.messageTop.fontSize = 8;
+                        }
+                    }
+                }
 
             ]
         });

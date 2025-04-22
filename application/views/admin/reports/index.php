@@ -99,7 +99,7 @@
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_expense_report') ?>">Expenses (Region and District) Wise Report</a>
                     </li>
                     <li>
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_component_expense_report') ?>">Expenses Conponent Categories (Region and District) Wise Report</a>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/region_district_wise_component_expense_report') ?>">Expenses Component Categories (Region and District) Wise Report</a>
                     </li>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/cc_q_f_targe_and_expense_report') ?>">Annual Budget and Expense</a>

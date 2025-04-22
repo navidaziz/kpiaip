@@ -1,4 +1,3 @@
-
 <div class="row">
     <div class="col-sm-12">
         <div class="page-header">
@@ -40,11 +39,11 @@
 
 
 <div class="row">
-   <div class="col-md-12">
+    <div class="col-md-12">
         <div class="box border blue" id="messenger">
             <div class="box-body">
                 <div class="table-responsive">
-                    <table class="table table_small table-bordered" id="budjet_releases_list">
+                    <table class="table table-bordered borderd-striped" id="budjet_releases_list">
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -72,7 +71,7 @@
                                     <td><?php echo date("d M, Y", strtotime($row->date)); ?></td>
                                     <td><?php echo @number_format($row->rs_total); ?></td>
                                     <td><?php echo $row->remarks; ?></td>
-                                    
+
                                 </tr>
                             <?php } ?>
                         </tbody>
@@ -86,7 +85,7 @@
                             </tr>
                         </tfoot>
                     </table>
-                    
+
                 </div>
 
             </div>
@@ -98,20 +97,20 @@
 
 <script>
     $('#budjet_releases_list').DataTable({
-            dom: 'Bfrtip',
-            paging: false,
-            title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
-            "ordering": false,
-            searching: true,
-            buttons: [{
-                    extend: 'print',
-                    title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
-                },
-                {
-                    extend: 'excelHtml5',
-                    title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+        dom: 'Bfrtip',
+        paging: false,
+        title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+        "ordering": false,
+        searching: true,
+        buttons: [{
+                extend: 'print',
+                title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+            },
+            {
+                extend: 'excelHtml5',
+                title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
 
-                }
-            ]
-        });
-    </script>
+            }
+        ]
+    });
+</script>

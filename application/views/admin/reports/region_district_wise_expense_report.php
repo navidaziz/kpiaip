@@ -193,7 +193,7 @@
                                     <th><?php echo $region->region; ?></th>
                                     <th>Total</th>
                                     <th><?php echo $region->expenses->total; ?></td>
-                                    <th><?php echo @number_format($region->expenses->gross_pay); ?></th>
+                                    <th><?php echo @number_format($region->expenses->net_pay); ?></th>
                                     <th><?php echo @number_format($region->expenses->whit_tax); ?></th>
                                     <th><?php echo @number_format($region->expenses->whst_tax); ?></th>
                                     <th><?php echo @number_format($region->expenses->st_duty_tax); ?></th>
@@ -210,7 +210,7 @@
                                         <th><?php echo $district_count++; ?></th>
                                         <th><?php echo $district->district_name ?></th>
                                         <td><?php echo @$district->expenses->total; ?></td>
-                                        <td><?php echo @number_format($district->expenses->gross_pay); ?></td>
+                                        <td><?php echo @number_format($district->expenses->net_pay); ?></td>
                                         <td><?php echo @number_format($district->expenses->whit_tax); ?></td>
                                         <td><?php echo @number_format($district->expenses->whst_tax); ?></td>
                                         <td><?php echo @number_format($district->expenses->st_duty_tax); ?></td>
