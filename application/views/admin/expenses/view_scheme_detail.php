@@ -650,7 +650,7 @@
                                         <th><?php echo $voucher->voucher_type; ?></th>
                                         <th><?php echo $voucher->voucher_detail; ?></th>
                                         <th rowspan="2">
-                                            <?php if ($scheme->scheme_status == 'Ongoing' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
+                                            <?php if ($scheme->scheme_status == 'Initiated' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
 
                                                 <button onclick="get_vendor_taxe_form('0', '<?php echo $voucher->voucher_id ?>')" class="btn btn-warning btn-sm">Add Vendor
                                                     Invoice</button>
