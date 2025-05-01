@@ -1782,42 +1782,6 @@ ORDER BY e.expense_id ASC;
 
 
 
-    public function export_venders_taxes()
-    {
-        // Define your query
-        $query = "SELECT vou.tracking_id, vou.voucher_id,  d.district_name, s.scheme_code, s.scheme_name, cc.category,
-        `ven`.`vendor_id`, `ven`.`Vendor_Type`, `ven`.`TaxPayer_NTN`, `ven`.`TaxPayer_CNIC`, `ven`.`TaxPayer_Name`, `ven`.`TaxPayer_City`, `ven`.`TaxPayer_Address`, `ven`.`TaxPayer_Status`, `ven`.`TaxPayer_Business_Name`, `ven`.`Focal_Person`, `ven`.`Contact_No`, `ven`.`industery`, `ven`.`business_category`, `ven`.`nature_of_business`, `ven`.`registration_no`, 
-        `vi`.`invoice_id`, `vi`.`invoice_date`, `vi`.`nature_of_payment`, `vi`.`payment_section_code`, `vi`.`invoice_gross_total`, 
-        `vi`.`st_charged`, `vi`.`sst_charged`, `vi`.`whit_tax`,  `vi`.`whst_tax`, `vi`.`st_duty_tax`, `vi`.`kpra_tax`, `vi`.`rdp_tax`, `vi`.`misc_deduction` FROM `vendors_taxes` as vi  
-        INNER JOIN vendors as ven ON(ven.vendor_id = vi.vendor_id)
-        INNER JOIN vouchers as vou ON(vou.voucher_id = vi.voucher_id)
-        LEFT JOIN schemes as s ON(s.scheme_id = vi.scheme_id)  
-        LEFT JOIN districts as d ON(d.district_id = s.district_id)
-        LEFT JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
-        ORDER BY `vi`.`scheme_id` DESC;";
-        $result = $this->db->query($query)->result_array();
-        // Set CSV filename
-        $filename = "vender_taxes_" . time() . '.csv';
-
-        // Set headers to download the file
-        header('Content-Type: text/csv');
-        header('Content-Disposition: attachment;filename=' . $filename);
-
-        // Open the output stream
-        $output = fopen('php://output', 'w');
-
-        // Write column headers
-        if (!empty($result)) {
-            // Get headers from the first row
-            fputcsv($output, array_keys($result[0]));
-            foreach ($result as $row) {
-                fputcsv($output, $row);
-            }
-        }
-
-        // Close the output stream
-        fclose($output);
-    }
 
 
     public function schemes_filter()
@@ -1860,7 +1824,7 @@ ORDER BY e.expense_id ASC;
             LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
             INNER JOIN districts d ON d.district_id = s.district_id
         WHERE 1 = 1
-    ";
+     ";
 
         $params = [];
 
@@ -1926,5 +1890,131 @@ ORDER BY e.expense_id ASC;
             ]);
         }
         exit();
+    }
+
+
+
+    public function vender_taxes_filter()
+    {
+        $this->data["title"] = 'Vender Taxes Filter Report';
+        $this->data["description"] = 'Vender Taxes Filter Report';
+        $this->data["view"] = ADMIN_DIR . "reports/vender/vender_taxes_filter";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+
+    public function vender_taxes_filter_list()
+    {
+        $query = "SELECT vou.tracking_id, vou.voucher_id,  d.district_name, s.scheme_code, s.scheme_name, cc.category,
+        `ven`.`vendor_id`, `ven`.`Vendor_Type`, `ven`.`TaxPayer_NTN`, `ven`.`TaxPayer_CNIC`, `ven`.`TaxPayer_Name`, `ven`.`TaxPayer_City`, `ven`.`TaxPayer_Address`, `ven`.`TaxPayer_Status`, `ven`.`TaxPayer_Business_Name`, `ven`.`Focal_Person`, `ven`.`Contact_No`, `ven`.`industery`, `ven`.`business_category`, `ven`.`nature_of_business`, `ven`.`registration_no`, 
+        `vi`.`invoice_id`, `vi`.`invoice_date`, `vi`.`nature_of_payment`, `vi`.`payment_section_code`, `vi`.`invoice_gross_total`, 
+        `vi`.`st_charged`, `vi`.`sst_charged`, `vi`.`whit_tax`,  `vi`.`whst_tax`, `vi`.`st_duty_tax`, `vi`.`kpra_tax`, `vi`.`rdp_tax`, `vi`.`misc_deduction` FROM `vendors_taxes` as vi  
+        INNER JOIN vendors as ven ON(ven.vendor_id = vi.vendor_id)
+        INNER JOIN vouchers as vou ON(vou.voucher_id = vi.voucher_id)
+        LEFT JOIN schemes as s ON(s.scheme_id = vi.scheme_id)  
+        LEFT JOIN districts as d ON(d.district_id = s.district_id)
+        LEFT JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
+        WHERE 1=1   ";
+        //vender_taxes_filter_list
+        //ORDER BY `vi`.`scheme_id` DESC       
+
+        $params = [];
+
+        // Helper to add dynamic filters
+        $addFilter = function ($field, $inputKey) use (&$query, &$params) {
+            $values = $this->input->post($inputKey);
+            if ($values) {
+                if (!is_array($values)) $values = [$values];
+                $placeholders = implode(',', array_fill(0, count($values), '?'));
+                $query .= " AND $field IN ($placeholders)";
+                $params = array_merge($params, $values);
+            }
+        };
+
+        // Apply filters
+        // $addFilter('s.financial_year_id', 'financial_year_ids');
+        // $addFilter('s.district_id', 'district_ids');
+        // $addFilter('d.region', 'regions');
+        // $addFilter('s.scheme_status', 'scheme_status');
+        // $addFilter('s.component_category_id', 'component_category_ids');
+        // $addFilter('s.scheme_code', 'scheme_codes');
+        // $addFilter('s.scheme_name', 'scheme_names');
+        // $addFilter('s.scheme_id', 'scheme_ids');
+
+        if ($this->input->post('filter_by') and $this->input->post('filter_value')) {
+            $filter_by = $this->input->post('filter_by');
+            $filter_value = $this->input->post('filter_value');
+            if ($this->input->post('filter_by') === 'tracking_id') {
+
+                $query .= " AND vou.tracking_id = ? ";
+                $params[] = $filter_value;
+            }
+
+            if ($this->input->post('filter_by') === 'voucher_id') {
+
+                $query .= " AND vou.voucher_id = ? ";
+                $params[] = $filter_value;
+            }
+
+            if ($this->input->post('filter_by') === 'scheme_id') {
+
+                $query .= " AND s.scheme_id = ? ";
+                $params[] = $filter_value;
+            }
+        }
+
+
+        // Group by scheme_id (important for aggregation)
+        $query .= " ORDER BY `vi`.`scheme_id` DESC";
+
+        try {
+            $results = $this->db->query($query, $params)->result();
+            echo json_encode(['success' => true, 'data' => $results]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Query error',
+                'error' => $e->getMessage()
+            ]);
+        }
+        exit();
+    }
+
+
+    public function export_venders_taxes()
+    {
+        // Define your query
+        $query = "SELECT vou.tracking_id, vou.voucher_id,  d.district_name, s.scheme_code, s.scheme_name, cc.category,
+        `ven`.`vendor_id`, `ven`.`Vendor_Type`, `ven`.`TaxPayer_NTN`, `ven`.`TaxPayer_CNIC`, `ven`.`TaxPayer_Name`, `ven`.`TaxPayer_City`, `ven`.`TaxPayer_Address`, `ven`.`TaxPayer_Status`, `ven`.`TaxPayer_Business_Name`, `ven`.`Focal_Person`, `ven`.`Contact_No`, `ven`.`industery`, `ven`.`business_category`, `ven`.`nature_of_business`, `ven`.`registration_no`, 
+        `vi`.`invoice_id`, `vi`.`invoice_date`, `vi`.`nature_of_payment`, `vi`.`payment_section_code`, `vi`.`invoice_gross_total`, 
+        `vi`.`st_charged`, `vi`.`sst_charged`, `vi`.`whit_tax`,  `vi`.`whst_tax`, `vi`.`st_duty_tax`, `vi`.`kpra_tax`, `vi`.`rdp_tax`, `vi`.`misc_deduction` FROM `vendors_taxes` as vi  
+        INNER JOIN vendors as ven ON(ven.vendor_id = vi.vendor_id)
+        INNER JOIN vouchers as vou ON(vou.voucher_id = vi.voucher_id)
+        LEFT JOIN schemes as s ON(s.scheme_id = vi.scheme_id)  
+        LEFT JOIN districts as d ON(d.district_id = s.district_id)
+        LEFT JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)
+        ORDER BY `vi`.`scheme_id` DESC;";
+        $result = $this->db->query($query)->result_array();
+        // Set CSV filename
+        $filename = "vender_taxes_" . time() . '.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
     }
 }
