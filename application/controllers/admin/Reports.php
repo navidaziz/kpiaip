@@ -2017,4 +2017,185 @@ ORDER BY e.expense_id ASC;
         // Close the output stream
         fclose($output);
     }
+
+
+    public function export_wua_and_scheme_data()
+    {
+        // Define your query
+        $query = "
+        SELECT 
+        s.scheme_id AS `SCHEME_ID`, 
+        s.scheme_code AS `SCHEME_CODE`, 
+        s.scheme_name AS `SCHEME_NAME`, 
+        s.scheme_status AS `SCHEME_STATUS`,
+        fy.financial_year AS `FINANCIAL_YEAR`, 
+        wua.`water_user_association_id` AS WATER_USER_ASSOCIATION_ID,
+        wua.`wua_registration_no` AS WUA_REGISTRATION_NO,
+        wua.`wua_registration_date` AS WUA_REGISTRATION_DATE,
+        wua.`wua_name` AS WUA_NAME,
+        wua.`file_number` AS FILE_NUMBER,
+        wua.`tehsil_name` AS TEHSIL_NAME,
+        wua.`union_council` AS UNION_COUNCIL,
+        wua.`address` AS ADDRESS,
+        wua.`cm_name` AS CM_NAME,
+        wua.`cm_father_name` AS CM_FATHER_NAME,
+        wua.`cm_gender` AS CM_GENDER,
+        wua.`cm_cnic` AS CM_CNIC,
+        wua.`cm_contact_no` AS CM_CONTACT_NO,
+        wua.`bank_account_title` AS BANK_ACCOUNT_TITLE,
+        wua.`bank_account_number` AS BANK_ACCOUNT_NUMBER,
+        wua.`bank_name` AS BANK_NAME,
+        wua.`bank_branch_code` AS BANK_BRANCH_CODE,
+        wua.`male_members` AS MALE_MEMBERS,
+        wua.`female_members` AS FEMALE_MEMBERS,
+        cc.category AS `CATEGORY`, 
+        cc.category_detail AS `CATEGORY_DETAIL`, 
+        sc.sub_component_name AS `SUB_COMPONENT_NAME`, 
+        sc.sub_component_detail AS `SUB_COMPONENT_DETAIL`, 
+        c.component_name AS `COMPONENT_NAME`, 
+        c.component_detail AS `COMPONENT_DETAIL`, 
+        d.region AS `REGION`,
+        d.district_name AS `DISTRICT_NAME`, 
+        s.`tehsil` AS TEHSIL,
+        s.`uc` AS UC,
+        s.`villege` AS VILLEGE,
+        s.`na` AS NA,
+        s.`pk` AS PK,
+        s.`scheme_code` AS SCHEME_CODE,
+        s.`scheme_name` AS SCHEME_NAME,
+        s.`latitude` AS LATITUDE,
+        s.`longitude` AS LONGITUDE,
+        s.`beneficiaries` AS BENEFICIARIES,
+        s.`male_beneficiaries` AS MALE_BENEFICIARIES,
+        s.`female_beneficiaries` AS FEMALE_BENEFICIARIES,
+        s.`registration_date` AS REGISTRATION_DATE,
+        s.`top_date` AS TOP_DATE,
+        s.`survey_date` AS SURVEY_DATE,
+        s.`design_date` AS DESIGN_DATE,
+        s.`feasibility_date` AS FEASIBILITY_DATE,
+        s.`work_order_date` AS WORK_ORDER_DATE,
+        s.`scheme_initiation_date` AS SCHEME_INITIATION_DATE,
+        s.`estimated_cost` AS ESTIMATED_COST,
+        s.`estimated_cost_date` AS ESTIMATED_COST_DATE,
+        s.`approved_cost` AS APPROVED_COST,
+        s.`approval_date` AS APPROVAL_DATE,
+        s.`revised_cost` AS REVISED_COST,
+        s.`revised_cost_date` AS REVISED_COST_DATE,
+        s.`sanctioned_cost` AS SANCTIONED_COST,
+        s.`completion_cost` AS COMPLETION_COST,
+        s.`technical_sanction_date` AS TECHNICAL_SANCTION_DATE,
+        s.`completion_date` AS COMPLETION_DATE,
+        s.`build_in_cost` AS BUILD_IN_COST,
+        s.`verified_by_tpv` AS VERIFIED_BY_TPV,
+        s.`verification_by_tpv_date` AS VERIFICATION_BY_TPV_DATE,
+        s.`funding_source` AS FUNDING_SOURCE,
+        s.`water_source` AS WATER_SOURCE,
+        s.`cca` AS CCA,
+        s.`acca` AS ACCA,
+        s.`gca` AS GCA,
+        s.`pre_water_losses` AS PRE_WATER_LOSSES,
+        s.`pre_additional` AS PRE_ADDITIONAL,
+        s.`post_water_losses` AS POST_WATER_LOSSES,
+        s.`saving_water_losses` AS SAVING_WATER_LOSSES,
+        s.`total_lenght` AS TOTAL_LENGHT,
+        s.`lining_length` AS LINING_LENGTH,
+        s.`lwh` AS LWH,
+        s.`length` AS LENGTH,
+        s.`width` AS WIDTH,
+        s.`height` AS HEIGHT,
+        s.`type_of_lining` AS TYPE_OF_LINING,
+        s.`nacca_pannel` AS NACCA_PANNEL,
+        s.`culvert` AS CULVERT,
+        s.`risers_pipe` AS RISERS_PIPE,
+        s.`risers_pond` AS RISERS_POND,
+        s.`design_discharge` AS DESIGN_DISCHARGE,
+        s.`others` AS OTHERS,
+        s.`scheme_note` AS SCHEME_NOTE,
+        s.`phy_completion` AS PHY_COMPLETION,
+        s.`phy_completion_date` AS PHY_COMPLETION_DATE,
+        s.`farmer_name` AS FARMER_NAME,
+        s.`contact_no` AS CONTACT_NO,
+        s.`nic_no` AS NIC_NO,
+        s.`work_order_no` AS WORK_ORDER_NO,
+        s.`government_share` AS GOVERNMENT_SHARE,
+        s.`farmer_share` AS FARMER_SHARE,
+        s.`ssc` AS SSC,
+        s.`ssc_category` AS SSC_CATEGORY,
+        s.`transmitter_make` AS TRANSMITTER_MAKE,
+        s.`transmitter_model` AS TRANSMITTER_MODEL,
+        s.`transmitter_sr_no` AS TRANSMITTER_SR_NO,
+        s.`receiver_make` AS RECEIVER_MAKE,
+        s.`receiver_model` AS RECEIVER_MODEL,
+        s.`receiver_sr_no` AS RECEIVER_SR_NO,
+        s.`control_box_make` AS CONTROL_BOX_MAKE,
+        s.`control_box_model` AS CONTROL_BOX_MODEL,
+        s.`control_box_sr_no` AS CONTROL_BOX_SR_NO,
+        s.`scrapper_sr_no` AS SCRAPPER_SR_NO,
+        s.`scrapper_blade_width` AS SCRAPPER_BLADE_WIDTH,
+        s.`scrapper_weight` AS SCRAPPER_WEIGHT,
+        s.`fcr_approving_expert` AS FCR_APPROVING_EXPERT,
+        s.`distribution_date` AS DISTRIBUTION_DATE,
+        s.`sft_category` AS SFT_CATEGORY,
+        s.`sft_reviewed` AS SFT_REVIEWED,
+        s.`scheme_area` AS SCHEME_AREA,
+        s.`crop` AS CROP,
+        s.`crop_category` AS CROP_CATEGORY,
+        s.`system_type` AS SYSTEM_TYPE,
+        s.`soil_type` AS SOIL_TYPE,
+        s.`power_source` AS POWER_SOURCE,
+        s.`design_referred_date` AS DESIGN_REFERRED_DATE,
+        s.`design_referred_by` AS DESIGN_REFERRED_BY,
+        s.`feasibility_checked_by` AS FEASIBILITY_CHECKED_BY,
+        s.`design_approved_by` AS DESIGN_APPROVED_BY,
+        s.`per_acre_cost` AS PER_ACRE_COST,
+        s.`agreement_signed_date` AS AGREEMENT_SIGNED_DATE,
+        s.`temp_remarks` AS TEMP_REMARKS,
+        s.`created_date` AS CREATED_DATE,
+        s.`remarks` AS REMARKS,
+        SUM(e.gross_pay) as `TOTAL_PAID`,
+         SUM(e.gross_pay-e.net_pay) as `DEDUCTION`,
+        SUM(e.net_pay) as `NET_PAID`,
+        COUNT(e.expense_id) as `PAYMENT_COUNT`,
+        GROUP_CONCAT(e.cheque ORDER BY e.installment SEPARATOR ', ') AS `cheques`,
+        SUM(CASE WHEN e.installment = '1st' THEN e.gross_pay END) AS `1st`,
+        SUM(CASE WHEN e.installment = '2nd' THEN e.gross_pay END) AS `2nd`,
+        SUM(CASE WHEN e.installment = '1st_2nd' THEN e.gross_pay END) AS `1st_2nd`,
+        SUM(CASE WHEN e.installment NOT IN ('1st', '2nd', '1st_2nd', 'Final' ) THEN e.gross_pay END) AS `OTHER`,
+        SUM(CASE WHEN e.installment = 'Final' THEN e.gross_pay END) AS `FINAL`
+        FROM schemes AS s
+        INNER JOIN districts AS d ON(d.district_id = s.district_id)
+        INNER JOIN financial_years AS fy ON(fy.financial_year_id = s.financial_year_id)
+        INNER JOIN component_categories AS cc ON(cc.component_category_id = s.component_category_id)
+        INNER JOIN sub_components AS sc ON(sc.sub_component_id = cc.sub_component_id)
+        INNER JOIN components AS c ON(c.component_id = sc.component_id)
+        INNER JOIN water_user_associations AS wua ON(wua.water_user_association_id = s.water_user_association_id)
+        LEFT JOIN expenses e ON s.scheme_id = e.scheme_id  
+        GROUP BY s.scheme_id
+        ORDER BY `SCHEME_ID` ASC";
+
+        // Execute the query
+        $result = $this->db->query($query)->result_array();
+
+        // Set CSV filename
+        $filename = "Schemes-data-" . time() . '.csv';
+
+        // Set headers to download the file
+        header('Content-Type: text/csv');
+        header('Content-Disposition: attachment;filename=' . $filename);
+
+        // Open the output stream
+        $output = fopen('php://output', 'w');
+
+        // Write column headers
+        if (!empty($result)) {
+            // Get headers from the first row
+            fputcsv($output, array_keys($result[0]));
+            foreach ($result as $row) {
+                fputcsv($output, $row);
+            }
+        }
+
+        // Close the output stream
+        fclose($output);
+    }
 }

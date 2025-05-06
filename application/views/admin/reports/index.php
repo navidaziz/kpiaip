@@ -171,8 +171,14 @@
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_scheme_data') ?>">Export Scheme Data</a>
 
                     </li>
+
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_wua_data') ?>">Export Water User Association Data</a>
+                    </li>
+                    <li>
+
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_wua_and_scheme_data') ?>">Export WUAs and Schemes Data Combined <strong style="color: green;">(New)</strong></a>
+
                     </li>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_venders_taxes') ?>">Export Vender Taxes (Overall)</a>
