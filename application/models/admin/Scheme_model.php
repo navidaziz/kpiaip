@@ -142,7 +142,7 @@ class Scheme_model extends MY_Model
         $inputs["na"]  =  $this->input->post("na");
         $inputs["pk"]  =  $this->input->post("pk");
 
-        if ($component_category_id <= 9) {
+        if ($component_category_id <= 9 or $component_category_id == 11) {
 
             $inputs["latitude"]  =  $this->input->post("latitude");
 
@@ -210,7 +210,7 @@ class Scheme_model extends MY_Model
         $inputs["na"]  =  $this->input->post("na");
         $inputs["pk"]  =  $this->input->post("pk");
 
-        if ($component_category_id <= 9) {
+        if ($component_category_id <= 9 or $component_category_id == 11) {
 
             $inputs["latitude"]  =  $this->input->post("latitude");
 
