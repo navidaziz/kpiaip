@@ -167,7 +167,7 @@
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_filter_expenses') ?>">Custom Financial Report</a>
                     </li>
                     <li>
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_filter_expenses_validation') ?>">Custom Financial Data Validation Report</a>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/export_filter_expenses_validation') ?>">Custom Financial Data Validation Report <span style="color: green;">(New)</span></a>
                     </li>
                     <li>
 
