@@ -131,17 +131,19 @@
                     <table id="schemesTable" class="table table-bordered table-striped table_small" style="width: 100%;">
                         <thead>
                             <tr>
+                                <th>S/No</th>
+                                <th>Office/ Setup</th>
                                 <th>Tracking ID</th>
                                 <th>Voucher ID</th>
-                                <th>District Name</th>
-                                <th>Scheme Code</th>
-                                <th>Scheme Name</th>
+                                <th>Scheme's Code</th>
+                                <th>Scheme's Name</th>
+                                <th>Payee's Name</th>
                                 <th>Category</th>
                                 <th>Vendor ID</th>
                                 <th>Vendor Type</th>
                                 <th>TaxPayer NTN</th>
                                 <th>TaxPayer CNIC</th>
-                                <th>TaxPayer Name</th>
+
                                 <th>TaxPayer City</th>
                                 <th>TaxPayer Address</th>
                                 <th>TaxPayer Status</th>
@@ -221,19 +223,34 @@
                                             $('#schemesTable').DataTable({
                                                 data: response.data,
                                                 columns: [{
+                                                        data: null,
+                                                        title: 'S/No',
+                                                        render: function(data, type, row, meta) {
+                                                            return meta.row + 1;
+                                                        },
+                                                        orderable: false
+                                                    }, {
+                                                        data: 'district_name',
+                                                        title: 'Office/  Setup'
+                                                    },
+                                                    {
                                                         data: 'tracking_id'
                                                     },
                                                     {
                                                         data: 'voucher_id'
                                                     },
+
                                                     {
-                                                        data: 'district_name'
+                                                        data: 'scheme_code',
+                                                        title: 'Scheme\'s Code'
                                                     },
                                                     {
-                                                        data: 'scheme_code'
+                                                        data: 'scheme_name',
+                                                        title: 'Scheme\'s Name'
                                                     },
                                                     {
-                                                        data: 'scheme_name'
+                                                        data: 'TaxPayer_Name',
+                                                        title: 'Payee\'s Name'
                                                     },
                                                     {
                                                         data: 'category'
@@ -250,9 +267,7 @@
                                                     {
                                                         data: 'TaxPayer_CNIC'
                                                     },
-                                                    {
-                                                        data: 'TaxPayer_Name'
-                                                    },
+
                                                     {
                                                         data: 'TaxPayer_City'
                                                     },
@@ -283,44 +298,60 @@
                                                     {
                                                         data: 'registration_no'
                                                     },
+
+
                                                     {
-                                                        data: 'invoice_id'
+                                                        data: 'nature_of_payment',
+                                                        title: 'Nature of Payment'
                                                     },
                                                     {
-                                                        data: 'invoice_date'
+                                                        data: 'payment_section_code',
+                                                        title: 'Payment of SC'
                                                     },
                                                     {
-                                                        data: 'nature_of_payment'
+                                                        data: 'invoice_id',
+                                                        title: 'Inv. Ref.'
                                                     },
                                                     {
-                                                        data: 'payment_section_code'
+                                                        data: 'invoice_date',
+                                                        title: 'Inv_Date'
                                                     },
                                                     {
-                                                        data: 'invoice_gross_total'
+                                                        data: 'invoice_gross_total',
+                                                        title: 'Invoice_Rs'
                                                     },
                                                     {
-                                                        data: 'st_charged'
+                                                        data: 'st_charged',
+                                                        title: 'ST Charged'
                                                     },
                                                     {
-                                                        data: 'sst_charged'
+                                                        data: 'sst_charged',
+                                                        title: 'SST Charged'
                                                     },
                                                     {
-                                                        data: 'whit_tax'
+                                                        data: 'whit_tax',
+                                                        title: 'WHIT'
                                                     },
                                                     {
-                                                        data: 'whst_tax'
+                                                        data: 'whst_tax',
+                                                        title: 'WHST'
                                                     },
                                                     {
-                                                        data: 'st_duty_tax'
+                                                        data: 'kpra_tax',
+                                                        title: 'KPRA (WH)'
                                                     },
                                                     {
-                                                        data: 'kpra_tax'
+                                                        data: 'st_duty_tax',
+                                                        title: 'St. Duty'
+                                                    },
+
+                                                    {
+                                                        data: 'rdp_tax',
+                                                        title: 'RPD'
                                                     },
                                                     {
-                                                        data: 'rdp_tax'
-                                                    },
-                                                    {
-                                                        data: 'misc_deduction'
+                                                        data: 'misc_deduction',
+                                                        title: 'MISC'
                                                     }
                                                 ],
 
