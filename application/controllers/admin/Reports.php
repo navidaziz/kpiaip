@@ -116,6 +116,14 @@ class Reports extends Admin_Controller
         $this->data["view"] = ADMIN_DIR . "reports/export_filter_expenses";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+    public function export_filter_expenses_validation()
+    {
+
+        $this->data["title"] = 'Custom Financial Data Validadtion Report';
+        $this->data["description"] = 'Custom Financial With Different Filter Option';
+        $this->data["view"] = ADMIN_DIR . "reports/export_filter_expenses_validation";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
 
     public function district_wise_taxes()
     {
@@ -2197,5 +2205,101 @@ ORDER BY e.expense_id ASC;
 
         // Close the output stream
         fclose($output);
+    }
+
+    public function filter_expenses_validation()
+    {
+        // Build the base query
+        $query = "
+        SELECT  
+        e.*,
+        DATE_FORMAT(e.date, '%e %b, %Y') as date,
+        fy.financial_year, 
+        cc.category, 
+        cc.category_detail, 
+        sc.sub_component_name,
+        c.component_name,
+        s.scheme_name,
+        s.scheme_code,
+        s.sanctioned_cost,
+        wua.wua_registration_no,
+        wua.wua_name,
+        d.district_name, 
+        d.region,
+        ((whit_tax+whst_tax+st_duty_tax+rdp_tax+kpra_tax+gur_ret+misc_deduction+net_pay)-gross_pay) as reconcilation,
+        (whit_tax+whst_tax+st_duty_tax+rdp_tax+kpra_tax+gur_ret+misc_deduction) as taxable,
+        IF(s.sanctioned_cost > 0, ROUND((gross_pay * 100) / s.sanctioned_cost, 2), 0) AS paid_percentage
+        FROM 
+            expenses AS e
+        INNER JOIN financial_years AS fy ON fy.financial_year_id = e.financial_year_id
+        INNER JOIN districts AS d ON d.district_id = e.district_id
+        LEFT JOIN component_categories AS cc ON cc.component_category_id = e.component_category_id
+        INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
+        INNER JOIN components as c ON(c.component_id = sc.component_id)
+        LEFT JOIN schemes AS s ON s.scheme_id = e.scheme_id
+        LEFT JOIN water_user_associations AS wua ON wua.water_user_association_id = s.water_user_association_id
+        WHERE 1=1
+        ";
+
+        $params = [];
+
+        // Helper function to handle filter inputs and SQL placeholders
+        $addFilter = function ($field, $inputKey, &$query, &$params) {
+            $values = $this->input->post($inputKey);
+            if ($values) {
+                if (!is_array($values)) {
+                    $values = [$values];
+                }
+                $placeholders = implode(',', array_fill(0, count($values), '?'));
+                $query .= " AND $field IN ($placeholders)";
+                $params = array_merge($params, $values);
+            }
+        };
+
+        // Add filters dynamically
+        $addFilter('e.financial_year_id', 'financial_year_ids', $query, $params);
+        $addFilter('e.district_id', 'district_ids', $query, $params);
+        $addFilter('d.region', 'regions', $query, $params);
+        $addFilter('e.purpose', 'purposes', $query, $params);
+        $addFilter('e.component_category_id', 'component_category_ids', $query, $params);
+        $addFilter('cc.sub_component_id', 'sub_component_ids', $query, $params);
+        $addFilter('sc.component_id', 'component_ids', $query, $params);
+        $addFilter('e.cheque', 'cheque_no', $query, $params);
+        // Add date range filters
+        $start_date = $this->input->post('start_date');
+        $end_date = $this->input->post('end_date');
+        if ($start_date && !$end_date) {
+            $query .= " AND DATE(e.date) >= ?";
+            $params[] = $start_date;
+        } elseif (!$start_date && $end_date) {
+            $query .= " AND DATE(e.date) <= ?";
+            $params[] = $end_date;
+        } elseif ($start_date && $end_date) {
+            $query .= " AND DATE(e.date) BETWEEN ? AND ?";
+            $params[] = $start_date;
+            $params[] = $end_date;
+        }
+
+        // Add a LIMIT clause for pagination or performance optimization
+        //$query .= " LIMIT 100";
+
+        try {
+            // Execute the query with parameters to avoid SQL injection
+            $expenses = $this->db->query($query, $params)->result();
+
+            // Return JSON response
+            echo json_encode([
+                'success' => true,
+                'data' => $expenses
+            ]);
+        } catch (Exception $e) {
+            // Handle query errors
+            echo json_encode([
+                'success' => false,
+                'message' => 'Error fetching expenses. Please try again.',
+                'error' => $e->getMessage()
+            ]);
+        }
+        exit();
     }
 }
