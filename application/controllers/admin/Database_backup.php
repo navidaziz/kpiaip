@@ -23,6 +23,7 @@ class Database_backup extends Admin_Controller
 
         if (is_dir($backupDir)) {
             $files = scandir($backupDir, SCANDIR_SORT_DESCENDING);
+            var_dump($files);
             foreach ($files as $file) {
                 if (preg_match('/\.sql$/', $file)) {
                     $backups[] = [
