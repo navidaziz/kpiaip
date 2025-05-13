@@ -24,7 +24,7 @@
             <?php foreach ($backups as $backup): ?>
                 <tr>
                     <td><?= $backup['name'] ?></td>
-                    <td><?= round($backup['size'] / 1024, 2) ?> KB</td>
+                    <td><?= round($backup['size'] / (1024 * 1024), 2) ?> MB</td>
                     <td><?= $backup['date'] ?></td>
                     <td>
                         <a href="<?= site_url('databasebackup/download/' . $backup['name']) ?>" class="btn btn-sm btn-success">Download</a>
