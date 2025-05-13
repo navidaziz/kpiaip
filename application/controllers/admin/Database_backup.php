@@ -43,66 +43,6 @@ class Database_backup extends Admin_Controller
     }
 
 
-
-    public function backup()
-    {
-        // Load the database utility class
-        $this->load->dbutil();
-
-        // Create a backup (as a zip containing an .sql file)
-        $prefs = array(
-            'format'      => 'zip',
-            'filename'    => 'db_backup_' . date('Y-m-d_H-i-s') . '.sql'
-        );
-
-        $backup = $this->dbutil->backup($prefs);
-
-        // Backup directory (application path, not web-accessible)
-        $backupDir = APPPATH . 'backups/';
-        if (!is_dir($backupDir)) {
-            mkdir($backupDir, 0755, true);
-        }
-
-        // Full file path
-        $backupFile = $backupDir . 'db_backup_' . date('Y-m-d_H-i-s') . '.zip';
-
-        // Load helper and write file
-        $this->load->helper('file');
-        if (write_file($backupFile, $backup)) {
-            $this->session->set_flashdata('success', 'Backup created successfully: ' . basename($backupFile));
-        } else {
-            $this->session->set_flashdata('error', 'Failed to write backup file.');
-        }
-
-        // Redirect after backup
-        redirect('admin/database_backup');
-    }
-
-
-
-    // Optional: List all backups
-    public function list_backups()
-    {
-        $backupDir = APPPATH . 'backups/';
-        $backups = [];
-
-        if (is_dir($backupDir)) {
-            $files = scandir($backupDir, SCANDIR_SORT_DESCENDING);
-            foreach ($files as $file) {
-                if (preg_match('/\.sql$/', $file)) {
-                    $backups[] = [
-                        'name' => $file,
-                        'size' => filesize($backupDir . $file),
-                        'date' => date("F d Y H:i:s", filemtime($backupDir . $file))
-                    ];
-                }
-            }
-        }
-
-        $data['backups'] = $backups;
-        $this->load->view('admin/backup_list', $data);
-    }
-
     // Optional: Download backup
     public function download($filename)
     {
@@ -121,7 +61,7 @@ class Database_backup extends Admin_Controller
             exit;
         } else {
             $this->session->set_flashdata('error', 'File not found');
-            redirect('databasebackup/list_backups');
+            redirect('databasebackup/database_backup');
         }
     }
 }
