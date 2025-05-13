@@ -27,7 +27,7 @@
                     <td><?= round($backup['size'] / (1024 * 1024), 2) ?> MB</td>
                     <td><?= $backup['date'] ?></td>
                     <td>
-                        <a href="<?= site_url('databasebackup/download/' . $backup['name']) ?>" class="btn btn-sm btn-success">Download</a>
+                        <a href="<?= site_url('database_backup/download/' . $backup['name']) ?>" class="btn btn-sm btn-success">Download</a>
                     </td>
                 </tr>
             <?php endforeach; ?>
