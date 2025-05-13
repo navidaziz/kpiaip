@@ -18,7 +18,7 @@ class Database_backup extends Admin_Controller
 
     public function index()
     {
-        $backupDir = APPPATH . 'backups/';
+        echo $backupDir = APPPATH . 'backups/';
         $backups = [];
 
         if (is_dir($backupDir)) {
