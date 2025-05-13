@@ -11,9 +11,6 @@
     <?php if ($this->session->flashdata('error')): ?>
         <div class="alert alert-danger"><?= $this->session->flashdata('error') ?></div>
     <?php endif; ?>
-
-    <a href="<?= site_url('admin/database_backup/backup') ?>" class="btn btn-primary mb-3">Create New Backup</a>
-
     <table class="table table-striped">
         <thead>
             <tr>

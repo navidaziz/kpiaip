@@ -18,12 +18,12 @@ class Database_backup extends Admin_Controller
 
     public function index()
     {
-        echo $backupDir = APPPATH . 'backups/';
+        $backupDir = APPPATH . 'backups/';
         $backups = [];
 
         if (is_dir($backupDir)) {
             $files = scandir($backupDir, SCANDIR_SORT_DESCENDING);
-            var_dump($files);
+            //var_dump($files);
             foreach ($files as $file) {
                 if (preg_match('/\.gz$/', $file)) {
                     $backups[] = [
