@@ -25,7 +25,7 @@ class Database_backup extends Admin_Controller
             $files = scandir($backupDir, SCANDIR_SORT_DESCENDING);
             var_dump($files);
             foreach ($files as $file) {
-                if (preg_match('/\.sql$/', $file)) {
+                if (preg_match('/\.gz$/', $file)) {
                     $backups[] = [
                         'name' => $file,
                         'size' => filesize($backupDir . $file),
