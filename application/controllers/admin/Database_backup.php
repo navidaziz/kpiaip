@@ -65,4 +65,37 @@ class Database_backup extends Admin_Controller
             redirect('databasebackup/database_backup');
         }
     }
+
+
+    public function backup()
+    {
+
+        // Database configuration
+        $dbHost = 'localhost';
+        $dbUser = 'chitralcom_kpiaip';
+        $dbPass = '@Pioneer9999';
+        $dbName = 'chitralcom_kpiaip';
+
+        // Set response headers for gzip download
+        header('Content-Type: application/gzip');
+        header('Content-Disposition: attachment; filename="' . date('d_m_y') . '.' . $dbName . '.sql.gz"');
+        header('Pragma: no-cache');
+        header('Expires: 0');
+
+        // Stream mysqldump output as gzip directly to browser
+        $cmd = "mysqldump -h {$dbHost} -u {$dbUser} -p'{$dbPass}' {$dbName} | gzip";
+
+        $process = popen($cmd, 'r');
+        if (!$process) {
+            http_response_code(500);
+            exit("Failed to export database.");
+        }
+
+        while (!feof($process)) {
+            echo fread($process, 4096);
+            flush();
+        }
+        pclose($process);
+        exit;
+    }
 }
