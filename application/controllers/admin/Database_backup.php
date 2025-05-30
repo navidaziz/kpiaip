@@ -18,28 +18,28 @@ class Database_backup extends Admin_Controller
 
     public function index()
     {
-        $backupDir = APPPATH . 'backups/';
-        $backups = [];
+        // $backupDir = APPPATH . 'backups/';
+        // $backups = [];
 
-        if (is_dir($backupDir)) {
-            $files = scandir($backupDir, SCANDIR_SORT_DESCENDING);
-            //var_dump($files);
-            foreach ($files as $file) {
-                if (preg_match('/\.gz$/', $file)) {
-                    $backups[] = [
-                        'name' => $file,
-                        'size' => filesize($backupDir . $file),
-                        'date' => date("F d Y H:i:s", filemtime($backupDir . $file))
-                    ];
-                }
-            }
-        }
+        // if (is_dir($backupDir)) {
+        //     $files = scandir($backupDir, SCANDIR_SORT_DESCENDING);
+        //     //var_dump($files);
+        //     foreach ($files as $file) {
+        //         if (preg_match('/\.gz$/', $file)) {
+        //             $backups[] = [
+        //                 'name' => $file,
+        //                 'size' => filesize($backupDir . $file),
+        //                 'date' => date("F d Y H:i:s", filemtime($backupDir . $file))
+        //             ];
+        //         }
+        //     }
+        // }
 
-        $this->data['backups'] = $backups;
+        // $this->data['backups'] = $backups;
         $this->data["title"] = 'Advices';
         $this->data["description"] = 'Advices Dashboard';
         //$this->data["view"] = ADMIN_DIR . "databaes_backup/backup_list";
-        $this->data["view"] = ADMIN_DIR . "databaes_backup/backup_list";
+        $this->data["view"] = ADMIN_DIR . "database_backup/home";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
@@ -78,7 +78,7 @@ class Database_backup extends Admin_Controller
 
         // Set response headers for gzip download
         header('Content-Type: application/gzip');
-        header('Content-Disposition: attachment; filename="' . date('d_m_y') . '.' . $dbName . '.sql.gz"');
+        header('Content-Disposition: attachment; filename="' . date('d_m_Y') . '_' . $dbName . '.sql.gz"');
         header('Pragma: no-cache');
         header('Expires: 0');
 
