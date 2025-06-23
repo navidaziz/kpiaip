@@ -727,12 +727,16 @@
                     <h4 style="margin-bottom: 20px;">Payments
 
                         <span class="pull-right">
-                            <?php if ($scheme->scheme_status == 'Initiated' or $scheme->scheme_status == 'ICR-I' or $scheme->scheme_status == 'ICR-II' or $scheme->scheme_status == 'Final') { ?>
+                            <?php if (
+                                $scheme->scheme_status == 'Initiated'
+                                or $scheme->scheme_status == 'ICR-I'
+                                or $scheme->scheme_status == 'ICR-II'
+                                or $scheme->scheme_status == 'Final'
+                            ) { ?>
 
                                 <!-- <button onclick="expense_form2(0,'Programme Cost')" class="btn btn-danger btn-sm">Add Payment 2</button> -->
 
-                                <button onclick="expense_form(0,'Programme Cost')" class="btn btn-danger btn-sm">Add
-                                    Payment</button>
+                                <button onclick="expense_form(0,'Programme Cost')" class="btn btn-danger btn-sm">Add Payment</button>
                             <?php } ?>
 
                         </span>

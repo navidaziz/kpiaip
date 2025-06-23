@@ -156,6 +156,7 @@
                             $review_schemes = $this->db->query($query)->row(); // Fetch the total count
 
                             $precentage = round(($revied_schemes->total * 100) / $review_schemes->total, 2); ?>
+
                             <table class="table table-bordered table-striped text-center table_small">
                                 <thead class="thead-dark">
                                     <tr>
@@ -171,44 +172,46 @@
                                 <tbody>
                                     <?php
                                     $query = "SELECT * FROM districts WHERE is_district = 1 ORDER BY district_name ASC";
-                                    $districts = $this->db->query($query)->result(); // Fetch the total count
+                                    $districts = $this->db->query($query)->result();
                                     $s_no = 1;
                                     foreach ($districts as $district) {
+                                        // Count reviewed
+                                        $reviewed_query = "SELECT COUNT(*) as total FROM schemes 
+                WHERE scheme_status = 'Completed' AND sft_reviewed = 1 
+                AND district_id = $district->district_id";
+                                        $reviewed_result = $this->db->query($reviewed_query)->row();
+                                        $reviewed = $reviewed_result->total;
 
-                                        // Count the total WUA List
-                                        $query = "SELECT COUNT(*) as total FROM schemes 
-                                        WHERE scheme_status = 'Completed' and sft_reviewed=1
-                                        and district_id = $district->district_id";
-                                        $revied_schemes = $this->db->query($query)->row(); // Fetch the total count
+                                        // Count unreviewed
+                                        $unreviewed_query = "SELECT COUNT(*) as total FROM schemes 
+                WHERE scheme_status = 'Completed' AND sft_reviewed = 0 
+                AND district_id = $district->district_id";
+                                        $unreviewed_result = $this->db->query($unreviewed_query)->row();
+                                        $unreviewed = $unreviewed_result->total;
 
-                                        // Count the total WUA List
-                                        $query = "SELECT COUNT(*) as total FROM schemes 
-                                        WHERE scheme_status = 'Completed' and sft_reviewed=0
-                                        and district_id = $district->district_id";
+                                        // Total
+                                        $total = $reviewed + $unreviewed;
 
-                                        $review_schemes = $this->db->query($query)->row(); // Fetch the total count
-                                        if ($review_schemes->total) {
-                                            $precentage = round(($revied_schemes->total * 100) / $review_schemes->total, 2);
-                                        } else {
-                                            $precentage = 0;
-                                        } ?>
+                                        // Percentage reviewed
+                                        $percentage = ($total > 0) ? round(($reviewed * 100) / $total, 2) : 0;
+                                    ?>
                                         <tr>
-                                            <td><?php echo $s_no++; ?></td>
-                                            <td><?php echo $district->region; ?></td>
-                                            <td><strong><?php echo $district->district_name; ?></strong></td>
-                                            <td><strong style="color: #dc3545;"><?php echo $review_schemes->total + $revied_schemes->total; ?></strong></td>
-                                            <td><strong style="color: #28a745;"><?php echo $revied_schemes->total; ?></strong></td>
-                                            <td><strong style="color: #ffc107;"><?php echo $review_schemes->total - $revied_schemes->total; ?></strong></td>
+                                            <td><?= $s_no++; ?></td>
+                                            <td><?= $district->region; ?></td>
+                                            <td><strong><?= $district->district_name; ?></strong></td>
+                                            <td><strong style="color: #dc3545;"><?= $total; ?></strong></td>
+                                            <td><strong style="color: #28a745;"><?= $reviewed; ?></strong></td>
+                                            <td><strong style="color: #ffc107;"><?= $total - $reviewed; ?></strong></td>
                                             <th>
                                                 <div class="progress" style="height:20px!important">
                                                     <div class="progress-bar bg-danger" role="progressbar"
-                                                        style="width: <?php echo $precentage ?>%;" aria-valuenow="<?php echo $precentage ?>" aria-valuemin="0" aria-valuemax="100"><?php echo $precentage ?>%</div>
+                                                        style="width: <?= $percentage ?>%;" aria-valuenow="<?= $percentage ?>" aria-valuemin="0" aria-valuemax="100">
+                                                        <?= $percentage ?>%
+                                                    </div>
                                                 </div>
                                             </th>
                                         </tr>
                                     <?php } ?>
-
-
                                 </tbody>
                             </table>
 
