@@ -775,3 +775,4 @@
     `);
         printWindow.document.close();
     }
+</script>
