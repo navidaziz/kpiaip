@@ -105,6 +105,15 @@
         font-weight: bold;
         color: #2c3e50;
     }
+
+    @media print {
+
+        /* Hide the download button when printing */
+        .no-print,
+        button {
+            display: none !important;
+        }
+    }
 </style>
 <div class="row">
     <div class="col-sm-12">
