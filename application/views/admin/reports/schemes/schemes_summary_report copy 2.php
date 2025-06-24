@@ -137,7 +137,7 @@
                 <div class="row">
                     <div class="col-md-2">
                         <div style="margin-top: 5px; text-align: center;">
-                            <img style="width: 118px" src="<?php echo site_url("assets/logo.jpeg") ?>" />
+                            <img style="width: 60%" src="<?php echo site_url("assets/logo.jpeg") ?>" />
                             <h5><?php echo $title; ?></h5>
                             <div class="description"><?php echo $description; ?></div>
                         </div>
