@@ -728,3 +728,23 @@
         html2pdf().set(opt).from(element).save();
     }
 </script>
+
+<button onclick="printDiv('contentToDownload')">Print</button>
+
+<script>
+    function printDiv(divId) {
+        const content = document.getElementById(divId).innerHTML;
+        const originalContent = document.body.innerHTML;
+
+        // Replace body content with selected div content
+        document.body.innerHTML = content;
+
+        window.print(); // Open print dialog
+
+        // Restore original page content
+        document.body.innerHTML = originalContent;
+
+        // Optional: Reload to restore scripts/styles
+        location.reload();
+    }
+</script>
