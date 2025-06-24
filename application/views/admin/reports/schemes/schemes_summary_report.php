@@ -110,7 +110,8 @@
 
         /* Hide the download button when printing */
         .no-print,
-        button {
+        button,
+        a {
             display: none !important;
         }
     }
