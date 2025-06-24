@@ -748,3 +748,30 @@
         location.reload();
     }
 </script>
+
+<button onclick="printDivById('contentToDownload')">Print This Section</button>
+
+<script>
+    function printDivById(divId) {
+        const content = document.getElementById(divId).innerHTML;
+        const printWindow = window.open('', '', 'width=800,height=600');
+
+        printWindow.document.write(`
+        <html>
+            <head>
+                <title>Print Content</title>
+                <style>
+                    body {
+                        font-family: Arial, sans-serif;
+                        -webkit-print-color-adjust: exact;
+                        print-color-adjust: exact;
+                    }
+                </style>
+            </head>
+            <body onload="window.print(); window.close();">
+                ${content}
+            </body>
+        </html>
+    `);
+        printWindow.document.close();
+    }
