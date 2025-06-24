@@ -718,7 +718,7 @@
             jsPDF: {
                 unit: 'in',
                 format: 'letter',
-                orientation: 'portrait'
+                orientation: 'landscape'
             }
         };
 
