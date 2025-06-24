@@ -111,7 +111,10 @@
         /* Hide the download button when printing */
         .no-print,
         button,
-        a {
+        a,
+        .sidebar,
+        .page-header,
+        .navbar {
             display: none !important;
         }
     }
