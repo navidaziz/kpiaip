@@ -297,6 +297,16 @@ class Payment_notesheets extends Admin_Controller
                 exit();
             }
 
+            if ($scheme->scheme_status == 'Registered') {
+                echo '<div class="alert alert-danger">Scheme Status Registered. Work order not update yet. inform district to update work order.</div>';
+                exit();
+            }
+
+            if ($scheme->scheme_status == 'Sanctioned') {
+                echo '<div class="alert alert-danger">Scheme Status Sanctioned.  Work order not update yet. inform district to update work order.</div>';
+                exit();
+            }
+
 
 
 
