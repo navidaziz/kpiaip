@@ -2307,4 +2307,15 @@ ORDER BY e.expense_id ASC;
         }
         exit();
     }
+
+
+    public function schemes_progress_report()
+    {
+        $this->data["title"] = 'Schemes Progress Report';
+        $this->data["description"] = 'Schemes Progress Report';
+
+
+        $this->data["view"] = ADMIN_DIR . "reports/schemes/schemes_progress_report";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
 }
