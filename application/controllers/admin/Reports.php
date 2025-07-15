@@ -1270,7 +1270,7 @@ ORDER BY e.expense_id ASC;
         `other` as `other`, 
         `final` as `FCR`, 
         `remaining` as `BALANCE`,
-        `phy_completion_date` as `PHYSICAL_COMPLETED`
+        `phy_completion_date` as `PHY_COMPLETED`
         FROM `scheme_lists` ";
         if ($scheme_status) {
             $query .= " WHERE `scheme_lists`.`scheme_status` IN (?)";
