@@ -81,7 +81,7 @@
                     }
                     $review_schemes = $this->db->query($query)->row(); // Fetch the total count
 
-                    $precentage = round(($revied_schemes->total * 100) / $review_schemes->total, 2); ?>
+                    $precentage = round(($revied_schemes->total * 100) / $review_schemes->total + $revied_schemes->total, 2); ?>
                     <table class="table table-bordered table-striped text-center">
                         <thead class="thead-dark">
                             <tr>
