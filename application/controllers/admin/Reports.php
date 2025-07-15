@@ -1136,6 +1136,8 @@ ORDER BY e.expense_id ASC;
         s.scheme_code AS `SCHEME_CODE`, 
         s.scheme_name AS `SCHEME_NAME`, 
         s.scheme_status AS `SCHEME_STATUS`,
+        `s`.`phy_completion` as PHY_COMPLETED, 
+        `s`.`phy_completion_date` as PHY_COMPLETED_DATE,
         fy.financial_year AS `FINANCIAL_YEAR`, 
         wua.wua_name AS `WUA_NAME`, 
         wua.wua_registration_no AS `WUA_REGISTRATION_NO`,
