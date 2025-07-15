@@ -21,7 +21,7 @@
                 <th>ICR-I&II</th>
                 <th>Other</th>
                 <th>FCR</th>
-                <th>Physical Complete</th>
+                <th>Physical Completed</th>
                 <th>Action</th>
             </tr>
         </thead>
