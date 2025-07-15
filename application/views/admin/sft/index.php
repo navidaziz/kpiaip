@@ -96,7 +96,7 @@
                                 <td><strong>Status</strong></td>
                                 <td><strong style="color: #dc3545;"><?php echo $review_schemes->total + $revied_schemes->total; ?></strong></td>
                                 <td><strong style="color: #28a745;"><?php echo $revied_schemes->total; ?></strong></td>
-                                <td><strong style="color: #ffc107;"><?php echo $review_schemes->total - $revied_schemes->total; ?></strong></td>
+                                <td><strong style="color: #ffc107;"><?php echo ($review_schemes->total + $revied_schemes->total) - $revied_schemes->total; ?></strong></td>
                             </tr>
                         </tbody>
                     </table>
