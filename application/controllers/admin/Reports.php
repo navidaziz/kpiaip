@@ -1263,13 +1263,14 @@ ORDER BY e.expense_id ASC;
         `cheques` as CHEQUES,
         `total_paid` as TOTAL_PAID, 
         `deduction` as DEDUCTION,
-        `net_paid` as NET_PAID, 
+        `net_paid` as NET_PAID,  
         `first` as `ICR-I`, 
         `second` as `ICR-II`,
         `first_second` as  `ICR-I&II`, 
         `other` as `other`, 
         `final` as `FCR`, 
-        `remaining` as `BALANCE`
+        `remaining` as `BALANCE`,
+        `phy_completion_date` as `PHYSICAL_COMPLETED`
         FROM `scheme_lists` ";
         if ($scheme_status) {
             $query .= " WHERE `scheme_lists`.`scheme_status` IN (?)";

@@ -21,7 +21,7 @@
                 <th>ICR-I&II</th>
                 <th>Other</th>
                 <th>FCR</th>
-                <th>Note</th>
+                <th>Physical Complete</th>
                 <th>Action</th>
             </tr>
         </thead>
@@ -48,7 +48,10 @@
                     <td><?php echo $scheme->first_second; ?></td>
                     <td><?php echo $scheme->other; ?></td>
                     <td><?php echo $scheme->final; ?></td>
-                    <td><?php echo $scheme->scheme_note; ?></td>
+                    <td><?php
+                        if ($scheme->phy_completion) {
+                            echo date('d M, y', strtotime($scheme->phy_completion_date));
+                        } ?></td>
                     <td><a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/print_scheme/' . $scheme->scheme_id . '') ?>">View Scheme</a></td>
                 </tr>
             <?php } ?>
