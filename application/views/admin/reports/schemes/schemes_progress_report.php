@@ -223,7 +223,8 @@
                                 INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
                                 INNER JOIN components as c ON sc.component_id = c.component_id
                                     AND s.scheme_status = '" . $ongoing_scheme_status . "'
-                                    AND c.component_id = $component->component_id";
+                                    AND c.component_id = $component->component_id
+                                    AND s.financial_year_id <= $current_fy->financial_year_id";
                                     echo $this->db->query($query)->row()->total;
                                     ?></th>
                             <?php } ?>
