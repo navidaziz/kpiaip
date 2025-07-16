@@ -58,15 +58,12 @@
                 <table class="table table-bordered">
                     <tr>
                         <th></th>
-                        <th></th>
+                        <th colspan="2"></th>
                         <th></th>
                         <th style="text-align: center;" colspan="7">Current FY (
                             <?php
-                            $query = "SELECT * FROM `financial_years` WHERE `status`=1";
-                            $current_fy = $this->db->query($query)->row();
-                            if ($current_fy) {
-                                echo $current_fy->financial_year;
-                            }
+
+                            echo $current_fy->financial_year;
 
                             ?>
                             )</th>
@@ -74,8 +71,8 @@
 
                     </tr>
                     <tr>
-                        <th></th>
-                        <th></th>
+                        <th>Components</th>
+                        <th colspan="2" style="text-align: center;">Components Categories</th>
 
                         <th style="text-align: center;">Completed (Previous FYs)</th>
                         <th>AWP Target</th>
@@ -89,45 +86,125 @@
                         <th>Total intervention Completed Since Inception</th>
 
                     </tr>
-                    <?php
-                    // Query all component categories
-                    $district_id = NULL;
-                    $query = "SELECT * FROM component_categories as cc 
-                    WHERE cc.component_category_id IN(1,2,3,4,5,6,7,8,9,10,11,12)";
-                    $categories = $this->db->query($query)->result();
-                    foreach ($categories as $category) { ?>
-                        <tr>
-                            <th>
-                                <?php echo $category->category; ?>:
-                            </th>
-                            <th><?php echo $category->category_detail; ?></th>
 
-                            <td class="scheme_ status" style="text-align: center;">
-                                <?php
-                                $query = "SELECT COUNT(*) as total FROM schemes as s 
+                    <?php
+
+                    $query = "SELECT * FROM `components` WHERE `component_id` IN(1,2)";
+                    $components = $this->db->query($query)->result();
+                    foreach ($components as $component) {
+                        $district_id = NULL;
+                        $query = "SELECT * FROM component_categories as cc 
+                            WHERE cc.component_id = $component->component_id";
+                        $categories = $this->db->query($query)->result();
+                        foreach ($categories as $category) { ?>
+                            <tr>
+                                <td><?php echo $component->component_name; ?></td>
+                                <td>
+                                    <?php echo $category->category; ?>:
+                                </td>
+                                <th><?php echo $category->category_detail; ?></th>
+
+                                <td class="scheme_ status" style="text-align: center;">
+                                    <?php
+                                    $query = "SELECT COUNT(*) as total FROM schemes as s 
                                     WHERE s.component_category_id = $category->component_category_id
                                     AND s.scheme_status = 'Completed'
                                     AND s.financial_year_id < $current_fy->financial_year_id";
-                                if ($district_id) {
-                                    $query .= " AND district_id = $district_id";
-                                }
+                                    echo $this->db->query($query)->row()->total;
+                                    ?>
+                                </td>
+
+                                <td>
+                                    <?php
+                                    $query = "SELECT * FROM `annual_work_plans` 
+                                     WHERE  financial_year_id= $current_fy->financial_year_id 
+                                    AND  component_category_id= $category->component_category_id;";
+                                    $awp = $this->db->query($query)->row();
+                                    if ($awp) {
+                                        echo $awp->anual_target;
+                                    }
+                                    ?>
+                                </td>
+
+                                <td>
+                                    <?php
+                                    $query = "SELECT COUNT(*) as total FROM `water_user_associations` 
+                                WHERE  wua_registration_date between $current_fy->start_date and $current_fy->end_date ";
+                                    $wua = $this->db->query($query)->row();
+                                    if ($awp) {
+                                        echo $wua->total;
+                                    }
+                                    ?>
+                                </td>
+
+                                <?php
+                                // Populate cell values for each scheme status
+                                foreach ($ongoing_schemes_status as $ongoing_scheme_status) { ?>
+                                    <td class="scheme_ status" style="text-align: center;">
+                                        <?php
+                                        $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                    WHERE s.component_category_id = $category->component_category_id
+                                    AND s.scheme_status = '" . $ongoing_scheme_status . "'";
+                                        if ($district_id) {
+                                            $query .= " AND district_id = $district_id";
+                                        }
+                                        echo $this->db->query($query)->row()->total;
+                                        ?></td>
+                                <?php } ?>
+
+                                <td class="scheme_ status" style="text-align: center;">
+                                    <?php
+                                    $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                    WHERE s.component_category_id = $category->component_category_id
+                                    AND s.scheme_status = 'Completed'
+                                    AND s.financial_year_id = $current_fy->financial_year_id";
+
+                                    echo $this->db->query($query)->row()->total;
+                                    ?>
+                                </td>
+                                <td class="scheme_ status" style="text-align: center;">
+                                    <?php
+                                    $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                    WHERE s.component_category_id = $category->component_category_id
+                                    AND s.financial_year_id <= $current_fy->financial_year_id
+                                    AND s.scheme_status = 'Completed'";
+
+                                    echo $this->db->query($query)->row()->total;
+                                    ?>
+                                </td>
+                            </tr>
+
+                        <?php } ?>
+                        <tr>
+                            <th><?php echo $component->component_name; ?></th>
+                            <th colspan="2"> Total</th>
+
+                            <th class="scheme_ status" style="text-align: center;">
+                                <?php
+                                $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                INNER JOIN component_categories as cc ON s.component_category_id = cc.component_category_id
+                                INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
+                                INNER JOIN components as c ON sc.component_id = c.component_id
+                                    WHERE c.component_id = $component->component_id
+                                    AND s.scheme_status = 'Completed'
+                                    AND s.financial_year_id < $current_fy->financial_year_id";
                                 echo $this->db->query($query)->row()->total;
                                 ?>
-                            </td>
+                            </th>
 
-                            <td>
+                            <th>
                                 <?php
-                                $query = "SELECT * FROM `annual_work_plans` 
-                                WHERE  financial_year_id= $current_fy->financial_year_id 
-                                AND  component_category_id= $category->component_category_id;";
+                                $query = "SELECT SUM(anual_target) as total_target FROM `annual_work_plans` 
+                                     WHERE  financial_year_id= $current_fy->financial_year_id 
+                                    AND  component_id = $component->component_id";
                                 $awp = $this->db->query($query)->row();
                                 if ($awp) {
-                                    echo $awp->anual_target;
+                                    echo $awp->total_target;
                                 }
                                 ?>
-                            </td>
+                            </th>
 
-                            <td>
+                            <th>
                                 <?php
                                 $query = "SELECT COUNT(*) as total FROM `water_user_associations` 
                                 WHERE  wua_registration_date between $current_fy->start_date and $current_fy->end_date ";
@@ -136,49 +213,50 @@
                                     echo $wua->total;
                                 }
                                 ?>
-                            </td>
+                            </th>
 
                             <?php
                             // Populate cell values for each scheme status
                             foreach ($ongoing_schemes_status as $ongoing_scheme_status) { ?>
-                                <td class="scheme_ status" style="text-align: center;">
+                                <th class="scheme_ status" style="text-align: center;">
                                     <?php
                                     $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                    WHERE s.component_category_id = $category->component_category_id
-                                    AND s.scheme_status = '" . $ongoing_scheme_status . "'";
-                                    if ($district_id) {
-                                        $query .= " AND district_id = $district_id";
-                                    }
+                                   INNER JOIN component_categories as cc ON s.component_category_id = cc.component_category_id
+                                INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
+                                INNER JOIN components as c ON sc.component_id = c.component_id
+                                    AND s.scheme_status = '" . $ongoing_scheme_status . "'
+                                    AND c.component_id = $component->component_id";
                                     echo $this->db->query($query)->row()->total;
-                                    ?></td>
+                                    ?></th>
                             <?php } ?>
 
-                            <td class="scheme_ status" style="text-align: center;">
+                            <th class="scheme_ status" style="text-align: center;">
                                 <?php
                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                    WHERE s.component_category_id = $category->component_category_id
+                                   INNER JOIN component_categories as cc ON s.component_category_id = cc.component_category_id
+                                INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
+                                INNER JOIN components as c ON sc.component_id = c.component_id
                                     AND s.scheme_status = 'Completed'
+                                    AND c.component_id = $component->component_id
                                     AND s.financial_year_id = $current_fy->financial_year_id";
-                                if ($district_id) {
-                                    $query .= " AND district_id = $district_id";
-                                }
+
                                 echo $this->db->query($query)->row()->total;
                                 ?>
-                            </td>
-                            <td class="scheme_ status" style="text-align: center;">
+                            </th>
+                            <th class="scheme_ status" style="text-align: center;">
                                 <?php
                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                    WHERE s.component_category_id = $category->component_category_id
-                                    AND s.scheme_status = 'Completed'";
-                                if ($district_id) {
-                                    $query .= " AND district_id = $district_id";
-                                }
+                                   INNER JOIN component_categories as cc ON s.component_category_id = cc.component_category_id
+                                INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
+                                INNER JOIN components as c ON sc.component_id = c.component_id
+                                WHERE  s.scheme_status = 'Completed' AND c.component_id = $component->component_id
+                                AND s.financial_year_id <= $current_fy->financial_year_id";
+
                                 echo $this->db->query($query)->row()->total;
                                 ?>
-                            </td>
-
-
-                        <?php } ?>
+                            </th>
+                        </tr>
+                    <?php } ?>
 
                 </table>
 

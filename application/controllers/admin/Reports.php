@@ -2309,8 +2309,17 @@ ORDER BY e.expense_id ASC;
     }
 
 
-    public function schemes_progress_report()
+    public function schemes_progress_report($fy_id = NULL)
     {
+
+        if ($fy_id) {
+            $query = "SELECT * FROM `financial_years` WHERE `financial_year_id` = $fy_id";
+        } else {
+            $query = "SELECT * FROM `financial_years` WHERE `status`=1";
+        }
+        $current_fy = $this->db->query($query)->row();
+        $this->data["current_fy"] = $current_fy;
+
         $this->data["title"] = 'Schemes Progress Report';
         $this->data["description"] = 'Schemes Progress Report';
 
