@@ -60,13 +60,9 @@
                         <th></th>
                         <th colspan="2"></th>
                         <th></th>
-                        <th style="text-align: center;" colspan="7">Current FY (
-                            <?php
-
-                            echo $current_fy->financial_year;
-
-                            ?>
-                            )</th>
+                        <th style="text-align: center;" colspan="7">
+                            <strong> Current FY ( <?php echo $current_fy->financial_year; ?> ) </strong>
+                        </th>
                         <th></th>
 
                     </tr>
@@ -129,7 +125,8 @@
                                 <td>
                                     <?php
                                     $query = "SELECT COUNT(*) as total FROM `water_user_associations` 
-                                WHERE  wua_registration_date between $current_fy->start_date and $current_fy->end_date ";
+                                    WHERE  wua_registration_date 
+                                    between $current_fy->start_date and $current_fy->end_date";
                                     $wua = $this->db->query($query)->row();
                                     if ($awp) {
                                         echo $wua->total;
@@ -143,8 +140,9 @@
                                     <td class="scheme_ status" style="text-align: center;">
                                         <?php
                                         $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                    WHERE s.component_category_id = $category->component_category_id
-                                    AND s.scheme_status = '" . $ongoing_scheme_status . "'";
+                                        WHERE s.component_category_id = $category->component_category_id
+                                        AND s.scheme_status = '" . $ongoing_scheme_status . "'
+                                        AND s.financial_year_id <= $current_fy->financial_year_id";
                                         if ($district_id) {
                                             $query .= " AND district_id = $district_id";
                                         }
