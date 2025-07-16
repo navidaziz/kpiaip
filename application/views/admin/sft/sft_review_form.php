@@ -703,6 +703,57 @@
                             </div>
 
                             <div class="form-group row">
+
+
+                                <title>LPS & Cusec Converter</title>
+                                <script>
+                                    function convertFromLPS() {
+                                        const lps = parseFloat(document.getElementById("lps").value);
+                                        if (!isNaN(lps)) {
+                                            document.getElementById("cusec").value = (lps * 0.0353147).toFixed(4);
+                                            $('#design_discharge').val(parseFloat(document.getElementById("cusec").value));
+                                        }
+                                    }
+
+                                    function convertFromCusec() {
+                                        const cusec = parseFloat(document.getElementById("cusec").value);
+                                        if (!isNaN(cusec)) {
+                                            document.getElementById("lps").value = (cusec * 28.3168).toFixed(4);
+                                            $('#design_discharge').val(parseFloat(document.getElementById("cusec").value));
+                                        }
+                                    }
+                                </script>
+                                <div class="col-sm-12">
+                                    <div style="border: 1px solid gree; border-radius: 5px; padding: 10px; background-color: #84E083; margin-bottom:10px; ">
+
+                                        <table style="width: 100%;">
+                                            <tr>
+                                                <td>
+                                                    Convert:
+                                                </td>
+                                                <td>
+                                                    <label for="cusec">Cusec:</label>
+                                                    <input type="number" id="cusec" oninput="convertFromCusec()" step="any">
+                                                </td>
+
+                                                <td>
+                                                    <label for="lps">LPS:</label>
+                                                    <input type="number" id="lps" oninput="convertFromLPS()" step="any">
+                                                </td>
+
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+
+
+
+
+
+
+
+
+
                                 <label for="lining" class="col-sm-6 col-form-label">Design Discharge <strong style="color:green">(cusec)</strong></label>
                                 <div class="col-sm-6">
                                     <input step="any" placeholder="0.000" type="number" step="any" required id="design_discharge" name="design_discharge" value="<?php echo $scheme->design_discharge; ?>"

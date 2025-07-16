@@ -95,14 +95,15 @@
                         $categories = $this->db->query($query)->result();
                         foreach ($categories as $category) { ?>
                             <tr>
-                                <th <?php if ($r_count == 0) { ?>
-                                    rowspan="<?php echo count($categories); ?>"
-                                    <?php
-                                        $r_count++;
-                                    } else { ?> style="display: none;" <?php
-                                                                    } ?>>
-                                    <?php echo $component->component_name . ': ' . $component->component_detail; ?>
-                                </th>
+                                <?php if ($r_count == 0) { ?>
+                                    <th style="text-orientation: upright;"
+                                        rowspan="<?php echo count($categories); ?>">
+
+                                        <?php echo $component->component_name . ': ' . $component->component_detail; ?>
+                                    </th>
+                                <?php $r_count++;
+                                }
+                                ?>
                                 <td>
                                     <?php echo $category->category; ?>:
                                 </td>
