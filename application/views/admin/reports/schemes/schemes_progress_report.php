@@ -89,16 +89,24 @@
                     $components = $this->db->query($query)->result();
                     foreach ($components as $component) {
                         $district_id = NULL;
+                        $r_count = 0;
                         $query = "SELECT * FROM component_categories as cc 
                             WHERE cc.component_id = $component->component_id";
                         $categories = $this->db->query($query)->result();
                         foreach ($categories as $category) { ?>
                             <tr>
-                                <td><?php echo $component->component_name; ?></td>
+                                <th <?php if ($r_count == 0) { ?>
+                                    rowspan="<?php echo count($categories); ?>"
+                                    <?php
+                                        $r_count++;
+                                    } else { ?> style="display: none;" <?php
+                                                                    } ?>>
+                                    <?php echo $component->component_name . ': ' . $component->component_detail; ?>
+                                </th>
                                 <td>
                                     <?php echo $category->category; ?>:
                                 </td>
-                                <th><?php echo $category->category_detail; ?></th>
+                                <td><?php echo $category->category_detail; ?></td>
 
                                 <td class="scheme_ status" style="text-align: center;">
                                     <?php
@@ -124,13 +132,11 @@
 
                                 <td>
                                     <?php
-                                    $query = "SELECT COUNT(*) as total FROM `water_user_associations` 
-                                    WHERE  wua_registration_date 
-                                    between $current_fy->start_date and $current_fy->end_date";
-                                    $wua = $this->db->query($query)->row();
-                                    if ($awp) {
-                                        echo $wua->total;
-                                    }
+                                    $query = "SELECT DISTINCT COUNT(water_user_association_id) as total 
+                                    FROM schemes as s 
+                                    WHERE s.component_category_id = $category->component_category_id
+                                    AND s.financial_year_id = $current_fy->financial_year_id";
+                                    echo $this->db->query($query)->row()->total;
                                     ?>
                                 </td>
 
@@ -174,8 +180,7 @@
 
                         <?php } ?>
                         <tr>
-                            <th><?php echo $component->component_name; ?></th>
-                            <th colspan="2"> Total</th>
+                            <th colspan="3" style="text-align: right;"> Total</th>
 
                             <th class="scheme_ status" style="text-align: center;">
                                 <?php
@@ -204,12 +209,14 @@
 
                             <th>
                                 <?php
-                                $query = "SELECT COUNT(*) as total FROM `water_user_associations` 
-                                WHERE  wua_registration_date between $current_fy->start_date and $current_fy->end_date ";
-                                $wua = $this->db->query($query)->row();
-                                if ($awp) {
-                                    echo $wua->total;
-                                }
+                                $query = "SELECT DISTINCT COUNT(water_user_association_id) as total 
+                                    FROM schemes as s 
+                                    INNER JOIN component_categories as cc ON s.component_category_id = cc.component_category_id
+                                    INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
+                                    INNER JOIN components as c ON sc.component_id = c.component_id
+                                    WHERE  c.component_id = $component->component_id
+                                    AND s.financial_year_id = $current_fy->financial_year_id";
+                                echo $this->db->query($query)->row()->total;
                                 ?>
                             </th>
 
@@ -220,9 +227,9 @@
                                     <?php
                                     $query = "SELECT COUNT(*) as total FROM schemes as s 
                                    INNER JOIN component_categories as cc ON s.component_category_id = cc.component_category_id
-                                INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
-                                INNER JOIN components as c ON sc.component_id = c.component_id
-                                    AND s.scheme_status = '" . $ongoing_scheme_status . "'
+                                   INNER JOIN sub_components as sc ON cc.sub_component_id = sc.sub_component_id
+                                   INNER JOIN components as c ON sc.component_id = c.component_id
+                                    WHERE s.scheme_status = '" . $ongoing_scheme_status . "'
                                     AND c.component_id = $component->component_id
                                     AND s.financial_year_id <= $current_fy->financial_year_id";
                                     echo $this->db->query($query)->row()->total;
