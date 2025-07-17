@@ -244,6 +244,21 @@
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/completed_intervention_summary') ?>">Completed Intervention Summary</a>
                     </li>
                 </ol>
+
+
+                <h4>Schemes Progress Report FY Wise</h4>
+                <ol>
+                    <?php
+                    $query = "SELECT * FROM financial_years";
+                    $fys = $this->db->query($query)->result();
+                    foreach ($fys as $fy) { ?>
+                        <li>
+                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_progress_report/' . $fy->financial_year_id) ?>"><?php echo $fy->financial_year ?> Ledger</a>
+                        </li>
+                    <?php } ?>
+                </ol>
+
+
                 <h4>Export Report</h4>
                 <ol>
                     <li>
