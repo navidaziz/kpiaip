@@ -243,6 +243,11 @@
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/completed_intervention_summary') ?>">Completed Intervention Summary</a>
                     </li>
+
+                    <li style="color: red;">
+                        <a style="color: red;" target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/district_fy_categories_wise_completed_schemes') ?>">Completed Schemes District-FY-Categories Wise Report</a>
+                    </li>
+
                 </ol>
 
 
@@ -252,8 +257,8 @@
                     $query = "SELECT * FROM financial_years";
                     $fys = $this->db->query($query)->result();
                     foreach ($fys as $fy) { ?>
-                        <li>
-                            <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_progress_report/' . $fy->financial_year_id) ?>"><?php echo $fy->financial_year ?> Ledger</a>
+                        <li style="color: red;">
+                            <a style="color: red;" target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_progress_report/' . $fy->financial_year_id) ?>"><?php echo $fy->financial_year ?> Progress Report</a>
                         </li>
                     <?php } ?>
                 </ol>

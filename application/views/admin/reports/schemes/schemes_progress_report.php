@@ -41,21 +41,47 @@
                     <div class="clearfix">
                         <h4 class="content-title pull-left" style="font-size: 20px;"><?php echo $title; ?></h3>
                     </div>
-                    <div class="description"><?php echo $description; ?></div>
+                    <div class="description"><?php echo $description; ?>
+                    </div>
+
                 </div>
             </div>
         </div>
     </div>
 </div>
 
-
+<style>
+    .vertical-text-up {
+        writing-mode: vertical-rl;
+        /* vertical text, right to left */
+        transform: rotate(180deg);
+        /* flip it to go bottom to top */
+        text-align: center;
+        vertical-align: middle;
+        white-space: nowrap;
+        text-align: center;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-12">
         <div class="box border blue" id="messenger">
             <div class="box-body">
 
-                <table class="table table-bordered">
+                <script>
+                    document.getElementById('exportButton').addEventListener('click', function() {
+                        var table = document.getElementById("schemesTable"); // Get the table element
+                        var wb = XLSX.utils.table_to_book(table, {
+                            sheet: "Sheet 1"
+                        }); // Convert the table to Excel
+                        XLSX.writeFile(wb, "cs_dist_fy_and_catgories_wise" + Date.now() + ".xlsx"); // Download the Excel file
+                    });
+                </script>
+
+                <span class="pull-right">
+                    <button id="exportButton" class="btn btn-primary btn-sm">Export to Excel</button>
+                </span>
+                <table class="table table-bordered table_small" id="schemesTable">
                     <tr>
                         <th></th>
                         <th colspan="2"></th>
@@ -96,7 +122,7 @@
                         foreach ($categories as $category) { ?>
                             <tr>
                                 <?php if ($r_count == 0) { ?>
-                                    <th style="text-orientation: upright;"
+                                    <th class="vertical-text-up"
                                         rowspan="<?php echo count($categories); ?>">
 
                                         <?php echo $component->component_name . ': ' . $component->component_detail; ?>
