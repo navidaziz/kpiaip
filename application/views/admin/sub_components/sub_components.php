@@ -98,21 +98,21 @@
 
                                             <?php echo  $sub_component->sub_component_name; ?>:
                                             <?php echo $sub_component->sub_component_detail; ?>
-                                            <!-- <span class="pull-right">
-                                        <span style="margin-left: 10px;"></span>
-                                        <a onclick="return confirm('Are you sure you want to move this item to trash?');"
+                                            <span class="pull-right">
+                                                <span style="margin-left: 10px;"></span>
+                                                <!-- <a onclick="return confirm('Are you sure you want to move this item to trash?');"
                                             class="llink llink-trash"
                                             href="<?php echo site_url(ADMIN_DIR . "sub_components/trash/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i
                                                 class="fa fa-trash-o"></i></a>
-                                        <span style="margin-left: 20px;"></span>
-                                        <a class="llink llink-view"
-                                            href="<?php echo site_url(ADMIN_DIR . "sub_components/view_sub_component/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i
-                                                class="fa fa-eye"></i> </a>
-                                        <span style="margin-left: 10px;"></span>
+                                        <span style="margin-left: 20px;"></span> -->
+                                                <a class="llink llink-view"
+                                                    href="<?php echo site_url(ADMIN_DIR . "sub_components/view_sub_component/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i
+                                                        class="fa fa-eye"></i> </a>
+                                                <!-- <span style="margin-left: 10px;"></span>
                                         <a class="llink llink-edit"
                                             href="<?php echo site_url(ADMIN_DIR . "sub_components/edit/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i
-                                                class="fa fa-pencil-square-o"></i></a>
-                                    </span> -->
+                                                class="fa fa-pencil-square-o"></i></a> -->
+                                            </span>
                                         </h5>
                                     </li>
 
