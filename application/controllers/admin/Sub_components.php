@@ -56,9 +56,9 @@ class Sub_components extends Admin_Controller
      */
     public function view_sub_component($sub_component_id)
     {
- 
+
         $sub_component_id = (int) $sub_component_id;
-        
+
         $this->data["sub_component"] = $this->sub_component_model->get_sub_component($sub_component_id)[0];
         $this->data["title"] = $this->lang->line('Sub Component Details');
         $this->data["view"] = ADMIN_DIR . "sub_components/view_sub_component";

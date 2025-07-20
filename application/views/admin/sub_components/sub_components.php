@@ -78,27 +78,27 @@
                         ";
                         $components = $this->db->query($query)->result();
                         foreach ($components as $component) { ?>
-                        <li>
-                            <hr />
-                            <h4><?php echo $component->component_name; ?>: <?php echo $component->component_detail; ?>
-                            </h4>
-                            <hr />
-                        </li>
-                        <?php
+                            <li>
+                                <hr />
+                                <h4><?php echo $component->component_name; ?>: <?php echo $component->component_detail; ?>
+                                </h4>
+                                <hr />
+                            </li>
+                            <?php
                             $query = "SELECT * FROM `sub_components` 
                             WHERE component_id = '" . $component->component_id . "'
                             AND status=1
                             ORDER BY sub_component_name ASC";
                             $sub_components = $this->db->query($query)->result();
                             ?>
-                        <ol>
-                            <?php foreach ($sub_components as $sub_component) { ?>
-                            <li>
-                                <h5>
+                            <ol>
+                                <?php foreach ($sub_components as $sub_component) { ?>
+                                    <li>
+                                        <h5>
 
-                                    <?php echo  $sub_component->sub_component_name; ?>:
-                                    <?php echo $sub_component->sub_component_detail; ?>
-                                    <span class="pull-right">
+                                            <?php echo  $sub_component->sub_component_name; ?>:
+                                            <?php echo $sub_component->sub_component_detail; ?>
+                                            <!-- <span class="pull-right">
                                         <span style="margin-left: 10px;"></span>
                                         <a onclick="return confirm('Are you sure you want to move this item to trash?');"
                                             class="llink llink-trash"
@@ -112,11 +112,11 @@
                                         <a class="llink llink-edit"
                                             href="<?php echo site_url(ADMIN_DIR . "sub_components/edit/" . $sub_component->sub_component_id . "/" . $this->uri->segment(4)); ?>"><i
                                                 class="fa fa-pencil-square-o"></i></a>
-                                    </span>
-                                </h5>
-                            </li>
+                                    </span> -->
+                                        </h5>
+                                    </li>
 
-                            <?php $query = "SELECT main_heading
+                                    <?php $query = "SELECT main_heading
                                     FROM `component_categories` 
                                         WHERE component_id = " . $component->component_id . " 
                                         AND sub_component_id = " . $sub_component->sub_component_id . "
@@ -124,50 +124,50 @@
                                         GROUP BY main_heading ORDER BY CAST(SUBSTR(main_heading, 1, INSTR(main_heading, '-') - 1) AS INTEGER)";
                                     $category_types = $this->db->query($query)->result();
                                     ?>
-                            <ol>
-                                <?php foreach ($category_types as $category_type) { ?>
-                                <?php if (count($category_types) > 1) { ?>
-                                <li>
-                                    <h6> <?php echo $category_type->main_heading ?></h6>
-                                </li>
-                                <?php } ?>
-                                <?php $query = "SELECT * FROM `component_categories` 
+                                    <ol>
+                                        <?php foreach ($category_types as $category_type) { ?>
+                                            <?php if (count($category_types) > 1) { ?>
+                                                <li>
+                                                    <h6> <?php echo $category_type->main_heading ?></h6>
+                                                </li>
+                                            <?php } ?>
+                                            <?php $query = "SELECT * FROM `component_categories` 
                                                     WHERE component_id = " . $component->component_id . " 
                                                     AND sub_component_id = " . $sub_component->sub_component_id . "
                                                     AND main_heading = '" . $category_type->main_heading . "'
                                                     AND status=1 ORDER BY account_code ASC";
                                             $categories = $this->db->query($query)->result(); ?>
 
-                                <table class="table table-bordered">
-                                    <?php
+                                            <table class="table table-bordered">
+                                                <?php
                                                 $c_count = 1;
                                                 foreach ($categories as $category) { ?>
 
-                                    <tr>
-                                        <td><?php echo $c_count++; ?></td>
-                                        <td><?php echo $category->category; ?>
+                                                    <tr>
+                                                        <td><?php echo $c_count++; ?></td>
+                                                        <td><?php echo $category->category; ?>
 
-                                        </td>
-                                        <td><?php echo $category->category_detail;  ?>
-                                            <small
-                                                class="pull-right"><?php echo $category->component_category_id; ?></small>
-                                        </td>
-                                        <td><?php echo $category->account_code; ?></td>
-                                        <td><?php echo $category->material_share; ?> %</td>
-                                        <td><?php echo $category->farmer_share; ?> %</td>
-                                        <td><?php echo $category->target_unit; ?></td>
-                                    </tr>
-                                    <?php   } ?>
-                                </table>
-                                </li>
+                                                        </td>
+                                                        <td><?php echo $category->category_detail;  ?>
+                                                            <small
+                                                                class="pull-right"><?php echo $category->component_category_id; ?></small>
+                                                        </td>
+                                                        <td><?php echo $category->account_code; ?></td>
+                                                        <td><?php echo $category->material_share; ?> %</td>
+                                                        <td><?php echo $category->farmer_share; ?> %</td>
+                                                        <td><?php echo $category->target_unit; ?></td>
+                                                    </tr>
+                                                <?php   } ?>
+                                            </table>
+                                            </li>
 
-                                <?php   } ?>
+                                        <?php   } ?>
+                                    </ol>
+
+
+
+                                <?php  } ?>
                             </ol>
-
-
-
-                            <?php  } ?>
-                        </ol>
                         <?php  }  ?>
                     </ol>
 
