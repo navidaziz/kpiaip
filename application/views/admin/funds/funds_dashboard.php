@@ -331,8 +331,10 @@
                                                                 ?></strong></td>
                                 <td class="number-cell"><strong><?php //echo @number_format($total_opening_balance_pkr); 
                                                                 ?></strong></td>
-                                <td class="number-cell"><strong><?php echo @number_format($total_receipt_usd); ?></strong></td>
-                                <td class="number-cell"><strong><?php echo @number_format($total_receipt_pkr); ?></strong></td>
+                                <td class="number-cell"><strong><?php //echo @number_format($total_receipt_usd); 
+                                                                ?></strong></td>
+                                <td class="number-cell"><strong><?php //echo @number_format($total_receipt_pkr); 
+                                                                ?></strong></td>
                                 <td class="number-cell"><strong><?php echo @number_format($total_funds_available_usd); ?></strong></td>
                                 <td class="number-cell"><strong><?php echo @number_format($total_funds_available_pkr); ?></strong></td>
                                 <td class="number-cell"><strong><?php echo @number_format($total_expense_usd); ?></strong></td>
