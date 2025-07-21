@@ -455,18 +455,13 @@
                 <div class="table-responsive">
                     <table class="table table_small table-bordered" id="fund_released_by_wb">
                         <thead>
-                            <tr>
-                                <th>US$</th>
-                                <th>PKRs</th>
-                                <th>Others</th>
-                            </tr>
                         </thead>
                         <tbody>
                             <?php
                             $query = "SELECT SUM(`dfs`.`dollar_total`) as dfs_dollars, 
                             SUM(`dfs`.`rs_total`) as dfs_rs 
                             FROM donor_funds_released as dfs";
-                            $donor_funds = $this->db->query($query)->result();
+                            $donor_funds = $this->db->query($query)->row();
                             ?>
                             <tr>
                                 <th>Disbursment By WBG / IDA (DA)</th>
@@ -479,7 +474,7 @@
                            SUM(`dp`.`amount_pkr`) as dp_rs,
                            SUM(`dp`.`amount_other`) as dp_other
                            FROM direct_payments as dp";
-                            $direct_payments = $this->db->query($query)->result();
+                            $direct_payments = $this->db->query($query)->row();
                             ?>
                             <tr>
                                 <th>Direct Payments</th>
