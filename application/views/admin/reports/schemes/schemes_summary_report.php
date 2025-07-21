@@ -318,7 +318,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="alert alert-success" style="padding: 5px;">
+                    <div class="alert " style="padding: 5px;">
                         <h6 style="text-align: center;"><strong>Ongoing Schemes</strong></h6>
                         <div class="row">
                             <?php
@@ -329,7 +329,7 @@
                             ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">
                                 <div class="dashboard-box" style="background-color: #DFEFD8;">
-                                    <h5 style="font-weight: bold; color:black"></h5>
+                                    <h5 style="font-weight: bold; color:black">Ongoing Schemes</h5>
                                     <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
                                     <p style="text-align: right;">
                                     <p style="text-align: center;">
