@@ -452,7 +452,7 @@
     <div class="col-md-6">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-money"></i>Budget released by Finance Department</h4>
+                <h4><i class="fa fa-money"></i>Funds Authorized / Sur By F.D</h4>
 
             </div>
             <div class="box-body">
@@ -662,16 +662,16 @@
         $('#budjet_releases_list').DataTable({
             dom: 'Bfrtip',
             paging: false,
-            title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+            title: "Funds Authorized / Sur By F.D (Date: <?php echo date("d-m-Y h:m:s") ?>)",
             "ordering": false,
             searching: true,
             buttons: [{
                     extend: 'print',
-                    title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                    title: "Funds Authorized / Sur By F.D (Date: <?php echo date("d-m-Y h:m:s") ?>)",
                 },
                 {
                     extend: 'excelHtml5',
-                    title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                    title: "Funds Authorized / Sur By F.D (Date: <?php echo date("d-m-Y h:m:s") ?>)",
 
                 }
             ]

@@ -129,16 +129,16 @@ $remaing_donor_founds =  $project->cost - $donor_fund->dollar_total;
     $('#budjet_releases_list').DataTable({
         dom: 'Bfrtip',
         paging: false,
-        title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+        title: "Funds Authorized / Sur By F.D (Date: <?php echo date("d-m-Y h:m:s") ?>)",
         "ordering": false,
         searching: true,
         buttons: [{
                 extend: 'print',
-                title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                title: "Funds Authorized / Sur By F.D (Date: <?php echo date("d-m-Y h:m:s") ?>)",
             },
             {
                 extend: 'excelHtml5',
-                title: "Budget released by Finance Department (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                title: "Funds Authorized / Sur By F.D (Date: <?php echo date("d-m-Y h:m:s") ?>)",
 
             }
         ]
