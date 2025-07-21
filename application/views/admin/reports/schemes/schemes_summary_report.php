@@ -319,6 +319,29 @@
                 </div>
                 <div class="col-md-2">
                     <div class="alert alert-success" style="padding: 5px; background-color: #f9f9f9;">
+                        <h6 style="text-align: center;"><strong>Ongoing Schemes</strong></h6>
+                        <div class="row">
+                            <?php
+                            $query = "SELECT scheme_status, COUNT(*) as total 
+                            FROM schemes 
+                            WHERE scheme_status IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')";
+                            $scheme = $this->db->query($query)->row();
+                            ?>
+                            <div class="col-md-12 col-sm-12 col-xs-12">
+                                <div class="dashboard-box" style="background-color: green;">
+                                    <h5 style="font-weight: bold; color:black"></h5>
+                                    <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
+                                    <p style="text-align: right;">
+
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="alert alert-success" style="padding: 5px; background-color: #f9f9f9;">
                         <h6 style="text-align: center;"><strong>Completed Schemes</strong></h6>
                         <div class="row">
                             <?php
