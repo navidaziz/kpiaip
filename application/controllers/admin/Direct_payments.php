@@ -63,7 +63,7 @@ class Direct_payments extends Admin_Controller
         $this->form_validation->set_rules("address", "Address", "required");
         $this->form_validation->set_rules("country_state", "Country State", "required");
         $this->form_validation->set_rules("mode_of_payment", "Mode Of Payment", "required");
-        $this->form_validation->set_rules("wa_ref_no", "Wa Ref No", "required");
+        $this->form_validation->set_rules("wa_ref_no", "WA Ref No", "required");
         $this->form_validation->set_rules("purpose_of_payment", "Purpose Of Payment", "required");
         $this->form_validation->set_rules("currency", "Currency", "required");
         $this->form_validation->set_rules("component_category_id", "Component Category", "required");

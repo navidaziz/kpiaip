@@ -48,9 +48,9 @@
         </div>
     </div>
     <div class="form-group row">
-        <label for="wa_ref_no" class="col-sm-4 col-form-label">Wa's Ref No</label>
+        <label for="wa_ref_no" class="col-sm-4 col-form-label">WA Ref No</label>
         <div class="col-sm-8">
-            <input type="number" required id="wa_ref_no" name="wa_ref_no" value="<?php echo $input->wa_ref_no; ?>" class="form-control">
+            <input type="text" required id="wa_ref_no" name="wa_ref_no" value="<?php echo $input->wa_ref_no; ?>" class="form-control">
         </div>
     </div>
     <div class="form-group row">

@@ -452,9 +452,9 @@
                     }
                 </script>
                 <br />
-                <h4>Summary</h4>
+                <h4>DISBURSMENT ABSTRACT</h4>
                 <div class="table-responsive">
-                    <table class="table table_small table-bordered" id="fund_released_by_wb">
+                    <table class="table table-bordered" id="">
                         <thead>
                             <tr>
                                 <th></th>
@@ -625,7 +625,7 @@
                                     <th>Address</th>
                                     <th>Country State</th>
                                     <th>Mode Of Payment</th>
-                                    <th>Wa Ref No</th>
+                                    <th>WA Ref No</th>
                                     <th>Purpose Of Payment</th>
                                     <th>Component Category</th>
                                     <th>Currency</th>

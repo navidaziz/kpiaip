@@ -557,7 +557,7 @@
                                     <th>Address</th>
                                     <th>Country State</th>
                                     <th>Mode Of Payment</th>
-                                    <th>Wa Ref No</th>
+                                    <th>WA Ref No</th>
                                     <th>Purpose Of Payment</th>
                                     <th>Component Category</th>
                                     <th>Currency</th>
