@@ -318,7 +318,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="alert alert-success" style="padding: 5px; background-color: #f9f9f9;">
+                    <div class="alert alert-danger" style="padding: 5px; background-color: #f9f9f9;">
                         <h6 style="text-align: center;"><strong>Ongoing Schemes</strong></h6>
                         <div class="row">
                             <?php
