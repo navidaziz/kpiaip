@@ -267,7 +267,7 @@
 
             ?>
             <div class="row">
-                <div class="col-md-10">
+                <div class="col-md-8">
                     <div sty class="alert alert-danger" style="padding: 5px; background-color: #f9f9f9;">
                         <h6 style="text-align: center;"><strong>Ongoing Schemes</strong></h6>
                         <div class="row">
