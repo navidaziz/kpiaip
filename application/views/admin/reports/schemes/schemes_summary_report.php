@@ -175,7 +175,7 @@
                     SUM(`sft_schemes`.`other`) AS `other`,
                     SUM(`sft_schemes`.`final`) AS `final` 
                     FROM `sft_schemes` 
-                    WHERE `sft_schemes`.`scheme_status` IN ('Final', 'ICR-I', 'ICR-II', 'Initiated')";
+                    WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')";
                         $ongoing = $this->db->query($query)->row(); ?>
                         <table class="table table-bordered table-striped" style="color: black !important;">
                             <tr>
