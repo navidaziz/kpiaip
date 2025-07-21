@@ -318,7 +318,7 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <div class="alert alert-success" style="padding: 5px; background-color: #f9f9f9;">
+                    <div class="alert alert-success" style="padding: 5px; background-color: #DFEFD8;">
                         <h6 style="text-align: center;"><strong>Ongoing Schemes</strong></h6>
                         <div class="row">
                             <?php
@@ -328,11 +328,14 @@
                             $scheme = $this->db->query($query)->row();
                             ?>
                             <div class="col-md-12 col-sm-12 col-xs-12">
-                                <div class="dashboard-box" style="background-color: green;">
+                                <div class="dashboard-box" style="background-color: #DFEFD8;">
                                     <h5 style="font-weight: bold; color:black"></h5>
                                     <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
                                     <p style="text-align: right;">
-
+                                    <p style="text-align: center;">
+                                        <button onclick="get_list('current_ongoing')" class="label label-success" style="border: 0px !important;"><i class="fa fa-list"></i> View List </button>
+                                        <a target="_blank" class="label label-warning" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/current_ongoing"); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a>
+                                    </p>
                                     </p>
                                 </div>
                             </div>
