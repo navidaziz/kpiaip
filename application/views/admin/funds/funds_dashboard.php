@@ -327,7 +327,8 @@
                         <tfoot>
                             <tr>
                                 <th colspan="3"><strong>Total</strong></th>
-                                <td class="number-cell"><strong><?php echo @number_format($total_opening_balance_usd); ?></strong></td>
+                                <td class="number-cell"><strong><?php //echo @number_format($total_opening_balance_usd); 
+                                                                ?></strong></td>
                                 <td class="number-cell"><strong><?php echo @number_format($total_opening_balance_pkr); ?></strong></td>
                                 <td class="number-cell"><strong><?php echo @number_format($total_receipt_usd); ?></strong></td>
                                 <td class="number-cell"><strong><?php echo @number_format($total_receipt_pkr); ?></strong></td>
