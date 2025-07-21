@@ -470,7 +470,7 @@
                                 <td></td>
                             </tr>
                             <?php
-                            $query = "SELECT SUM(`dy`.`amount_usd`) as dp_dollard, 
+                            $query = "SELECT SUM(`dp`.`amount_usd`) as dp_dollard, 
                            SUM(`dp`.`amount_pkr`) as dp_rs,
                            SUM(`dp`.`amount_other`) as dp_other
                            FROM direct_payments as dp";
