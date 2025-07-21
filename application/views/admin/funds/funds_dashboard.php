@@ -457,7 +457,7 @@
                     <table class="table table-bordered" id="">
                         <thead>
                             <tr>
-                                <th></th>
+                                <th>Brief Dis.</th>
                                 <th>US$</th>
                                 <th>PKRs</th>
                                 <th>Others</th>
