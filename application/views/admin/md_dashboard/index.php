@@ -237,7 +237,7 @@
                                 $query = "SELECT scheme_status, 
                                 COUNT(*) as total 
                                 FROM schemes 
-                                WHERE scheme_status IN('Ongoing', 'ICR-I', 'ICR-II')";
+                                WHERE scheme_status IN('Sanctioned','Initiated', 'Initiated', 'ICR-I', 'ICR-II')";
                                 $scheme = $this->db->query($query)->row();
                                 echo $scheme->total;
                                 ?> *
