@@ -451,7 +451,8 @@
                             });
                     }
                 </script>
-
+                <br />
+                <h4>Summary</h4>
                 <div class="table-responsive">
                     <table class="table table_small table-bordered" id="fund_released_by_wb">
                         <thead>
@@ -489,6 +490,15 @@
                                 <td><?php echo @number_format($direct_payments->dp_other) ?></td>
                             </tr>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Total: </th>
+                                <th><?php echo @number_format($direct_payments->dp_dollard + $donor_funds->dfs_dollars) ?></th>
+                                <th><?php echo @number_format($direct_payments->dp_rs + $donor_funds->dfs_rs) ?></th>
+                                <td><?php //echo @number_format($direct_payments->dp_other) 
+                                    ?></td>
+                            </tr>
+                        </tfoot>
                     </table>
 
                 </div>
