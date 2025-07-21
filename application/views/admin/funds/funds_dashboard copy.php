@@ -357,7 +357,7 @@
     <div class="col-md-6">
         <div class="box border blue" id="messenger">
             <div class="box-title">
-                <h4><i class="fa fa-money"></i>Disbursment By WBG / IDA (Direct Payments)</h4>
+                <h4><i class="fa fa-money"></i>Disbursment By WBG / IDA (DA)</h4>
 
             </div>
             <div class="box-body">
@@ -679,16 +679,16 @@
         $('#fund_released_by_wb').DataTable({
             dom: 'Bfrtip',
             paging: false,
-            title: "Disbursment By WBG / IDA (Direct Payments) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+            title: "Disbursment By WBG / IDA (DA) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
             "ordering": false,
             searching: true,
             buttons: [{
                     extend: 'print',
-                    title: "Disbursment By WBG / IDA (Direct Payments) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                    title: "Disbursment By WBG / IDA (DA) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
                 },
                 {
                     extend: 'excelHtml5',
-                    title: "Disbursment By WBG / IDA (Direct Payments) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                    title: "Disbursment By WBG / IDA (DA) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
 
                 }
             ]

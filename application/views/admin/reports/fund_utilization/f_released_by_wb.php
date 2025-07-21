@@ -105,16 +105,16 @@
     $('#fund_released_by_wb').DataTable({
         dom: 'Bfrtip',
         paging: false,
-        title: "Disbursment By WBG / IDA (Direct Payments) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+        title: "Disbursment By WBG / IDA (DA) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
         "ordering": false,
         searching: true,
         buttons: [{
                 extend: 'print',
-                title: "Disbursment By WBG / IDA (Direct Payments) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                title: "Disbursment By WBG / IDA (DA) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
             },
             {
                 extend: 'excelHtml5',
-                title: "Disbursment By WBG / IDA (Direct Payments) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
+                title: "Disbursment By WBG / IDA (DA) (Date: <?php echo date("d-m-Y h:m:s") ?>)",
 
             }
         ]
