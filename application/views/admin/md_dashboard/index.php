@@ -188,11 +188,12 @@
                         //"Registered",
                         //"Initiated",
                         //"Not-Approved",
-                        "Ongoing",
+                        "Sanctioned",
+                        "Initiated",
                         "ICR-I",
                         "ICR-II",
                         // "Final",
-                        "Disputed",
+                        //"Disputed",
                         // "Par-Completed",
                         "Completed"
                     );
@@ -201,7 +202,7 @@
                         "Registered" => "#FE6A35",
                         "Initiated" => "#6B8ABC",
                         "Not-Approved"  => "#2CAFFE",
-                        "Ongoing"  => "#D568FB",
+                        "Sanctioned"  => "#D568FB",
                         "ICR-I" => "#2EE0CA",
                         "ICR-II" => "#FA4B42",
                         "Final" => "#FEB56A",
