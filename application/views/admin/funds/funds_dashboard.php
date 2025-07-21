@@ -452,7 +452,45 @@
                     }
                 </script>
 
+                <div class="table-responsive">
+                    <table class="table table_small table-bordered" id="fund_released_by_wb">
+                        <thead>
+                            <tr>
+                                <th>US$</th>
+                                <th>PKRs</th>
+                                <th>Others</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            $query = "SELECT SUM(`dfs`.`dollar_total`) as dfs_dollars, 
+                            SUM(`dfs`.`rs_total`) as dfs_rs 
+                            FROM donor_funds_released as dfs";
+                            $donor_funds = $this->db->query($query)->result();
+                            ?>
+                            <tr>
+                                <th>Disbursment By WBG / IDA (DA)</th>
+                                <th><?php echo @number_format($donor_funds->dfs_dollars) ?></th>
+                                <th><?php echo @number_format($donor_funds->dfs_rs) ?></th>
+                                <td></td>
+                            </tr>
+                            <?php
+                            $query = "SELECT SUM(`dy`.`amount_usd`) as dp_dollard, 
+                           SUM(`dp`.`amount_pkr`) as dp_rs,
+                           SUM(`dp`.`amount_other`) as dp_other
+                           FROM direct_payments as dp";
+                            $direct_payments = $this->db->query($query)->result();
+                            ?>
+                            <tr>
+                                <th>Direct Payments</th>
+                                <th><?php echo @number_format($direct_payments->dp_dollard) ?></th>
+                                <th><?php echo @number_format($direct_payments->dp_rs) ?></th>
+                                <td><?php echo @number_format($direct_payments->dp_other) ?></td>
+                            </tr>
+                        </tbody>
+                    </table>
 
+                </div>
 
 
             </div>
