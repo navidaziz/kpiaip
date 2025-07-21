@@ -455,6 +455,12 @@
                 <div class="table-responsive">
                     <table class="table table_small table-bordered" id="fund_released_by_wb">
                         <thead>
+                            <tr>
+                                <th></th>
+                                <th>US$</th>
+                                <th>PKRs</th>
+                                <th>Others</th>
+                            </tr>
                         </thead>
                         <tbody>
                             <?php
