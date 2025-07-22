@@ -214,7 +214,7 @@
                         ?>
                         <table class="table table-bordered table-striped" style="color: black !important;">
                             <tr>
-                                <th>Total (Rs.)</th>
+                                <th>Total No.</th>
                                 <th>Total Paid (Rs.)</th>
                             </tr>
                             <tr>
