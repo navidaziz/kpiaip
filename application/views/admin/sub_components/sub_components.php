@@ -156,6 +156,16 @@
                                                         <td><?php echo $category->material_share; ?> %</td>
                                                         <td><?php echo $category->farmer_share; ?> %</td>
                                                         <td><?php echo $category->target_unit; ?></td>
+                                                        <th style="color: red;">
+
+                                                            <?php
+                                                            $query = "SEELCT COUNT(*) as total FROM expenses 
+                                                            WHERE component_category_id = " . $category->component_category_id . "";
+                                                            $expense_count = $this->db->query($query)->row();
+                                                            echo $expense_count->total;
+                                                            ?>
+
+                                                        </th>
                                                     </tr>
                                                 <?php   } ?>
                                             </table>

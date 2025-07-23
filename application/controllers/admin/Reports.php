@@ -70,6 +70,31 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
+    public function na_schemes($scheme_filter = NULL)
+    {
+        if ($scheme_filter) {
+            $this->data["title"] = 'NA Schemes';
+            $this->data["description"] = 'NA Wise ' . $scheme_filter . ' Schemes';
+            $this->data['scheme_status'] = "'" . $scheme_filter . "'";
+            if ($scheme_filter == 'Ongoing') {
+                $this->data['view'] = ADMIN_DIR . "reports/schemes/na_schemes_ongoing";
+            } elseif ($scheme_filter == 'Completed') {
+                $this->data['view'] = ADMIN_DIR . "reports/schemes/na_schemes_completed";
+            } else {
+                $this->data['view'] = ADMIN_DIR . "reports/schemes/na_schemes";
+            }
+        } else {
+            $this->data["title"] = 'NA Schemes';
+            $this->data["description"] = 'NA Wise Completed Schemes';
+            $this->data['scheme_status'] = "'Completed'";
+        }
+
+        $this->data["view"] = ADMIN_DIR . "reports/schemes/na_schemes";
+
+
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
     public function get_district_categories_fy_avg()
     {
         $this->data['district_id'] = $district_id = $this->input->post('district_id');
