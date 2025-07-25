@@ -251,16 +251,12 @@
                 </ol>
 
 
-                <h4>Schemes Progress Report FY Wise</h4>
+                <h4>Schemes Physical Progress Report</h4>
                 <ol>
-                    <?php
-                    $query = "SELECT * FROM financial_years";
-                    $fys = $this->db->query($query)->result();
-                    foreach ($fys as $fy) { ?>
-                        <li style="color: red;">
-                            <a style="color: red;" target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_progress_report/' . $fy->financial_year_id) ?>"><?php echo $fy->financial_year ?> Progress Report</a>
-                        </li>
-                    <?php } ?>
+                    <li style="color: red;">
+                        <a style="color: red;" target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/schemes_progress_report') ?>"> Schemes Physical Progress Report</a>
+                    </li>
+
                 </ol>
 
 

@@ -126,7 +126,9 @@
                                 </tr>
 
                                 <?php
-                                $query = "SELECT na FROM `schemes` WHERE scheme_status IN ($scheme_status) AND district_id=? GROUP BY na;";
+                                $query = "SELECT na FROM `schemes` 
+                                          WHERE scheme_status IN ($scheme_status) 
+                                          AND district_id=? GROUP BY na;";
                                 $constituencies = $this->db->query($query, [$district->district_id])->result();
                                 foreach ($constituencies as $constituency) { ?>
                                     <tr>

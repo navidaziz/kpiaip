@@ -70,28 +70,23 @@ class Reports extends Admin_Controller
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
-    public function na_schemes($scheme_filter = NULL)
+    public function na_schemes($scheme_filter = 'All')
     {
-        if ($scheme_filter) {
-            $this->data["title"] = 'NA Schemes';
-            $this->data["description"] = 'NA Wise ' . $scheme_filter . ' Schemes';
-            $this->data['scheme_status'] = "'" . $scheme_filter . "'";
-            if ($scheme_filter == 'Ongoing') {
-                $this->data['view'] = ADMIN_DIR . "reports/schemes/na_schemes_ongoing";
-            } elseif ($scheme_filter == 'Completed') {
-                $this->data['view'] = ADMIN_DIR . "reports/schemes/na_schemes_completed";
-            } else {
-                $this->data['view'] = ADMIN_DIR . "reports/schemes/na_schemes";
-            }
-        } else {
-            $this->data["title"] = 'NA Schemes';
-            $this->data["description"] = 'NA Wise Completed Schemes';
+
+        $this->data["title"] = 'NA Schemes';
+        $this->data["description"] = 'NA Wise ' . $scheme_filter . ' Schemes';
+
+        $this->data["title"] = 'NA Schemes';
+        $this->data["description"] = 'NA Wise ' . $scheme_filter . ' Schemes';
+        $this->data['scheme_status'] = "'" . $scheme_filter . "'";
+        if ($scheme_filter == 'Ongoing') {
+            $this->data['scheme_status'] = "'Initiated', 'Sanctioned'";
+        } elseif ($scheme_filter == 'Completed') {
             $this->data['scheme_status'] = "'Completed'";
+        } else {
+            $this->data['scheme_status'] = "'Completed', 'Initiated', 'Sanctioned'";
         }
-
         $this->data["view"] = ADMIN_DIR . "reports/schemes/na_schemes";
-
-
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
 
@@ -2342,11 +2337,18 @@ ORDER BY e.expense_id ASC;
     }
 
 
-    public function schemes_progress_report($fy_id = NULL)
+    public function schemes_progress_report()
     {
+        $financial_year_id = $this->input->post('financial_year_id');
+        if ($this->input->post('district_id')) {
+            $this->data['district_id'] = $this->input->post('district_id');
+        } else {
+            $this->data['district_id'] = 0;
+        }
 
-        if ($fy_id) {
-            $query = "SELECT * FROM `financial_years` WHERE `financial_year_id` = $fy_id";
+
+        if ($financial_year_id) {
+            $query = "SELECT * FROM `financial_years` WHERE `financial_year_id` = $financial_year_id";
         } else {
             $query = "SELECT * FROM `financial_years` WHERE `status`=1";
         }

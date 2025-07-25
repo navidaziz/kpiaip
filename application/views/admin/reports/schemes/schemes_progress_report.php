@@ -78,10 +78,60 @@
                     });
                 </script>
 
-                <span class="pull-right">
-                    <button id="exportButton" class="btn btn-primary btn-sm">Export to Excel</button>
-                </span>
-                <table class="table table-bordered table_small" id="schemesTable">
+                <form id="filter" action="<?php echo site_url(ADMIN_DIR . "reports/schemes_progress_report"); ?>" method="post">
+
+                    <table class="table table-striped table-bordered">
+                        <tr>
+                            <th>Financial Year</th>
+                            <th>Districts</th>
+                            <th>Filter</th>
+                            <th></th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <?php
+                                $query = "SELECT * FROM financial_years";
+                                $fys = $this->db->query($query)->result();
+                                ?>
+                                <select class="form-control" name="financial_year_id" id="financial_year_id">
+                                    <?php foreach ($fys as $fy) { ?>
+                                        <option <?php if ($fy->financial_year_id == $current_fy->financial_year_id) { ?> selected <?php } ?> value="<?php echo $fy->financial_year_id; ?>"><?php echo $fy->financial_year; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </td>
+
+                            <td>
+                                <?php
+                                $query = "SELECT d.district_name, d.district_id  FROM  districts as d 
+                                    WHERE is_district = 1
+                                    GROUP BY d.district_name";
+                                $districts = $this->db->query($query)->result();
+                                ?>
+                                <select class="form-control" name="district_id" id="district_id">
+                                    <option value="">All Districts</option>
+                                    <?php foreach ($districts as $district) { ?>
+                                        <option <?php if ($district_id == $district->district_id) { ?> selected <?php } ?> value="<?php echo $district->district_id; ?>"><?php echo $district->district_name; ?></option>
+                                    <?php } ?>
+                                </select>
+
+                            </td>
+
+
+                            <td><button class="btn btn-danger" type="submit">Filter</button></td>
+                            <th> <button id="exportButton" class="btn btn-primary btn-sm">Export to Excel</button></th>
+                        </tr>
+                    </table>
+                </form>
+                <?php if ($district_id) {
+                    $query = "SELECT * FROM districts WHERE district_id = ?";
+                    $district = $this->db->query($query, [$district_id])->row();
+
+                ?>
+                    <h4><strong>District: <?php echo $district->district_name; ?></strong></h4>
+                <?php } else { ?>
+                    <h4><strong>All Districts</h4>
+                <?php } ?>
+                <table class="table table-bordered table_small" id="schemesTable" style="font-size: 12px !important;">
                     <tr>
                         <th></th>
                         <th colspan="2"></th>
@@ -93,7 +143,7 @@
 
                     </tr>
                     <tr>
-                        <th>Components</th>
+                        <th>Comp.</th>
                         <th colspan="2" style="text-align: center;">Components Categories</th>
 
                         <th style="text-align: center;">Completed (Previous FYs)</th>
@@ -114,7 +164,6 @@
                     $query = "SELECT * FROM `components` WHERE `component_id` IN(1,2)";
                     $components = $this->db->query($query)->result();
                     foreach ($components as $component) {
-                        $district_id = NULL;
                         $r_count = 0;
                         $query = "SELECT * FROM component_categories as cc 
                             WHERE cc.component_id = $component->component_id";
@@ -141,18 +190,32 @@
                                     WHERE s.component_category_id = $category->component_category_id
                                     AND s.scheme_status = 'Completed'
                                     AND s.financial_year_id < $current_fy->financial_year_id";
+                                    if ($district_id) {
+                                        $query .= " AND s.district_id = $district_id";
+                                    }
                                     echo $this->db->query($query)->row()->total;
                                     ?>
                                 </td>
 
                                 <td>
                                     <?php
-                                    $query = "SELECT * FROM `annual_work_plans` 
-                                     WHERE  financial_year_id= $current_fy->financial_year_id 
-                                    AND  component_category_id= $category->component_category_id;";
-                                    $awp = $this->db->query($query)->row();
-                                    if ($awp) {
-                                        echo $awp->anual_target;
+                                    if ($district_id) {
+                                        $query = "SELECT * FROM `district_annual_work_plans` 
+                                        WHERE  financial_year_id= $current_fy->financial_year_id 
+                                        AND  component_category_id= $category->component_category_id
+                                        AND district_id = $district_id;";
+                                        $awp = $this->db->query($query)->row();
+                                        if ($awp) {
+                                            echo $awp->anual_target;
+                                        }
+                                    } else {
+                                        $query = "SELECT * FROM `annual_work_plans` 
+                                        WHERE  financial_year_id= $current_fy->financial_year_id 
+                                        AND  component_category_id= $category->component_category_id;";
+                                        $awp = $this->db->query($query)->row();
+                                        if ($awp) {
+                                            echo $awp->anual_target;
+                                        }
                                     }
                                     ?>
                                 </td>
@@ -163,6 +226,9 @@
                                     FROM schemes as s 
                                     WHERE s.component_category_id = $category->component_category_id
                                     AND s.financial_year_id = $current_fy->financial_year_id";
+                                    if ($district_id) {
+                                        $query .= " AND s.district_id = $district_id";
+                                    }
                                     echo $this->db->query($query)->row()->total;
                                     ?>
                                 </td>
@@ -176,8 +242,9 @@
                                         WHERE s.component_category_id = $category->component_category_id
                                         AND s.scheme_status = '" . $ongoing_scheme_status . "'
                                         AND s.financial_year_id <= $current_fy->financial_year_id";
+
                                         if ($district_id) {
-                                            $query .= " AND district_id = $district_id";
+                                            $query .= " AND s.district_id = $district_id";
                                         }
                                         echo $this->db->query($query)->row()->total;
                                         ?></td>
@@ -189,7 +256,9 @@
                                     WHERE s.component_category_id = $category->component_category_id
                                     AND s.scheme_status = 'Completed'
                                     AND s.financial_year_id = $current_fy->financial_year_id";
-
+                                    if ($district_id) {
+                                        $query .= " AND s.district_id = $district_id";
+                                    }
                                     echo $this->db->query($query)->row()->total;
                                     ?>
                                 </td>
@@ -199,7 +268,9 @@
                                     WHERE s.component_category_id = $category->component_category_id
                                     AND s.financial_year_id <= $current_fy->financial_year_id
                                     AND s.scheme_status = 'Completed'";
-
+                                    if ($district_id) {
+                                        $query .= " AND s.district_id = $district_id";
+                                    }
                                     echo $this->db->query($query)->row()->total;
                                     ?>
                                 </td>
@@ -218,18 +289,33 @@
                                     WHERE c.component_id = $component->component_id
                                     AND s.scheme_status = 'Completed'
                                     AND s.financial_year_id < $current_fy->financial_year_id";
+                                if ($district_id) {
+                                    $query .= " AND s.district_id = $district_id";
+                                }
                                 echo $this->db->query($query)->row()->total;
                                 ?>
                             </th>
 
                             <th>
                                 <?php
-                                $query = "SELECT SUM(anual_target) as total_target FROM `annual_work_plans` 
+                                if ($district_id) {
+                                    $query = "SELECT SUM(anual_target) as total_target 
+                                    FROM `district_annual_work_plans` 
+                                     WHERE  financial_year_id= $current_fy->financial_year_id 
+                                    AND  component_id = $component->component_id
+                                    AND district_id = $district_id;";
+                                    $awp = $this->db->query($query)->row();
+                                    if ($awp) {
+                                        echo $awp->total_target;
+                                    }
+                                } else {
+                                    $query = "SELECT SUM(anual_target) as total_target FROM `annual_work_plans` 
                                      WHERE  financial_year_id= $current_fy->financial_year_id 
                                     AND  component_id = $component->component_id";
-                                $awp = $this->db->query($query)->row();
-                                if ($awp) {
-                                    echo $awp->total_target;
+                                    $awp = $this->db->query($query)->row();
+                                    if ($awp) {
+                                        echo $awp->total_target;
+                                    }
                                 }
                                 ?>
                             </th>
@@ -243,6 +329,9 @@
                                     INNER JOIN components as c ON sc.component_id = c.component_id
                                     WHERE  c.component_id = $component->component_id
                                     AND s.financial_year_id = $current_fy->financial_year_id";
+                                if ($district_id) {
+                                    $query .= " AND s.district_id = $district_id";
+                                }
                                 echo $this->db->query($query)->row()->total;
                                 ?>
                             </th>
@@ -259,6 +348,9 @@
                                     WHERE s.scheme_status = '" . $ongoing_scheme_status . "'
                                     AND c.component_id = $component->component_id
                                     AND s.financial_year_id <= $current_fy->financial_year_id";
+                                    if ($district_id) {
+                                        $query .= " AND s.district_id = $district_id";
+                                    }
                                     echo $this->db->query($query)->row()->total;
                                     ?></th>
                             <?php } ?>
@@ -272,7 +364,9 @@
                                     AND s.scheme_status = 'Completed'
                                     AND c.component_id = $component->component_id
                                     AND s.financial_year_id = $current_fy->financial_year_id";
-
+                                if ($district_id) {
+                                    $query .= " AND s.district_id = $district_id";
+                                }
                                 echo $this->db->query($query)->row()->total;
                                 ?>
                             </th>
@@ -284,6 +378,9 @@
                                 INNER JOIN components as c ON sc.component_id = c.component_id
                                 WHERE  s.scheme_status = 'Completed' AND c.component_id = $component->component_id
                                 AND s.financial_year_id <= $current_fy->financial_year_id";
+                                if ($district_id) {
+                                    $query .= " AND s.district_id = $district_id";
+                                }
 
                                 echo $this->db->query($query)->row()->total;
                                 ?>
