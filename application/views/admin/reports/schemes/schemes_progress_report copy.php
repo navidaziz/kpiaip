@@ -520,69 +520,19 @@
                 </table>
                 <br />
                 <table class="table table-bordered table_small" style="font-size: 12px !important;">
-                    <th colspan="<?php echo (count($fys)) + 1; ?>">
-                        <strong>Financial Years Wise Ongoing and Completed Schemes Summary: </strong>
+                    <th colspan="<?php echo (count($fys) * 2) ?>">
+                        <h5>Data Summary</h5>
                     </th>
                     <tr>
-                        <th></th>
                         <?php foreach ($fys as $fy) { ?>
-                            <th style="text-align: center;"><?php echo $fy->financial_year; ?></th>
+                            <th colspan="2" style="text-align: center;"><?php echo $fy->financial_year; ?></th>
                         <?php } ?>
-                        <th>Total</th>
                     </tr>
                     <tr>
-                        <th style="text-align: center;">Ongoing</th>
                         <?php foreach ($fys as $fy) { ?>
-                            <td style="text-align: center;">
-                                <?php
-                                $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                WHERE  s.scheme_status IN ('Sanctioned', 'Initiated', 'ICR-I', 'ICR-II') 
-                                AND s.financial_year_id <= $fy->financial_year_id";
-                                if ($district_id) {
-                                    $query .= " AND s.district_id = $district_id";
-                                }
-                                echo $this->db->query($query)->row()->total;
-                                ?>
-                            </td>
-
+                            <th style="text-align: center;">Ongoing</th>
+                            <th style="text-align: center;">Completed</th>
                         <?php } ?>
-                        <th style="text-align: center;">
-                            <?php
-                            $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                WHERE  s.scheme_status IN ('Sanctioned', 'Initiated', 'ICR-I', 'ICR-II') ";
-                            if ($district_id) {
-                                $query .= " AND s.district_id = $district_id";
-                            }
-                            echo $this->db->query($query)->row()->total;
-                            ?>
-                        </th>
-                    </tr>
-                    <tr>
-                        <th style="text-align: center;">Completed</th>
-                        <?php foreach ($fys as $fy) { ?>
-                            <td style="text-align: center;">
-                                <?php
-                                $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                WHERE  s.scheme_status IN ('Completed') 
-                                AND s.financial_year_id <= $fy->financial_year_id ";
-                                if ($district_id) {
-                                    $query .= " AND s.district_id = $district_id";
-                                }
-                                echo $this->db->query($query)->row()->total;
-                                ?>
-                            </td>
-
-                        <?php } ?>
-                        <th style="text-align: center;">
-                            <?php
-                            $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                WHERE  s.scheme_status IN ('Completed') ";
-                            if ($district_id) {
-                                $query .= " AND s.district_id = $district_id";
-                            }
-                            echo $this->db->query($query)->row()->total;
-                            ?>
-                        </th>
                     </tr>
                 </table>
             </div>
