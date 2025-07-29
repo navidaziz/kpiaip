@@ -537,10 +537,10 @@
                     <tr>
                         <th></th>
                         <?php foreach ($fys as $fy) { ?>
-                            <th style="text-align: center;">Targert</th>
+                            <th style="text-align: center;">Target</th>
                             <th style="text-align: center;">Achievement</th>
                         <?php } ?>
-                        <th style="text-align: center;">Targert</th>
+                        <th style="text-align: center;">Target</th>
                         <th style="text-align: center;">Achievement</th>
                     </tr>
                     <tr>
