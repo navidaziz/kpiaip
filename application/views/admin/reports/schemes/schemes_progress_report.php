@@ -805,7 +805,6 @@
                             $query .= " AND district_id = $district_id";
                         }
                         $query .= " ORDER BY district_name ASC ";
-                        $query = "SELECT * FROM districts WHERE is_district=1";
                         $districts = $this->db->query($query)->result();
                         foreach ($districts as $district) {
                             $district_count = 0;
