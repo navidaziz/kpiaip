@@ -518,18 +518,12 @@
 
 
                 </table>
-
-
-
-
-
-
                 <br />
                 <table class="table table-bordered table_small" style="font-size: 12px !important;">
                     <thead>
                         <tr>
 
-                            <th style="text-align: center;" colspan="<?php echo (count($fys) * 4) + 6; ?>">
+                            <th style="text-align: center;" colspan="<?php echo (count($fys) * 2) + 6; ?>">
                                 <h5> <strong>
                                         <?php if ($district_id) {
                                             $query = "SELECT * FROM districts WHERE district_id = ?";
@@ -545,29 +539,25 @@
                             </th>
                         </tr>
                         <tr>
-                            <th colspan="2"></th>
+                            <th colspan="4"></th>
                             <?php foreach ($fys as $fy) { ?>
-                                <th colspan="4" style="text-align: center;">
+                                <th colspan="2" style="text-align: center;">
                                     FY - <?php echo $fy->financial_year; ?>
                                     <?php if ($fy->status == '1') echo '<span style="color:green">*</span>'; ?>
                                 </th>
                             <?php } ?>
-                            <th colspan="4" style="text-align: center;">Total</th>
+                            <th colspan="2" style="text-align: center;">Total</th>
                         </tr>
                         <tr>
                             <th>Comp.</th>
-                            <th>Categories</th>
-                            <!-- <th colspan="2">Components Categories</th> -->
+                            <th colspan="2">Components Categories</th>
+                            <th>Scheme Status</th>
                             <?php foreach ($fys as $fy) { ?>
-                                <th style="text-align: center; background-color:#FFF2CD; color:#856305">Target</th>
-                                <th style="text-align: center; background-color:#F8D7D9; color: #721C23">Ongoing</th>
-                                <th style="text-align: center; background-color:#D4EDD9; color: #155724">Competed</th>
-                                <th style="text-align: center; background-color:#CCE5FE; color:#004084">Total</th>
+                                <th style="text-align: center;">Target</th>
+                                <th style="text-align: center;">Achievement</th>
                             <?php } ?>
-                            <th style="text-align: center; background-color:#FFF2CD; color:#856305">Target</th>
-                            <th style="text-align: center; background-color:#F8D7D9; color: #721C23">Ongoing</th>
-                            <th style="text-align: center; background-color:#D4EDD9; color: #155724">Competed</th>
-                            <th style="text-align: center; background-color:#CCE5FE; color:#004084">Total</th>
+                            <th style="text-align: center;">Target</th>
+                            <th style="text-align: center;">Achievement</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -582,17 +572,18 @@
                         ?>
                                 <tr>
                                     <?php if ($r_count == 0) { ?>
-                                        <th class="vertical-text-up" rowspan="<?php echo count($categories); ?>">
+                                        <th class="vertical-text-up" rowspan="<?php echo count($categories) * 2; ?>">
                                             <?php echo $component->component_name . ': ' . $component->component_detail; ?>
                                         </th>
                                     <?php $r_count++;
                                     } ?>
-                                    <td><?php echo $category->category; ?>:</td>
-                                    <!-- <td><?php echo $category->category_detail; ?></td> -->
+                                    <td rowspan="2"><?php echo $category->category; ?>:</td>
+                                    <td rowspan="2"><?php echo $category->category_detail; ?></td>
 
-
+                                    <!-- Ongoing Row -->
+                                    <th style="text-align: right;">Ongoing</th>
                                     <?php foreach ($fys as $fy) { ?>
-                                        <td style=" text-align: center; text-align: center; background-color:#FFF2CD; color:#856305">
+                                        <td rowspan="2" style="vertical-align:middle; text-align: center;">
                                             <small>
                                                 <?php
                                                 if ($district_id) {
@@ -612,70 +603,79 @@
                                                 ?>
                                             </small>
                                         </td>
-
-
-                                        <?php
-                                        $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                        <td style="text-align: center;">
+                                            <?php
+                                            $query = "SELECT COUNT(*) as total FROM schemes as s 
                                             WHERE s.scheme_status IN ('Sanctioned', 'Initiated', 'ICR-I', 'ICR-II') 
                                             AND s.component_category_id = $category->component_category_id
                                             AND s.financial_year_id = $fy->financial_year_id";
+                                            if ($district_id) {
+                                                $query .= " AND s.district_id = $district_id";
+                                            }
+                                            echo $this->db->query($query)->row()->total;
+                                            ?>
+                                        </td>
+                                    <?php } ?>
+                                    <td></td>
+                                    <td style="text-align: center;">
+                                        <?php
+                                        $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                        WHERE s.scheme_status IN ('Sanctioned', 'Initiated', 'ICR-I', 'ICR-II')
+                                        AND  s.component_category_id = $category->component_category_id";
                                         if ($district_id) {
                                             $query .= " AND s.district_id = $district_id";
                                         }
-                                        $ongoing = $this->db->query($query)->row()->total;
-                                        $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                        echo $this->db->query($query)->row()->total;
+                                        ?>
+                                    </td>
+                                </tr>
+
+                                <!-- Completed Row -->
+                                <tr>
+                                    <th style="text-align: right;">Completed</th>
+                                    <?php foreach ($fys as $fy) { ?>
+
+                                        <td style="text-align: center;">
+                                            <?php
+                                            $query = "SELECT COUNT(*) as total FROM schemes as s 
                                             WHERE s.scheme_status = 'Completed' 
                                             AND s.financial_year_id = $fy->financial_year_id
                                             AND  s.component_category_id = $category->component_category_id";
-                                        if ($district_id) {
-                                            $query .= " AND s.district_id = $district_id";
-                                        }
-                                        $completed = $this->db->query($query)->row()->total;
-                                        ?>
-                                        <td style="text-align: center; text-align: center; background-color:#F8D7D9; color: #721C23"><?php echo $ongoing; ?></td>
-                                        <td style="text-align: center; text-align: center; background-color:#D4EDD9; color: #155724"><?php echo $completed; ?></td>
-                                        <td style="text-align: center; text-align: center; background-color:#CCE5FE; color:#004084"><?php echo $ongoing + $completed; ?></td>
+                                            if ($district_id) {
+                                                $query .= " AND s.district_id = $district_id";
+                                            }
+                                            echo $this->db->query($query)->row()->total;
+                                            ?>
+                                        </td>
                                     <?php } ?>
-
-                                    <td style=" text-align: center;">
+                                    <td style="text-align: center;">
                                         <small>
                                             <?php
                                             if ($district_id) {
                                                 $query = "SELECT SUM(anual_target) as total_target 
-                                                     FROM `district_annual_work_plans` 
-                                                    WHERE   component_category_id = $category->component_category_id 
-                                                    AND district_id = $district_id";
+                                                FROM `district_annual_work_plans` 
+                                                WHERE district_id = $district_id
+                                                AND  component_category_id = $category->component_category_id";
                                             } else {
-                                                $query = "SELECT SUM(anual_target) as total_target 
-                                                    FROM `annual_work_plans` 
-                                                    WHERE   component_category_id = $category->component_category_id";
+                                                $query = "SELECT SUM(anual_target) as total_target FROM `annual_work_plans`";
                                             }
                                             $awp = $this->db->query($query)->row();
                                             echo $awp ? $awp->total_target : '';
                                             ?>
                                         </small>
                                     </td>
-                                    <?php
-                                    $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                        WHERE s.scheme_status IN ('Sanctioned', 'Initiated', 'ICR-I', 'ICR-II')
+                                    <td style="text-align: center;">
+                                        <?php
+                                        $query = "SELECT COUNT(*) as total FROM schemes as s 
+                                        WHERE s.scheme_status = 'Completed'
                                         AND  s.component_category_id = $category->component_category_id";
-                                    if ($district_id) {
-                                        $query .= " AND s.district_id = $district_id";
-                                    }
-                                    $category_ongoing = $this->db->query($query)->row()->total;
-                                    $query = "SELECT COUNT(*) as total FROM schemes as s 
-                                        WHERE s.scheme_status IN ('Completed')
-                                        AND  s.component_category_id = $category->component_category_id";
-                                    if ($district_id) {
-                                        $query .= " AND s.district_id = $district_id";
-                                    }
-                                    $category_completed = $this->db->query($query)->row()->total;
-                                    ?>
-                                    <td style="text-align: center;"><?php echo $category_ongoing; ?></td>
-                                    <td style="text-align: center;"><?php echo $category_completed; ?></td>
-                                    <td style="text-align: center;"><?php echo $category_ongoing + $category_completed; ?></td>
+                                        if ($district_id) {
+                                            $query .= " AND s.district_id = $district_id";
+                                        }
+                                        echo $this->db->query($query)->row()->total;
+                                        ?>
+                                    </td>
                                 </tr>
-
                             <?php } // end categories loop 
                             ?>
                         <?php } // end components loop 
