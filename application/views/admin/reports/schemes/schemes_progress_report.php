@@ -774,10 +774,10 @@
                             <th colspan="2"></th>
                             <?php
                             $categories = [];
-                            $categories['Water Courses'] = '1,2,3,4,5,6,7,8,9';
-                            $categories['Water Storage Tank'] = '11';
-                            $categories['B1'] = '10';
-                            $categories['B3'] = '12';
+                            $categories['Watercourses'] = '1,2,3,4,5,6,7,8,9';
+                            $categories['Water Storage Tanks and Ponds'] = '11';
+                            $categories['Installation of HEIS Systems'] = '10';
+                            $categories['Strengthening Precision Laser Leveling Service in Private Sector'] = '12';
 
                             foreach ($categories as $cat_name => $category_ids) { ?>
                                 <th style="text-align: center;" colspan="4"><?php echo $cat_name; ?></th>
@@ -801,6 +801,11 @@
                     </thead>
                     <tbody>
                         <?php $query = "SELECT * FROM districts WHERE is_district=1";
+                        if ($district_id) {
+                            $query .= " AND district_id = $district_id";
+                        }
+                        $query .= " ORDER BY district_name ASC ";
+                        $query = "SELECT * FROM districts WHERE is_district=1";
                         $districts = $this->db->query($query)->result();
                         foreach ($districts as $district) {
                             $district_count = 0;
