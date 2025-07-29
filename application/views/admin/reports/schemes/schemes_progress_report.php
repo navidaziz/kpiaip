@@ -519,20 +519,34 @@
 
                 </table>
                 <br />
-                <table class="table table-bordered table_small" style="font-size: 12px !important;">
-                    <th colspan="<?php echo (count($fys)) + 1; ?>">
+                <table class="table table-bordered" style="font-size: 12px !important;">
+                    <th colspan="<?php echo (count($fys) * 2) + 3; ?>">
                         <strong>Financial Years Wise Ongoing and Completed Schemes Summary: </strong>
                     </th>
                     <tr>
                         <th></th>
                         <?php foreach ($fys as $fy) { ?>
-                            <th style="text-align: center;"><?php echo $fy->financial_year; ?></th>
+                            <th colspan="2" style="text-align: center;">FY - <?php echo $fy->financial_year; ?>
+                                <?php if ($fy->status == '1') {
+                                    echo '<span style="color:green">*</span>';
+                                } ?>
+                            </th>
                         <?php } ?>
-                        <th>Total</th>
+                        <th style="text-align: center;" colspan="2">Total</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <?php foreach ($fys as $fy) { ?>
+                            <th style="text-align: center;">Targert</th>
+                            <th style="text-align: center;">Achievement</th>
+                        <?php } ?>
+                        <th style="text-align: center;">Targert</th>
+                        <th style="text-align: center;">Achievement</th>
                     </tr>
                     <tr>
                         <th style="text-align: center;">Ongoing</th>
                         <?php foreach ($fys as $fy) { ?>
+                            <th></th>
                             <td style="text-align: center;">
                                 <?php
                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
@@ -546,6 +560,7 @@
                             </td>
 
                         <?php } ?>
+                        <th></th>
                         <th style="text-align: center;">
                             <?php
                             $query = "SELECT COUNT(*) as total FROM schemes as s 
@@ -561,10 +576,34 @@
                         <th style="text-align: center;">Completed</th>
                         <?php foreach ($fys as $fy) { ?>
                             <td style="text-align: center;">
+                                <small>
+                                    <?php
+                                    if ($district_id) {
+                                        $query = "SELECT SUM(anual_target) as total_target 
+                                    FROM `district_annual_work_plans` 
+                                     WHERE  financial_year_id= $fy->financial_year_id 
+                                     AND district_id = $district_id;";
+                                        $awp = $this->db->query($query)->row();
+                                        if ($awp) {
+                                            echo $awp->total_target;
+                                        }
+                                    } else {
+                                        $query = "SELECT SUM(anual_target) as total_target 
+                                    FROM `annual_work_plans` 
+                                     WHERE  financial_year_id= $fy->financial_year_id ";
+                                        $awp = $this->db->query($query)->row();
+                                        if ($awp) {
+                                            echo $awp->total_target;
+                                        }
+                                    }
+                                    ?>
+                                </small>
+                            </td>
+                            <td style="text-align: center;">
                                 <?php
                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
                                 WHERE  s.scheme_status IN ('Completed') 
-                                AND s.financial_year_id <= $fy->financial_year_id ";
+                                AND s.financial_year_id = $fy->financial_year_id ";
                                 if ($district_id) {
                                     $query .= " AND s.district_id = $district_id";
                                 }
@@ -573,6 +612,28 @@
                             </td>
 
                         <?php } ?>
+                        <th style="text-align: center;">
+                            <small>
+                                <?php
+                                if ($district_id) {
+                                    $query = "SELECT SUM(anual_target) as total_target 
+                                    FROM `district_annual_work_plans` 
+                                     WHERE district_id = $district_id;";
+                                    $awp = $this->db->query($query)->row();
+                                    if ($awp) {
+                                        echo $awp->total_target;
+                                    }
+                                } else {
+                                    $query = "SELECT SUM(anual_target) as total_target 
+                                    FROM `annual_work_plans` ";
+                                    $awp = $this->db->query($query)->row();
+                                    if ($awp) {
+                                        echo $awp->total_target;
+                                    }
+                                }
+                                ?>
+                            </small>
+                        </th>
                         <th style="text-align: center;">
                             <?php
                             $query = "SELECT COUNT(*) as total FROM schemes as s 
