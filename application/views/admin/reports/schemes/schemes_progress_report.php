@@ -521,7 +521,17 @@
                 <br />
                 <table class="table table-bordered" style="font-size: 12px !important;">
                     <th colspan="<?php echo (count($fys) * 2) + 3; ?>">
-                        <strong>Financial Years Wise Ongoing and Completed Schemes Summary: </strong>
+                        <strong>
+                            <?php if ($district_id) {
+                                $query = "SELECT * FROM districts WHERE district_id = ?";
+                                $district = $this->db->query($query, [$district_id])->row();
+
+                            ?>
+                                District: <?php echo $district->district_name; ?>
+                            <?php } else { ?>
+                                All Districts
+                            <?php } ?>
+                            Financial Years Wise Ongoing and Completed Schemes Summary: </strong>
                     </th>
                     <tr>
                         <th></th>
