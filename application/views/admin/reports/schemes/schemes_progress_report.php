@@ -561,7 +561,7 @@
                                 <?php
                                 $query = "SELECT COUNT(*) as total FROM schemes as s 
                                 WHERE  s.scheme_status IN ('Sanctioned', 'Initiated', 'ICR-I', 'ICR-II') 
-                                AND s.financial_year_id <= $fy->financial_year_id";
+                                AND s.financial_year_id = $fy->financial_year_id";
                                 if ($district_id) {
                                     $query .= " AND s.district_id = $district_id";
                                 }
