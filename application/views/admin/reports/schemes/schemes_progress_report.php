@@ -834,7 +834,7 @@
                                         AND component_category_id IN ($category_ids)";
                                         }
                                         $awp = $this->db->query($query)->row();
-                                        $target = $awp->total_target ?? 0;
+                                        $target = $awp->total_target;
                                         $grand_target += $target;
 
                                         // Ongoing
@@ -888,7 +888,7 @@
                                         AND district_id = $district_id";
                                     }
                                     $awp = $this->db->query($query)->row();
-                                    $target = $awp->total_target ?? 0;
+                                    $target = $awp->total_target;
                                     $grand_target += $target;
 
                                     // Ongoing
