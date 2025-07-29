@@ -559,14 +559,14 @@
                             <th>Categories</th>
                             <!-- <th colspan="2">Components Categories</th> -->
                             <?php foreach ($fys as $fy) { ?>
-                                <th style="text-align: center; background-color:#FFF2CD; color:#856305">Target</th>
-                                <th style="text-align: center; background-color:#F8D7D9; color: #721C23">Ongoing</th>
-                                <th style="text-align: center; background-color:#D4EDD9; color: #155724">Competed</th>
+                                <th style="text-align: center; background-color:#FFF2CD; color:#856305">Tar.</th>
+                                <th style="text-align: center; background-color:#F8D7D9; color: #721C23">Ong.</th>
+                                <th style="text-align: center; background-color:#D4EDD9; color: #155724">Comp.</th>
                                 <th style="text-align: center; background-color:#CCE5FE; color:#004084">Total</th>
                             <?php } ?>
-                            <th style="text-align: center; background-color:#FFF2CD; color:#856305">Target</th>
-                            <th style="text-align: center; background-color:#F8D7D9; color: #721C23">Ongoing</th>
-                            <th style="text-align: center; background-color:#D4EDD9; color: #155724">Competed</th>
+                            <th style="text-align: center; background-color:#FFF2CD; color:#856305">Tar.</th>
+                            <th style="text-align: center; background-color:#F8D7D9; color: #721C23">Ong.</th>
+                            <th style="text-align: center; background-color:#D4EDD9; color: #155724">Comp.</th>
                             <th style="text-align: center; background-color:#CCE5FE; color:#004084">Total</th>
                         </tr>
                     </thead>
