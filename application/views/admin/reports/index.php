@@ -76,7 +76,7 @@
             <div class="box-body">
                 <h4>Basic Financial Summary Reports</h4>
                 <ol>
-                    <li>
+                    <!-- <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/budget_u_summary') ?>">Receipts Vs Expenditures Summary</a>
                     </li>
                     <li>
@@ -90,6 +90,9 @@
                     </li>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/f_released_by_fd') ?>">Funds Released by Finance Department</a>
+                    </li> -->
+                    <li>
+                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'funds/index') ?>">Funds Summary</a>
                     </li>
                     <li>
                         <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/financial_summary_report') ?>">Financial Reconciliation Summary Report</a>
