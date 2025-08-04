@@ -688,7 +688,7 @@ class Reports extends Admin_Controller
                 foreach ($component_categories as $component_category) {
                     foreach ($financial_years as $financial_year) {
                         // Fetch the total expenses for the current component category and financial year
-                        $query = "SELECT SUM(gross_pay) as total
+                        $query = "SELECT SUM(net_pay) as total
                             FROM expenses
                             INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
                             INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
@@ -735,7 +735,7 @@ class Reports extends Admin_Controller
             //for components only......
             foreach ($financial_years as $financial_year) {
                 // Fetch the total expenses for the current component category and financial year
-                $query = "SELECT SUM(gross_pay) as total
+                $query = "SELECT SUM(net_pay) as total
                         FROM expenses
                         INNER JOIN component_categories as cc ON(cc.component_category_id = expenses.component_category_id)
                         INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id)
