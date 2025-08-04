@@ -125,7 +125,7 @@
                                         WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                                     $doner_releases = $this->db->query($query)->result();
                                     foreach ($doner_releases as $d_releases) {
-                                        echo $d_releases->d_released_rs . ' <small class="pull-right">' . date('M,y', strtotime($d_releases->date)) . "</small> <br />";
+                                        echo number_format($d_releases->d_released_rs, 2) . ' <small class="pull-right">' . date('M,y', strtotime($d_releases->date)) . "</small> <br />";
                                     }
                                     ?>
 
@@ -143,7 +143,7 @@
                                     $query = "SELECT SUM(rs_total) as d_released_rs FROM `donor_funds_released` 
                                         WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                                     $doner_released = $this->db->query($query)->row();
-                                    echo $doner_released->d_released_rs; ?></th>
+                                    echo number_format($doner_released->d_released_rs, 2); ?></th>
                                 <td>-</td>
                             <?php } ?>
                         </tr>
@@ -184,7 +184,7 @@
                                         <td style="display: none;"></td>
                                         <?php foreach ($sub_component->financial_years as $fy => $total_expense) { ?>
                                             <td>-</td>
-                                            <td><?php echo $total_expense; ?></td>
+                                            <td><?php echo number_format($total_expense, 2); ?></td>
                                         <?php } ?>
 
                                     </tr>
@@ -197,7 +197,7 @@
                                 <td style="display: none;"></td>
                                 <?php foreach ($component->financial_years as $fy => $total_expense) { ?>
                                     <th>-</th>
-                                    <th><?php echo $total_expense; ?></th>
+                                    <th><?php echo number_format($total_expense, 2); ?></th>
                                 <?php } ?>
 
                             </tr>
@@ -221,10 +221,10 @@
                                 <td>-</td>
                                 <th>
                                     <?php
-                                    $query = "SELECT SUM(gross_pay) as total_payment FROM `expenses` 
+                                    $query = "SELECT SUM(net_pay) as total_payment FROM `expenses` 
                                         WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                                     $expense = $this->db->query($query)->row();
-                                    echo $expense->total_payment; ?></th>
+                                    echo number_format($expense->total_payment, 2); ?></th>
 
                             <?php } ?>
                         </tr>
@@ -258,7 +258,7 @@
                             $receipts = $this->db->query($query)->row()->r_total;
 
                             // Get the total expenses for the current financial year
-                            $query = "SELECT SUM(gross_pay) as e_total FROM `expenses`
+                            $query = "SELECT SUM(net_pay) as e_total FROM `expenses`
                             WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                             $expenses = $this->db->query($query)->row()->e_total;
 
@@ -285,7 +285,7 @@
                             <th colspan="2" style="text-align: right;">Increase (Decrease) in Cash</td>
                             <td style="display: none;"></td>
                             <?php foreach ($increases as $increase) { ?>
-                                <th colspan="2"><?php echo $increase; ?></th>
+                                <th colspan="2"><?php echo number_format($increase, 2); ?></th>
                                 <td style="display: none;"></td>
                             <?php }  ?>
                         </tr>
@@ -294,7 +294,7 @@
                             <th colspan="2" style="text-align: right;">Cash at Beginning of Year</td>
                             <td style="display: none;"></td>
                             <?php foreach ($opening_balances as $opening_balance) { ?>
-                                <th colspan="2"><?php echo $opening_balance; ?></th>
+                                <th colspan="2"><?php echo number_format($opening_balance, 2); ?></th>
                                 <td style="display: none;"></td>
                             <?php }  ?>
                         </tr>
@@ -303,7 +303,7 @@
                             <th colspan="2" style="text-align: right;">Cash at End of Year</td>
                             <td style="display: none;"></td>
                             <?php foreach ($closing_balances as $closing_balance) { ?>
-                                <th colspan="2"><?php echo $closing_balance; ?></th>
+                                <th colspan="2"><?php echo number_format($closing_balance, 0); ?></th>
                                 <td style="display: none;"></td>
                             <?php }  ?>
                         </tr>
