@@ -7,6 +7,7 @@
         <?php echo form_hidden("expense_id", $expense->expense_id); ?>
         <?php //echo form_hidden("purpose", $expense->purpose); 
         ?>
+        <?php echo form_hidden("tax", 1); ?>
         <?php echo form_hidden("scheme_id", $expense->scheme_id); ?>
         <?php echo form_hidden("gross_pay", $expense->gross_pay); ?>
         <?php echo form_hidden("whit_tax", $expense->whit_tax); ?>
@@ -16,7 +17,8 @@
         <?php echo form_hidden("kpra_tax", $expense->kpra_tax); ?>
         <?php echo form_hidden("st_duty_tax", $expense->st_duty_tax); ?>
         <?php echo form_hidden("misc_deduction", $expense->misc_deduction); ?>
-        <?php echo form_hidden("component_category_id", $expense->component_category_id); ?>
+        <?php //echo form_hidden("component_category_id", $expense->component_category_id); 
+        ?>
         <div class="form-group" style="display:none">
             <label for="Voucher Number" class="col-md-4 control-label">Voucher Number</label>
             <div class="col-md-8">
@@ -54,19 +56,19 @@
         <div class="form-group">
             <label for="District" class="col-md-3 control-label" style="">Tax category</label>
             <div class="col-md-9">
-                <input <?php if ($component_category_id == 30) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="30">
+                <input <?php if ($expense->component_category_id == 30) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="30">
                 WHIT <span style="margin-left: 3px;"></span>
-                <input <?php if ($component_category_id == 29) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="29">
+                <input <?php if ($expense->component_category_id == 29) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="29">
                 WHST <span style="margin-left: 3px;"></span>
-                <input <?php if ($component_category_id == 31) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="31">
+                <input <?php if ($expense->component_category_id == 31) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="31">
                 KPRA <span style="margin-left: 3px;"></span>
-                <input <?php if ($component_category_id == 33) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="33">
+                <input <?php if ($expense->component_category_id == 33) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="33">
                 St. Duty <span style="margin-left: 3px;"></span>
-                <input <?php if ($component_category_id == 235) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="235">
+                <input <?php if ($expense->component_category_id == 235) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="235">
                 RDP <span style="margin-left: 3px;"></span>
-                <input <?php if ($component_category_id == 274) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="274">
+                <input <?php if ($expense->component_category_id == 274) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="274">
                 GUR.RET. <span style="margin-left: 3px;"></span>
-                <input <?php if ($component_category_id == 275) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="275">
+                <input <?php if ($expense->component_category_id == 275) { ?> checked <?php } ?> required="" type="radio" name="component_category_id" value="275">
                 MISC.DEDU <span style="margin-left: 3px;"></span>
             </div>
         </div>

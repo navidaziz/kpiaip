@@ -1,42 +1,42 @@
 <style>
-.table_small>thead>tr>th,
-.table_small>tbody>tr>th,
-.table_small>tfoot>tr>th,
-.table_small>thead>tr>td,
-.table_small>tbody>tr>td,
-.table_small>tfoot>tr>td {
-    padding: 4px;
-    line-height: 1;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-    font-size: 12px !important;
-    color: black;
-    margin: 0px !important;
-}
+    .table_small>thead>tr>th,
+    .table_small>tbody>tr>th,
+    .table_small>tfoot>tr>th,
+    .table_small>thead>tr>td,
+    .table_small>tbody>tr>td,
+    .table_small>tfoot>tr>td {
+        padding: 4px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 12px !important;
+        color: black;
+        margin: 0px !important;
+    }
 
-.table>thead>tr>th,
-.table>tbody>tr>th,
-.table>tfoot>tr>th,
-.table>thead>tr>td,
-.table>tbody>tr>td,
-.table>tfoot>tr>td {
-    /* border: 1px solid black !important; */
-}
+    .table>thead>tr>th,
+    .table>tbody>tr>th,
+    .table>tfoot>tr>th,
+    .table>thead>tr>td,
+    .table>tbody>tr>td,
+    .table>tfoot>tr>td {
+        /* border: 1px solid black !important; */
+    }
 
-.table_s_small>thead>tr>th,
-.table_s_small>tbody>tr>th,
-.table_s_small>tfoot>tr>th,
-.table_s_small>thead>tr>td,
-.table_s_small>tbody>tr>td,
-.table_s_small>tfoot>tr>td {
-    padding: 1px;
-    line-height: 1;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-    font-size: 9px !important;
-    color: black;
-    margin: 0px !important;
-}
+    .table_s_small>thead>tr>th,
+    .table_s_small>tbody>tr>th,
+    .table_s_small>tfoot>tr>th,
+    .table_s_small>thead>tr>td,
+    .table_s_small>tbody>tr>td,
+    .table_s_small>tfoot>tr>td {
+        padding: 1px;
+        line-height: 1;
+        vertical-align: top;
+        border-top: 1px solid #ddd;
+        font-size: 9px !important;
+        color: black;
+        margin: 0px !important;
+    }
 </style>
 <div class="row">
     <div class="col-sm-12">
@@ -89,8 +89,8 @@
                             <th></th>
                             <th></th>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <th><?php echo $financial_year->financial_year;  ?></th>
-                            <th></th>
+                                <th><?php echo $financial_year->financial_year;  ?></th>
+                                <th></th>
                             <?php } ?>
                         </tr>
 
@@ -101,19 +101,20 @@
                             <td></td>
                             <td></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <td>Receipts</td>
-                            <td>Payments</td>
+                                <td>Receipts</td>
+                                <td>Payments</td>
                             <?php } ?>
                         </tr>
 
                         <tr>
                             <td></td>
                             <th colspan="2">Receipts (Payments) <br />
-                            <small>Controlled by Project</small></th>
+                                <small>Controlled by Project</small>
+                            </th>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <td></td>
-                            <td></td>
+                                <td></td>
+                                <td></td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -121,8 +122,8 @@
                             <th colspan="2">External Assistance</th>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <td>
-                                <?php
+                                <td>
+                                    <?php
                                     $query = "SELECT rs_total as d_released_rs, `date` FROM `donor_funds_released` 
                                         WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                                     $doner_releases = $this->db->query($query)->result();
@@ -131,8 +132,8 @@
                                     }
                                     ?>
 
-                            </td>
-                            <td>-</td>
+                                </td>
+                                <td>-</td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -140,13 +141,13 @@
                             <th colspan="2" style="text-align: right;">Total Receipts</th>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <th>
-                                <?php
+                                <th>
+                                    <?php
                                     $query = "SELECT SUM(rs_total) as d_released_rs FROM `donor_funds_released` 
                                         WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                                     $doner_released = $this->db->query($query)->row();
                                     echo $doner_released->d_released_rs; ?></th>
-                            <td>-</td>
+                                <td>-</td>
                             <?php } ?>
                         </tr>
                         <tr>
@@ -154,26 +155,26 @@
                             <th colspan="2">Payments by Third Parties</strong></th>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <td></td>
-                            <td></td>
+                                <td></td>
+                                <td></td>
                             <?php } ?>
                         </tr>
                         <?php
                         $count = 1;
                         foreach ($components as $component) { ?>
-                        <tr>
-                            <th><?php echo $count++; ?></th>
-                            <th colspan="2"><?php echo $component->component_name; ?>.
+                            <tr>
+                                <th><?php echo $count++; ?></th>
+                                <th colspan="2"><?php echo $component->component_name; ?>.
 
-                                <small> <?php echo $component->component_detail; ?></small>
-                            </th>
-                            <td style="display: none;"></td>
-                            <?php foreach ($component->financial_years as $fy => $total_expense) { ?>
-                            <th>-</th>
-                            <th><?php echo $total_expense; ?></th>
+                                    <small> <?php echo $component->component_detail; ?></small>
+                                </th>
+                                <td style="display: none;"></td>
+                                <?php foreach ($component->financial_years as $fy => $total_expense) { ?>
+                                    <th>-</th>
+                                    <th><?php echo $total_expense; ?></th>
 
-                            <?php } ?>
-                        </tr>
+                                <?php } ?>
+                            </tr>
 
 
 
@@ -183,8 +184,8 @@
                             <td colspan="2"></td>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <td></td>
-                            <th></th>
+                                <td></td>
+                                <th></th>
 
                             <?php } ?>
                         </tr>
@@ -193,10 +194,10 @@
                             <th colspan="2" style="text-align: right;">Total Payments</th>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <td>-</td>
-                            <th>
-                                <?php
-                                    $query = "SELECT SUM(gross_pay) as total_payment FROM `expenses` 
+                                <td>-</td>
+                                <th>
+                                    <?php
+                                    $query = "SELECT SUM(net_pay) as total_payment FROM `expenses` 
                                         WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                                     $expense = $this->db->query($query)->row();
                                     echo $expense->total_payment; ?></th>
@@ -208,8 +209,8 @@
                             <td colspan="2"></td>
                             <td style="display: none;"></td>
                             <?php foreach ($financial_years as $financial_year) { ?>
-                            <td></td>
-                            <th></th>
+                                <td></td>
+                                <th></th>
 
                             <?php } ?>
                         </tr>
@@ -233,7 +234,7 @@
                             $receipts = $this->db->query($query)->row()->r_total;
 
                             // Get the total expenses for the current financial year
-                            $query = "SELECT SUM(gross_pay) as e_total FROM `expenses`
+                            $query = "SELECT SUM(net_pay) as e_total FROM `expenses`
                             WHERE financial_year_id = '" . $financial_year->financial_year_id . "'";
                             $expenses = $this->db->query($query)->row()->e_total;
 
@@ -260,8 +261,8 @@
                             <th colspan="2" style="text-align: right;">Increase (Decrease) in Cash</td>
                             <td style="display: none;"></td>
                             <?php foreach ($increases as $increase) { ?>
-                            <th colspan="2"><?php echo $increase; ?></th>
-                            <td style="display: none;"></td>
+                                <th colspan="2"><?php echo $increase; ?></th>
+                                <td style="display: none;"></td>
                             <?php }  ?>
                         </tr>
                         <tr>
@@ -269,8 +270,8 @@
                             <th colspan="2" style="text-align: right;">Cash at Beginning of Year</td>
                             <td style="display: none;"></td>
                             <?php foreach ($opening_balances as $opening_balance) { ?>
-                            <th colspan="2"><?php echo $opening_balance; ?></th>
-                            <td style="display: none;"></td>
+                                <th colspan="2"><?php echo $opening_balance; ?></th>
+                                <td style="display: none;"></td>
                             <?php }  ?>
                         </tr>
                         <tr>
@@ -278,8 +279,8 @@
                             <th colspan="2" style="text-align: right;">Cash at End of Year</td>
                             <td style="display: none;"></td>
                             <?php foreach ($closing_balances as $closing_balance) { ?>
-                            <th colspan="2"><?php echo $closing_balance; ?></th>
-                            <td style="display: none;"></td>
+                                <th colspan="2"><?php echo $closing_balance; ?></th>
+                                <td style="display: none;"></td>
                             <?php }  ?>
                         </tr>
                     </tbody>
@@ -298,38 +299,38 @@
 
 <?php $table_title = 'Upto date(' . date('d M, Y H:m:s') . ')'; ?>
 <script>
-title = 'Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)\nStatement of Receipts and Payments';
-$(document).ready(function() {
-    $('#report').DataTable({
-        dom: 'Bfrtip',
-        paging: false,
-        title: title,
-        "order": [],
-        "ordering": false,
-        searching: true,
-        buttons: [
+    title = 'Khyber Pakhtunkhwa Irrigated Agriculture Improvement Project (KP-IAIP)\nStatement of Receipts and Payments';
+    $(document).ready(function() {
+        $('#report').DataTable({
+            dom: 'Bfrtip',
+            paging: false,
+            title: title,
+            "order": [],
+            "ordering": false,
+            searching: true,
+            buttons: [
 
-            {
-                extend: 'print',
-                title: title,
-                messageTop: '<?php echo $table_title; ?>'
+                {
+                    extend: 'print',
+                    title: title,
+                    messageTop: '<?php echo $table_title; ?>'
 
-            },
-            {
-                extend: 'excelHtml5',
-                title: title,
-                messageTop: '<?php echo $table_title; ?>'
+                },
+                {
+                    extend: 'excelHtml5',
+                    title: title,
+                    messageTop: '<?php echo $table_title; ?>'
 
-            },
-            {
-                extend: 'pdfHtml5',
-                title: title,
-                pageSize: 'A4',
-                orientation: 'landscape',
-                messageTop: '<?php echo $table_title; ?>'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: title,
+                    pageSize: 'A4',
+                    orientation: 'landscape',
+                    messageTop: '<?php echo $table_title; ?>'
 
-            }
-        ]
+                }
+            ]
+        });
     });
-});
 </script>

@@ -292,6 +292,8 @@ class Expense_model extends MY_Model
             $inputs["financial_year_id"] = $finacial_year->financial_year_id;
         } else {
             $inputs["financial_year_id"]  = 0;
+            echo '<div class="alert alert-danger">Error: Error in financial year. please corrrect the date<div>';
+            exit();
         }
 
         $inputs["payee_name"]  =  $this->input->post("payee_name");
@@ -313,16 +315,15 @@ class Expense_model extends MY_Model
 
         $deduction = $inputs["whit_tax"] + $inputs["whst_tax"] + $inputs["rdp_tax"] + $inputs["st_duty_tax"] + $inputs["kpra_tax"] + $inputs["gur_ret"] + $inputs["misc_deduction"] + $inputs["net_pay"];
 
-        if (round($inputs["gross_pay"]) != round($deduction)) {
-
-            echo '<div class="alert alert-danger">Error: Gross Paid must equal to Deductions + Net Paid<div>';
-            exit();
+        if ($this->input->post("tax") && $this->input->post("tax") == 1) {
+            $inputs["gross_pay"]  =  0;
+            $inputs["net_pay"]  =  $this->input->post("gross_pay");
+        } else {
+            if (round($inputs["gross_pay"]) != round($deduction)) {
+                echo '<div class="alert alert-danger">Error: Gross Paid must equal to Deductions + Net Paid<div>';
+                exit();
+            }
         }
-
-
-
-
-
         return $inputs;
     }
 }
