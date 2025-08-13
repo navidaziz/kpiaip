@@ -41,9 +41,9 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="desing_referred_by" class="col-sm-6 col-form-label">Design Referred By</label>
+                    <label for="design_referred_by" class="col-sm-6 col-form-label">Design Referred By</label>
                     <div class="col-sm-6">
-                        <input type="text" id="desing_referred_by" name="desing_referred_by" value="<?php echo htmlspecialchars($input->desing_referred_by); ?>" class="form-control">
+                        <input type="text" id="design_referred_by" name="design_referred_by" value="<?php echo htmlspecialchars($input->design_referred_by); ?>" class="form-control">
                     </div>
                 </div>
                 <div class="form-group row">

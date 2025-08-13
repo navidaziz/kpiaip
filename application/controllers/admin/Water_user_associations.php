@@ -1308,7 +1308,7 @@ class Water_user_associations extends Admin_Controller
             $this->form_validation->set_rules("nic_no", "Nic No", "required");
             $this->form_validation->set_rules("survey_date", "Survey Date", "required");
             $this->form_validation->set_rules("design_referred_date", "Design Referred Date", "required");
-            $this->form_validation->set_rules("desing_referred_by", "Desing Referred By", "required");
+            $this->form_validation->set_rules("design_referred_by", "Desing Referred By", "required");
             $this->form_validation->set_rules("design_approved_by", "Design Approved By", "required");
             $this->form_validation->set_rules("feasibility_checked_by", "Feasibility Checked By", "required");
             $this->form_validation->set_rules("feasibility_date", "Feasibility Date", "required");
@@ -1345,7 +1345,7 @@ class Water_user_associations extends Admin_Controller
                 $input["nic_no"] = $this->input->post("nic_no");
                 $input["survey_date"] = $this->input->post("survey_date");
                 $input["design_referred_date"] = $this->input->post("design_referred_date");
-                $input["desing_referred_by"] = $this->input->post("desing_referred_by");
+                $input["design_referred_by"] = $this->input->post("design_referred_by");
                 $input["design_approved_by"] = $this->input->post("design_approved_by");
                 $input["feasibility_checked_by"] = $this->input->post("feasibility_checked_by");
                 $input["feasibility_date"] = $this->input->post("feasibility_date");

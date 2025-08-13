@@ -825,7 +825,7 @@
                                                 <td><?php echo $scheme->soil_type; ?></td>
                                                 <td><?php echo $scheme->power_source; ?></td>
                                                 <td><?php echo $scheme->design_referred_date; ?></td>
-                                                <td><?php echo $scheme->desing_referred_by; ?></td>
+                                                <td><?php echo $scheme->design_referred_by; ?></td>
                                                 <td><?php echo $scheme->feasibility_checked_by; ?></td>
                                                 <td><?php echo $scheme->design_approved_by; ?></td>
                                                 <td><?php echo $scheme->per_acre_cost; ?></td>

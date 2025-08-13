@@ -136,9 +136,9 @@
                         </div>
 
                         <div class="form-group row">
-                            <label for="desing_referred_by" class="col-sm-6 col-form-label">Design Referred By</label>
+                            <label for="design_referred_by" class="col-sm-6 col-form-label">Design Referred By</label>
                             <div class="col-sm-6">
-                                <input type="text" id="desing_referred_by" name="desing_referred_by" value="<?php echo htmlspecialchars($scheme->desing_referred_by); ?>" class="formControl">
+                                <input type="text" id="design_referred_by" name="design_referred_by" value="<?php echo htmlspecialchars($scheme->design_referred_by); ?>" class="formControl">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -150,7 +150,7 @@
                         <div class="form-group row">
                             <label for="agreement_signed_date" class="col-sm-6 col-form-label">Agreement Signed Date</label>
                             <div class="col-sm-6">
-                                <input type="date" required id="agreement_signed_date" name="agreement_signed_date" value="<?php echo $input->agreement_signed_date; ?>" class="form-control">
+                                <input type="date" required id="agreement_signed_date" name="agreement_signed_date" value="<?php echo $scheme->agreement_signed_date; ?>" class="form-control">
                             </div>
                         </div>
                         <div class="form-group row">

@@ -960,7 +960,7 @@ $water_user_association = $this->water_user_association_model->get_water_user_as
                                     </tr>
                                     <tr>
                                         <th>Desing Referred By</th>
-                                        <td><?php echo $scheme->desing_referred_by; ?></td>
+                                        <td><?php echo $scheme->design_referred_by; ?></td>
                                     </tr>
                                     <tr>
                                         <th>Feasibility Checked By</th>
