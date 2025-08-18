@@ -1049,8 +1049,17 @@ class Reports extends Admin_Controller
     e.purpose AS PURPOSE,
     e.remarks AS REMARKS,
 
-    (e.gross_pay - (e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay)) AS RECONCILIATION
-
+    (e.gross_pay - (e.whit_tax + e.whst_tax + e.st_duty_tax + e.rdp_tax + e.kpra_tax + e.gur_ret + e.misc_deduction + e.net_pay)) AS RECONCILIATION,
+    s.approval_date as APPROVAL_DATE,
+    s.completion_date as COMPLETION_DATE,
+    s.scheme_status as SCHEME_STATUS,
+    CASE 
+    WHEN e.installment = 'Final' and s.scheme_status='Completed' 
+         THEN DATEDIFF(s.completion_date, s.approval_date)
+    WHEN e.installment IN ('1st', '1st_2nd') and s.scheme_status IN('Sanctioned', 'Initiated', 'ICR-II', 'ICR-I') 
+         THEN DATEDIFF(CURDATE(), s.approval_date)
+    ELSE NULL
+END AS `DAYS_TO_COMPLETE`
 FROM 
     expenses AS e
 INNER JOIN 
