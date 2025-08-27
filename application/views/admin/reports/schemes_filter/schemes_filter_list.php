@@ -356,16 +356,38 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Scheme Code</th>
+                                <th>Component</th>
+                                <th>Sub Component</th>
+                                <th>Category</th>
                                 <th>Status</th>
                                 <th>Scheme Name</th>
-                                <th>District</th>
                                 <th>Region</th>
+                                <th>D. Type</th>
+                                <th>District</th>
+                                <th>NA</th>
+                                <th>PK</th>
+                                <th>Tehsil</th>
+                                <th>UC</th>
+                                <th>Village</th>
+                                <th>Male Beneficiaries</th>
+                                <th>Female Beneficiaries</th>
+                                <th>Total Beneficiaries</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>CCA</th>
+                                <th>ACCA</th>
+                                <th>GCA</th>
+                                <th>Water Source</th>
+                                <th>Total Lenght</th>
+                                <th>Lining Length</th>
+                                <th>Total Line Lenght</th>
                                 <th>Approval Date</th>
                                 <th>Payee</th>
                                 <th>Financial Year</th>
                                 <th>Category</th>
                                 <th>Sanctioned Cost</th>
                                 <th>Total Paid</th>
+                                <th>Balance</th>
                                 <th>Payment Count</th>
                                 <th>1st Installment</th>
                                 <th>2nd Installment</th>
@@ -411,16 +433,86 @@
                                                         data: 'scheme_code'
                                                     },
                                                     {
+                                                        data: 'component_name'
+                                                    },
+                                                    {
+                                                        data: 'sub_component_name'
+                                                    },
+                                                    {
+                                                        data: 'category'
+                                                    },
+
+                                                    {
                                                         data: 'scheme_status'
                                                     },
                                                     {
                                                         data: 'scheme_name'
                                                     },
                                                     {
+                                                        data: 'region'
+                                                    },
+                                                    {
+                                                        data: 'district_type'
+                                                    },
+                                                    {
                                                         data: 'district_name'
                                                     },
                                                     {
-                                                        data: 'region'
+                                                        data: 'na'
+                                                    },
+                                                    {
+                                                        data: 'pk'
+                                                    },
+                                                    {
+                                                        data: 'tehsil'
+                                                    },
+                                                    {
+                                                        data: 'uc'
+                                                    },
+                                                    {
+                                                        data: 'villege'
+                                                    },
+                                                    {
+                                                        data: 'male_beneficiaries'
+                                                    },
+                                                    {
+                                                        data: 'female_beneficiaries'
+                                                    },
+                                                    {
+                                                        data: null,
+                                                        render: function(data, type, row) {
+                                                            return row.male_beneficiaries - row.female_beneficiaries;
+                                                        }
+                                                    },
+                                                    {
+                                                        data: 'latitude'
+                                                    },
+                                                    {
+                                                        data: 'longitude'
+                                                    },
+                                                    {
+                                                        data: 'cca'
+                                                    },
+                                                    {
+                                                        data: 'acca'
+                                                    },
+                                                    {
+                                                        data: 'gca'
+                                                    },
+                                                    {
+                                                        data: 'water_source'
+                                                    },
+                                                    {
+                                                        data: 'total_lenght'
+                                                    },
+                                                    {
+                                                        data: 'lining_length'
+                                                    },
+                                                    {
+                                                        data: null,
+                                                        render: function(data, type, row) {
+                                                            return row.total_lenght - row.lining_length;
+                                                        }
                                                     },
                                                     {
                                                         data: 'approval_date'
@@ -439,6 +531,12 @@
                                                     },
                                                     {
                                                         data: 'total_paid'
+                                                    },
+                                                    {
+                                                        data: null, // we’ll calculate manually
+                                                        render: function(data, type, row) {
+                                                            return row.sanctioned_cost - row.total_paid;
+                                                        }
                                                     },
                                                     {
                                                         data: 'payment_count'

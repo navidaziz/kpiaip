@@ -1850,7 +1850,26 @@ ORDER BY e.expense_id ASC;
             s.scheme_code,
             s.scheme_name,
             s.scheme_status,
+            c.component_name,
+            sc.sub_component_name,
+            cc.category,
+            d.district_type,
             d.district_name,
+            s.na,
+            s.pk,
+            s.tehsil,
+            s.uc,
+            s.villege,
+            s.male_beneficiaries,
+            s.female_beneficiaries,
+            s.latitude,
+            s.longitude,
+            s.cca,
+            s.acca,
+            s.gca,
+            s.total_lenght,
+            s.lining_length,
+            s.water_source,
             d.region,
             s.approval_date,
             s.completion_date,
@@ -1873,7 +1892,9 @@ ORDER BY e.expense_id ASC;
             INNER JOIN financial_years fy ON fy.financial_year_id = s.financial_year_id
             LEFT JOIN expenses e ON s.scheme_id = e.scheme_id
             INNER JOIN districts d ON d.district_id = s.district_id
-        WHERE 1 = 1
+            INNER JOIN sub_components sc ON sc.sub_component_id = cc.sub_component_id
+            INNER JOIN components c ON c.component_id = cc.component_id
+            WHERE 1 = 1
      ";
 
         $params = [];
