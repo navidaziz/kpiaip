@@ -1919,6 +1919,8 @@ ORDER BY e.expense_id ASC;
         $addFilter('s.scheme_code', 'scheme_codes');
         $addFilter('s.scheme_name', 'scheme_names');
         $addFilter('s.scheme_id', 'scheme_ids');
+        $addFilter('s.na', 'nas');
+        $addFilter('s.pk', 'pks');
 
 
         $start_date = $this->input->post('start_date');
@@ -2391,5 +2393,166 @@ ORDER BY e.expense_id ASC;
 
         $this->data["view"] = ADMIN_DIR . "reports/schemes/schemes_progress_report";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
+
+
+
+
+    public function get_district_by_region()
+    {
+        $regions = $this->input->post('region'); // Expecting an array of regions
+        if (!is_array($regions)) {
+            $regions = [$regions]; // Ensure it's an array
+        }
+
+        // Escape and prepare the placeholders for the IN clause
+        $placeholders = implode(',', array_fill(0, count($regions), '?'));
+        $query = "SELECT d.district_id, d.district_name 
+              FROM districts as d 
+              WHERE d.region IN ($placeholders)";
+
+        $districts = $this->db->query($query, $regions)->result();
+        echo json_encode($districts);
+    }
+
+
+    public function get_nas_by_district()
+    {
+        $districts = $this->input->post('district');
+
+        if (empty($districts)) {
+            // No district selected → return all NAs
+            $query = "SELECT s.na FROM schemes as s GROUP BY na";
+            $nas = $this->db->query($query)->result();
+        } else {
+            if (!is_array($districts)) {
+                $districts = [$districts];
+            }
+            $placeholders = implode(',', array_fill(0, count($districts), '?'));
+            $query = "SELECT s.na
+                  FROM schemes as s
+                  WHERE s.district_id IN ($placeholders)
+                  GROUP BY na";
+            $nas = $this->db->query($query, $districts)->result();
+        }
+
+        echo json_encode($nas);
+    }
+
+    public function get_pks_by_nas()
+    {
+        $nas       = $this->input->post('nas');       // comes from NA dropdown
+        $districts = $this->input->post('districts'); // optional district filter
+
+        // Normalize to arrays
+        if (!is_array($nas)) {
+            $nas = ($nas === null || $nas === '') ? array() : array($nas);
+        }
+        if (!is_array($districts)) {
+            $districts = ($districts === null || $districts === '') ? array() : array($districts);
+        }
+
+        $where  = array();
+        $params = array();
+
+        // NA filter (supports NULL via '' from UI)
+        if (!empty($nas)) {
+            $nonNullNas = array();
+            foreach ($nas as $v) {
+                if ($v !== '' && $v !== null) {
+                    $nonNullNas[] = $v;
+                }
+            }
+
+            $hasNullNa = in_array('', $nas, true) || in_array(null, $nas, true);
+
+            $naParts = array();
+            if (!empty($nonNullNas)) {
+                $naParts[] = 's.na IN (' . implode(',', array_fill(0, count($nonNullNas), '?')) . ')';
+                $params    = array_merge($params, $nonNullNas);
+            }
+            if ($hasNullNa) {
+                $naParts[] = 's.na IS NULL';
+            }
+            if (!empty($naParts)) {
+                $where[] = '(' . implode(' OR ', $naParts) . ')';
+            }
+        }
+
+        // District filter
+        if (!empty($districts)) {
+            $where[] = 's.district_id IN (' . implode(',', array_fill(0, count($districts), '?')) . ')';
+            $params  = array_merge($params, $districts);
+        }
+
+        $sql = "SELECT s.pk
+            FROM schemes s";
+        if (!empty($where)) {
+            $sql .= ' WHERE ' . implode(' AND ', $where);
+        }
+        $sql .= ' GROUP BY s.pk';
+
+        $rows = $this->db->query($sql, $params)->result();
+        echo json_encode($rows);
+    }
+
+
+
+    public function get_pks_by_district()
+    {
+        $districts = $this->input->post('district');
+
+        if (empty($districts)) {
+            // No district selected → return all PKs
+            $query = "SELECT s.pk FROM schemes as s GROUP BY pk";
+            $pks = $this->db->query($query)->result();
+        } else {
+            if (!is_array($districts)) {
+                $districts = [$districts];
+            }
+            $placeholders = implode(',', array_fill(0, count($districts), '?'));
+            $query = "SELECT s.pk
+                  FROM schemes as s
+                  WHERE s.district_id IN ($placeholders)
+                  GROUP BY pk";
+            $pks = $this->db->query($query, $districts)->result();
+        }
+
+        echo json_encode($pks);
+    }
+
+
+    public function get_sub_components_by_component()
+    {
+        $components = $this->input->post('components'); // Expecting an array of regions
+        if (!is_array($components)) {
+            $components = [$components]; // Ensure it's an array
+        }
+
+        // Escape and prepare the placeholders for the IN clause
+        $placeholders = implode(',', array_fill(0, count($components), '?'));
+        $query = "SELECT sc.sub_component_id, sc.sub_component_name 
+              FROM sub_components as sc
+              WHERE sc.component_id IN ($placeholders)";
+
+        $sub_compoments = $this->db->query($query, $components)->result();
+        echo json_encode($sub_compoments);
+    }
+
+    public function get_component_categories_by_sub_component()
+    {
+        $sub_components = $this->input->post('sub_components'); // Expecting an array of regions
+        if (!is_array($sub_components)) {
+            $sub_components = [$sub_components]; // Ensure it's an array
+        }
+
+        // Escape and prepare the placeholders for the IN clause
+        $placeholders = implode(',', array_fill(0, count($sub_components), '?'));
+        $query = "SELECT c.component_category_id, c.category 
+              FROM component_categories as c
+              WHERE c.sub_component_id IN ($placeholders)";
+
+        $component_categories = $this->db->query($query, $sub_components)->result();
+        echo json_encode($component_categories);
     }
 }

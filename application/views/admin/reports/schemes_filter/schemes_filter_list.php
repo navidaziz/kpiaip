@@ -106,6 +106,8 @@
                                 <th>Regions</th>
                                 <th>Districts</th>
                                 <!-- <th>Components</th> -->
+                                <th>NA</th>
+                                <th>PK</th>
                                 <th>Scheme Status</th>
                                 <th>Component Categories</th>
                                 <th>Date Filter By</th>
@@ -145,7 +147,7 @@
                                                 let selectedRegion = $(this).val(); // Get selected region(s)
 
                                                 $.ajax({
-                                                    url: '<?php echo site_url(ADMIN_DIR . "expenses/get_district_by_region"); ?>',
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_district_by_region"); ?>',
                                                     type: 'POST',
                                                     data: {
                                                         region: selectedRegion
@@ -189,8 +191,147 @@
                                             <option value="<?php echo $district->district_id; ?>"><?php echo $district->district_name; ?></option>
                                         <?php } ?>
                                     </select>
+                                    <script>
+                                        $(document).ready(function() {
+                                            $('#district_ids').on('change', function() {
+                                                let selectedDistrict = $(this).val(); // can be string or array
+                                                // ----- Fetch NAs -----
+                                                $.ajax({
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_nas_by_district"); ?>',
+                                                    type: 'POST',
+                                                    data: {
+                                                        district: selectedDistrict
+                                                    },
+                                                    dataType: 'json',
+                                                    success: function(data) {
+
+                                                        let selectedNas = $('#nas').val() || [];
+                                                        $('#nas').empty().trigger('change');
+
+                                                        let nasOptions = [];
+                                                        // $.each(data, function(key, nas) {
+                                                        //     if (!selectedNas.includes(nas.na.toString())) {
+                                                        //         nasOptions.push(new Option(nas.na, nas.na, false, false));
+                                                        //     }
+                                                        // });
+
+                                                        $.each(data, function(key, nas) {
+                                                            // handle NULL values safely
+                                                            let naValue = (nas.na === null) ? '' : nas.na.toString();
+                                                            let naLabel = (nas.na === null) ? 'N/A' : nas.na; // text shown in dropdown
+
+                                                            if (!selectedNas.includes(naValue)) {
+                                                                nasOptions.push(new Option(naLabel, naValue, false, false));
+                                                            }
+                                                        });
+
+                                                        $('#nas').append(nasOptions).trigger('change');
+                                                    },
+                                                    error: function() {
+                                                        alert('Error fetching NAs. Please try again.');
+                                                    }
+                                                });
+
+                                                // ----- Fetch PKs -----
+                                                $.ajax({
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_pks_by_district"); ?>',
+                                                    type: 'POST',
+                                                    data: {
+                                                        district: selectedDistrict
+                                                    },
+                                                    dataType: 'json',
+                                                    success: function(data) {
+                                                        let selectedPks = $('#pks').val() || [];
+                                                        $('#pks').empty().trigger('change');
+
+                                                        let pksOptions = [];
+                                                        $.each(data, function(key, pks) {
+                                                            // handle NULL values safely
+                                                            let pkValue = (pks.pk === null) ? '' : pks.pk.toString();
+                                                            let pkLabel = (pks.pk === null) ? 'N/A' : pks.pk; // text shown in dropdown
+
+                                                            if (!selectedPks.includes(pkValue)) {
+                                                                pksOptions.push(new Option(pkLabel, pkValue, false, false));
+                                                            }
+                                                        });
+
+                                                        $('#pks').append(pksOptions).trigger('change');
+                                                    },
+                                                    error: function() {
+                                                        alert('Error fetching PKs. Please try again.');
+                                                    }
+                                                });
+
+                                            });
+                                        });
+                                    </script>
+
 
                                 </td>
+
+                                <td>
+                                    <?php
+                                    $query = "SELECT na FROM  schemes as s  GROUP BY s.na ASC";
+                                    $nas = $this->db->query($query)->result();
+                                    ?>
+                                    <select class="form-control" name="nas[]" id="nas" multiple="multiple">
+                                        <?php foreach ($nas as $na) { ?>
+                                            <option value="<?php echo $na->na; ?>"><?php echo $na->na; ?></option>
+                                        <?php } ?>
+                                    </select>
+                                    <script>
+                                        $(document).ready(function() {
+                                            $('#nas').on('change', function() {
+                                                const selectedNas = $('#nas').val() || []; // array (Select2 multi)
+                                                const selectedDistricts = $('#district_ids').val() || []; // array (Select2 multi)
+
+                                                $.ajax({
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_pks_by_nas"); ?>',
+                                                    type: 'POST',
+                                                    dataType: 'json',
+                                                    data: {
+                                                        nas: selectedNas,
+                                                        districts: selectedDistricts
+                                                    },
+                                                    success: function(data) {
+                                                        const previouslySelectedPks = $('#pks').val() || [];
+                                                        $('#pks').empty().trigger('change');
+
+                                                        const pkOptions = [];
+                                                        $.each(data, function(_, row) {
+                                                            const val = (row.pk === null) ? '' : String(row.pk); // keep NULL as ''
+                                                            const label = (row.pk === null) ? 'N/A' : row.pk; // show N/A
+                                                            if (!previouslySelectedPks.includes(val)) {
+                                                                pkOptions.push(new Option(label, val, false, false));
+                                                            }
+                                                        });
+
+                                                        $('#pks').append(pkOptions).trigger('change');
+                                                    },
+                                                    error: function() {
+                                                        alert('Error fetching PKs.');
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+
+                                </td>
+
+                                <td>
+                                    <?php
+                                    $query = "SELECT pk FROM  schemes as s  GROUP BY s.pk ASC";
+                                    $pks = $this->db->query($query)->result();
+                                    ?>
+                                    <select class="form-control" name="pks[]" id="pks" multiple="multiple">
+                                        <?php foreach ($pks as $pk) { ?>
+                                            <option value="<?php echo $pk->pk; ?>"><?php echo $pk->pk; ?></option>
+                                        <?php } ?>
+                                    </select>
+
+                                </td>
+
+
                                 <td>
                                     <?php
                                     $query = "SELECT scheme_status  FROM  schemes as s
@@ -226,7 +367,7 @@
                                                 let selectedComponents = $(this).val(); // Get selected component(s)
 
                                                 $.ajax({
-                                                    url: '<?php echo site_url(ADMIN_DIR . "expenses/get_sub_components_by_component"); ?>',
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_sub_components_by_component"); ?>',
                                                     type: 'POST',
                                                     data: {
                                                         components: selectedComponents
@@ -283,7 +424,7 @@
                                                 let selectedSubComponents = $(this).val(); // Get selected sub-component(s)
 
                                                 $.ajax({
-                                                    url: '<?php echo site_url(ADMIN_DIR . "expenses/get_component_categories_by_sub_component"); ?>',
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_component_categories_by_sub_component"); ?>',
                                                     type: 'POST',
                                                     data: {
                                                         sub_components: selectedSubComponents
@@ -404,7 +545,7 @@
                     <script>
                         $(document).ready(function() {
                             // Initialize Select2
-                            $('#financial_year_ids, #scheme_status, #regions, #district_ids, #component_ids, #sub_component_ids, #component_category_ids, #purposes').select2();
+                            $('#financial_year_ids, #nas, #pks, #scheme_status, #regions, #district_ids, #component_ids, #sub_component_ids, #component_category_ids, #purposes').select2();
 
                             // Handle form submission
                             $('#filterForm').on('submit', function(event) {

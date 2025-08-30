@@ -1159,6 +1159,41 @@ WHERE
         echo json_encode($districts);
     }
 
+
+    public function get_nas_by_district()
+    {
+        $districts = $this->input->post('district'); // Expecting an array of regions
+        if (!is_array($districts)) {
+            $districts = [$districts]; // Ensure it's an array
+        }
+
+        // Escape and prepare the placeholders for the IN clause
+        $placeholders = implode(',', array_fill(0, count($districts), '?'));
+        $query = "SELECT s.na
+              FROM schemes as s
+              WHERE s.district_id IN ($placeholders) GROUP BY na";
+
+        $nas = $this->db->query($query, $districts)->result();
+        echo json_encode($nas);
+    }
+
+    public function get_pks_by_district()
+    {
+        $districts = $this->input->post('district'); // Expecting an array of regions
+        if (!is_array($districts)) {
+            $districts = [$districts]; // Ensure it's an array
+        }
+
+        // Escape and prepare the placeholders for the IN clause
+        $placeholders = implode(',', array_fill(0, count($districts), '?'));
+        $query = "SELECT s.pk
+              FROM schemes as s
+              WHERE s.district_id IN ($placeholders) GROUP BY pk";
+
+        $pks = $this->db->query($query, $districts)->result();
+        echo json_encode($pks);
+    }
+
     public function get_sub_components_by_component()
     {
         $components = $this->input->post('components'); // Expecting an array of regions
