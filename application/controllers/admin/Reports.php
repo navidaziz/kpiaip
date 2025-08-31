@@ -1921,6 +1921,8 @@ ORDER BY e.expense_id ASC;
         $addFilter('s.scheme_id', 'scheme_ids');
         $addFilter('s.na', 'nas');
         $addFilter('s.pk', 'pks');
+        $addFilter('s.tehsil', 'tehsils');
+        $addFilter('s.uc', 'ucs');
 
 
         $start_date = $this->input->post('start_date');
@@ -2439,6 +2441,30 @@ ORDER BY e.expense_id ASC;
         echo json_encode($nas);
     }
 
+    public function get_tehsils_by_district()
+    {
+        $districts = $this->input->post('district');
+
+        if (empty($districts)) {
+            // No district selected → return all NAs
+            $query = "SELECT s.tehsil FROM schemes as s GROUP BY tehsil";
+            $tehsils = $this->db->query($query)->result();
+        } else {
+            if (!is_array($districts)) {
+                $districts = [$districts];
+            }
+            $placeholders = implode(',', array_fill(0, count($districts), '?'));
+            $query = "SELECT s.tehsil
+                  FROM schemes as s
+                  WHERE s.district_id IN ($placeholders)
+                  GROUP BY tehsil";
+            $tehsils = $this->db->query($query, $districts)->result();
+        }
+
+        echo json_encode($tehsils);
+    }
+
+
     public function get_pks_by_nas()
     {
         $nas       = $this->input->post('nas');       // comes from NA dropdown
@@ -2491,6 +2517,62 @@ ORDER BY e.expense_id ASC;
             $sql .= ' WHERE ' . implode(' AND ', $where);
         }
         $sql .= ' GROUP BY s.pk';
+
+        $rows = $this->db->query($sql, $params)->result();
+        echo json_encode($rows);
+    }
+    public function get_ucs_by_tehsil()
+    {
+        $tehsils = $this->input->post('tehsils'); // comes from NA dropdown
+        $districts = $this->input->post('districts'); // optiotehsill district filter
+
+        // Normalize to arrays
+        if (!is_array($tehsils)) {
+            $tehsils = ($tehsils === null || $tehsils === '') ? array() : array($tehsils);
+        }
+        if (!is_array($districts)) {
+            $districts = ($districts === null || $districts === '') ? array() : array($districts);
+        }
+
+        $where = array();
+        $params = array();
+
+        // NA filter (supports NULL via '' from UI)
+        if (!empty($tehsils)) {
+            $nonNullNas = array();
+            foreach ($tehsils as $v) {
+                if ($v !== '' && $v !== null) {
+                    $nonNullNas[] = $v;
+                }
+            }
+
+            $hasNullNa = in_array('', $tehsils, true) || in_array(null, $tehsils, true);
+
+            $tehsilParts = array();
+            if (!empty($nonNullNas)) {
+                $tehsilParts[] = 's.tehsil IN (' . implode(',', array_fill(0, count($nonNullNas), '?')) . ')';
+                $params = array_merge($params, $nonNullNas);
+            }
+            if ($hasNullNa) {
+                $tehsilParts[] = 's.tehsil IS NULL';
+            }
+            if (!empty($tehsilParts)) {
+                $where[] = '(' . implode(' OR ', $tehsilParts) . ')';
+            }
+        }
+
+        // District filter
+        if (!empty($districts)) {
+            $where[] = 's.district_id IN (' . implode(',', array_fill(0, count($districts), '?')) . ')';
+            $params = array_merge($params, $districts);
+        }
+
+        $sql = "SELECT s.uc
+ FROM schemes s";
+        if (!empty($where)) {
+            $sql .= ' WHERE ' . implode(' AND ', $where);
+        }
+        $sql .= ' GROUP BY s.uc';
 
         $rows = $this->db->query($sql, $params)->result();
         echo json_encode($rows);

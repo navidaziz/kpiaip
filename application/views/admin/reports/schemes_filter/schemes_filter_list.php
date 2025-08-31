@@ -108,6 +108,8 @@
                                 <!-- <th>Components</th> -->
                                 <th>NA</th>
                                 <th>PK</th>
+                                <th>Tehsils</th>
+                                <th>UC</th>
                                 <th>Scheme Status</th>
                                 <th>Component Categories</th>
                                 <th>Date Filter By</th>
@@ -262,6 +264,37 @@
                                                     }
                                                 });
 
+
+                                                // ----- Fetch Tehsils -----
+                                                $.ajax({
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_tehsils_by_district"); ?>',
+                                                    type: 'POST',
+                                                    data: {
+                                                        district: selectedDistrict
+                                                    },
+                                                    dataType: 'json',
+                                                    success: function(data) {
+                                                        let selectedPks = $('#tehsils').val() || [];
+                                                        $('#tehsils').empty().trigger('change');
+
+                                                        let tehsilsOptions = [];
+                                                        $.each(data, function(key, tehsils) {
+                                                            // handle NULL values safely
+                                                            let tehsilValue = (tehsils.tehsil === null) ? '' : tehsils.tehsil.toString();
+                                                            let tehsilLabel = (tehsils.tehsil === null) ? 'N/A' : tehsils.tehsil; // text shown in dropdown
+
+                                                            if (!selectedPks.includes(tehsilValue)) {
+                                                                tehsilsOptions.push(new Option(tehsilLabel, tehsilValue, false, false));
+                                                            }
+                                                        });
+
+                                                        $('#tehsils').append(tehsilsOptions).trigger('change');
+                                                    },
+                                                    error: function() {
+                                                        alert('Error fetching PKs. Please try again.');
+                                                    }
+                                                });
+
                                             });
                                         });
                                     </script>
@@ -329,6 +362,72 @@
                                         <?php } ?>
                                     </select>
 
+                                </td>
+
+                                <td>
+                                    <?php
+                                    $query = "SELECT tehsil FROM schemes as s GROUP BY s.tehsil ASC";
+                                    $tehsils = $this->db->query($query)->result();
+                                    ?>
+                                    <select class="form-control" name="tehsils[]" id="tehsils" multiple="multiple">
+                                        <?php foreach ($tehsils as $tehsil) { ?>
+                                            <option value="<?php echo $tehsil->tehsil; ?>">
+                                                <?php echo $tehsil->tehsil; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
+
+                                    <script>
+                                        $(document).ready(function() {
+                                            $('#tehsils').on('change', function() {
+                                                const selectedTehsils = $('#tehsils').val() || []; // array (Select2 multi)
+                                                const selectedDistricts = $('#district_ids').val() || []; // array (Select2 multi)
+
+                                                $.ajax({
+                                                    url: '<?php echo site_url(ADMIN_DIR . "reports/get_ucs_by_tehsil"); ?>',
+                                                    type: 'POST',
+                                                    dataType: 'json',
+                                                    data: {
+                                                        tehsils: selectedTehsils,
+                                                        districts: selectedDistricts
+                                                    },
+                                                    success: function(data) {
+                                                        const previouslySelectedUcs = $('#ucs').val() || [];
+                                                        $('#ucs').empty().trigger('change');
+
+                                                        const Options = [];
+                                                        $.each(data, function(_, row) {
+                                                            const val = (row.uc === null) ? '' : String(row.uc); // keep NULL as ''
+                                                            const label = (row.uc === null) ? 'N/A' : row.uc; // show N/A
+                                                            if (!previouslySelectedUcs.includes(val)) {
+                                                                Options.push(new Option(label, val, false, false));
+                                                            }
+                                                        });
+
+                                                        $('#ucs').append(Options).trigger('change');
+                                                    },
+                                                    error: function() {
+                                                        alert('Error fetching Tehsils.');
+                                                    }
+                                                });
+                                            });
+                                        });
+                                    </script>
+                                </td>
+
+
+                                <td>
+                                    <?php
+                                    $query = "SELECT uc FROM schemes as s GROUP BY s.uc ASC";
+                                    $ucs = $this->db->query($query)->result();
+                                    ?>
+                                    <select class="form-control" name="ucs[]" id="ucs" multiple="multiple">
+                                        <?php foreach ($ucs as $uc) { ?>
+                                            <option value="<?php echo $uc->uc; ?>">
+                                                <?php echo $uc->uc; ?>
+                                            </option>
+                                        <?php } ?>
+                                    </select>
                                 </td>
 
 
@@ -545,7 +644,7 @@
                     <script>
                         $(document).ready(function() {
                             // Initialize Select2
-                            $('#financial_year_ids, #nas, #pks, #scheme_status, #regions, #district_ids, #component_ids, #sub_component_ids, #component_category_ids, #purposes').select2();
+                            $('#financial_year_ids, #tehsils, #ucs, #nas, #pks, #scheme_status, #regions, #district_ids, #component_ids, #sub_component_ids, #component_category_ids, #purposes').select2();
 
                             // Handle form submission
                             $('#filterForm').on('submit', function(event) {
