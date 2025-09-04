@@ -120,33 +120,23 @@
     }
 </style>
 <div class="row">
+    <div class="col-md-12">
+        <ul class="breadcrumb" style="margin-bottom: 10px;">
+            <li>
+                <i class="fa fa-home"></i>
+                <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
+            </li>
+            <li>
+                <i class="fa fa-file"></i>
+                <a href="<?php echo site_url(ADMIN_DIR . 'reports'); ?>">Reports List</a>
+            </li>
+            <li><?php echo $title; ?></li>
+        </ul>
+
+    </div>
+</div>
+<div class="row">
     <div class="col-sm-12">
-        <div class="page-header">
-            <!-- STYLER -->
-
-            <!-- /STYLER -->
-            <!-- BREADCRUMBS -->
-
-            <!-- /BREADCRUMBS -->
-            <div class="row">
-
-                <div class="col-md-12">
-                    <ul class="breadcrumb">
-                        <li>
-                            <i class="fa fa-home"></i>
-                            <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
-                        </li>
-                        <li>
-                            <i class="fa fa-file"></i>
-                            <a href="<?php echo site_url(ADMIN_DIR . 'reports'); ?>">Reports List</a>
-                        </li>
-                        <li><?php echo $title; ?></li>
-                    </ul>
-
-                </div>
-
-            </div>
-        </div>
         <div id="contentToDownload">
             <div class="row">
                 <div class="col-md-2">
@@ -226,9 +216,10 @@
                 </div>
                 <div class="col-md-2">
                     <div class="alert alert-warning" id="messenger">
-                        <h4>Total Schemes.</h4>
+                        <h4>Sanctioned Schemes</h4>
+                        <h6>Since Inception</h6>
                         <hr />
-                        <h3 style="font-weight: bolder; color:black"><?php echo number_format($ongoing->total + $completed->total); ?><br />
+                        <h3 style="font-weight: bolder; color:black"> Total <?php echo number_format($ongoing->total + $completed->total); ?><br />
                             <small> Schemes So far</small>
                         </h3>
                     </div>
@@ -273,7 +264,7 @@
                         <div class="row">
                             <?php
                             foreach ($ongoingschemes as $scheme_status) {
-                                $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+                                echo $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
                             WHERE scheme_status ='" . $scheme_status . "'";
                                 $scheme = $this->db->query($query)->row();
                             ?>

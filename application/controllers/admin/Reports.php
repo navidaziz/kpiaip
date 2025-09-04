@@ -207,7 +207,7 @@ class Reports extends Admin_Controller
         if ($scheme_status == 'current_ongoing') {
             $statuses = ['Sanctioned', 'Initiated', 'ICR-II', 'ICR-I'];
         } elseif ($scheme_status) {
-            $statuses = ['Sanctioned', 'Initiated', 'ICR-II', 'ICR-I', 'Completed'];
+            $statuses = [$scheme_status];
         } else {
             // Default if nothing posted
             $statuses = ['Sanctioned', 'Initiated', 'ICR-II', 'ICR-I', 'Completed'];

@@ -8,6 +8,7 @@
                 <th>WUA</th>
                 <th>FY</th>
                 <th>Scheme Code</th>
+                <th>Status</th>
                 <th>Scheme Name</th>
                 <th>Category</th>
                 <th>Sanctioned Cost</th>
@@ -35,6 +36,7 @@
                     <td><?php echo $scheme->wua_name; ?></td>
                     <td><?php echo $scheme->financial_year; ?></td>
                     <td><?php echo $scheme->scheme_code; ?></td>
+                    <td><?php echo $scheme->scheme_status; ?></td>
                     <td><?php echo $scheme->scheme_name; ?></td>
                     <td><?php echo $scheme->component_category; ?></td>
                     <td><?php echo $scheme->sanctioned_cost; ?></td>
