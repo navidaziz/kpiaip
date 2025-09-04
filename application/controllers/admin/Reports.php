@@ -203,10 +203,22 @@ class Reports extends Admin_Controller
     public function get_scheme_list()
     {
         $scheme_status = $this->input->post('scheme_status');
-        $this->data["title"] = $scheme_status . ' Scheme List';
-        $query = "SELECT * FROM scheme_lists WHERE scheme_status = ?";
-        $this->data['schemes'] = $this->db->query($query, [$scheme_status])->result();
-        $this->data["description"] = 'Scheme List';
+
+        if ($scheme_status == 'current_ongoing') {
+            $statuses = ['Sanctioned', 'Initiated', 'ICR-II', 'ICR-I'];
+        } elseif ($scheme_status) {
+            $statuses = ['Sanctioned', 'Initiated', 'ICR-II', 'ICR-I', 'Completed'];
+        } else {
+            // Default if nothing posted
+            $statuses = ['Sanctioned', 'Initiated', 'ICR-II', 'ICR-I', 'Completed'];
+        }
+
+        $this->data["title"] = implode(', ', $statuses) . ' Scheme List';
+
+        $query = "SELECT * FROM scheme_lists WHERE scheme_status IN ?";
+        $this->data['schemes'] = $this->db->query($query, [$statuses])->result();
+
+        $this->data["description"] = 'Schemes List';
         $this->load->view(ADMIN_DIR . "reports/schemes/get_scheme_list", $this->data);
     }
 
