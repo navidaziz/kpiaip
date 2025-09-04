@@ -217,6 +217,7 @@ class Reports extends Admin_Controller
 
         $query = "SELECT * FROM scheme_lists WHERE scheme_status IN ?";
         $this->data['schemes'] = $this->db->query($query, [$statuses])->result();
+        //echo $this->db->last_query();
 
         $this->data["description"] = 'Schemes List';
         $this->load->view(ADMIN_DIR . "reports/schemes/get_scheme_list", $this->data);

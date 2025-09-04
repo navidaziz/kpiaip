@@ -264,7 +264,7 @@
                         <div class="row">
                             <?php
                             foreach ($ongoingschemes as $scheme_status) {
-                                echo $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+                                $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
                             WHERE scheme_status ='" . $scheme_status . "'";
                                 $scheme = $this->db->query($query)->row();
                             ?>
