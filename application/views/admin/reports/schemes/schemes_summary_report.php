@@ -181,7 +181,7 @@
                             <tr>
                                 <th>Total No.</th>
                                 <th>Sactioned Cost (Rs.)</th>
-                                <th>Total Paid (Rs.)</th>
+                                <th>Total (Rs.)</th>
                                 <th>Balance (Rs.)</th>
                             </tr>
                             <tr>
@@ -215,7 +215,7 @@
                         <table class="table table-bordered table-striped" style="color: black !important;">
                             <tr>
                                 <th>Total No.</th>
-                                <th>Total Paid (Rs.)</th>
+                                <th>Total (Rs.)</th>
                             </tr>
                             <tr>
                                 <th><?php echo number_format($completed->total); ?></th>
@@ -409,12 +409,12 @@
                                     <th>Components</th>
                                     <th>Total No. of Schemes</th>
                                     <th>SC/FCR</th>
-                                    <th>ICR-I (Paid)</th>
-                                    <th>ICR-II (Paid)</th>
-                                    <th>ICR-I&II (Paid)</th>
-                                    <th>OTHER (Paid)</th>
-                                    <th>FCR (Paid)</th>
-                                    <th>TOTAL (Paid)</th>
+                                    <th>ICR-I</th>
+                                    <th>ICR-II</th>
+                                    <th>ICR-I&II</th>
+                                    <th>OTHER</th>
+                                    <th>FCR</th>
+                                    <th>TOTAL</th>
                                     <th>TOTAL PAYABLE</th>
                             </thead>
                             <tbody>
@@ -567,12 +567,12 @@
                                 <tr>
                                     <th>Components</th>
                                     <th>Total No. of Schemes</th>
-                                    <th>ICR-I (Paid)</th>
-                                    <th>ICR-II (Paid)</th>
-                                    <th>ICR-I&II (Paid)</th>
-                                    <th>OTHER (Paid)</th>
-                                    <th>FCR (Paid)</th>
-                                    <th>TOTAL (Paid)</th>
+                                    <th>ICR-I</th>
+                                    <th>ICR-II</th>
+                                    <th>ICR-I&II</th>
+                                    <th>OTHER</th>
+                                    <th>FCR</th>
+                                    <th>TOTAL</th>
                             </thead>
                             <tbody>
                                 <?php
