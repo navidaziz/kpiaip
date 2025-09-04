@@ -24,12 +24,12 @@
             <tr>
                 <th>Category</th>
                 <th>Total No. of Schemes</th>
-                <th>ICR-I (Paid)</th>
-                <th>ICR-II (Paid)</th>
-                <th>ICR-I&II (Paid)</th>
-                <th>OTHER (Paid)</th>
-                <th>FCR (Paid)</th>
-                <th>TOTAL (Paid)</th>
+                <th>ICR-I </th>
+                <th>ICR-II </th>
+                <th>ICR-I&II </th>
+                <th>OTHER </th>
+                <th>FCR </th>
+                <th>TOTAL </th>
         </thead>
         <tbody>
             <?php foreach ($ongoing_schemes as $scheme) { ?>
