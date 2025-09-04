@@ -277,7 +277,18 @@
                                                                                         echo $scheme_status;
                                                                                     }
                                                                                     ?></h5>
+
                                         <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
+                                        <strong style="color: black;">Phy. Completed:
+                                            <?php
+                                            $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+                                            WHERE scheme_status ='" . $scheme_status . "'
+                                            AND phy_completion IS NOT NULL 
+                                            AND phy_completion_date IS NOT NULL";
+                                            $phy_completed = $this->db->query($query)->row();
+                                            echo $phy_completed->total;
+                                            ?>
+                                        </strong>
                                         <p style="text-align: center;">
                                             <button onclick="get_list('<?php echo $scheme_status; ?>')" class="label label-success" style="border: 0px !important;"><i class="fa fa-list"></i> View List </button>
                                             <a target="_blank" class="label label-warning" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/" . $scheme_status); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a>
