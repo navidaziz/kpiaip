@@ -176,9 +176,9 @@
                             </tr>
                             <tr>
                                 <th><?php echo number_format($ongoing->total); ?></th>
-                                <th><?php echo tomillions($ongoing->sactioned_cost); ?></th>
-                                <th><?php echo tomillions($ongoing->total_paid); ?></th>
-                                <th><?php echo tomillions($ongoing->balance); ?></th>
+                                <th><?php echo number_format($ongoing->sactioned_cost); ?></th>
+                                <th><?php echo number_format($ongoing->total_paid); ?></th>
+                                <th><?php echo number_format($ongoing->balance); ?></th>
                             </tr>
                         </table>
                     </div>
@@ -209,7 +209,7 @@
                             </tr>
                             <tr>
                                 <th><?php echo number_format($completed->total); ?></th>
-                                <th><?php echo tomillions($completed->total_paid); ?></th>
+                                <th><?php echo number_format($completed->total_paid); ?></th>
                             </tr>
                         </table>
                     </div>
@@ -380,172 +380,176 @@
                 <div class="col-md-12">
                     <div class="alert alert-danger" id="messenger">
 
+                        <h4>Ongoing Schemes (Sanctioned, Initiated, ICR-I, ICR-II, ICRI&II)
 
+                            <small class="pull-right">
+                                <button onclick="get_schemes_summary('Ongoing')" class="btn btn-danger btn-sm">Category Wise <i class="fa fa-expand"></i></button>
+                                <script>
+                                    function get_schemes_summary(scheme_status) {
+                                        $.ajax({
+                                                method: "POST",
+                                                url: "<?php echo site_url(ADMIN_DIR . 'reports/get_schemes_summary'); ?>",
+                                                data: {
+                                                    scheme_status: scheme_status
+                                                },
+                                            })
+                                            .done(function(respose) {
+                                                $('#modal').modal('show');
 
-                        <small class="pull-right">
-                            <button onclick="get_schemes_summary('Ongoing')" class="btn btn-danger btn-sm">Category Wise <i class="fa fa-expand"></i></button>
-                            <script>
-                                function get_schemes_summary(scheme_status) {
-                                    $.ajax({
-                                            method: "POST",
-                                            url: "<?php echo site_url(ADMIN_DIR . 'reports/get_schemes_summary'); ?>",
-                                            data: {
-                                                scheme_status: scheme_status
-                                            },
-                                        })
-                                        .done(function(respose) {
-                                            $('#modal').modal('show');
-
-                                            $('#modal_title').html(scheme_status + ' Schemes Summary');
-                                            $('#modal_body').html(respose);
-                                            $('.modal-dialog').css('width', '99%'); // Directly set the width
-                                        });
-                                }
-                            </script>
-                        </small>
-                        <div style="padding: 10px; background-color:white;">
-                            <table class="table table-bordered table_s mall tabl e-striped" style="color: black !important; background-color:white !important; ">
-                                <thead>
-                                    <th colspan="11">
-                                        <h4>Ongoing Schemes (Sanctioned, Initiated, ICR-I, ICR-II, ICRI&II) </h4>
-                                        <hr />
-                                    </th>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Components</th>
-                                        <th>TOTAL NO. OF SCHEMES</th>
-                                        <th>SC/FCR</th>
-                                        <th>ICR-I</th>
-                                        <th>ICR-II</th>
-                                        <th>ICR-I&II</th>
-                                        <th>OTHER</th>
-                                        <th>FCR</th>
-                                        <th>TOTAL</th>
-                                        <th>TOTAL PAYABLE</th>
-                                </thead>
-                                <tbody>
-
-                                    <?php
-                                    $query = "SELECT 
-                                    component_id, component_name,
-                                    COUNT(0) AS `total`,
-                                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                    SUM(COALESCE(sft_schemes.sanctioned_cost, 0))  - SUM(COALESCE(sft_schemes.total_paid, 0)) AS balance,
-                                    SUM(`sft_schemes`.`1st`) AS `first`,
-                                    SUM(`sft_schemes`.`2nd`) AS `second`,
-                                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
-                                    SUM(`sft_schemes`.`other`) AS `other`,
-                                    SUM(`sft_schemes`.`final`) AS `final` 
-                                    FROM `sft_schemes`
-                                    WHERE `sft_schemes`.`scheme_status`
-                                     IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II') 
-                                     GROUP BY component_id";
-                                    $components = $this->db->query($query)->result();
-                                    foreach ($components as $component) { ?>
-                                        <tr>
-                                            <th colspan="11">
-                                                Component <?php echo $component->component_name; ?>
-                                            </th>
-                                        </tr>
-
-                                        <?php
-
-                                        $query = "SELECT cc.* FROM component_categories as cc 
-                                        INNER JOIN sub_components sc ON(sc.sub_component_id = cc.sub_component_id)
-                                        WHERE cc.component_id = ?";
-                                        $component_categories = $this->db->query($query, [$component->component_id])->result();
-
-
-                                        $category_count = 1;
-                                        foreach ($component_categories as $component_category) {
-                                            $query = "SELECT category,category_detail,
-                                            COUNT(0) AS `total`,
-                                            SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                                            SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                            SUM(COALESCE(sft_schemes.sanctioned_cost, 0))  - SUM(COALESCE(sft_schemes.total_paid, 0)) AS balance,
-                                            SUM(`sft_schemes`.`1st`) AS `first`,
-                                            SUM(`sft_schemes`.`2nd`) AS `second`,
-                                            SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
-                                            SUM(`sft_schemes`.`other`) AS `other`,
-                                            SUM(`sft_schemes`.`final`) AS `final` 
-                                            FROM `sft_schemes`
-                                            WHERE `sft_schemes`.`scheme_status`
-                                            IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II') 
-                                            AND component_category_id = $component_category->component_category_id";
-                                            $category = $this->db->query($query)->row();
-                                        ?>
-                                            <tr>
-                                                <th><?php echo $category_count++; ?></th>
-                                                <th><?php echo $component_category->category; ?>:
-                                                    <small><?php echo $component_category->category_detail; ?></small>
-                                                </th>
-                                                <th style="text-align: center;"><?php echo $category->total; ?></th>
-                                                <td><?php echo tomillions($category->sactioned_cost); ?></td>
-                                                <td><?php echo tomillions($category->first); ?></td>
-                                                <td><?php echo tomillions($category->second) ?></td>
-                                                <td><?php echo tomillions($category->first_second); ?></td>
-                                                <td><?php echo tomillions($category->other); ?></td>
-                                                <td><?php echo tomillions($category->final); ?></td>
-                                                <td><?php echo tomillions($category->total_paid); ?></td>
-                                                <th><?php echo tomillions($category->balance); ?></th>
-                                            </tr>
-                                        <?php } ?>
-                                        <tr>
-                                            <th colspan="2" style="text-align: right;">SUB TOTAL</th>
-                                            <th style="text-align: center;"><?php echo $component->total; ?></th>
-                                            <th><?php echo tomillions($component->sactioned_cost); ?></th>
-                                            <th><?php echo tomillions($component->first); ?></th>
-                                            <th><?php echo tomillions($component->second) ?></th>
-                                            <th><?php echo tomillions($component->first_second); ?></th>
-                                            <th><?php echo tomillions($component->other); ?></th>
-                                            <th><?php echo tomillions($component->final); ?></th>
-                                            <th><?php echo tomillions($component->total_paid); ?></th>
-                                            <th><?php echo tomillions($component->balance); ?></th>
-                                        </tr>
-                                    <?php } ?>
-
-
-                                </tbody>
+                                                $('#modal_title').html(scheme_status + ' Schemes Summary');
+                                                $('#modal_body').html(respose);
+                                                $('.modal-dialog').css('width', '99%'); // Directly set the width
+                                            });
+                                    }
+                                </script>
+                            </small>
+                        </h4>
+                        <hr />
+                        <table class="table table-bordered table_s mall table-striped" style="color: black !important;">
+                            <thead>
+                                <tr>
+                                    <th>Components</th>
+                                    <th>Total No. of Schemes</th>
+                                    <th>SC/FCR</th>
+                                    <th>ICR-I</th>
+                                    <th>ICR-II</th>
+                                    <th>ICR-I&II</th>
+                                    <th>OTHER</th>
+                                    <th>FCR</th>
+                                    <th>TOTAL</th>
+                                    <th>TOTAL PAYABLE</th>
+                            </thead>
+                            <tbody>
                                 <?php
                                 $query = "SELECT 
-                                component_id, component_name,
                                     COUNT(0) AS `total`,
                                     SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
                                     SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                    SUM(COALESCE(sft_schemes.sanctioned_cost, 0))  - SUM(COALESCE(sft_schemes.total_paid, 0)) AS balance,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
                                     SUM(`sft_schemes`.`1st`) AS `first`,
                                     SUM(`sft_schemes`.`2nd`) AS `second`,
                                     SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
                                     SUM(`sft_schemes`.`other`) AS `other`,
                                     SUM(`sft_schemes`.`final`) AS `final` 
-                                    FROM `sft_schemes`
-                                    WHERE `sft_schemes`.`scheme_status`
-                                     IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II')";
-                                $component_total = $this->db->query($query)->row();
+                                    FROM `sft_schemes` 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II') 
+                                    AND component_category_id IN (1,2,3,4,5,6,7,8)";
+                                $ongoing_a = $this->db->query($query)->row();
                                 ?>
-                                <tfoot>
-                                    <tr>
-                                        <th colspan="11">GRAND TOTAL</th>
-                                    </tr>
+                                <tr>
+                                    <th>A: Water Courses</th>
+                                    <td><?php echo $ongoing_a->total; ?></td>
+                                    <td><?php echo number_format($ongoing_a->sactioned_cost); ?></td>
+                                    <td><?php echo number_format($ongoing_a->first); ?></td>
+                                    <td><?php echo number_format($ongoing_a->second) ?></td>
+                                    <td><?php echo number_format($ongoing_a->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_a->other); ?></td>
+                                    <td><?php echo number_format($ongoing_a->final); ?></td>
+                                    <td><?php echo number_format($ongoing_a->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_a->balance); ?></td>
+                                </tr>
+                                <?php
+                                $query = "SELECT 
+                                    COUNT(0) AS `total`,
+                                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
+                                    SUM(`sft_schemes`.`1st`) AS `first`,
+                                    SUM(`sft_schemes`.`2nd`) AS `second`,
+                                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
+                                    SUM(`sft_schemes`.`other`) AS `other`,
+                                    SUM(`sft_schemes`.`final`) AS `final` 
+                                    FROM `sft_schemes` 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II')  
+                                    AND component_category_id IN (10)";
+                                $ongoing_b1 = $this->db->query($query)->row();
+                                ?>
+                                <tr>
+                                    <th>B1: HEIS</th>
+                                    <td><?php echo $ongoing_b1->total; ?></td>
+                                    <td><?php echo number_format($ongoing_b1->sactioned_cost); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->first); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->second) ?></td>
+                                    <td><?php echo number_format($ongoing_b1->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->other); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->final); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->balance); ?></td>
+                                </tr>
+                                <?php
+                                $query = "SELECT 
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
+                                        SUM(`sft_schemes`.`1st`) AS `first`,
+                                        SUM(`sft_schemes`.`2nd`) AS `second`,
+                                        SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
+                                        SUM(`sft_schemes`.`other`) AS `other`,
+                                        SUM(`sft_schemes`.`final`) AS `final` 
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II')  
+                                        AND component_category_id IN (11)";
+                                $ongoing_b2 = $this->db->query($query)->row();
+                                ?>
+                                <tr>
+                                    <th>B2: Water Storage Tank </th>
+                                    <td><?php echo $ongoing_b2->total; ?></td>
+                                    <td><?php echo number_format($ongoing_b2->sactioned_cost); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->first); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->second) ?></td>
+                                    <td><?php echo number_format($ongoing_b2->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->other); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->final); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->balance); ?></td>
+                                </tr>
+                                <?php
+                                $query = "SELECT 
+                                    COUNT(0) AS `total`,
+                                    SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                    SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`,
+                                    SUM(`sft_schemes`.`1st`) AS `first`,
+                                    SUM(`sft_schemes`.`2nd`) AS `second`,
+                                    SUM(`sft_schemes`.`1st_2nd`) AS `first_second`,
+                                    SUM(`sft_schemes`.`other`) AS `other`,
+                                    SUM(`sft_schemes`.`final`) AS `final` 
+                                    FROM `sft_schemes` 
+                                    WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned','Initiated', 'ICR-I', 'ICR-II')  
+                                    AND component_category_id IN (12)";
+                                $ongoing_b3 = $this->db->query($query)->row();
+                                ?>
+                                <tr>
+                                    <th>B3: Laser Leveling Service </th>
+                                    <td><?php echo $ongoing_b3->total; ?></td>
+                                    <td><?php echo number_format($ongoing_b3->sactioned_cost); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->first); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->second) ?></td>
+                                    <td><?php echo number_format($ongoing_b3->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->other); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->final); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->balance); ?></td>
+                                </tr>
 
-                                    <tr>
-                                        <th colspan="2" style="text-align: right;"></th>
-                                        <th style="text-align: center;"><?php echo $component_total->total; ?></th>
-                                        <th><?php echo tomillions($component_total->sactioned_cost); ?></th>
-                                        <th><?php echo tomillions($component_total->first); ?></th>
-                                        <th><?php echo tomillions($component_total->second) ?></th>
-                                        <th><?php echo tomillions($component_total->first_second); ?></th>
-                                        <th><?php echo tomillions($component_total->other); ?></th>
-                                        <th><?php echo tomillions($component_total->final); ?></th>
-                                        <th><?php echo tomillions($component_total->total_paid); ?></th>
-                                        <th><?php echo tomillions($component_total->balance); ?></th>
-                                    </tr>
-                                </tfoot>
+                            </tbody>
+                            <tfoot style="background-color: white;">
 
-                            </table>
-
-                        </div>
+                                <tr>
+                                    <th>Total</th>
+                                    <th><?php echo $ongoing->total; ?></th>
+                                    <th><?php echo number_format($ongoing->sactioned_cost); ?></th>
+                                    <th><?php echo number_format($ongoing->first); ?></th>
+                                    <th><?php echo number_format($ongoing->second) ?></th>
+                                    <th><?php echo number_format($ongoing->first_second); ?></th>
+                                    <th><?php echo number_format($ongoing->other); ?></th>
+                                    <th><?php echo number_format($ongoing->final); ?></th>
+                                    <th><?php echo number_format($ongoing->total_paid); ?></th>
+                                    <th><?php echo number_format($ongoing->balance); ?></th>
+                                </tr>
+                            </tfoot>
+                        </table>
 
 
                     </div>
@@ -564,7 +568,7 @@
                             <thead>
                                 <tr>
                                     <th>Components</th>
-                                    <th> of Schemes</th>
+                                    <th>Total No. of Schemes</th>
                                     <th>ICR-I</th>
                                     <th>ICR-II</th>
                                     <th>ICR-I&II</th>
@@ -592,12 +596,12 @@
                                 <tr>
                                     <th>A: Water Courses</th>
                                     <td><?php echo $ongoing_a->total; ?></td>
-                                    <td><?php echo tomillions($ongoing_a->first); ?></td>
-                                    <td><?php echo tomillions($ongoing_a->second) ?></td>
-                                    <td><?php echo tomillions($ongoing_a->first_second); ?></td>
-                                    <td><?php echo tomillions($ongoing_a->other); ?></td>
-                                    <td><?php echo tomillions($ongoing_a->final); ?></td>
-                                    <td><?php echo tomillions($ongoing_a->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_a->first); ?></td>
+                                    <td><?php echo number_format($ongoing_a->second) ?></td>
+                                    <td><?php echo number_format($ongoing_a->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_a->other); ?></td>
+                                    <td><?php echo number_format($ongoing_a->final); ?></td>
+                                    <td><?php echo number_format($ongoing_a->total_paid); ?></td>
                                 </tr>
                                 <?php
                                 $query = "SELECT 
@@ -618,12 +622,12 @@
                                 <tr>
                                     <th>B1: HEIS</th>
                                     <td><?php echo $ongoing_b1->total; ?></td>
-                                    <td><?php echo tomillions($ongoing_b1->first); ?></td>
-                                    <td><?php echo tomillions($ongoing_b1->second) ?></td>
-                                    <td><?php echo tomillions($ongoing_b1->first_second); ?></td>
-                                    <td><?php echo tomillions($ongoing_b1->other); ?></td>
-                                    <td><?php echo tomillions($ongoing_b1->final); ?></td>
-                                    <td><?php echo tomillions($ongoing_b1->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->first); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->second) ?></td>
+                                    <td><?php echo number_format($ongoing_b1->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->other); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->final); ?></td>
+                                    <td><?php echo number_format($ongoing_b1->total_paid); ?></td>
                                 </tr>
                                 <?php
                                 $query = "SELECT 
@@ -644,12 +648,12 @@
                                 <tr>
                                     <th>B2: Water Storage Tank </th>
                                     <td><?php echo $ongoing_b2->total; ?></td>
-                                    <td><?php echo tomillions($ongoing_b2->first); ?></td>
-                                    <td><?php echo tomillions($ongoing_b2->second) ?></td>
-                                    <td><?php echo tomillions($ongoing_b2->first_second); ?></td>
-                                    <td><?php echo tomillions($ongoing_b2->other); ?></td>
-                                    <td><?php echo tomillions($ongoing_b2->final); ?></td>
-                                    <td><?php echo tomillions($ongoing_b2->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->first); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->second) ?></td>
+                                    <td><?php echo number_format($ongoing_b2->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->other); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->final); ?></td>
+                                    <td><?php echo number_format($ongoing_b2->total_paid); ?></td>
                                 </tr>
                                 <?php
                                 $query = "SELECT 
@@ -670,12 +674,12 @@
                                 <tr>
                                     <th>B3: Laser Leveling Service </th>
                                     <td><?php echo $ongoing_b3->total; ?></td>
-                                    <td><?php echo tomillions($ongoing_b3->first); ?></td>
-                                    <td><?php echo tomillions($ongoing_b3->second) ?></td>
-                                    <td><?php echo tomillions($ongoing_b3->first_second); ?></td>
-                                    <td><?php echo tomillions($ongoing_b3->other); ?></td>
-                                    <td><?php echo tomillions($ongoing_b3->final); ?></td>
-                                    <td><?php echo tomillions($ongoing_b3->total_paid); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->first); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->second) ?></td>
+                                    <td><?php echo number_format($ongoing_b3->first_second); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->other); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->final); ?></td>
+                                    <td><?php echo number_format($ongoing_b3->total_paid); ?></td>
                                 </tr>
 
                             </tbody>
@@ -683,12 +687,12 @@
                                 <tr>
                                     <th>Total</th>
                                     <th><?php echo $scheme->total; ?></th>
-                                    <th><?php echo tomillions($completed->first); ?></th>
-                                    <th><?php echo tomillions($completed->second) ?></th>
-                                    <th><?php echo tomillions($completed->first_second); ?></th>
-                                    <th><?php echo tomillions($completed->other); ?></th>
-                                    <th><?php echo tomillions($completed->final); ?></th>
-                                    <th><?php echo tomillions($completed->total_paid); ?></th>
+                                    <th><?php echo number_format($completed->first); ?></th>
+                                    <th><?php echo number_format($completed->second) ?></th>
+                                    <th><?php echo number_format($completed->first_second); ?></th>
+                                    <th><?php echo number_format($completed->other); ?></th>
+                                    <th><?php echo number_format($completed->final); ?></th>
+                                    <th><?php echo number_format($completed->total_paid); ?></th>
                                 </tr>
                             </tfoot>
                         </table>

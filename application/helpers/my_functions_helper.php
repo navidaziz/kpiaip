@@ -229,7 +229,16 @@ if (!function_exists('schemes_status_for_list')) {
 		}
 	}
 }
+if (!function_exists('toMillions')) {
+	function toMillions($number, $decimals = 2)
+	{
+		if ($number === null) {
+			return 0;
+		}
 
+		return number_format($number / 1000000, $decimals) . ' M';
+	}
+}
 
 
 if (!function_exists('scheme_status_detail')) {
