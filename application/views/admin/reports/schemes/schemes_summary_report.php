@@ -383,7 +383,7 @@
 
 
                         <small class="pull-right">
-                            <button onclick="get_schemes_summary('Ongoing')" class="btn btn-danger btn-sm">Category Wise <i class="fa fa-expand"></i></button>
+                            <!-- <button onclick="get_schemes_summary('Ongoing')" class="btn btn-danger btn-sm">Category Wise <i class="fa fa-expand"></i></button>-->
                             <script>
                                 function get_schemes_summary(scheme_status) {
                                     $.ajax({
