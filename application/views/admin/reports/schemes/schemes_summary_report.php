@@ -427,7 +427,7 @@
 
                                     <?php
                                     $query = "SELECT 
-                                    component_id, component_name, component_detail
+                                    component_id, component_name, component_detail,
                                     COUNT(0) AS `total`,
                                     SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
                                     SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
