@@ -480,7 +480,7 @@
                                                 <th><?php echo $component_category->category; ?>:
                                                     <small><?php echo $component_category->category_detail; ?></small>
                                                 </th>
-                                                <th style="text-align: center;"><?php echo $category->total; ?></th>
+                                                <th style="text-align: center;"><?php echo number_format($category->total); ?></th>
                                                 <td><?php echo tomillions($category->sactioned_cost); ?></td>
                                                 <td><?php echo tomillions($category->first); ?></td>
                                                 <td><?php echo tomillions($category->second) ?></td>
@@ -493,7 +493,7 @@
                                         <?php } ?>
                                         <tr>
                                             <th colspan="2" style="text-align: right;">SUB TOTAL</th>
-                                            <th style="text-align: center;"><?php echo $component->total; ?></th>
+                                            <th style="text-align: center;"><?php echo number_format($component->total); ?></th>
                                             <th><?php echo tomillions($component->sactioned_cost); ?></th>
                                             <th><?php echo tomillions($component->first); ?></th>
                                             <th><?php echo tomillions($component->second) ?></th>
@@ -531,7 +531,7 @@
 
                                     <tr>
                                         <th colspan="2" style="text-align: right;"></th>
-                                        <th style="text-align: center;"><?php echo $component_total->total; ?></th>
+                                        <th style="text-align: center;"><?php echo number_format($component_total->total); ?></th>
                                         <th><?php echo tomillions($component_total->sactioned_cost); ?></th>
                                         <th><?php echo tomillions($component_total->first); ?></th>
                                         <th><?php echo tomillions($component_total->second) ?></th>
@@ -630,7 +630,7 @@
                                                 <th><?php echo $component_category->category; ?>:
                                                     <small><?php echo $component_category->category_detail; ?></small>
                                                 </th>
-                                                <th style="text-align: center;"><?php echo $category->total; ?></th>
+                                                <th style="text-align: center;"><?php echo number_format($category->total); ?></th>
                                                 <td><?php echo tomillions($category->first); ?></td>
                                                 <td><?php echo tomillions($category->second) ?></td>
                                                 <td><?php echo tomillions($category->first_second); ?></td>
@@ -641,7 +641,7 @@
                                         <?php } ?>
                                         <tr>
                                             <th colspan="2" style="text-align: right;">SUB TOTAL</th>
-                                            <th style="text-align: center;"><?php echo $component->total; ?></th>
+                                            <th style="text-align: center;"><?php echo number_format($component->total); ?></th>
                                             <th><?php echo tomillions($component->first); ?></th>
                                             <th><?php echo tomillions($component->second) ?></th>
                                             <th><?php echo tomillions($component->first_second); ?></th>
@@ -677,7 +677,7 @@
 
                                     <tr>
                                         <th colspan="2" style="text-align: right;"></th>
-                                        <th style="text-align: center;"><?php echo $component_total->total; ?></th>
+                                        <th style="text-align: center;"><?php echo number_format($component_total->total); ?></th>
                                         <th><?php echo tomillions($component_total->first); ?></th>
                                         <th><?php echo tomillions($component_total->second) ?></th>
                                         <th><?php echo tomillions($component_total->first_second); ?></th>
