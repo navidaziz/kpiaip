@@ -590,6 +590,7 @@ class Payment_notesheets extends Admin_Controller
               s.scheme_id, 
               s.scheme_code, 
               s.scheme_name, 
+              s.sanctioned_cost,
               d.district_name, 
               wua.bank_account_title, 
               wua.bank_account_number,
@@ -610,6 +611,7 @@ class Payment_notesheets extends Admin_Controller
             echo '<tr><th>Scheme Code</th><td>' . $scheme->scheme_code . '</td></tr>';
             echo '<tr><th>Scheme Code</th><td>' . $scheme->category . ': ' . $scheme->category_detail . '</td></tr>';
             echo '<tr><th>Scheme Name</th><td>' . $scheme->scheme_name . '</td></tr>';
+            echo '<tr><th>Scheme Sanctioned Cost</th><td>' . number_format($scheme->sanctioned_cost, 2) . '</td></tr>';
             echo '<tr><th>District</th><td>' . $scheme->district_name . '</td></tr>';
             echo '<tr><th>Bank Account Title</th><td>' . $scheme->bank_account_title . '</td></tr>';
             echo '<tr><th>Bank Account Number</th><td>' . $scheme->bank_account_number . '</td></tr>';
@@ -636,21 +638,21 @@ class Payment_notesheets extends Admin_Controller
                 echo '<h4>Payment Request Details</h4>';
                 echo '<table class="table table-bordered table-striped table_small">';
                 echo '<thead>
-            <tr>
-                <th>#</th>
-                <th>Voucher ID</th>
-                <th>Payment Type</th>
-                <th>Payment Amount</th>
-                <th>WHT</th>
-                <th>WHST</th>
-                <th>ST Duty</th>
-                <th>RDP</th>
-                <th>KPRA</th>
-                <th>Guarantee Ret.</th>
-                <th>Misc. Deduction</th>
-                <th>Net Pay</th>
-            </tr>
-          </thead><tbody>';
+                    <tr>
+                        <th>#</th>
+                        <th>Voucher ID</th>
+                        <th>Payment Type</th>
+                        <th>Gross Pay</th>
+                        <th>WHT</th>
+                        <th>WHST</th>
+                        <th>ST Duty</th>
+                        <th>RDP</th>
+                        <th>KPRA</th>
+                        <th>Guarantee Ret.</th>
+                        <th>Misc. Deduction</th>
+                        <th>Net Pay</th>
+                    </tr>
+                </thead><tbody>';
 
                 $i = 1;
                 foreach ($payment_request as $pr) {
@@ -674,6 +676,131 @@ class Payment_notesheets extends Admin_Controller
             } else {
                 echo '<div class="alert alert-warning">No payment request found for this scheme.</div>';
             }
+
+
+            $query = "SELECT
+            e.payee_name,
+            e.date,
+            e.cheque, 
+            e.gross_pay,
+            e.whit_tax,
+            e.whst_tax,
+            e.st_duty_tax,
+            e.rdp_tax,
+            e.kpra_tax,
+            e.gur_ret,
+            e.misc_deduction,
+            e.net_pay,
+            e.installment,
+            cc.category  
+          FROM expenses as e 
+          INNER JOIN component_categories as cc 
+            ON(cc.component_category_id = e.component_category_id)
+          WHERE scheme_id = $scheme->scheme_id";
+            $expenses = $this->db->query($query)->result();
+
+            // Fetch totals
+            $query = "SELECT
+            SUM(e.gross_pay) as gross_pay,
+            SUM(e.whit_tax) as whit_tax,
+            SUM(e.whst_tax) as whst_tax,
+            SUM(e.st_duty_tax) as st_duty_tax,
+            SUM(e.rdp_tax) as rdp_tax,
+            SUM(e.kpra_tax) as kpra_tax,
+            SUM(e.gur_ret) as gur_ret,
+            SUM(e.misc_deduction) as misc_deduction,
+            SUM(e.net_pay) as net_pay
+          FROM expenses as e 
+          WHERE e.scheme_id = $scheme->scheme_id";
+            $expenses_all = $this->db->query($query)->row();
+            echo '<h4>Payment Detail</h4>';
+            echo '<table class="table table-bordered table_small" id="wua_scheme_payment">';
+            echo '<thead>
+        <tr>
+            <th>#</th>
+            <th>Cat.</th>
+            <th>Cheque</th>
+            <th>Date</th>
+            <th>Payee Name</th>
+            <th>Gross Pay</th>
+            <th>WHIT</th>
+            <th>WHST</th>
+            <th>KPRA</th>
+            <th>St.Duty</th>
+            <th>RDP</th>
+            <th>GUR.RET.</th>
+            <th>Misc.Dedu.</th>
+            <th>Net Pay</th>
+            <th>%</th>
+            <th>Install.</th>
+        </tr>
+      </thead><tbody>';
+
+            $count = 1;
+            foreach ($expenses as $expense) {
+                echo '<tr>';
+                echo '<td>' . $count++ . '</td>';
+                echo '<td>' . $expense->category . '</td>';
+                echo '<td>' . $expense->cheque . '</td>';
+                echo '<td>' . date("d M, Y", strtotime($expense->date)) . '</td>';
+                echo '<td><small><i>' . $expense->payee_name . '</i></small></td>';
+                echo '<td>' . number_format($expense->gross_pay, 0) . '</td>';
+                echo '<td>' . number_format($expense->whit_tax, 0) . '</td>';
+                echo '<td>' . number_format($expense->whst_tax, 0) . '</td>';
+                echo '<td>' . number_format($expense->kpra_tax, 0) . '</td>';
+                echo '<td>' . number_format($expense->st_duty_tax, 0) . '</td>';
+                echo '<td>' . number_format($expense->rdp_tax, 0) . '</td>';
+                echo '<td>' . number_format($expense->gur_ret, 0) . '</td>';
+                echo '<td>' . number_format($expense->misc_deduction, 0) . '</td>';
+                echo '<td>' . number_format($expense->net_pay, 0) . '</td>';
+                echo '<th>';
+                if ($scheme->sanctioned_cost) {
+                    echo round(($expense->gross_pay * 100) / $scheme->sanctioned_cost, 2) . ' %';
+                }
+                echo '</th>';
+                echo '<th>' . $expense->installment . '</th>';
+                echo '</tr>';
+            }
+
+            echo '</tbody><tfoot>';
+
+            // Totals row
+            echo '<tr>
+        <th></th><th></th><th></th><th></th>
+        <th>Total:</th>
+        <th>' . number_format($expenses_all->gross_pay, 0) . '</th>
+        <th>' . number_format($expenses_all->whit_tax, 0) . '</th>
+        <th>' . number_format($expenses_all->whst_tax, 0) . '</th>
+        <th>' . number_format($expenses_all->kpra_tax, 0) . '</th>
+        <th>' . number_format($expenses_all->st_duty_tax, 0) . '</th>
+        <th>' . number_format($expenses_all->rdp_tax, 0) . '</th>
+        <th>' . number_format($expenses_all->gur_ret, 0) . '</th>
+        <th>' . number_format($expenses_all->misc_deduction, 0) . '</th>
+        <th>' . number_format($expenses_all->net_pay, 0) . '</th>
+        <th>';
+            if ($scheme->sanctioned_cost) {
+                echo round(($expenses_all->gross_pay * 100) / $scheme->sanctioned_cost, 2) . ' %';
+            }
+            echo '</th><th></th></tr>';
+
+            // Sanctioned cost row
+            echo '<tr>
+        <th></th><th></th><th></th><th></th>
+        <th>Sanctioned Cost:</th>
+        <th>' . number_format($scheme->sanctioned_cost, 0) . '</th>
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+      </tr>';
+
+            // Balance row
+            $balance = $scheme->sanctioned_cost - $expenses_all->gross_pay;
+            echo '<tr>
+        <th></th><th></th><th></th><th></th>
+        <th>Balance:</th>
+        <th>' . number_format($balance, 0) . '</th>
+        <th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th>
+      </tr>';
+
+            echo '</tfoot></table>';
         } else {
             echo '<div class="alert alert-danger">Scheme not found. Try with a correct Scheme Code.</div>';
         }
