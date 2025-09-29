@@ -581,4 +581,101 @@ class Payment_notesheets extends Admin_Controller
             echo json_encode(["error" => "Invalid Voucher No. or the Voucher No. not belongs to the Scheme."]);
         }
     }
+
+    public function search_scheme_by_scheme_id()
+    {
+        $scheme_code = $this->input->post('scheme_code');
+
+        $query = "SELECT 
+              s.scheme_id, 
+              s.scheme_code, 
+              s.scheme_name, 
+              d.district_name, 
+              wua.bank_account_title, 
+              wua.bank_account_number,
+              cc.category,
+              cc.category_detail
+          FROM schemes AS s
+          INNER JOIN districts AS d 
+              ON d.district_id = s.district_id
+          INNER JOIN water_user_associations AS wua 
+              ON wua.water_user_association_id = s.water_user_association_id
+          INNER JOIN component_categories as cc ON(cc.component_category_id = s.component_category_id)    
+          WHERE s.scheme_code = ?";
+
+        $scheme = $this->db->query($query, [$scheme_code])->row();
+
+        if ($scheme) {
+            echo '<table class="table table-bordered">';
+            echo '<tr><th>Scheme Code</th><td>' . $scheme->scheme_code . '</td></tr>';
+            echo '<tr><th>Scheme Code</th><td>' . $scheme->category . ': ' . $scheme->category_detail . '</td></tr>';
+            echo '<tr><th>Scheme Name</th><td>' . $scheme->scheme_name . '</td></tr>';
+            echo '<tr><th>District</th><td>' . $scheme->district_name . '</td></tr>';
+            echo '<tr><th>Bank Account Title</th><td>' . $scheme->bank_account_title . '</td></tr>';
+            echo '<tr><th>Bank Account Number</th><td>' . $scheme->bank_account_number . '</td></tr>';
+            echo '</table>';
+            $query = "SELECT 
+              payment_notesheet_id, 
+              voucher_id, 
+              payment_type, 
+              payment_amount, 
+              whit, 
+              whst, 
+              st_duty, 
+              rdp, 
+              kpra, 
+              gur_ret, 
+              misc_deduction, 
+              net_pay 
+          FROM payment_notesheet_schemes 
+          WHERE scheme_id = ?";
+
+            $payment_request = $this->db->query($query, [$scheme->scheme_id])->result();
+
+            if ($payment_request) {
+                echo '<h4>Payment Request Details</h4>';
+                echo '<table class="table table-bordered table-striped table_small">';
+                echo '<thead>
+            <tr>
+                <th>#</th>
+                <th>Voucher ID</th>
+                <th>Payment Type</th>
+                <th>Payment Amount</th>
+                <th>WHT</th>
+                <th>WHST</th>
+                <th>ST Duty</th>
+                <th>RDP</th>
+                <th>KPRA</th>
+                <th>Guarantee Ret.</th>
+                <th>Misc. Deduction</th>
+                <th>Net Pay</th>
+            </tr>
+          </thead><tbody>';
+
+                $i = 1;
+                foreach ($payment_request as $pr) {
+                    echo '<tr>';
+                    echo '<td>' . $i++ . '</td>';
+                    echo '<td>' . $pr->voucher_id . '</td>';
+                    echo '<td>' . $pr->payment_type . '</td>';
+                    echo '<td>' . number_format($pr->payment_amount, 2) . '</td>';
+                    echo '<td>' . number_format($pr->whit, 2) . '</td>';
+                    echo '<td>' . number_format($pr->whst, 2) . '</td>';
+                    echo '<td>' . number_format($pr->st_duty, 2) . '</td>';
+                    echo '<td>' . number_format($pr->rdp, 2) . '</td>';
+                    echo '<td>' . number_format($pr->kpra, 2) . '</td>';
+                    echo '<td>' . number_format($pr->gur_ret, 2) . '</td>';
+                    echo '<td>' . number_format($pr->misc_deduction, 2) . '</td>';
+                    echo '<td><strong>' . number_format($pr->net_pay, 2) . '</strong></td>';
+                    echo '</tr>';
+                }
+
+                echo '</tbody></table>';
+            } else {
+                echo '<div class="alert alert-warning">No payment request found for this scheme.</div>';
+            }
+        } else {
+            echo '<div class="alert alert-danger">Scheme not found. Try with a correct Scheme Code.</div>';
+        }
+    }
 }

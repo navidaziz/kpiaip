@@ -26,10 +26,42 @@
                 <div class="col-md-6">
                     <div class="pull-right">
 
-                        <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/download_payment_notesheet_csv'); ?>" class="btn btn-warning"><i class="fa fa-download"></i> Download</a>
-                        <?php if ($this->session->userdata("role_id") == 3) { ?>
-                            <button onclick="get_payment_notesheet_form('0')" class="btn btn-primary">Add New Payment Note Sheet</button>
-                        <?php } ?>
+                        <table>
+                            <tr>
+                                <td>Check By Scheme CODE</td>
+                                <td><input class="form-control" placeholder="SCHEME CODE: 12323" type="text" id="schemeCode" value="" name="" /></td>
+                                <td><button onclick="search_scheme_by_scheme_id()" class="btn btn-success">Check</button>
+                                    <script>
+                                        function search_scheme_by_scheme_id() {
+                                            var scheme_code = $('#schemeCode').val();
+                                            if (scheme_code == '') {
+                                                alert('Please enter scheme code');
+                                                return false;
+                                            }
+
+                                            $.ajax({
+                                                    method: "POST",
+                                                    url: "<?php echo site_url(ADMIN_DIR . 'payment_notesheets/search_scheme_by_scheme_id'); ?>",
+                                                    data: {
+                                                        scheme_code: scheme_code
+                                                    },
+                                                })
+                                                .done(function(respose) {
+                                                    $('#modal').modal('show');
+                                                    $('#modal_title').html('Scheme Detail');
+                                                    $('#modal_body').html(respose);
+                                                });
+                                        }
+                                    </script>
+                                    <span style="margin-left: 10px; margin-right: 10px;"> | </span>
+                                    <a target="_blank" href="<?php echo site_url(ADMIN_DIR . 'reports/download_payment_notesheet_csv'); ?>" class="btn btn-warning"><i class="fa fa-download"></i> Download</a>
+                                    <?php if ($this->session->userdata("role_id") == 3) { ?>
+                                        <button onclick="get_payment_notesheet_form('0')" class="btn btn-primary">Add New Payment Note Sheet</button>
+                                    <?php } ?>
+                                </td>
+                            </tr>
+                        </table>
+
                         <script>
                             function get_payment_notesheet_form(id) {
                                 $.ajax({
