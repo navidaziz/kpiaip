@@ -628,8 +628,13 @@ class Payment_notesheets extends Admin_Controller
               kpra, 
               gur_ret, 
               misc_deduction, 
-              net_pay 
+              net_pay,
+              pn.payment_notesheet_code,
+              pn.puc_tracking_id,
+              pn.puc_date 
           FROM payment_notesheet_schemes 
+          INNER JOIN payment_notesheets as pn 
+              ON pn.id = payment_notesheet_schemes.payment_notesheet_id
           WHERE scheme_id = ?";
 
             $payment_request = $this->db->query($query, [$scheme->scheme_id])->result();
@@ -640,7 +645,8 @@ class Payment_notesheets extends Admin_Controller
                 echo '<thead>
                     <tr>
                         <th>#</th>
-                        <th>Voucher ID</th>
+                        <th>Tracking ID</th>
+                        <th>Date</th>
                         <th>Payment Type</th>
                         <th>Gross Pay</th>
                         <th>WHT</th>
@@ -658,7 +664,8 @@ class Payment_notesheets extends Admin_Controller
                 foreach ($payment_request as $pr) {
                     echo '<tr>';
                     echo '<td>' . $i++ . '</td>';
-                    echo '<td>' . $pr->voucher_id . '</td>';
+                    echo '<td>' . $pr->puc_tracking_id . '</td>';
+                    echo '<td>' . $pr->puc_date . '</td>';
                     echo '<td>' . $pr->payment_type . '</td>';
                     echo '<td>' . number_format($pr->payment_amount, 2) . '</td>';
                     echo '<td>' . number_format($pr->whit, 2) . '</td>';
