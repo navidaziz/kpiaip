@@ -347,7 +347,7 @@ class Sft extends Admin_Controller
                 $input["risers_pond"] = NULL;
                 $input["others"] = NULL;
             }
-            if ($this->input->post("component_category_id") == 9) {
+            if ($this->input->post("component_category_id") == 11) {
                 $input["length"] = $this->input->post("length");
                 $input["width"] = $this->input->post("width");
                 $input["height"] = $this->input->post("height");
