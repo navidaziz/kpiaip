@@ -951,7 +951,8 @@
 
                             <?php } ?>
 
-                            <?php if ($this->session->userdata('role_id') == 4) { ?>
+                            <?php
+                            if ($this->session->userdata('role_id') == 4) { ?>
                                 <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
                                     class="btn btn-danger btn-sm"><i class="fa fa-edit"></i>
                                     Edit Scheme Detail
