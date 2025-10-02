@@ -222,6 +222,9 @@
                         <h3 style="font-weight: bolder; color:black"> Total <?php echo number_format($ongoing->total + $completed->total); ?><br />
                             <small> Schemes So far</small>
                         </h3>
+                        <p style="text-align: center;">
+                            <a target="_blank" class="label label-danger" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/"); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download All Schemes</a>
+                        </p>
                     </div>
                 </div>
             </div>
