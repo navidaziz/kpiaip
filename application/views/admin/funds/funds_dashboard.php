@@ -316,7 +316,10 @@
                                     <td class="number-cell"><?php echo @number_format($expense->total_expense * $f_year->forex); ?></td>
                                     <td class="number-cell"><?php echo @number_format($expense->total_expense); ?></td>
                                     <td class="number-cell"><?php echo @number_format($closing_balance_pkr * $f_year->forex); ?></td>
-                                    <td class="number-cell"><?php echo @number_format($closing_balance_pkr); ?></td>
+                                    <td class="number-cell"><?php
+                                                            if ($f_year->status != 1) {
+                                                                echo @number_format($closing_balance_pkr);
+                                                            } ?></td>
                                     <th style="text-align: center;"><?php echo $buring_rate; ?></th>
                                 </tr>
                             <?php
