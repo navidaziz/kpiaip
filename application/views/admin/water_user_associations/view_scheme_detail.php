@@ -947,7 +947,12 @@
                                     </button>
 
                                 <?php } else { ?>
-
+                                    <?php if (($this->session->userdata('role_id') == 28 or $this->session->userdata('role_id') == 1)) { ?>
+                                        <button onclick="initiate_scheme(<?php echo $scheme->scheme_id ?>)"
+                                            class="btn btn-danger btn-sm"><i class="fa fa-forward"></i>
+                                            Edit Scheme Detail
+                                        </button>
+                                    <?php } ?>
                                 <?php } ?>
 
                             <?php } ?>
