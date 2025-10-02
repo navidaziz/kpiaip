@@ -185,7 +185,7 @@
                 </div>
                 <div class="col-md-3">
                     <div class="alert alert-success" id="messenger">
-                        <h4>Completed Schemes</h4>
+                        <h4>Completed Schemes <small><a target="_blank" class="label label-danger pull-right" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/Completed"); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a></h4>
                         <hr />
                         <?php
                         $query = "SELECT 
