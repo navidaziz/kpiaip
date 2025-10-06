@@ -541,7 +541,7 @@ class Sft extends Admin_Controller
 
 
 
-            $input["estimated_cost"] = 0;
+            //$input["estimated_cost"] = 0;
             $input["approved_cost"] = $this->input->post("approved_cost");
             if ($this->input->post("revised_cost") > 0) {
                 $input["revised_cost"] = $this->input->post("revised_cost");
@@ -554,7 +554,7 @@ class Sft extends Admin_Controller
             $input["sanctioned_cost"] = $this->input->post("completion_cost");
 
 
-            $input["estimated_cost_date"] = 0;
+            //$input["estimated_cost_date"] = 0;
             $input["approval_date"] = $this->input->post("approval_date");
 
             $input["completion_date"] = $this->input->post("completion_date");
@@ -718,7 +718,7 @@ class Sft extends Admin_Controller
 
 
 
-            $input["estimated_cost"] = 0;
+            //$input["estimated_cost"] = 0;
             $input["approved_cost"] = $this->input->post("approved_cost");
             if ($this->input->post("revised_cost") > 0) {
                 $input["revised_cost"] = $this->input->post("revised_cost");
@@ -731,7 +731,7 @@ class Sft extends Admin_Controller
             $input["sanctioned_cost"] = $this->input->post("completion_cost");
 
 
-            $input["estimated_cost_date"] = 0;
+            //$input["estimated_cost_date"] = 0;
             $input["approval_date"] = $this->input->post("approval_date");
 
             $input["completion_date"] = $this->input->post("completion_date");
