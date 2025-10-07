@@ -385,8 +385,8 @@
                                                 <td>Financially</td>
                                             </tr>
                                             <tr>
-                                                <th><?php echo number_format($phy_completed->total); ?></th>
-                                                <th><?php echo number_format($scheme->total); ?></th>
+                                                <th style="text-align: center;"><?php echo number_format($phy_completed->total); ?></th>
+                                                <th style="text-align: center;"><?php echo number_format($scheme->total); ?></th>
                                             </tr>
                                         </table>
 
