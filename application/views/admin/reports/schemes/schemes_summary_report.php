@@ -379,8 +379,19 @@
                                                                                     ?></h5>
                                         <h2 style="font-weight: bold; color:black"><?php echo number_format(($scheme->total + $phy_completed->total)) ?></h2>
                                         <p style="text-align: left; font-size:9px; color:black">
-                                            <strong>Fina. Completed: <?php echo $scheme->total; ?></strong><br />
-                                            <strong>Phys. Completed: <?php echo $phy_completed->total; ?></strong>
+                                        <table>
+                                            <tr>
+                                                <th>Physically</th>
+                                                <th>Financially</th>
+                                            </tr>
+                                            <tr>
+                                                <td><?php echo number_format($phy_completed->total); ?></td>
+                                                <td><?php echo number_format($scheme->total); ?></td>
+                                            </tr>
+                                        </table>
+
+
+
                                         </p>
                                         <p style="text-align: right;">
                                             <a target="_blank" class="label label-warning" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/" . $scheme_status); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a>
