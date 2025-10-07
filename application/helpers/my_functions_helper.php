@@ -236,7 +236,7 @@ if (!function_exists('toMillions')) {
 			return 0;
 		}
 
-		return number_format($number / 1000000, $decimals) . ' M';
+		return number_format($number / 1000000, $decimals) . '';
 	}
 }
 

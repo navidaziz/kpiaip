@@ -377,7 +377,10 @@
                                                                                         echo $scheme_status;
                                                                                     }
                                                                                     ?></h5>
-                                        <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
+                                        <h2 style="font-weight: bold; color:black"><?php echo number_format(($scheme->total + $phy_completed->total)) ?></h2>
+
+                                        <strong>Fina. Completed: <?php echo $scheme->total; ?></strong>
+                                        <strong>Phys. Completed: <?php echo $phy_completed->total; ?></strong>
                                         <p style="text-align: right;">
                                             <a target="_blank" class="label label-warning" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/" . $scheme_status); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a>
                                         </p>
@@ -427,14 +430,14 @@
                                         <th>#</th>
                                         <th>Components</th>
                                         <th>TOTAL NO. OF SCHEMES</th>
-                                        <th>SC/FCR</th>
-                                        <th>ICR-I</th>
-                                        <th>ICR-II</th>
-                                        <th>ICR-I&II</th>
-                                        <th>OTHER</th>
-                                        <th>FCR</th>
-                                        <th>TOTAL</th>
-                                        <th>TOTAL PAYABLE</th>
+                                        <th>SC/FCR (M)</th>
+                                        <th>ICR-I (M)</th>
+                                        <th>ICR-II (M)</th>
+                                        <th>ICR-I&II (M)</th>
+                                        <th>OTHER (M)</th>
+                                        <th>FCR (M)</th>
+                                        <th>TOTAL (M)</th>
+                                        <th>TOTAL PAYABLE (M)</th>
                                 </thead>
                                 <tbody>
 
@@ -579,12 +582,12 @@
                                         <th>#</th>
                                         <th>Components</th>
                                         <th>TOTAL NO. OF SCHEMES</th>
-                                        <th>ICR-I</th>
-                                        <th>ICR-II</th>
-                                        <th>ICR-I&II</th>
-                                        <th>OTHER</th>
-                                        <th>FCR</th>
-                                        <th>TOTAL</th>
+                                        <th>ICR-I (M)</th>
+                                        <th>ICR-II (M)</th>
+                                        <th>ICR-I&II (M)</th>
+                                        <th>OTHER (M)</th>
+                                        <th>FCR (M)</th>
+                                        <th>TOTAL (M)</th>
                                 </thead>
                                 <tbody>
 
