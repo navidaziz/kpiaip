@@ -441,7 +441,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Components</th>
-                                        <th>TOTAL NO. OF SCHEMES</th>
+                                        <th>NO. OF SCHEMES</th>
                                         <th>SC/FCR (M)</th>
                                         <th>ICR-I (M)</th>
                                         <th>ICR-II (M)</th>
@@ -593,7 +593,7 @@
                                     <tr>
                                         <th>#</th>
                                         <th>Components</th>
-                                        <th>TOTAL NO. OF SCHEMES</th>
+                                        <th>NO. OF SCHEMES</th>
                                         <th>ICR-I (M)</th>
                                         <th>ICR-II (M)</th>
                                         <th>ICR-I&II (M)</th>
