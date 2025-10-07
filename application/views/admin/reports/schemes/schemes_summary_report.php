@@ -336,12 +336,22 @@
                                 <div class="dashboard-box" style="background-color: #DFEFD8;">
                                     <h5 style="font-weight: bold; color:black">Ongoing Schemes</h5>
                                     <h2 style="font-weight: bold; color:black"><?php echo $scheme->total ?></h2>
-                                    <p style="text-align: right;">
+
                                     <p style="text-align: center;">
+                                        <strong style="color: black;">Phy. Completed:
+                                            <?php
+                                            $query = "SELECT scheme_status, COUNT(*) as total FROM schemes 
+                                            WHERE scheme_status IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
+                                            AND phy_completion IS NOT NULL 
+                                            AND phy_completion_date IS NOT NULL";
+                                            $phy_completed = $this->db->query($query)->row();
+                                            echo $phy_completed->total;
+                                            ?>
+                                        </strong>
                                         <button onclick="get_list('current_ongoing')" class="label label-success" style="border: 0px !important;"><i class="fa fa-list"></i> View List </button>
                                         <a target="_blank" class="label label-warning" href="<?php echo site_url(ADMIN_DIR . "reports/export_scheme_list_by_status/current_ongoing"); ?>"> <i class="fa fa-download" aria-hidden="true"></i> Download</a>
                                     </p>
-                                    </p>
+
                                 </div>
                             </div>
 
