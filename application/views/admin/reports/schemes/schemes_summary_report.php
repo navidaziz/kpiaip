@@ -378,7 +378,7 @@
                                                                                     }
                                                                                     ?></h5>
                                         <h2 style="font-weight: bold; color:black"><?php echo number_format(($scheme->total + $phy_completed->total)) ?></h2>
-                                        <p style="text-align: left;">
+                                        <p style="text-align: left; font-size:9px; color:black">
                                             <strong>Fina. Completed: <?php echo $scheme->total; ?></strong><br />
                                             <strong>Phys. Completed: <?php echo $phy_completed->total; ?></strong>
                                         </p>
