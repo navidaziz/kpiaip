@@ -379,14 +379,14 @@
                                                                                     ?></h5>
                                         <h2 style="font-weight: bold; color:black"><?php echo number_format(($scheme->total + $phy_completed->total)) ?></h2>
                                         <p style="text-align: left; font-size:9px; color:black">
-                                        <table>
+                                        <table style="width: 100%;">
                                             <tr>
-                                                <th>Physically</th>
-                                                <th>Financially</th>
+                                                <td>Physically</td>
+                                                <td>Financially</td>
                                             </tr>
                                             <tr>
-                                                <td><?php echo number_format($phy_completed->total); ?></td>
-                                                <td><?php echo number_format($scheme->total); ?></td>
+                                                <th><?php echo number_format($phy_completed->total); ?></th>
+                                                <th><?php echo number_format($scheme->total); ?></th>
                                             </tr>
                                         </table>
 
