@@ -126,10 +126,10 @@
                 <i class="fa fa-home"></i>
                 <a href="<?php echo site_url($this->session->userdata("role_homepage_uri")); ?>"><?php echo $this->lang->line('Home'); ?></a>
             </li>
-            <li>
+            <!-- <li>
                 <i class="fa fa-file"></i>
                 <a href="<?php echo site_url(ADMIN_DIR . 'reports'); ?>">Reports List</a>
-            </li>
+            </li> -->
             <li><?php echo $title; ?></li>
         </ul>
 
@@ -172,7 +172,7 @@ $completed = $this->db->query($query)->row();
                     <div style="margin-top: 5px; text-align: center;">
                         <img style="width: 118px" src="<?php echo site_url("assets/logo.jpeg") ?>" />
                         <h5><?php echo $title; ?></h5>
-                        <div class="description"><?php echo $description; ?></div>
+                        <!-- <div class="description"><?php echo $description; ?></div> -->
                     </div>
 
 
