@@ -65,7 +65,7 @@
 
                      <?php foreach ($menu_arr as $controller_id => $controller_data): ?>
                          <?php $cn_class = ($controller_name == $controller_data['controller_uri']) ? "active" : ""; ?>
-                         <a href="<?php echo site_url(ADMIN_DIR . $controller_data['controller_uri'] . "/" . $action['action_uri']); ?>" class="text-decoration-none text-dark">
+                         <a href="<?php echo site_url(ADMIN_DIR . @$controller_data['controller_uri'] . "/" . @$action['action_uri']); ?>" class="text-decoration-none text-dark">
                              <div class="col-md-3 col-sm-6">
                                  <div class="panel panel-default <?= $cn_class ?>">
                                      <div class="panel-body text-center">
