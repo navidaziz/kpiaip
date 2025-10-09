@@ -507,7 +507,7 @@
                                                 <th><?php echo $category_count++; ?></th>
                                                 <th><?php echo $component_category->category; ?>:
                                                     <small><?php echo $component_category->category_detail; ?>
-                                                        <?php if ($component_category->category != 'B-2') {  ?> (No.) <?php } else { ?> (Acre) <?php } ?>
+                                                        <?php if ($component_category->category != 'B-1') {  ?> (No.) <?php } else { ?> (Acre) <?php } ?>
                                                     </small>
                                                 </th>
                                                 <th style="text-align: center;"><?php echo number_format($category->total); ?></th>
@@ -659,7 +659,7 @@
                                                 <th><?php echo $category_count++; ?></th>
                                                 <th><?php echo $component_category->category; ?>:
                                                     <small><?php echo $component_category->category_detail; ?>
-                                                        <?php if ($component_category->category != 'B-2') {  ?> (No.) <?php } else { ?> (Acre) <?php } ?>
+                                                        <?php if ($component_category->category != 'B-1') {  ?> (No.) <?php } else { ?> (Acre) <?php } ?>
                                                     </small>
                                                 </th>
                                                 <th style="text-align: center;"><?php echo number_format($category->total); ?></th>
