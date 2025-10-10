@@ -783,7 +783,7 @@ $completed = $this->db->query($query)->row();
 
                                     </td>
                                     <td>
-                                        <?php echo "$total_balance = $component_a_phy_completed->balance + $component_a_completed->balance";
+                                        <?php echo "$total_balance = $component_a_phy_completed->balance";
                                         echo toMillions($total_balance);
                                         ?>
 
@@ -839,7 +839,7 @@ $completed = $this->db->query($query)->row();
 
                                     </td>
                                     <td>
-                                        <?php $total_balance = $component_b_phy_completed->balance + $component_b_completed->balance;
+                                        <?php $total_balance = $component_b_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
@@ -896,7 +896,7 @@ $completed = $this->db->query($query)->row();
 
                                     </td>
                                     <td>
-                                        <?php $total_balance = $component_b2_phy_completed->balance + $component_b2_completed->balance;
+                                        <?php $total_balance = $component_b2_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
@@ -952,7 +952,7 @@ $completed = $this->db->query($query)->row();
 
                                     </td>
                                     <td>
-                                        <?php $total_balance =  $component_b3_phy_completed->balance + $component_b3_completed->balance;
+                                        <?php $total_balance =  $component_b3_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
@@ -1007,7 +1007,7 @@ $completed = $this->db->query($query)->row();
 
                                         </td>
                                     <th>
-                                        <?php $total_balance =  $component_phy_completed->balance + $component_completed->balance;
+                                        <?php $total_balance =  $component_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
