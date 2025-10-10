@@ -776,14 +776,14 @@ $completed = $this->db->query($query)->row();
                                     </td>
                                     <td>
                                         <?php
-                                        echo "$otal_paid = $component_a_phy_completed->total_paid + $component_a_completed->total_paid";
+                                        $otal_paid = $component_a_phy_completed->total_paid + $component_a_completed->total_paid;
                                         echo toMillions($otal_paid);
                                         ?>
                                         </small>
 
                                     </td>
                                     <td>
-                                        <?php $total_balance = $component_a_phy_completed->balance + $component_a_completed->balance;
+                                        <?php echo "$total_balance = $component_a_phy_completed->balance + $component_a_completed->balance";
                                         echo toMillions($total_balance);
                                         ?>
 
