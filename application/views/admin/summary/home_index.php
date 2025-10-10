@@ -776,7 +776,7 @@ $completed = $this->db->query($query)->row();
                                     </td>
                                     <td>
                                         <?php
-                                        $otal_paid = $component_a_phy_completed->total_paid + $component_a_completed->total_paid;
+                                        echo "$otal_paid = $component_a_phy_completed->total_paid + $component_a_completed->total_paid";
                                         echo toMillions($otal_paid);
                                         ?>
                                         </small>
