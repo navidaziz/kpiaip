@@ -783,7 +783,7 @@ $completed = $this->db->query($query)->row();
 
                                     </td>
                                     <td>
-                                        <?php echo "$total_balance = $component_a_phy_completed->balance";
+                                        <?php $total_balance = $component_a_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
