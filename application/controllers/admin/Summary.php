@@ -27,4 +27,13 @@ class Summary extends Admin_Controller
         $this->data["view"] = ADMIN_DIR . "summary/home_index";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
     }
+
+
+    public function remaining_cheques()
+    {
+        $this->data["title"] = 'Remaining Cheques';
+        $this->data["description"] = 'Remaining Cheques';
+        $this->data["view"] = ADMIN_DIR . "summary/remaining_cheques";
+        $this->load->view(ADMIN_DIR . "layout", $this->data);
+    }
 }
