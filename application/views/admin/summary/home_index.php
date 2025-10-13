@@ -314,7 +314,7 @@ $completed = $this->db->query($query)->row();
                                     $component = $this->db->query($query)->row();
 
                                     ?>
-                                    <th colspan="2">Total</th>
+                                    <th colspan="2" style="text-align: right;">Total</th>
                                     <!-- <th><?php echo number_format($component->total - $component_b2->total - $component_b3->total); ?></th> -->
                                     <th><?php echo tomillions($component->sactioned_cost); ?></th>
                                     <th><?php echo tomillions($component->total_paid); ?></th>
@@ -545,7 +545,7 @@ $completed = $this->db->query($query)->row();
                                     <td> <?php
                                             //$b3_completed_total =  $total_completed = $component_b3_phy_completed->total + $component_b3_completed->total;
                                             //echo number_format($total_completed);
-                                            echo "158";
+                                            echo "178";
                                             ?>
 
                                     </td>
@@ -597,7 +597,7 @@ $completed = $this->db->query($query)->row();
 
 
                                     ?>
-                                    <th colspan="2">Total
+                                    <th colspan="2" style="text-align: right;">Total
                                         <?php
                                         // $total_completed = $component_phy_completed->total + $component_completed->total;
                                         //echo number_format($total_completed - $b1_completed_total -  $b3_completed_total);
