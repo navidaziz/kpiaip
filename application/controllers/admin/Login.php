@@ -173,7 +173,7 @@ class Login extends Admin_Controller
 		} else {
 
 			$this->data['title'] = "Login to dashboard";
-			$this->load->view("admin/login", $this->data);
+			$this->load->view(ADMIN_DIR . "login/login", $this->data);
 		}
 	}
 
