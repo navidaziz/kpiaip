@@ -190,141 +190,6 @@ $completed = $this->db->query($query)->row();
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">
-                    <div class="alert alert-danger" id="messenger">
-                        <h4 style="font-weight: bolder;"><i class="fa fa-spinner" aria-hidden="true"></i> Ongoing Schemes </h4>
-                        <hr />
-                        <table class="table table-bordered table-striped" style="color: black !important;">
-
-                            <thead>
-                                <tr>
-                                    <th>Component</th>
-                                    <th>Schemes</th>
-                                    <th colspan="3">Amount (Rs. in Million)</th>
-                                </tr>
-                                <tr>
-                                    <th></th>
-                                    <th></th>
-                                    <th style="text-align:center">Sanctioned</th>
-                                    <th style="text-align:center">Paid</th>
-                                    <th style="text-align:center">Balance</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <?php
-                                    $query = "SELECT 
-                                        COUNT(0) AS `total`,
-                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
-                                        FROM `sft_schemes` 
-                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
-                                        AND `sft_schemes`.phy_completion IS NULL
-                                        AND component_id = 1";
-                                    $component_a = $this->db->query($query)->row();
-
-                                    ?>
-                                    <th>A: WCs (Nos)</th>
-                                    <td><?php echo number_format($component_a->total); ?></td>
-                                    <td><?php echo tomillions($component_a->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_a->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_a->balance); ?></td>
-                                </tr>
-
-                                <tr>
-                                    <?php
-                                    $query = "SELECT 
-                                        COUNT(0) AS `total`,
-                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
-                                        FROM `sft_schemes` 
-                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
-                                        AND `sft_schemes`.phy_completion IS NULL
-                                        AND component_id = 2
-                                        AND sub_component_id = 6";
-                                    $component_b = $this->db->query($query)->row();
-
-                                    ?>
-                                    <th>B1: HEIS (Acers)</th>
-                                    <td><?php //echo $component_b->total; 
-                                        ?></td>
-                                    <td><?php echo tomillions($component_b->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_b->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_b->balance); ?></td>
-                                </tr>
-                                <tr>
-                                    <?php
-                                    $query = "SELECT 
-                                        COUNT(0) AS `total`,
-                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
-                                        FROM `sft_schemes` 
-                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
-                                        AND `sft_schemes`.phy_completion IS NULL
-                                        AND component_id = 2
-                                        AND sub_component_id = 7";
-                                    $component_b2 = $this->db->query($query)->row();
-
-                                    ?>
-                                    <th>B2: WST (Nos)</th>
-                                    <td><?php echo number_format($component_b2->total); ?></td>
-                                    <td><?php echo tomillions($component_b2->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_b2->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_b2->balance); ?></td>
-                                </tr>
-
-                                <tr>
-                                    <?php
-                                    $query = "SELECT 
-                                        COUNT(0) AS `total`,
-                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
-                                        FROM `sft_schemes` 
-                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
-                                        AND `sft_schemes`.phy_completion IS NULL
-                                        AND component_id = 2
-                                        AND sub_component_id = 8";
-                                    $component_b3 = $this->db->query($query)->row();
-
-                                    ?>
-                                    <th>B3: Laser (Nos)</th>
-                                    <td><?php echo number_format($component_b3->total); ?></td>
-                                    <td><?php echo tomillions($component_b3->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_b3->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_b3->balance); ?></td>
-                                </tr>
-
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <?php
-                                    $query = "SELECT 
-                                        COUNT(0) AS `total`,
-                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
-                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
-                                        FROM `sft_schemes` 
-                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
-                                        AND `sft_schemes`.phy_completion IS NULL
-                                        AND component_id IN(1,2)";
-                                    $component = $this->db->query($query)->row();
-
-                                    ?>
-                                    <th colspan="2" style="text-align: right;">Total</th>
-                                    <!-- <th><?php echo number_format($component->total - $component_b2->total - $component_b3->total); ?></th> -->
-                                    <th><?php echo tomillions($component->sactioned_cost); ?></th>
-                                    <th><?php echo tomillions($component->total_paid); ?></th>
-                                    <th><?php echo tomillions($component->balance); ?></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-
 
                 <div class="col-md-6">
                     <div class="alert alert-success" id="messenger">
@@ -631,6 +496,145 @@ $completed = $this->db->query($query)->row();
 
                     </div>
                 </div>
+
+
+                <div class="col-md-6">
+                    <div class="alert alert-danger" id="messenger">
+                        <h4 style="font-weight: bolder;"><i class="fa fa-spinner" aria-hidden="true"></i> Ongoing Schemes </h4>
+                        <hr />
+                        <table class="table table-bordered table-striped" style="color: black !important;">
+
+                            <thead>
+                                <tr>
+                                    <th>Component</th>
+                                    <th>Schemes</th>
+                                    <th colspan="3">Amount (Rs. in Million)</th>
+                                </tr>
+                                <tr>
+                                    <th></th>
+                                    <th></th>
+                                    <th style="text-align:center">Sanctioned</th>
+                                    <th style="text-align:center">Paid</th>
+                                    <th style="text-align:center">Balance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <?php
+                                    $query = "SELECT 
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
+                                        AND `sft_schemes`.phy_completion IS NULL
+                                        AND component_id = 1";
+                                    $component_a = $this->db->query($query)->row();
+
+                                    ?>
+                                    <th>A: WCs (Nos)</th>
+                                    <td><?php echo number_format($component_a->total); ?></td>
+                                    <td><?php echo tomillions($component_a->sactioned_cost); ?></td>
+                                    <td><?php echo tomillions($component_a->total_paid); ?></td>
+                                    <td><?php echo tomillions($component_a->balance); ?></td>
+                                </tr>
+
+                                <tr>
+                                    <?php
+                                    $query = "SELECT 
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
+                                        AND `sft_schemes`.phy_completion IS NULL
+                                        AND component_id = 2
+                                        AND sub_component_id = 6";
+                                    $component_b = $this->db->query($query)->row();
+
+                                    ?>
+                                    <th>B1: HEIS (Acers)</th>
+                                    <td><?php //echo $component_b->total; 
+                                        ?></td>
+                                    <td><?php echo tomillions($component_b->sactioned_cost); ?></td>
+                                    <td><?php echo tomillions($component_b->total_paid); ?></td>
+                                    <td><?php echo tomillions($component_b->balance); ?></td>
+                                </tr>
+                                <tr>
+                                    <?php
+                                    $query = "SELECT 
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
+                                        AND `sft_schemes`.phy_completion IS NULL
+                                        AND component_id = 2
+                                        AND sub_component_id = 7";
+                                    $component_b2 = $this->db->query($query)->row();
+
+                                    ?>
+                                    <th>B2: WST (Nos)</th>
+                                    <td><?php echo number_format($component_b2->total); ?></td>
+                                    <td><?php echo tomillions($component_b2->sactioned_cost); ?></td>
+                                    <td><?php echo tomillions($component_b2->total_paid); ?></td>
+                                    <td><?php echo tomillions($component_b2->balance); ?></td>
+                                </tr>
+
+                                <tr>
+                                    <?php
+                                    $query = "SELECT 
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
+                                        AND `sft_schemes`.phy_completion IS NULL
+                                        AND component_id = 2
+                                        AND sub_component_id = 8";
+                                    $component_b3 = $this->db->query($query)->row();
+
+                                    ?>
+                                    <th>B3: Laser (Nos)</th>
+                                    <td><?php echo number_format($component_b3->total); ?></td>
+                                    <td><?php echo tomillions($component_b3->sactioned_cost); ?></td>
+                                    <td><?php echo tomillions($component_b3->total_paid); ?></td>
+                                    <td><?php echo tomillions($component_b3->balance); ?></td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <?php
+                                    $query = "SELECT 
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
+                                        AND `sft_schemes`.phy_completion IS NULL
+                                        AND component_id IN(1,2)";
+                                    $component = $this->db->query($query)->row();
+
+                                    ?>
+                                    <th colspan="2" style="text-align: right;">Total</th>
+                                    <!-- <th><?php echo number_format($component->total - $component_b2->total - $component_b3->total); ?></th> -->
+                                    <th><?php echo tomillions($component->sactioned_cost); ?></th>
+                                    <th><?php echo tomillions($component->total_paid); ?></th>
+                                    <th><?php echo tomillions($component->balance); ?></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+
+
+
 
 
 
