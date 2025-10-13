@@ -75,7 +75,7 @@
     function get_cheque_detail(cheque_no) {
         $.ajax({
                 method: "POST",
-                url: "<?php echo site_url(ADMIN_DIR . 'summary/get_cheque_detail'); ?>",
+                url: "<?php echo site_url(ADMIN_DIR . 'Summary/get_cheque_detail'); ?>",
                 data: {
                     cheque_no: cheque_no
                 },
