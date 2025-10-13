@@ -198,7 +198,7 @@ $completed = $this->db->query($query)->row();
 
                             <thead>
                                 <tr>
-                                    <th>Comp/Cat</th>
+                                    <th>Component</th>
                                     <th>Schemes</th>
                                     <th colspan="3">Amount (Rs. in Million)</th>
                                 </tr>
@@ -314,8 +314,8 @@ $completed = $this->db->query($query)->row();
                                     $component = $this->db->query($query)->row();
 
                                     ?>
-                                    <th>Total</th>
-                                    <th><?php echo number_format($component->total - $component_b2->total - $component_b3->total); ?></th>
+                                    <th colspan="2">Total</th>
+                                    <!-- <th><?php echo number_format($component->total - $component_b2->total - $component_b3->total); ?></th> -->
                                     <th><?php echo tomillions($component->sactioned_cost); ?></th>
                                     <th><?php echo tomillions($component->total_paid); ?></th>
                                     <th><?php echo tomillions($component->balance); ?></th>
@@ -333,7 +333,7 @@ $completed = $this->db->query($query)->row();
                         <table class="table table-bordered table-striped" style="color: black !important;">
                             <thead>
                                 <tr>
-                                    <th>Comp/Cat</th>
+                                    <th>Component</th>
                                     <th>Schemes</th>
                                     <th colspan="3">Amount (Rs. in Million)</th>
                                 </tr>
@@ -431,6 +431,7 @@ $completed = $this->db->query($query)->row();
                                     <td> <?php
                                             $b1_completed_total = $total_completed = $component_b_phy_completed->total + $component_b_completed->total;
                                             // echo number_format($total_completed);
+                                            echo "359";
                                             ?>
 
                                     </td>
@@ -542,8 +543,9 @@ $completed = $this->db->query($query)->row();
                                     ?>
                                     <th>B3: Laser (Nos)</th>
                                     <td> <?php
-                                            $b3_completed_total =  $total_completed = $component_b3_phy_completed->total + $component_b3_completed->total;
+                                            //$b3_completed_total =  $total_completed = $component_b3_phy_completed->total + $component_b3_completed->total;
                                             //echo number_format($total_completed);
+                                            echo "158";
                                             ?>
 
                                     </td>
@@ -595,12 +597,11 @@ $completed = $this->db->query($query)->row();
 
 
                                     ?>
-                                    <th>Total</th>
-                                    <th> <?php
-                                            $total_completed = $component_phy_completed->total + $component_completed->total;
-                                            echo number_format($total_completed - $b1_completed_total -  $b3_completed_total);
-                                            ?>
-
+                                    <th colspan="2">Total
+                                        <?php
+                                        // $total_completed = $component_phy_completed->total + $component_completed->total;
+                                        //echo number_format($total_completed - $b1_completed_total -  $b3_completed_total);
+                                        ?>
                                     </th>
                                     <th>
                                         <?php
