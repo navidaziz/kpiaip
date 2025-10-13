@@ -758,6 +758,8 @@ LEFT JOIN
 
     public function delete_expense_record($expense_id)
     {
+
+        exit();
         $expense_id = (int) $expense_id;
         $this->db->where("expense_id", $expense_id);
         $this->db->delete("expenses");
