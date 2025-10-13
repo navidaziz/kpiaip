@@ -655,8 +655,7 @@ $completed = $this->db->query($query)->row();
 
 
                                 <tr>
-                                    <th></th>
-                                    <th></th>
+                                    <th colspan="3"></th>
                                     <th style="text-align:center">Verified</th>
                                     <th style="text-align:center">Paid</th>
                                     <th style="text-align:center">Balance</th>
@@ -688,32 +687,32 @@ $completed = $this->db->query($query)->row();
 
                                     ?>
                                     <th colspan="2">A: WCs (Nos)</th>
-                                    <td> <?php
+                                    <th> <?php
                                             $total_completed = $component_a_phy_completed->total + $component_a_completed->total;
                                             echo number_format($total_completed); ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $total_verified = $component_a_phy_completed->balance + $component_a_completed->total_paid;
                                         echo toMillions($total_verified); ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $otal_paid = $component_a_phy_completed->total_paid + $component_a_completed->total_paid;
                                         echo toMillions($otal_paid);
                                         ?>
                                         </small>
 
-                                    </td>
-                                    <td>
+                                        </td>
+                                    <th>
                                         <?php $total_balance = $component_a_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
 
-                                    </td>
+                                    </th>
                                 </tr>
                                 <?php
                                 $query = "SELECT component_category_id, category, category_detail 
@@ -748,7 +747,9 @@ $completed = $this->db->query($query)->row();
 
 
                                         ?>
-                                        <th colspan="2"><?php echo $category->category . ":<br /> <small style='font-size:8px'>" . $category->category_detail . "</small>"; ?></th>
+                                        <th colspan="2" style="text-align: right;"><?php echo $category->category;
+                                                                                    //echo ":<br /> <small style='font-size:8px'>" . $category->category_detail . "</small>"; 
+                                                                                    ?></th>
                                         <td> <?php
                                                 $total_completed = $component_a_phy_completed->total + $component_a_completed->total;
                                                 echo number_format($total_completed); ?>
@@ -765,8 +766,6 @@ $completed = $this->db->query($query)->row();
                                             $otal_paid = $component_a_phy_completed->total_paid + $component_a_completed->total_paid;
                                             echo toMillions($otal_paid);
                                             ?>
-                                            </small>
-
                                         </td>
                                         <td>
                                             <?php $total_balance = $component_a_phy_completed->balance;
@@ -805,34 +804,32 @@ $completed = $this->db->query($query)->row();
 
                                     ?>
                                     <th colspan="2">B1: HEIS (Acers)</th>
-                                    <td> <?php
+                                    <th> <?php
                                             $b1_completed_total = $total_completed = $component_b_phy_completed->total + $component_b_completed->total;
                                             // echo number_format($total_completed);
                                             echo "359";
                                             ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $total_verified = $component_b_phy_completed->balance + $component_b_completed->total_paid;
                                         echo toMillions($total_verified); ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $otal_paid = $component_b_phy_completed->total_paid + $component_b_completed->total_paid;
                                         echo toMillions($otal_paid);
                                         ?>
-                                        </small>
-
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php $total_balance = $component_b_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
 
-                                    </td>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <?php
@@ -862,33 +859,31 @@ $completed = $this->db->query($query)->row();
 
                                     ?>
                                     <th colspan="2">B2: WST (Nos)</th>
-                                    <td> <?php
+                                    <th> <?php
                                             $total_completed = $component_b2_phy_completed->total + $component_b2_completed->total;
                                             echo number_format($total_completed);
                                             ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $total_verified = $component_b2_phy_completed->balance + $component_b2_completed->total_paid;
                                         echo toMillions($total_verified); ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $otal_paid = $component_b2_phy_completed->total_paid + $component_b2_completed->total_paid;
                                         echo toMillions($otal_paid);
                                         ?>
-                                        </small>
-
-                                    </td>
-                                    <td>
+                                        </td>
+                                    <th>
                                         <?php $total_balance = $component_b2_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
 
-                                    </td>
+                                    </th>
                                 </tr>
                                 <tr>
                                     <?php
@@ -918,34 +913,32 @@ $completed = $this->db->query($query)->row();
 
                                     ?>
                                     <th colspan="2">B3: Laser (Nos)</th>
-                                    <td> <?php
+                                    <th> <?php
                                             //$b3_completed_total =  $total_completed = $component_b3_phy_completed->total + $component_b3_completed->total;
                                             //echo number_format($total_completed);
                                             echo "178";
                                             ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $total_verified = $component_b3_phy_completed->balance + $component_b3_completed->total_paid;
                                         echo toMillions($total_verified); ?>
 
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php
                                         $otal_paid = $component_b3_phy_completed->total_paid + $component_b3_completed->total_paid;
                                         echo toMillions($otal_paid);
                                         ?>
-                                        </small>
-
-                                    </td>
-                                    <td>
+                                    </th>
+                                    <th>
                                         <?php $total_balance =  $component_b3_phy_completed->balance;
                                         echo toMillions($total_balance);
                                         ?>
 
 
-                                    </td>
+                                    </th>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -990,7 +983,6 @@ $completed = $this->db->query($query)->row();
                                         $otal_paid = $component_phy_completed->total_paid + $component_completed->total_paid;
                                         echo toMillions($otal_paid);
                                         ?>
-                                        </small>
 
                                         </td>
                                     <th>
@@ -1017,13 +1009,12 @@ $completed = $this->db->query($query)->row();
 
                             <thead>
                                 <tr>
-                                    <th>Component</th>
+                                    <th colspan="2">Component / Categories</th>
                                     <th>Schemes</th>
                                     <th colspan="3">Amount (Rs. in Million)</th>
                                 </tr>
                                 <tr>
-                                    <th></th>
-                                    <th></th>
+                                    <th colspan="3"></th>
                                     <th style="text-align:center">Sanctioned</th>
                                     <th style="text-align:center">Paid</th>
                                     <th style="text-align:center">Balance</th>
@@ -1045,12 +1036,43 @@ $completed = $this->db->query($query)->row();
 
                                     ?>
                                     <th>A: WCs (Nos)</th>
-                                    <td><?php echo number_format($component_a->total); ?></td>
-                                    <td><?php echo tomillions($component_a->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_a->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_a->balance); ?></td>
+                                    <th><?php echo number_format($component_a->total); ?></th>
+                                    <th><?php echo tomillions($component_a->sactioned_cost); ?></th>
+                                    <th><?php echo tomillions($component_a->total_paid); ?></th>
+                                    <th><?php echo tomillions($component_a->balance); ?></th>
                                 </tr>
+                                <?php
+                                $query = "SELECT component_category_id, category, category_detail 
+                                FROM `component_categories` as cc 
+                                INNER JOIN sub_components as sc ON(sc.sub_component_id = cc.sub_component_id) 
+                                INNER JOIN components as c ON(c.component_id = sc.component_id) 
+                                WHERE c.component_id=1;";
+                                $categories = $this->db->query($query)->result();
+                                foreach ($categories as $category) {
+                                ?>
+                                    <tr>
+                                        <?php
+                                        $query = "SELECT 
+                                        COUNT(0) AS `total`,
+                                        SUM(`sft_schemes`.`total_paid`) AS `total_paid`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) AS `sactioned_cost`,
+                                        SUM(`sft_schemes`.`sanctioned_cost`) - SUM(`sft_schemes`.`total_paid`) AS `balance`
+                                        FROM `sft_schemes` 
+                                        WHERE `sft_schemes`.`scheme_status` IN ('Sanctioned', 'ICR-I', 'ICR-II', 'Initiated')
+                                        AND `sft_schemes`.phy_completion IS NULL
+                                        AND component_category_id = ?";
+                                        $component_a = $this->db->query($query, [$category->component_category_id])->row();
 
+                                        ?>
+                                        <th colspan="2" style="text-align: right;"><?php echo $category->category;
+                                                                                    //echo ":<br /> <small style='font-size:8px'>" . $category->category_detail . "</small>"; 
+                                                                                    ?></th>
+                                        <td><?php echo number_format($component_a->total); ?></td>
+                                        <td><?php echo tomillions($component_a->sactioned_cost); ?></td>
+                                        <td><?php echo tomillions($component_a->total_paid); ?></td>
+                                        <td><?php echo tomillions($component_a->balance); ?></td>
+                                    </tr>
+                                <?php } ?>
                                 <tr>
                                     <?php
                                     $query = "SELECT 
@@ -1069,9 +1091,9 @@ $completed = $this->db->query($query)->row();
                                     <th>B1: HEIS (Acers)</th>
                                     <td><?php //echo $component_b->total; 
                                         ?></td>
-                                    <td><?php echo tomillions($component_b->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_b->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_b->balance); ?></td>
+                                    <th><?php echo tomillions($component_b->sactioned_cost); ?></th>
+                                    <th><?php echo tomillions($component_b->total_paid); ?></th>
+                                    <th><?php echo tomillions($component_b->balance); ?></th>
                                 </tr>
                                 <tr>
                                     <?php
@@ -1089,10 +1111,10 @@ $completed = $this->db->query($query)->row();
 
                                     ?>
                                     <th>B2: WST (Nos)</th>
-                                    <td><?php echo number_format($component_b2->total); ?></td>
-                                    <td><?php echo tomillions($component_b2->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_b2->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_b2->balance); ?></td>
+                                    <th><?php echo number_format($component_b2->total); ?></th>
+                                    <th><?php echo tomillions($component_b2->sactioned_cost); ?></th>
+                                    <th><?php echo tomillions($component_b2->total_paid); ?></th>
+                                    <th><?php echo tomillions($component_b2->balance); ?></th>
                                 </tr>
 
                                 <tr>
@@ -1111,10 +1133,10 @@ $completed = $this->db->query($query)->row();
 
                                     ?>
                                     <th>B3: Laser (Nos)</th>
-                                    <td><?php echo number_format($component_b3->total); ?></td>
-                                    <td><?php echo tomillions($component_b3->sactioned_cost); ?></td>
-                                    <td><?php echo tomillions($component_b3->total_paid); ?></td>
-                                    <td><?php echo tomillions($component_b3->balance); ?></td>
+                                    <th><?php echo number_format($component_b3->total); ?></th>
+                                    <th><?php echo tomillions($component_b3->sactioned_cost); ?></th>
+                                    <th><?php echo tomillions($component_b3->total_paid); ?></th>
+                                    <th><?php echo tomillions($component_b3->balance); ?></th>
                                 </tr>
 
                             </tbody>
