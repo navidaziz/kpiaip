@@ -1035,7 +1035,7 @@ $completed = $this->db->query($query)->row();
                                     $component_a = $this->db->query($query)->row();
 
                                     ?>
-                                    <th>A: WCs (Nos)</th>
+                                    <th colspan="2">A: WCs (Nos)</th>
                                     <th><?php echo number_format($component_a->total); ?></th>
                                     <th><?php echo tomillions($component_a->sactioned_cost); ?></th>
                                     <th><?php echo tomillions($component_a->total_paid); ?></th>
