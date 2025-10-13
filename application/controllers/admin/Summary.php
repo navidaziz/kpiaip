@@ -69,12 +69,12 @@ class Summary extends Admin_Controller
             $inputs["district_id"]  =  $district_id;
             $inputs["component_category_id"]  = $component_category_id;
             $inputs["scheme_name"]  =  $scheme_name;
-            $inputs["water_source"]  =  "";
-            $inputs["tehsil"]  =  "";
-            $inputs["uc"]  =  "";
-            $inputs["villege"]  =  "";
-            $inputs["na"]  =  "";
-            $inputs["pk"]  =  "";
+            $inputs["water_source"]  =  "0";
+            $inputs["tehsil"]  =  "0";
+            $inputs["uc"]  =  "0";
+            $inputs["villege"]  =  "0";
+            $inputs["na"]  =  "0";
+            $inputs["pk"]  =  "0";
             $inputs["latitude"]  =  0;
             $inputs["longitude"]  =  0;
             $inputs["male_beneficiaries"]  =  0;
@@ -100,6 +100,7 @@ class Summary extends Admin_Controller
             $inputs["scheme_status"]  =  'Completed';
             $inputs["created_by"] = $this->session->userdata("userId");
             $inputs["last_updated"] = date('Y-m-d H:i:s');
+            echo "<br />";
             var_dump($inputs);
 
             // $scheme_id = $this->scheme_model->save($inputs);
