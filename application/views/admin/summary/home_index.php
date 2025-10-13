@@ -1088,7 +1088,7 @@ $completed = $this->db->query($query)->row();
                                     $component_b = $this->db->query($query)->row();
 
                                     ?>
-                                    <th>B1: HEIS (Acers)</th>
+                                    <th colspan="2">B1: HEIS (Acers)</th>
                                     <td><?php //echo $component_b->total; 
                                         ?></td>
                                     <th><?php echo tomillions($component_b->sactioned_cost); ?></th>
@@ -1110,7 +1110,7 @@ $completed = $this->db->query($query)->row();
                                     $component_b2 = $this->db->query($query)->row();
 
                                     ?>
-                                    <th>B2: WST (Nos)</th>
+                                    <th colspan="2">B2: WST (Nos)</th>
                                     <th><?php echo number_format($component_b2->total); ?></th>
                                     <th><?php echo tomillions($component_b2->sactioned_cost); ?></th>
                                     <th><?php echo tomillions($component_b2->total_paid); ?></th>
@@ -1132,7 +1132,7 @@ $completed = $this->db->query($query)->row();
                                     $component_b3 = $this->db->query($query)->row();
 
                                     ?>
-                                    <th>B3: Laser (Nos)</th>
+                                    <th colspan="2">B3: Laser (Nos)</th>
                                     <th><?php echo number_format($component_b3->total); ?></th>
                                     <th><?php echo tomillions($component_b3->sactioned_cost); ?></th>
                                     <th><?php echo tomillions($component_b3->total_paid); ?></th>
@@ -1155,7 +1155,7 @@ $completed = $this->db->query($query)->row();
                                     $component = $this->db->query($query)->row();
 
                                     ?>
-                                    <th colspan="2" style="text-align: right;">Total</th>
+                                    <th colspan="3" style="text-align: right;">Total</th>
                                     <!-- <th><?php echo number_format($component->total - $component_b2->total - $component_b3->total); ?></th> -->
                                     <th><?php echo tomillions($component->sactioned_cost); ?></th>
                                     <th><?php echo tomillions($component->total_paid); ?></th>
