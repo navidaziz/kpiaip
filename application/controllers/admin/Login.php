@@ -98,7 +98,7 @@ class Login extends Admin_Controller
 
 			if ($status['success'] != 1) {
 				$this->session->set_flashdata('msg', 'Captcha error, Please try again.');
-				redirect("login");
+				redirect("admin/login");
 			}
 
 			$input_values = array(
