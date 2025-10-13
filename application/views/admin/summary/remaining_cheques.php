@@ -31,6 +31,7 @@
                     <th>Cheque No.</th>
                     <th>Date</th>
                     <th>Payee Name</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +48,11 @@
                             <td><?php echo htmlspecialchars($row->cheque); ?></td>
                             <td><?php echo htmlspecialchars($row->date); ?></td>
                             <td><?php echo htmlspecialchars($row->payee_name); ?></td>
+                            <td>
+                                <?php if ($row->category == 'B-3' or $row->category == 'B-2') ?>
+                                <button onclick="get_cheque_detail('<?php echo $row->cheque; ?>')">Add Scheme</button>
+                                <?php } ?>
+                            </td>
                         </tr>
                     <?php
                     }
@@ -64,5 +70,23 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 </body>
+<script>
+    function get_cheque_detail(cheque_no) {
+        $.ajax({
+                method: "POST",
+                url: "<?php echo site_url(ADMIN_DIR . 'summary/get_cheque_detail'); ?>",
+                data: {
+                    cheque_no: cheque_no
+                },
+            })
+            .done(function(respose) {
+                $('#modal').modal('show');
+
+                $('#modal_title').html(cheque_no + ' Cheque No');
+                $('#modal_body').html(respose);
+                $('.modal-dialog').css('width', '99%'); // Directly set the width
+            });
+    }
+</script>
 
 </html>
