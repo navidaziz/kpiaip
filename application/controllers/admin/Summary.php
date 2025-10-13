@@ -81,9 +81,9 @@ class Summary extends Admin_Controller
             $inputs["female_beneficiaries"]  = 0;
             $inputs["beneficiaries"] = 0;
 
-            $inputs["estimated_cost"]  =  0;
+            $inputs["estimated_cost"]  =  $cheque_detail->gross_pay;
 
-            $inputs["approved_cost"]  =  $this->input->post("approved_cost");
+            $inputs["approved_cost"]  =  $cheque_detail->gross_pay;
 
             $inputs["revised_cost"]  =  0;
 
