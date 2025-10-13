@@ -40,8 +40,10 @@ class Summary extends Admin_Controller
     public function get_cheque_detail()
     {
         $cheque_no = $this->input->post('cheque_no');
+
         $query = "SELECT * FROM expenses WHERE cheque_no = ?";
         $cheque_detail = $this->db->query($query, [$cheque_no])->row();
+
         if ($cheque_detail) {
             var_dump($cheque_detail);
         } else {
