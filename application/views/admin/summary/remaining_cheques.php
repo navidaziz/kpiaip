@@ -49,7 +49,7 @@
                             <td><?php echo htmlspecialchars($row->date); ?></td>
                             <td><?php echo htmlspecialchars($row->payee_name); ?></td>
                             <td>
-                                <?php if ($row->category == 'B-3' or $row->category == 'B-1') { ?>
+                                <?php if (($row->category == 'B-3' or $row->category == 'B-1') and $row->purpose = 'Programme Cost') { ?>
                                     <button onclick="get_cheque_detail('<?php echo $row->cheque; ?>')">Add Scheme</button>
                                 <?php } ?>
                             <?php } ?>
