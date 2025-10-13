@@ -67,11 +67,11 @@ class Login extends Admin_Controller
 			),
 
 
-			// array(
-			// 	'field' =>  'g-recaptcha-response',
-			// 	'label' =>  'g-recaptcha-response',
-			// 	'rules' =>  'required'
-			// ),
+			array(
+				'field' =>  'g-recaptcha-response',
+				'label' =>  'g-recaptcha-response',
+				'rules' =>  'required'
+			),
 
 		);
 		$this->form_validation->set_rules($validations);
@@ -173,7 +173,7 @@ class Login extends Admin_Controller
 		} else {
 
 			$this->data['title'] = "Login to dashboard";
-			$this->load->view("login/login", $this->data);
+			$this->load->view("admin/login", $this->data);
 		}
 	}
 
