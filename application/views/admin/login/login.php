@@ -87,7 +87,7 @@
                   <input type="password" name="user_password" class="form-control" id="user_password" value="">
                 </div>
                 <div class="form-group">
-                  <div class="g-recaptcha" data-sitekey="6LfHp-grAAAAAK7O_83dklHzvgwQDhh_-gF6IYO_" style="height: 100px;">
+                  <div class="g-recaptcha" data-sitekey="6LestOgrAAAAAAarihDlvL25WzrslNlgMbDKUdIP" style="height: 100px;">
                   </div>
                 </div>
                 <div>
