@@ -49,18 +49,19 @@
                             <td><?php echo htmlspecialchars($row->date); ?></td>
                             <td><?php echo htmlspecialchars($row->payee_name); ?></td>
                             <td>
-                                <?php if ($row->category == 'B-3' or $row->category == 'B-2') ?>
-                                <button onclick="get_cheque_detail('<?php echo $row->cheque; ?>')">Add Scheme</button>
+                                <?php if ($row->category == 'B-3' or $row->category == 'B-2') { ?>
+                                    <button onclick="get_cheque_detail('<?php echo $row->cheque; ?>')">Add Scheme</button>
                                 <?php } ?>
+                            <?php } ?>
                             </td>
                         </tr>
                     <?php
-                    }
+
                 } else { ?>
-                    <tr>
-                        <td colspan="8" class="text-center text-danger">No records found!</td>
-                    </tr>
-                <?php } ?>
+                        <tr>
+                            <td colspan="8" class="text-center text-danger">No records found!</td>
+                        </tr>
+                    <?php } ?>
             </tbody>
         </table>
     </div>
