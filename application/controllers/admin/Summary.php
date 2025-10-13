@@ -41,7 +41,7 @@ class Summary extends Admin_Controller
     {
         $cheque_no = $this->input->post('cheque_no');
 
-        $query = "SELECT * FROM expenses WHERE cheque_no = ?";
+        $query = "SELECT * FROM expenses WHERE cheque = ?";
         $cheque_detail = $this->db->query($query, [$cheque_no])->row();
 
         if ($cheque_detail) {
