@@ -533,10 +533,10 @@
                                             foreach ($expenses as $expense) : ?>
                                                 <tr>
                                                     <td>
-                                                        <a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>"
+                                                        <!-- <a href="<?php echo site_url(ADMIN_DIR . 'expenses/delete_expense_record/' . $expense->expense_id); ?>"
                                                             onclick="return confirm('Are you sure? you want to delete the record.')">
                                                             <i class="fa fa-trash-o"></i>
-                                                        </a>
+                                                        </a> -->
                                                     </td>
                                                     <td><?php echo $count++; ?></td>
                                                     <td class="region"><?php echo $expense->region; ?></td>
