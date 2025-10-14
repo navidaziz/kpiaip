@@ -11,6 +11,7 @@ class Summary extends Admin_Controller
 
         parent::__construct();
         $this->lang->load("system", 'english');
+        $this->load->model("admin/scheme_model");
         //$this->output->enable_profiler(TRUE);
     }
     //---------------------------------------------------------------
@@ -101,14 +102,28 @@ class Summary extends Admin_Controller
             $inputs["created_by"] = $this->session->userdata("userId");
             $inputs["last_updated"] = date('Y-m-d H:i:s');
             echo "<br />";
+            echo "<br />";
             var_dump($inputs);
 
-            // $scheme_id = $this->scheme_model->save($inputs);
-            // $scheme_code["scheme_code"]  =  str_pad($scheme_id, 4, '0', STR_PAD_LEFT);;
-            // $this->scheme_model->save($scheme_code, $scheme_id);
-            // return $scheme_id;
+            $scheme_id = $this->scheme_model->save($inputs);
+            $scheme_code["scheme_code"]  =  str_pad($scheme_id, 4, '0', STR_PAD_LEFT);;
+            $this->scheme_model->save($scheme_code, $scheme_id);
+            if ($scheme_id) {
+                $query = "UPDATE expenses SET scheme_id = ? WHERE expense_id = ?";
+                $update = $this->db->query($query, [$scheme_id, $cheque_detail->expense_id]);
+                if ($update) {
+                    echo "Scheme attached";
+                    exit();
+                } else {
+                    echo "Error while attaching scheme code with cheque";
+                    exit();
+                }
+            } else {
+                echo "error while entering scheme.";
+            }
+            return $scheme_id;
         } else {
-            echo "Cheque Detail Not Found.";
+            echo "Cheque Detail Not Found. or may be scheme already issued.";
         }
     }
 }
