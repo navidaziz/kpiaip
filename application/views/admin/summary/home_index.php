@@ -557,6 +557,7 @@ $completed = $this->db->query($query)->row();
                                     ?>
                                     <th>B1: HEIS (Acers)</th>
                                     <td><?php //echo $component_b->total; 
+                                        echo '4,961';
                                         ?></td>
                                     <td><?php echo tomillions($component_b->sactioned_cost); ?></td>
                                     <td><?php echo tomillions($component_b->total_paid); ?></td>
@@ -1090,6 +1091,7 @@ $completed = $this->db->query($query)->row();
                                     ?>
                                     <th colspan="2">B1: HEIS (Acers)</th>
                                     <td><?php //echo $component_b->total; 
+                                        echo '4,961';
                                         ?></td>
                                     <th><?php echo tomillions($component_b->sactioned_cost); ?></th>
                                     <th><?php echo tomillions($component_b->total_paid); ?></th>
