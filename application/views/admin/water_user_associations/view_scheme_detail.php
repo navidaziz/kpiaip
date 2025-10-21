@@ -1286,7 +1286,9 @@
 </div>
 <?php
 //if ($scheme->scheme_status == 'Par-Completed') {
-if ($scheme->scheme_status != 'Completed' and 1 == 2) { ?>
+//if ($scheme->scheme_status != 'Completed' and 1 == 1) { 
+?>
+<?php if ($this->session->userdata("role_id") == 1) { ?>
     <?php $this->load->view(ADMIN_DIR . "temp/data_correction"); ?>
 <?php } ?>
 <script>
