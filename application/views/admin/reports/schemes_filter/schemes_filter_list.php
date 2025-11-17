@@ -804,7 +804,11 @@
                                                     }
                                                 ],
                                                 dom: 'Blfrtip',
-                                                pageLength: -1,
+                                                pageLength: 100,
+                                                lengthMenu: [
+                                                    [100, 500, 1000, 2000, -1],
+                                                    [100, 500, 1000, 2000, "All"]
+                                                ],
                                                 buttons: [{
                                                         extend: 'print',
                                                         title: "Custom Schemes Report (Date: <?php echo date('d-m-Y h:i:s'); ?>)"

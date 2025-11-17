@@ -372,7 +372,11 @@
                                                 lengthChange: true, // Ensures the 'Show entries' dropdown is enabled
                                                 ordering: true,
                                                 searching: true,
-                                                pageLength: -1,
+                                                pageLength: 100,
+                                                lengthMenu: [
+                                                    [100, 500, 1000, 2000, -1],
+                                                    [100, 500, 1000, 2000, "All"]
+                                                ],
                                                 buttons: [{
                                                         extend: 'print',
                                                         title: "Custom Financial Report (Date: <?php echo date('d-m-Y h:m:s') ?>)",
