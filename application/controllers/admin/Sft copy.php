@@ -45,7 +45,7 @@ class Sft extends Admin_Controller
         $this->data['district_id'] = $district_id;
         $this->data['tab'] = $tab;
         $this->data["title"] = 'SFT Correction Dashboard';
-        $this->data["description"] = 'List of All Schemes (' . $district_name . ')';
+        $this->data["description"] = 'List of Completed Schemes (' . $district_name . ')';
         $this->data['schemestatus'] = $tab;
         $this->data["view"] = ADMIN_DIR . "sft/index";
         $this->load->view(ADMIN_DIR . "layout", $this->data);
@@ -83,8 +83,7 @@ class Sft extends Admin_Controller
         // Manual SQL query building
         $scheme_status = $this->db->escape($this->input->post('scheme_status'));
         $sft_reviewed = $this->db->escape($this->input->post('sft_reviewed'));
-        $sql = "SELECT * FROM scheme_lists WHERE 1=1 ";
-        //WHERE scheme_status = $scheme_status AND sft_reviewed = $sft_reviewed
+        $sql = "SELECT * FROM scheme_lists WHERE scheme_status = $scheme_status AND sft_reviewed = $sft_reviewed ";
 
         $user_id = $this->session->userdata("userId");
         $query = "SELECT district as district_ids FROM users WHERE user_id = '" . $user_id . "'";
@@ -121,8 +120,8 @@ class Sft extends Admin_Controller
 
         // Total records count
         $countQuery = "SELECT COUNT(*) as count FROM scheme_lists 
-        WHERE scheme_status = 1=1 ";
-        //WHERE scheme_status = $scheme_status  AND sft_reviewed = $sft_reviewed 
+        WHERE scheme_status = $scheme_status 
+        AND sft_reviewed = $sft_reviewed ";
         if ($district_ids->district_ids) {
             $countQuery .= " AND district_id IN (" . $district_ids->district_ids . ") ";
         }

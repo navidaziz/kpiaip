@@ -5,7 +5,7 @@
     }
 </style>
 <div class="table-responsive" style=" overflow-x:auto;">
-    <h4>All Schemes List</h4>
+    <h4>Completed Schemes List</h4>
     <hr />
     <table id="datatable" class="table  table_small table-bordered">
         <thead>
@@ -15,7 +15,6 @@
                 <th>WUA</th>
                 <th>FY</th>
                 <th>Scheme Code</th>
-                <th>Scheme Status</th>
                 <th>Scheme Name</th>
                 <th>Category</th>
                 <th>Sanctioned Cost</th>
@@ -68,9 +67,6 @@
                     },
                     {
                         "data": "scheme_code"
-                    },
-                    {
-                        "data": "scheme_status"
                     },
 
                     {
@@ -205,7 +201,7 @@
             });
 
     }
-    title = "SFT Correction List";
+    title = "Expenses";
     $(document).ready(function() {
         $('#db_table').DataTable({
             dom: 'Bfrtip',
