@@ -619,6 +619,8 @@ class Sft extends Admin_Controller
         $this->form_validation->set_rules("feasibility_checked_by", "Feasibility Checked By", "required");
         $this->form_validation->set_rules("feasibility_date", "Feasibility Date", "required");
         $this->form_validation->set_rules("work_order_date", "Work Order Date", "required");
+        $this->form_validation->set_rules("work_order_no", "Work Order No", "required");
+
         $this->form_validation->set_rules("scheme_initiation_date", "Scheme Initiation Date", "required");
         $this->form_validation->set_rules("technical_sanction_date", "Technical Sanction Date", "required");
         $this->form_validation->set_rules("estimated_cost", "Estimated Cost", "required");
@@ -671,6 +673,7 @@ class Sft extends Admin_Controller
             $input["feasibility_checked_by"] = $this->input->post("feasibility_checked_by");
             $input["feasibility_date"] = $this->input->post("feasibility_date");
             $input["work_order_date"] = $this->input->post("work_order_date");
+            $input["work_order_no"] = $this->input->post("work_order_no");
             $input["scheme_initiation_date"] = $this->input->post("scheme_initiation_date");
             $input["technical_sanction_date"] = $this->input->post("technical_sanction_date");
             $input["estimated_cost"] = $this->input->post("estimated_cost");
