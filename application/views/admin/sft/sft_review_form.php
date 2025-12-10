@@ -320,6 +320,16 @@
                                 <input type="date" required id="feasibility_date" name="feasibility_date" value="<?php echo $scheme->feasibility_date; ?>" class="formControl">
                             </div>
                         </div>
+
+
+
+                        <div class="form-group row">
+                            <label for="work_order_date" class="col-sm-6 col-form-label">Work Order No.</label>
+                            <div class="col-sm-6">
+                                <input type="text" required id="work_order_no" name="work_order_no" value="<?php echo $scheme->work_order_no; ?>" class="formControl">
+                            </div>
+                        </div>
+
                         <div class="form-group row">
                             <label for="work_order_date" class="col-sm-6 col-form-label">Work Order Date</label>
                             <div class="col-sm-6">
